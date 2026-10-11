@@ -5,6 +5,8 @@ import Services from "./pages/Services";
 import ServiceDetail from "./pages/ServiceDetail";
 import GuidedJourney from "./pages/GuidedJourney";
 import DocumentVault from "./pages/DocumentVault";
+import MyApplications from "./pages/MyApplications";
+import ResolutionPlanner from "./pages/ResolutionPlanner";
 
 function ComingSoon({ title }: { title: string }) {
   return (
@@ -28,8 +30,8 @@ export default function App() {
           <Route index element={<Dashboard />} />
           <Route path="services" element={<Services />} />
           <Route path="documents" element={<DocumentVault />} />
-          <Route path="applications" element={<ComingSoon title="My Applications" />} />
-          <Route path="planner" element={<ComingSoon title="Resolution Planner" />} />
+          <Route path="applications" element={<MyApplications />} />
+          <Route path="planner" element={<ResolutionPlanner />} />
           <Route path="services/passport/journey" element={<GuidedJourney />} />
           <Route path="services/:serviceId" element={<ServiceDetail />} />
           <Route path="*" element={<ComingSoon title="Page not found" />} />

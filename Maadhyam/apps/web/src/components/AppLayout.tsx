@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import AIAssistant from "./AIAssistant";
 import { DocumentProvider } from "../context/DocumentContext";
+import { WorkspaceProvider } from "../context/WorkspaceContext";
 
 const navigation = [
   { label: "Dashboard", path: "/", icon: LayoutDashboard },
@@ -29,6 +30,7 @@ export default function AppLayout() {
 
   return (
     <DocumentProvider>
+      <WorkspaceProvider>
       <div className="min-h-screen bg-[#f5f7fa]">
         {mobileOpen && (
           <button
@@ -179,6 +181,7 @@ export default function AppLayout() {
         </div>
         <AIAssistant />
       </div>
+          </WorkspaceProvider>
     </DocumentProvider>
   );
 }

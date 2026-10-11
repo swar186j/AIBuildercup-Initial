@@ -22,6 +22,9 @@ export type DocumentMetadata = {
   categories?: DocumentCategory[]; // Additional manually assigned purposes; legacy category stays primary
   documentType: string;
   holder: DocumentHolder;
+  printedName?: string;
+  dateOfBirth?: string; // YYYY-MM-DD when entered manually
+  residentialAddress?: string;
 };
 
 export type LocalDocument = {

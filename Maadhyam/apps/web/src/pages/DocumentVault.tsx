@@ -8,7 +8,11 @@ import {
   type LocalDocument,
 } from "../context/DocumentContext";
 import {
+  AlertTriangle,
   CheckCircle2,
+  GitCompareArrows,
+  Sparkles,
+  LoaderCircle,
   Eye,
   FileImage,
   FileSearch,
@@ -23,6 +27,8 @@ import {
   UploadCloud,
   X,
 } from "lucide-react";
+
+import { compareDocuments, type ComparisonResult } from "../utils/documentComparison";
 
 type DocumentFilter = "all" | "needs-review" | "reviewed";
 const categories: { value: DocumentCategory; label: string }[] = [
@@ -52,6 +58,9 @@ const defaultMetadata: DocumentMetadata = {
   categories: ["other"],
   documentType: "Unclassified",
   holder: "self",
+  printedName: "",
+  dateOfBirth: "",
+  residentialAddress: "",
 };
 function categoryLabel(category: DocumentCategory) {
   return categories.find((item) => item.value === category)?.label ?? "Other";
@@ -90,15 +99,67 @@ export default function DocumentVault() {
   const [editId, setEditId] = useState<string | null>(null);
   const [draftMetadata, setDraftMetadata] = useState<DocumentMetadata>(defaultMetadata);
   const [categoryFilter, setCategoryFilter] = useState<DocumentCategory | "all">("all");
+  const [analysis, setAnalysis] = useState<ComparisonResult | null>(null);
+  const [extractId, setExtractId] = useState<string | null>(null);
+  const [demoPhase, setDemoPhase] = useState<"idle" | "processing" | "ready">("idle");
+  const [demoDraft, setDemoDraft] = useState<DocumentMetadata>(defaultMetadata);
+  const demoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    if (previewId === null && editId === null) return;
+    if (previewId === null && editId === null && extractId === null) return;
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") { setPreviewId(null); setEditId(null); }
+      if (event.key === "Escape") { setPreviewId(null); setEditId(null); closeDemo(); }
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [previewId, editId]);
+  }, [previewId, editId, extractId]);
+
+  useEffect(() => () => {
+    if (demoTimer.current !== null) clearTimeout(demoTimer.current);
+  }, []);
+
+  function closeDemo() {
+    if (demoTimer.current !== null) clearTimeout(demoTimer.current);
+    demoTimer.current = null;
+    setExtractId(null);
+    setDemoPhase("idle");
+  }
+
+  function openDemo(document: LocalDocument) {
+    setExtractId(document.id);
+    setDemoPhase("idle");
+    setDemoDraft({ ...document.metadata });
+  }
+
+  function generateDemo() {
+    if (!extractId) return;
+    const target = documents.find((document) => document.id === extractId);
+    if (!target) return;
+    setDemoPhase("processing");
+    // UI-only fixture: does not inspect the uploaded PDF or image.
+    demoTimer.current = setTimeout(() => {
+      setDemoDraft({
+        ...target.metadata,
+        documentType: target.metadata.documentType === "Unclassified" ? "Aadhaar card" : target.metadata.documentType,
+        printedName: "Asha Sharma",
+        dateOfBirth: "2008-01-01",
+        residentialAddress: "12 MG Road, Pune, Maharashtra",
+      });
+      setDemoPhase("ready");
+      demoTimer.current = null;
+    }, 900);
+  }
+
+  function applyDemo() {
+    if (!extractId || demoPhase !== "ready") return;
+    updateMetadata(extractId, {
+      ...demoDraft,
+      printedName: demoDraft.printedName?.trim() ?? "",
+      residentialAddress: demoDraft.residentialAddress?.trim() ?? "",
+    });
+    closeDemo();
+    setMessage("Demo suggestions applied after your confirmation. These values were not extracted from the file.");
+  }
 
   function addFiles(fileList: FileList | File[]) {
     const accepted: LocalDocument[] = [];
@@ -150,6 +211,7 @@ export default function DocumentVault() {
     if (!document) return;
     if (previewId === id) setPreviewId(null);
     if (editId === id) setEditId(null);
+    if (extractId === id) closeDemo();
     removeStoredDocument(id);
     setMessage(`${document.file.name} removed from this browser session.`);
   }
@@ -161,10 +223,19 @@ export default function DocumentVault() {
 
   function saveMetadata() {
     if (!editId) return;
-    updateMetadata(editId, { ...draftMetadata, categories: getDocumentCategories(draftMetadata) });
+    updateMetadata(editId, {
+      ...draftMetadata,
+      categories: getDocumentCategories(draftMetadata),
+      printedName: draftMetadata.printedName?.trim() ?? "",
+      residentialAddress: draftMetadata.residentialAddress?.trim() ?? "",
+    });
     setEditId(null);
     setMessage("Document details updated in this browser session.");
   }
+
+  // Analysis results are derived from the current metadata, so edits and removals
+  // cannot leave stale findings visible.
+  const currentAnalysis = analysis === null ? null : compareDocuments(documents);
 
   const needsReview = documents.filter((document) => document.status === "needs-review").length;
   const reviewed = documents.filter((document) => document.status === "reviewed").length;
@@ -333,6 +404,9 @@ export default function DocumentVault() {
                         ))}
                         <span className="text-xs text-slate-500">
                           {document.metadata.documentType} · {holderLabel(document.metadata.holder)}
+                          {(document.metadata.printedName?.trim() || document.metadata.dateOfBirth || document.metadata.residentialAddress?.trim()) && (
+                            <span className="ml-2 text-[#147d83]">· Structured details added</span>
+                          )}
                         </span>
                       </div>
                     </div>
@@ -340,6 +414,9 @@ export default function DocumentVault() {
                   <div className="flex flex-wrap gap-2 sm:justify-end">
                     <button type="button" onClick={() => setPreviewId(document.id)} className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-[#173f68] hover:bg-slate-50">
                       <Eye size={15} /> Preview
+                    </button>
+                    <button type="button" onClick={() => openDemo(document)} className="inline-flex items-center gap-1.5 rounded-lg border border-[#9dcacb] bg-[#f2f8f8] px-3 py-2 text-xs font-semibold text-[#147d83] hover:bg-[#e4f3f1]">
+                      <Sparkles size={15} /> Demo extraction
                     </button>
                     <button
                       type="button"
@@ -362,6 +439,107 @@ export default function DocumentVault() {
         )}
       </section>
 
+      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" aria-labelledby="comparison-heading">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="flex items-center gap-2">
+              <GitCompareArrows size={22} className="text-[#147d83]" aria-hidden="true" />
+              <h2 id="comparison-heading" className="text-lg font-bold text-[#173f68]">Document discrepancy analysis</h2>
+            </div>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+              Compare manually entered name, date of birth and address across files in the same holder category.
+              This does not read file contents or verify documents.
+            </p>
+          </div>
+          <button
+            type="button"
+            disabled={documents.length < 2}
+            onClick={() => setAnalysis(compareDocuments(documents))}
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <GitCompareArrows size={18} /> Analyze documents
+          </button>
+        </div>
+
+        {documents.length < 2 && (
+          <p className="mt-5 rounded-xl bg-slate-50 p-4 text-sm text-slate-600">
+            Add at least two documents to enable comparison.
+          </p>
+        )}
+
+        {currentAnalysis && (
+          <div className="mt-6 space-y-4" aria-live="polite">
+            <div className="grid gap-3 sm:grid-cols-3">
+              {[
+                { label: "Possible differences", value: currentAnalysis.findings.length },
+                { label: "Fields compared", value: currentAnalysis.comparableFieldPairs },
+                { label: "Fields skipped (missing data)", value: currentAnalysis.skippedFieldPairs },
+              ].map((stat) => (
+                <div key={stat.label} className="rounded-xl bg-[#f2f8f8] p-4">
+                  <p className="text-xs font-medium text-slate-600">{stat.label}</p>
+                  <p className="mt-2 text-2xl font-bold text-[#173f68]">{stat.value}</p>
+                </div>
+              ))}
+            </div>
+
+            {currentAnalysis.comparedPairs === 0 ? (
+              <p className="rounded-xl border border-slate-200 p-4 text-sm text-slate-600">
+                No documents share a holder category. Set matching holders in Edit details before comparing.
+              </p>
+            ) : currentAnalysis.comparableFieldPairs === 0 ? (
+              <p className="rounded-xl border border-slate-200 p-4 text-sm text-slate-600">
+                No populated fields can be compared yet. Enter matching fields on at least two documents.
+              </p>
+            ) : currentAnalysis.findings.length === 0 ? (
+              <div className="flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+                <CheckCircle2 size={20} className="shrink-0 text-emerald-700" />
+                <p className="text-sm leading-6 text-emerald-900">
+                  No differences found in the populated fields compared. This does not confirm document validity or completeness.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <h3 className="text-sm font-bold text-[#173f68]">Possible differences to review</h3>
+                {currentAnalysis.findings.map((finding) => (
+                  <article key={finding.id} className="rounded-xl border border-amber-200 bg-amber-50/40 p-4 sm:p-5">
+                    <div className="flex items-start gap-2">
+                      <AlertTriangle size={19} className="mt-0.5 shrink-0 text-amber-700" aria-hidden="true" />
+                      <div className="min-w-0 flex-1">
+                        <h4 className="font-semibold text-[#173f68]">{finding.title}</h4>
+                        <p className="mt-1 text-xs text-slate-600">Holder category: {holderLabel(finding.holder)}</p>
+                        <p className="mt-2 text-sm leading-6 text-slate-700">{finding.explanation}</p>
+                        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                          {finding.documents.map((item) => (
+                            <div key={item.id} className="min-w-0 rounded-lg border border-slate-200 bg-white p-3">
+                              <p className="break-all text-xs font-semibold text-[#173f68]">{item.filename}</p>
+                              <p className="mt-2 break-words text-sm text-slate-700">{item.value}</p>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const selected = documents.find((document) => document.id === item.id);
+                                  if (selected) openEdit(selected);
+                                }}
+                                className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#147d83] hover:underline"
+                              >
+                                <Pencil size={13} /> Edit details
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+            <p className="text-xs leading-5 text-slate-500">
+              Holder categories are not unique person identifiers. In particular, Parent / Guardian and Other may include different people.
+              Addresses can also differ legitimately. Review original documents before taking action.
+            </p>
+          </div>
+        )}
+      </section>
+
       <div className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 text-xs leading-6 text-slate-600">
         <Info size={18} className="mt-0.5 shrink-0 text-[#147d83]" />
         <p>
@@ -369,9 +547,63 @@ export default function DocumentVault() {
         </p>
       </div>
 
+      {extractId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-3 sm:p-6" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) closeDemo(); }}>
+          <section role="dialog" aria-modal="true" aria-labelledby="demo-extraction-title" className="max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl bg-white p-5 shadow-xl sm:p-7">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest text-[#147d83]">UI demonstration only</p>
+                <h2 id="demo-extraction-title" className="mt-1 text-xl font-bold text-[#173f68]">Document extraction preview</h2>
+              </div>
+              <button type="button" onClick={closeDemo} aria-label="Close demo extraction" className="rounded-lg p-2 text-slate-600 hover:bg-slate-100"><X size={20} /></button>
+            </div>
+            <p className="mt-3 text-sm leading-6 text-slate-600">This prototype <strong>does not read the uploaded file</strong>. The suggested values below are fictional sample data, not AI output or confidence scores. You can edit them before applying.</p>
+            <p className="mt-3 break-all rounded-xl bg-slate-50 p-3 text-xs text-slate-600">Selected file: {documents.find((document) => document.id === extractId)?.file.name}</p>
+            {demoPhase === "idle" && (
+              <div className="mt-6 space-y-4">
+                <p className="text-sm text-slate-600">Generate fictional values to preview the future extraction-and-review workflow.</p>
+                <button type="button" onClick={generateDemo} className="inline-flex items-center gap-2 rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70]"><Sparkles size={17} /> Generate demo suggestions</button>
+              </div>
+            )}
+            {demoPhase === "processing" && (
+              <div className="mt-6 flex items-center gap-3 rounded-xl bg-[#f2f8f8] p-5 text-sm text-[#173f68]" role="status">
+                <LoaderCircle size={22} className="animate-spin text-[#147d83]" /> Preparing fictional sample fields… No file analysis is taking place.
+              </div>
+            )}
+            {demoPhase === "ready" && (
+              <form onSubmit={(event) => { event.preventDefault(); applyDemo(); }} className="mt-6 space-y-4">
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-5 text-amber-900">Sample data only · Confidence not available · Verify every value before applying. Applying replaces the selected document’s current structured fields.</div>
+                <div>
+                  <label htmlFor="demo-type" className="mb-2 block text-sm font-semibold text-[#173f68]">Suggested document type</label>
+                  <select id="demo-type" value={demoDraft.documentType} onChange={(event) => setDemoDraft((previous) => ({ ...previous, documentType: event.target.value }))} className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm">
+                    {[...new Set([demoDraft.documentType, ...Object.values(documentTypes).flat()])].map((type) => <option key={type} value={type}>{type}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="demo-name" className="mb-2 block text-sm font-semibold text-[#173f68]">Full name</label>
+                  <input id="demo-name" type="text" maxLength={200} value={demoDraft.printedName ?? ""} onChange={(event) => setDemoDraft((previous) => ({ ...previous, printedName: event.target.value }))} className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+                </div>
+                <div>
+                  <label htmlFor="demo-dob" className="mb-2 block text-sm font-semibold text-[#173f68]">Date of birth</label>
+                  <input id="demo-dob" type="date" value={demoDraft.dateOfBirth ?? ""} onChange={(event) => setDemoDraft((previous) => ({ ...previous, dateOfBirth: event.target.value }))} className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+                </div>
+                <div>
+                  <label htmlFor="demo-address" className="mb-2 block text-sm font-semibold text-[#173f68]">Residential address</label>
+                  <textarea id="demo-address" rows={3} maxLength={1000} value={demoDraft.residentialAddress ?? ""} onChange={(event) => setDemoDraft((previous) => ({ ...previous, residentialAddress: event.target.value }))} className="w-full resize-y rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+                </div>
+                <div className="flex flex-wrap justify-end gap-3 border-t border-slate-100 pt-5">
+                  <button type="button" onClick={closeDemo} className="rounded-xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700">Cancel</button>
+                  <button type="submit" className="rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70]">Review &amp; apply sample</button>
+                </div>
+              </form>
+            )}
+          </section>
+        </div>
+      )}
+
       {editId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-3 sm:p-6" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setEditId(null); }}>
-          <section role="dialog" aria-modal="true" aria-labelledby="metadata-dialog-title" className="w-full max-w-lg rounded-2xl bg-white p-5 shadow-xl sm:p-7">
+          <section role="dialog" aria-modal="true" aria-labelledby="metadata-dialog-title" className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-5 shadow-xl sm:p-7">
             <div className="flex items-center justify-between gap-3">
               <h2 id="metadata-dialog-title" className="text-xl font-bold text-[#173f68]">Edit document details</h2>
               <button type="button" onClick={() => setEditId(null)} aria-label="Close details" className="rounded-lg p-2 text-slate-600 hover:bg-slate-100"><X size={20} /></button>
@@ -429,6 +661,49 @@ export default function DocumentVault() {
                   {holders.map((holder) => <option key={holder.value} value={holder.value}>{holder.label}</option>)}
                 </select>
               </div>
+              <fieldset className="space-y-4 border-t border-slate-100 pt-5">
+                <legend className="text-sm font-bold text-[#173f68]">Information printed on document (optional)</legend>
+                <p className="text-xs leading-5 text-slate-500">
+                  Enter only information that appears on this document. Leave fields blank if absent.
+                  This information stays in browser memory for this session and is not verified.
+                  Use fictional data while testing.
+                </p>
+                <div>
+                  <label htmlFor="metadata-printed-name" className="mb-2 block text-sm font-semibold text-[#173f68]">Full name as printed</label>
+                  <input
+                    id="metadata-printed-name"
+                    type="text"
+                    maxLength={200}
+                    autoComplete="off"
+                    value={draftMetadata.printedName ?? ""}
+                    onChange={(event) => setDraftMetadata((previous) => ({ ...previous, printedName: event.target.value }))}
+                    placeholder="e.g. Asha Sharma"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#147d83]"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="metadata-dob" className="mb-2 block text-sm font-semibold text-[#173f68]">Date of birth</label>
+                  <input
+                    id="metadata-dob"
+                    type="date"
+                    value={draftMetadata.dateOfBirth ?? ""}
+                    onChange={(event) => setDraftMetadata((previous) => ({ ...previous, dateOfBirth: event.target.value }))}
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#147d83]"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="metadata-address" className="mb-2 block text-sm font-semibold text-[#173f68]">Residential address as printed</label>
+                  <textarea
+                    id="metadata-address"
+                    rows={3}
+                    maxLength={1000}
+                    value={draftMetadata.residentialAddress ?? ""}
+                    onChange={(event) => setDraftMetadata((previous) => ({ ...previous, residentialAddress: event.target.value }))}
+                    placeholder="Enter the address exactly as shown on this document"
+                    className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#147d83]"
+                  />
+                </div>
+              </fieldset>
               <div className="flex flex-wrap justify-end gap-3 border-t border-slate-100 pt-5">
                 <button type="button" onClick={() => setEditId(null)} className="rounded-xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
                 <button type="submit" className="rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70]">Save details</button>
