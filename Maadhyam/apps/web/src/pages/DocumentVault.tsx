@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ChangeEvent, type DragEvent } from "react";
+import { extractDocument } from "../services/documentExtraction";
 import {
   useDocuments,
   getDocumentCategories,
@@ -103,7 +104,10 @@ export default function DocumentVault() {
   const [extractId, setExtractId] = useState<string | null>(null);
   const [demoPhase, setDemoPhase] = useState<"idle" | "processing" | "ready">("idle");
   const [demoDraft, setDemoDraft] = useState<DocumentMetadata>(defaultMetadata);
-  const demoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const extractionAbort = useRef<AbortController | null>(null);
+  const [extractionError, setExtractionError] = useState("");
+  const [fictionalConfirmed, setFictionalConfirmed] = useState(false);
+  const [extractionWarnings, setExtractionWarnings] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (previewId === null && editId === null && extractId === null) return;
@@ -114,40 +118,58 @@ export default function DocumentVault() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [previewId, editId, extractId]);
 
-  useEffect(() => () => {
-    if (demoTimer.current !== null) clearTimeout(demoTimer.current);
-  }, []);
+  useEffect(() => () => { extractionAbort.current?.abort(); }, []);
 
   function closeDemo() {
-    if (demoTimer.current !== null) clearTimeout(demoTimer.current);
-    demoTimer.current = null;
+    extractionAbort.current?.abort();
+    extractionAbort.current = null;
+    setExtractionError("");
+    setExtractionWarnings([]);
+    setFictionalConfirmed(false);
     setExtractId(null);
     setDemoPhase("idle");
   }
 
   function openDemo(document: LocalDocument) {
     setExtractId(document.id);
+    setFictionalConfirmed(false);
     setDemoPhase("idle");
     setDemoDraft({ ...document.metadata });
+    setExtractionError("");
+    setExtractionWarnings([]);
   }
 
-  function generateDemo() {
-    if (!extractId) return;
+  async function generateDemo() {
+    if (!extractId || !fictionalConfirmed) return;
     const target = documents.find((document) => document.id === extractId);
     if (!target) return;
+    const controller = new AbortController();
+    extractionAbort.current?.abort();
+    extractionAbort.current = controller;
+    setExtractionError("");
+    setExtractionWarnings([]);
     setDemoPhase("processing");
-    // UI-only fixture: does not inspect the uploaded PDF or image.
-    demoTimer.current = setTimeout(() => {
+    try {
+      const result = await extractDocument(target.file, controller.signal);
+      if (controller.signal.aborted) return;
+      const proposedCategories = result.categories.filter((category) => category !== "other");
       setDemoDraft({
         ...target.metadata,
-        documentType: target.metadata.documentType === "Unclassified" ? "Aadhaar card" : target.metadata.documentType,
-        printedName: "Asha Sharma",
-        dateOfBirth: "2008-01-01",
-        residentialAddress: "12 MG Road, Pune, Maharashtra",
+        documentType: result.documentType || target.metadata.documentType,
+        printedName: result.printedName ?? "",
+        dateOfBirth: result.dateOfBirth ?? "",
+        residentialAddress: result.residentialAddress ?? "",
+        ...(proposedCategories.length ? { category: proposedCategories[0], categories: proposedCategories } : {}),
       });
+      setExtractionWarnings(result.warnings);
       setDemoPhase("ready");
-      demoTimer.current = null;
-    }, 900);
+    } catch (error) {
+      if (controller.signal.aborted) return;
+      setExtractionError(error instanceof Error ? error.message : "Extraction failed. Please try again.");
+      setDemoPhase("idle");
+    } finally {
+      if (extractionAbort.current === controller) extractionAbort.current = null;
+    }
   }
 
   function applyDemo() {
@@ -158,7 +180,7 @@ export default function DocumentVault() {
       residentialAddress: demoDraft.residentialAddress?.trim() ?? "",
     });
     closeDemo();
-    setMessage("Demo suggestions applied after your confirmation. These values were not extracted from the file.");
+    setMessage("AI-extracted details saved after your review. Verify them against the original document.");
   }
 
   function addFiles(fileList: FileList | File[]) {
@@ -249,7 +271,7 @@ export default function DocumentVault() {
   const preview = documents.find((document) => document.id === previewId);
 
   return (
-    <div className="mx-auto max-w-6xl space-y-7 pb-24">
+    <div className="mx-auto w-full max-w-[1560px] space-y-7 pb-24">
       <div>
         <p className="text-xs font-bold uppercase tracking-widest text-[#147d83]">Document workspace</p>
         <h1 className="mt-2 text-3xl font-bold text-[#173f68]">Document Vault</h1>
@@ -416,7 +438,7 @@ export default function DocumentVault() {
                       <Eye size={15} /> Preview
                     </button>
                     <button type="button" onClick={() => openDemo(document)} className="inline-flex items-center gap-1.5 rounded-lg border border-[#9dcacb] bg-[#f2f8f8] px-3 py-2 text-xs font-semibold text-[#147d83] hover:bg-[#e4f3f1]">
-                      <Sparkles size={15} /> Demo extraction
+                      <Sparkles size={15} /> AI extraction
                     </button>
                     <button
                       type="button"
@@ -549,30 +571,37 @@ export default function DocumentVault() {
 
       {extractId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-3 sm:p-6" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) closeDemo(); }}>
-          <section role="dialog" aria-modal="true" aria-labelledby="demo-extraction-title" className="max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl bg-white p-5 shadow-xl sm:p-7">
+          <section role="dialog" aria-modal="true" aria-labelledby="demo-extraction-title" className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-5 shadow-xl sm:p-7">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-[#147d83]">UI demonstration only</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-[#147d83]">Gemini document extraction</p>
                 <h2 id="demo-extraction-title" className="mt-1 text-xl font-bold text-[#173f68]">Document extraction preview</h2>
               </div>
-              <button type="button" onClick={closeDemo} aria-label="Close demo extraction" className="rounded-lg p-2 text-slate-600 hover:bg-slate-100"><X size={20} /></button>
+              <button type="button" onClick={closeDemo} aria-label="Close AI extraction" className="rounded-lg p-2 text-slate-600 hover:bg-slate-100"><X size={20} /></button>
             </div>
-            <p className="mt-3 text-sm leading-6 text-slate-600">This prototype <strong>does not read the uploaded file</strong>. The suggested values below are fictional sample data, not AI output or confidence scores. You can edit them before applying.</p>
+            <p className="mt-3 text-sm leading-6 text-slate-600">With your consent, the selected file will be sent through Maadhyam’s backend to Google Gemini for extraction. Use fictional documents while testing. AI can make mistakes; review every field before applying. The uploaded file is not saved by this API.</p>
             <p className="mt-3 break-all rounded-xl bg-slate-50 p-3 text-xs text-slate-600">Selected file: {documents.find((document) => document.id === extractId)?.file.name}</p>
+            {extractionError && <p role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{extractionError}</p>}
+            {extractionWarnings.length > 0 && <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900"><strong>Extraction notes:</strong><ul className="mt-2 list-disc pl-5">{extractionWarnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></div>}
+            <div className="mt-4 rounded-xl border border-[#9dcacb] bg-[#f2f8f8] p-3 text-sm text-slate-700">
+              <strong>Fictional test documents only.</strong> Never upload real Aadhaar, PAN, passport or other confidential documents to this free-tier Gemini demo.
+              To enter details without AI, close this dialog and use Edit Details.
+            </div>
+            <label className="mt-4 flex items-start gap-2 text-sm text-slate-700"><input type="checkbox" className="mt-1" checked={fictionalConfirmed} onChange={(event) => setFictionalConfirmed(event.target.checked)} /> I confirm this is a fictional test document and consent to sending it to Google Gemini. Free-tier provider data-use policies may apply.</label>
             {demoPhase === "idle" && (
               <div className="mt-6 space-y-4">
-                <p className="text-sm text-slate-600">Generate fictional values to preview the future extraction-and-review workflow.</p>
-                <button type="button" onClick={generateDemo} className="inline-flex items-center gap-2 rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70]"><Sparkles size={17} /> Generate demo suggestions</button>
+                <p className="text-sm text-slate-600">The document will be transmitted to Google Gemini only when you select Extract with Gemini.</p>
+                <button type="button" onClick={generateDemo} disabled={!fictionalConfirmed} className="inline-flex disabled:cursor-not-allowed disabled:opacity-40 items-center gap-2 rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70]"><Sparkles size={17} /> Extract with Gemini</button>
               </div>
             )}
             {demoPhase === "processing" && (
               <div className="mt-6 flex items-center gap-3 rounded-xl bg-[#f2f8f8] p-5 text-sm text-[#173f68]" role="status">
-                <LoaderCircle size={22} className="animate-spin text-[#147d83]" /> Preparing fictional sample fields… No file analysis is taking place.
+                <LoaderCircle size={22} className="animate-spin text-[#147d83]" /> Analyzing your document with Gemini…
               </div>
             )}
             {demoPhase === "ready" && (
               <form onSubmit={(event) => { event.preventDefault(); applyDemo(); }} className="mt-6 space-y-4">
-                <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-5 text-amber-900">Sample data only · Confidence not available · Verify every value before applying. Applying replaces the selected document’s current structured fields.</div>
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-5 text-amber-900">AI suggestions · Accuracy is not guaranteed · Verify every value before applying. Applying replaces the selected document’s current structured fields.</div>
                 <div>
                   <label htmlFor="demo-type" className="mb-2 block text-sm font-semibold text-[#173f68]">Suggested document type</label>
                   <select id="demo-type" value={demoDraft.documentType} onChange={(event) => setDemoDraft((previous) => ({ ...previous, documentType: event.target.value }))} className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm">
@@ -593,7 +622,7 @@ export default function DocumentVault() {
                 </div>
                 <div className="flex flex-wrap justify-end gap-3 border-t border-slate-100 pt-5">
                   <button type="button" onClick={closeDemo} className="rounded-xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700">Cancel</button>
-                  <button type="submit" className="rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70]">Review &amp; apply sample</button>
+                  <button type="submit" className="rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70]">Review &amp; apply extracted details</button>
                 </div>
               </form>
             )}

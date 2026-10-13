@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { assessPassport, type PassportAssessment } from "../services/passportAssessment";
 import {
   Link,
   useSearchParams,
@@ -438,6 +439,18 @@ function PassportWizard({
     assistanceType,
   });
   const [showValidation, setShowValidation] = useState(false);
+  const [assessment, setAssessment] = useState<PassportAssessment | null>(null);
+  const [assessmentError, setAssessmentError] = useState('');
+  const [applicantDob, setApplicantDob] = useState('');
+  useEffect(() => {
+    const controller = new AbortController();
+    const handle = window.setTimeout(() => {
+      assessPassport(answers as unknown as Record<string, unknown>, documents, applicantDob, controller.signal)
+        .then(result => { if (!controller.signal.aborted) { setAssessment(result); setAssessmentError(''); } })
+        .catch(error => { if (!controller.signal.aborted) setAssessmentError(error instanceof Error ? error.message : 'Assessment unavailable'); });
+    }, 300);
+    return () => { window.clearTimeout(handle); controller.abort(); };
+  }, [answers, documents, applicantDob]);
   const option = passportAssistanceOptions.find(
     (item) => item.id === assistanceType,
   );
@@ -530,7 +543,7 @@ function PassportWizard({
   const hasVaultFollowUps = vaultGaps.length > 0 || vaultAnswerMismatches.length > 0;
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6">
+    <div className="mx-auto max-w-6xl space-y-6">
       <Link
         to="/services/passport"
         className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-[#147d83]"
@@ -538,7 +551,20 @@ function PassportWizard({
         <ArrowLeft size={17} />
         Back to Passport Seva
       </Link>
-      <section className="rounded-3xl bg-[#173f68] p-7 text-white md:p-9">
+      <section className="rounded-2xl border border-slate-200 bg-white p-5 text-slate-900 dark:border-[#293956] dark:bg-[#18243B] dark:text-slate-100 shadow-sm md:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest text-teal-700 dark:text-[#96B1FF]">Passport preparation</p>
+            <h2 className="mt-1 text-lg font-bold">Tell us about your application</h2>
+            <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Answer the questions below. Your official-source checklist is shown after the questionnaire.</p>
+          </div>
+          <a className="text-xs font-semibold text-teal-700 dark:text-[#96B1FF] underline underline-offset-4" href="https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp" target="_blank" rel="noreferrer">Passport Seva Document Advisor ↗</a>
+        </div>
+        <label className="mt-4 block text-sm font-semibold" htmlFor="applicant-dob">Applicant date of birth</label>
+        <input id="applicant-dob" type="date" value={applicantDob} onChange={event => setApplicantDob(event.target.value)} className="mt-2 w-full max-w-xs rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-900 [color-scheme:light] dark:border-slate-600 dark:bg-[#101A30] dark:text-white dark:[color-scheme:dark]" />
+        <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Required to select the official date-of-birth evidence rule (1 October 2023 cutoff).</p>
+      </section>
+      <section className="rounded-3xl bg-gradient-to-r from-[#124b50] to-[#173f68] p-7 text-white md:p-9">
         <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold">
           <ShieldCheck size={15} />
           Guided Preparation
@@ -920,6 +946,43 @@ function PassportWizard({
             </Link>
           )}
         </div>
+      </section>
+      <section aria-label="Passport document requirements" className="rounded-2xl border border-slate-200 bg-white p-5 text-slate-900 dark:border-[#293956] dark:bg-[#18243B] dark:text-slate-100 shadow-sm md:p-7">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest text-teal-700 dark:text-[#96B1FF]">Your document plan</p>
+            <h2 className="mt-1 text-xl font-bold">Official-source requirements</h2>
+            <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Based on your answers and self-reviewed Document Vault records. Not an approval decision.</p>
+          </div>
+          <a href="https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp" target="_blank" rel="noreferrer" className="text-xs font-semibold text-teal-700 dark:text-[#96B1FF] underline underline-offset-4">Verify with Passport Seva ↗</a>
+        </div>
+        {assessmentError && <p role="alert" className="mt-4 rounded-lg bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-500/10 dark:text-amber-200">Unable to load the checklist: {assessmentError}. Check that the API is running.</p>}
+        {!assessment && !assessmentError && <p className="mt-4 text-sm text-slate-600 dark:text-slate-400">Updating your checklist…</p>}
+        {assessment && <>
+          <div className="mt-5 flex flex-wrap gap-2 text-xs">
+            <span className="rounded-full bg-slate-100 px-3 py-1.5 text-slate-700 dark:bg-slate-700/70 dark:text-slate-100">{assessment.checks.length} requirements to review</span>
+            <span className="rounded-full bg-teal-50 px-3 py-1.5 text-teal-800 dark:bg-teal-500/10 dark:text-[#96B1FF]">{assessment.checks.filter(c => c.status === 'available-for-review').length} possible proofs found</span>
+            <span className="rounded-full bg-amber-50 px-3 py-1.5 text-amber-800 dark:bg-amber-500/10 dark:text-amber-200">{assessment.checks.filter(c => c.status !== 'available-for-review').length} need follow-up</span>
+          </div>
+          {assessment.source_health !== 'current' && <p className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs leading-5 text-amber-900 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-100">Official-source monitoring needs review ({assessment.source_health}). These are preparation suggestions, not confirmation that government rules are unchanged. Verify your case using the official links.</p>}
+          {assessment.checks.length === 0 ? <p className="mt-5 text-sm text-slate-600 dark:text-slate-400">No requirements returned for these answers. Confirm your case using the official Document Advisor.</p> :
+          <div className="mt-5 grid gap-3 lg:grid-cols-2">
+            {assessment.checks.map((check, i) => <article key={check.id} className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#293956] dark:bg-[#101A30] md:p-5">
+              <div className="flex items-start gap-3">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-teal-100 text-xs font-bold text-teal-800 dark:bg-teal-500/10 dark:text-[#96B1FF]">{i + 1}</span>
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-semibold leading-6">{check.title}</h3>
+                  <span className={`mt-1 inline-flex rounded-full px-2.5 py-1 text-[11px] font-medium ${check.status === 'available-for-review' ? 'bg-teal-100 text-teal-800 dark:bg-teal-500/15 dark:text-[#96B1FF]' : check.status === 'needs-attention' ? 'bg-rose-100 text-rose-800 dark:bg-rose-500/15 dark:text-rose-200' : 'bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-200'}`}>{check.status === 'available-for-review' ? 'Proof to review' : check.status === 'needs-attention' ? 'Action needed' : 'Check required'}</span>
+                </div>
+              </div>
+              <p className="mt-3 text-sm leading-6 text-slate-700 dark:text-slate-300">{check.reason}</p>
+              <p className="mt-3 text-sm leading-6"><strong className="text-teal-800 dark:text-[#96B1FF]">What to do:</strong> {check.next_action}</p>
+              {check.alternatives.length > 0 && <details className="mt-3 rounded-lg bg-white p-3 text-xs text-slate-700 dark:bg-[#202F4A] dark:text-slate-300"><summary className="cursor-pointer font-semibold text-teal-800 dark:text-[#96B1FF]">See possible supporting documents</summary><p className="mt-2 leading-5">{check.alternatives.join(' · ')}. Conditions and applicant category restrictions apply.</p></details>}
+              {check.source_url && <a href={check.source_url} target="_blank" rel="noreferrer" className="mt-4 inline-block text-xs font-semibold text-teal-700 dark:text-[#96B1FF] underline underline-offset-4">View government source ↗</a>}
+            </article>)}
+          </div>}
+          <p className="mt-5 text-xs leading-5 text-slate-500 dark:text-slate-400">{assessment.disclaimer}</p>
+        </>}
       </section>
       <div className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-5">
         <Info

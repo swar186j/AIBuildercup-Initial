@@ -1,0 +1,59 @@
+{
+  "overall": "review-required",
+  "last_checked": "2026-10-13T18:58:57.955513+00:00",
+  "sources": {
+    "official-documents": {
+      "url": "https://www.passportindia.gov.in/psp/ListDocuments",
+      "last_checked": "2026-10-13T18:58:57.955513+00:00",
+      "baseline_sha256": "36393e11285008e4143885619b379a90af164ab9e27b8310be6507d05cf2d057",
+      "approved_at": "2026-10-13T18:52:20.529721+00:00",
+      "observed_sha256": "36393e11285008e4143885619b379a90af164ab9e27b8310be6507d05cf2d057",
+      "fingerprint_method": "html-guidance-v2",
+      "content_type": "text/html; charset=utf-8",
+      "final_url": "https://www.passportindia.gov.in/psp/ListDocuments",
+      "fetched_url": "https://www.passportindia.gov.in/psp/ListDocuments",
+      "status": "current"
+    },
+    "official-fresh": {
+      "url": "https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp",
+      "last_checked": "2026-10-13T18:58:57.955513+00:00",
+      "baseline_sha256": "89683e8a73641dd5316ca638f90c4bd4e25d2e665f7273ab471d8d509fdac3fc",
+      "approved_at": "2026-10-13T18:52:22.230819+00:00",
+      "observed_sha256": "89683e8a73641dd5316ca638f90c4bd4e25d2e665f7273ab471d8d509fdac3fc",
+      "fingerprint_method": "html-guidance-v2",
+      "content_type": "text/html; charset=utf-8",
+      "final_url": "https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp",
+      "fetched_url": "https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp",
+      "status": "current"
+    },
+    "official-reissue": {
+      "url": "https://www.passportindia.gov.in/psp/docAdvisor/reissuePassport",
+      "last_checked": "2026-10-13T18:58:57.955513+00:00",
+      "baseline_sha256": "e38bd05db354f9f277e94ffea72abe7ea547ff0c5c19ea698c1d6b75a2e9e57e",
+      "approved_at": "2026-10-13T18:52:24.580545+00:00",
+      "observed_sha256": "e38bd05db354f9f277e94ffea72abe7ea547ff0c5c19ea698c1d6b75a2e9e57e",
+      "fingerprint_method": "html-guidance-v2",
+      "content_type": "text/html; charset=utf-8",
+      "final_url": "https://www.passportindia.gov.in/psp/docAdvisor/reissuePassport",
+      "fetched_url": "https://www.passportindia.gov.in/psp/docAdvisor/reissuePassport",
+      "status": "current"
+    },
+    "official-gazette": {
+      "url": "https://services2.passportindia.gov.in/AppOnlineProject/pdf/Gazette_Notification_DoB.pdf",
+      "last_checked": "2026-10-13T18:58:57.955513+00:00",
+      "baseline_sha256": null,
+      "approved_at": null,
+      "status": "fetch-failed",
+      "error": "ValueError: all-source-candidates-failed: https://services2.passportindia.gov.in/AppOnlineProject/pdf/Gazette_Notification_DoB.pdf: ValueError: pdf-source-content-mismatch"
+    },
+    "official-booklet": {
+      "url": "https://portal4.passportindia.gov.in/Online/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+      "last_checked": "2026-10-13T18:58:57.955513+00:00",
+      "baseline_sha256": null,
+      "approved_at": null,
+      "status": "fetch-failed",
+      "error": "ValueError: all-source-candidates-failed: https://portal4.passportindia.gov.in/Online/pdf/ApplicationformInstructionBooklet-V3.0.pdf: URLError: <urlopen error timed out>; https://passportindia.gov.in/"
+    }
+  },
+  "note": "Content drift detection only. Human approval is required before interpreting or changing rules."
+}
