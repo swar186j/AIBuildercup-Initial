@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -11,6 +11,9 @@ import {
   ShieldCheck,
   PanelLeftClose,
   PanelLeftOpen,
+  Moon,
+  Sun,
+  Monitor,
 } from "lucide-react";
 import AIAssistant from "./AIAssistant";
 import { DocumentProvider } from "../context/DocumentContext";
@@ -26,6 +29,18 @@ const navigation = [
 
 export default function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [appearance, setAppearance] = useState<"light" | "dark" | "system">(() => {
+    const saved = localStorage.getItem("maadhyam-appearance");
+    return saved === "light" || saved === "dark" || saved === "system" ? saved : "system";
+  });
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const apply = () => document.documentElement.classList.toggle("dark", appearance === "dark" || (appearance === "system" && media.matches));
+    apply();
+    localStorage.setItem("maadhyam-appearance", appearance);
+    media.addEventListener("change", apply);
+    return () => media.removeEventListener("change", apply);
+  }, [appearance]);
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -170,12 +185,19 @@ export default function AppLayout() {
                 </p>
               </div>
             </div>
+            <div className="ml-auto flex items-center gap-2">
+              <label htmlFor="appearance" className="sr-only">Appearance</label>
+              {appearance === "dark" ? <Moon size={17} /> : appearance === "light" ? <Sun size={17} /> : <Monitor size={17} />}
+              <select id="appearance" aria-label="Appearance" value={appearance} onChange={(event) => setAppearance(event.target.value as "light" | "dark" | "system")} className="rounded-lg border border-slate-200 bg-white px-2 py-2 text-xs text-slate-700">
+                <option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option>
+              </select>
+            </div>
             <span className="rounded-full bg-[#edf5f4] px-3 py-2 text-xs font-semibold text-[#126a70]">
               Preview
             </span>
           </header>
 
-          <main className="mx-auto max-w-7xl px-5 py-8 md:px-9 md:py-10">
+          <main className="mx-auto w-full max-w-[1800px] px-5 py-8 md:px-9 md:py-10 xl:px-12">
             <Outlet />
           </main>
         </div>
