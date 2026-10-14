@@ -291,7 +291,15 @@ export default function DocumentVault() {
               className="rounded-lg border border-[#147d83] px-4 py-2 text-sm font-semibold text-[#147d83] disabled:opacity-50">
               {persistenceEnabled ? "Disable local saving" : "Enable local saving"}
             </button>
-            <button type="button" onClick={() => { if (window.confirm("Delete all Vault documents and saved browser copies?")) void clearAllDocuments(); }}
+            <button
+              type="button"
+              onClick={async () => {
+                if (!window.confirm("Delete all Vault documents and saved browser copies?")) {
+                  return;
+                }
+
+                await clearAllDocuments();
+              }}
               className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Clear all Vault data</button>
           </div>
         </div>
@@ -322,9 +330,8 @@ export default function DocumentVault() {
           if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDragging(false);
         }}
         onDrop={onDrop}
-        className={`rounded-2xl border-2 border-dashed px-6 py-10 text-center transition sm:px-10 ${
-          dragging ? "border-[#147d83] bg-[#e4f3f1]" : "border-[#9dcacb] bg-[#f2f8f8]"
-        }`}
+        className={`rounded-2xl border-2 border-dashed px-6 py-10 text-center transition sm:px-10 ${dragging ? "border-[#147d83] bg-[#e4f3f1]" : "border-[#9dcacb] bg-[#f2f8f8]"
+          }`}
       >
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-[#147d83] shadow-sm">
           <UploadCloud size={27} aria-hidden="true" />
@@ -382,9 +389,8 @@ export default function DocumentVault() {
               type="button"
               aria-pressed={filter === item.id}
               onClick={() => setFilter(item.id)}
-              className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
-                filter === item.id ? "bg-[#147d83] text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
+              className={`rounded-full px-4 py-2 text-xs font-semibold transition ${filter === item.id ? "bg-[#147d83] text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                }`}
             >
               {item.label}
             </button>
@@ -432,9 +438,8 @@ export default function DocumentVault() {
                         {isPdf ? "PDF" : "Image"} · {formatSize(document.file.size)} · {document.addedAt.toLocaleString()}
                       </p>
                       <div className="mt-2 flex flex-wrap items-center gap-2">
-                        <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
-                          document.status === "reviewed" ? "bg-emerald-50 text-emerald-800" : "bg-amber-50 text-amber-800"
-                        }`}>
+                        <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${document.status === "reviewed" ? "bg-emerald-50 text-emerald-800" : "bg-amber-50 text-amber-800"
+                          }`}>
                           {document.status === "reviewed" ? "Self-reviewed" : "Needs review"}
                         </span>
                         {getDocumentCategories(document.metadata).map((category) => (

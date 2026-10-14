@@ -5,7 +5,7 @@ Place in apps/api/tests/ and run: uv run pytest tests/test_passport_integration.
 from __future__ import annotations
 
 import pytest
-from fastapi.testclient import TestClient
+from starlette.testclient import TestClient
 from maadhyam_api.main import app
 
 client = TestClient(app)

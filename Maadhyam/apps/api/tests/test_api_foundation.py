@@ -1,6 +1,6 @@
 """Milestone 1B regression and configuration tests."""
 from fastapi import HTTPException
-from fastapi.testclient import TestClient
+from starlette.testclient import TestClient
 
 from maadhyam_api.config import Settings
 from maadhyam_api.main import create_app

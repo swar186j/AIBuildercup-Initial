@@ -1,4 +1,4 @@
-from fastapi.testclient import TestClient
+from starlette.testclient import TestClient
 from maadhyam_api.main import create_app
 
 def test_empty_requires_confirmation():

@@ -67,7 +67,7 @@ async function saveVault(docs: LocalDocument[]): Promise<void> {
       const tx = db.transaction(STORE, "readwrite");
       const store = tx.objectStore(STORE);
       store.clear();
-      docs.forEach(({url: _url, addedAt, ...rest}) => store.put({...rest, addedAt: addedAt.getTime()}));
+      docs.forEach(({ url: _url, addedAt, ...rest }) => store.put({ ...rest, addedAt: addedAt.getTime() }));
       tx.oncomplete = () => resolve();
       tx.onerror = () => reject(tx.error);
       tx.onabort = () => reject(tx.error);
@@ -133,10 +133,19 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!hydrated.current || !persistenceEnabled) return;
+
     const snapshot = documents;
-    persistQueue.current = persistQueue.current.catch(() => {}).then(async () => {
-      if (persistenceEnabledRef.current) await saveVault(snapshot);
-    }).catch(err => setPersistenceError(`Local Vault save failed: ${String(err)}`));
+
+    persistQueue.current = persistQueue.current
+      .catch(() => { })
+      .then(async () => {
+        if (persistenceEnabledRef.current) {
+          await saveVault(snapshot);
+        }
+      })
+      .catch((err) => {
+        setPersistenceError(`Local Vault save failed: ${String(err)}`);
+      });
   }, [documents, persistenceEnabled]);
 
   async function setLocalPersistence(enabled: boolean) {
@@ -147,24 +156,42 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
       persistenceEnabledRef.current = true;
       setPersistenceEnabled(true);
       // Save the current session immediately; no upload to a server.
-      persistQueue.current = persistQueue.current.catch(() => {}).then(() => saveVault(documentsRef.current));
+      persistQueue.current = persistQueue.current.catch(() => { }).then(() => saveVault(documentsRef.current));
       try { await persistQueue.current; } catch (err) { setPersistenceError(`Local Vault save failed: ${String(err)}`); }
     } else {
       persistenceEnabledRef.current = false;
       localStorage.removeItem(PREF);
       setPersistenceEnabled(false);
-      try { await persistQueue.current.catch(() => {}); await deleteVault(); }
+      try { await persistQueue.current.catch(() => { }); await deleteVault(); }
       catch (err) { setPersistenceError(`Local Vault deletion failed: ${String(err)}`); }
     }
   }
 
   async function clearAllDocuments() {
     const existing = documentsRef.current;
+
     documentsRef.current = [];
     setDocuments([]);
-    existing.forEach(d => URL.revokeObjectURL(d.url));
-    try { await persistQueue.current.catch(() => {}); await deleteVault(); }
-    catch (err) { setPersistenceError(`Local Vault deletion failed: ${String(err)}`); }
+
+    existing.forEach((document) => {
+      URL.revokeObjectURL(document.url);
+    });
+
+    // Serialize deletion after all previously queued saves.
+    // This prevents older snapshots from overwriting the cleared Vault.
+    const clearOperation = persistQueue.current
+      .catch(() => { })
+      .then(async () => {
+        await deleteVault();
+      });
+
+    persistQueue.current = clearOperation;
+
+    try {
+      await clearOperation;
+    } catch (err) {
+      setPersistenceError(`Local Vault deletion failed: ${String(err)}`);
+    }
   }
 
 
@@ -194,9 +221,9 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
       previous.map((document) =>
         document.id === id
           ? {
-              ...document,
-              status: document.status === "reviewed" ? "needs-review" : "reviewed",
-            }
+            ...document,
+            status: document.status === "reviewed" ? "needs-review" : "reviewed",
+          }
           : document,
       ),
     );
@@ -212,8 +239,10 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
 
   return (
     <DocumentContext.Provider
-      value={{ documents, addDocuments, removeDocument, toggleReviewed, updateMetadata,
-        persistenceEnabled, persistenceReady, persistenceError, setLocalPersistence, clearAllDocuments }}
+      value={{
+        documents, addDocuments, removeDocument, toggleReviewed, updateMetadata,
+        persistenceEnabled, persistenceReady, persistenceError, setLocalPersistence, clearAllDocuments
+      }}
     >
       {children}
     </DocumentContext.Provider>

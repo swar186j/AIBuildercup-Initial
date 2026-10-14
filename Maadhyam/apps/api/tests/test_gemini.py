@@ -1,5 +1,5 @@
 """Tests never call the real Gemini service."""
-from fastapi.testclient import TestClient
+from starlette.testclient import TestClient
 from maadhyam_api.config import get_settings
 from maadhyam_api.main import create_app
 from maadhyam_api.routes import gemini

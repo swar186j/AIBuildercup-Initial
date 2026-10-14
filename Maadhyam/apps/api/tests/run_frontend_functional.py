@@ -328,25 +328,35 @@ def preview(page):
     dialog.get_by_role('button',name='Close preview').click()
     dialog.wait_for(state='hidden')
 
-# Known gaps are expected to fail until implemented; tracked separately from passing tests.
-KNOWN_GAPS=[]
-def gap(name):
-    def decorate(fn): KNOWN_GAPS.append((name,fn)); return fn
-    return decorate
+# Previously tracked gaps are now regular regression tests.
+def resolved_identity_fields(page):
+    page.goto("/documents")
+    upload(page, "fictional_identity.png")
+    page.get_by_role("button", name="Edit details").click()
+    dialog = page.get_by_role("dialog", name="Edit document details")
+    dialog.wait_for(timeout=10000)
+    require(dialog.locator("#metadata-printed-name").count() == 1,
+            "Printed name field missing")
+    require(dialog.locator("#metadata-dob").count() == 1,
+            "DOB field missing")
 
-@gap('GAP01 Vault has editable printed name and DOB for real mismatch detection')
-def missing_identity_fields(page):
-    upload(page,'fictional_identity.png')
-    page.get_by_role('button',name='Edit details').click()
-    dialog=page.get_by_role('dialog',name='Edit document details')
-    require(dialog.locator('#metadata-printed-name').count()==1,'Missing printed name field: cannot create UI-level Aadhaar/PAN mismatch')
-    require(dialog.locator('#metadata-date-of-birth').count()==1,'Missing DOB field: cannot test DOB conflict from UI')
-
-@gap('GAP02 Vault metadata survives browser reload')
-def missing_persistence(page):
-    upload(page,'fictional_persistence.png')
+def resolved_persistence(page):
+    page.goto("/documents")
+    page.get_by_role("button", name="Enable local saving").click()
+    upload(page, "fictional_persistence.png")
+    page.get_by_text("fictional_persistence.png").first.wait_for(timeout=10000)
     page.reload()
-    require(page.get_by_text('fictional_persistence.png',exact=True).count()>0,'In-memory Vault lost on refresh')
+    page.get_by_text("fictional_persistence.png").first.wait_for(timeout=10000)
+    require(
+        page.get_by_role("button", name="Disable local saving").count() == 1,
+        "Local persistence preference was not restored"
+    )
+
+CASES.extend([
+    ("GAP01 Vault exposes editable printed name and DOB", resolved_identity_fields),
+    ("GAP02 Opt-in Vault persistence survives reload", resolved_persistence),
+])
+KNOWN_GAPS = []
 
 def main():
     ap=argparse.ArgumentParser()

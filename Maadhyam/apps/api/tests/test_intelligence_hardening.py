@@ -1,6 +1,6 @@
 """M4 functional hardening: run from apps/api using uv run pytest tests/test_intelligence_hardening.py -q."""
 import pytest
-from fastapi.testclient import TestClient
+from starlette.testclient import TestClient
 from maadhyam_api.main import app
 
 client = TestClient(app)
