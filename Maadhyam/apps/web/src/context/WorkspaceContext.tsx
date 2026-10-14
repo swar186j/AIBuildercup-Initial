@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { useDocuments } from "./DocumentContext";
 
 export type Status = "draft" | "in-progress" | "completed";
 export type Application = {
@@ -49,7 +50,33 @@ type WorkspaceValue = {
 const WorkspaceContext = createContext<WorkspaceValue | null>(null);
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const [applications, setApplications] = useState<Application[]>(initialApplications);
-  const [plannerCompleted, setPlannerCompleted] = useState<string[]>([]);
+  const { documents } = useDocuments();
+  const [manuallyCompleted, setManuallyCompleted] = useState<string[]>([]);
+  // Only objective Vault actions are inferred; reviewing a discrepancy or official
+  // requirement must be explicitly acknowledged by the citizen.
+  const plannerCompleted = useMemo(() => {
+    const done = new Set(manuallyCompleted);
+    if (documents.length > 0 && done.has("journey")) done.add("vault");
+    if (done.has("vault") && documents.some(d => d.status === "reviewed" && d.metadata.holder === "self")) {
+      done.add("details");
+    }
+    return plannerTasks.filter(t => done.has(t.id)).map(t => t.id);
+  }, [documents, manuallyCompleted]);
+  const liveSteps = plannerTasks.map(t => t.title);
+  const liveDone = plannerCompleted.length;
+  const liveNext = plannerTasks.find(t => !plannerCompleted.includes(t.id));
+  const livePreparation: Application = {
+    id: "VAULT-PREPARATION",
+    service: "Passport",
+    type: "Your current document preparation",
+    status: liveDone === 0 ? "draft" : liveDone === plannerTasks.length ? "completed" : "in-progress",
+    completedSteps: liveDone,
+    totalSteps: plannerTasks.length,
+    nextAction: liveNext?.title ?? "Review current official Passport Seva instructions",
+    updated: "Live from this browser session",
+    steps: liveSteps,
+  };
+  const visibleApplications = [livePreparation, ...applications];
   function createDraft() {
     const id = `LOCAL-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
     setApplications((previous) => [{
@@ -60,8 +87,8 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     return id;
   }
   function togglePlannerTask(id: string) {
-    setPlannerCompleted((previous) => {
-      const completed = new Set(previous);
+    setManuallyCompleted((previous) => {
+      const completed = new Set(plannerCompleted);
       if (completed.has(id)) {
         const removed = new Set([id]);
         let changed = true;
@@ -80,7 +107,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       return [...previous, id];
     });
   }
-  return <WorkspaceContext.Provider value={{ applications, createDraft, plannerCompleted, togglePlannerTask, resetPlanner: () => setPlannerCompleted([]) }}>{children}</WorkspaceContext.Provider>;
+  return <WorkspaceContext.Provider value={{ applications: visibleApplications, createDraft, plannerCompleted, togglePlannerTask, resetPlanner: () => setManuallyCompleted([]) }}>{children}</WorkspaceContext.Provider>;
 }
 export function useWorkspace() {
   const context = useContext(WorkspaceContext);

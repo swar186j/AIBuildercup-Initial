@@ -5,7 +5,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-
+from maadhyam_api.routes.advanced_planning import PlanningRequest, plan
 from maadhyam_api.config import get_settings
 from maadhyam_api.routes.gemini import router as gemini_router
 from maadhyam_api.routes.intelligence import router as intelligence_router
@@ -13,6 +13,8 @@ from maadhyam_api.routes.extraction import router as extraction_router
 from maadhyam_api.routes.health import router as health_router
 from maadhyam_api.routes.services import router as services_router
 from maadhyam_api.routes.passport_rules import router as passport_rules_router
+from maadhyam_api.routes.rule_change_impact import router as rule_change_impact_router
+from maadhyam_api.routes.citizen_workflows import router as citizen_workflows_router
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +66,14 @@ def create_app() -> FastAPI:
     app.include_router(gemini_router, prefix="/api")
     app.include_router(extraction_router, prefix="/api")
     app.include_router(passport_rules_router, prefix="/api")
+    app.include_router(rule_change_impact_router, prefix="/api")
     app.include_router(intelligence_router, prefix="/api")
+    app.include_router(citizen_workflows_router, prefix="/api")
+
+    @app.post('/api/intelligence/advanced-plan')
+    def advanced_plan(request: PlanningRequest):
+        return plan(request)
+    
     return app
 
 

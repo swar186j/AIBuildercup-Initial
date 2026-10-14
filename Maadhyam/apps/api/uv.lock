@@ -592,6 +592,11 @@ dependencies = [
     { name = "uvicorn", extra = ["standard"] },
 ]
 
+[package.optional-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
 [package.dev-dependencies]
 dev = [
     { name = "httpx" },
@@ -607,9 +612,11 @@ requires-dist = [
     { name = "google-genai", specifier = ">=1.0.0,<2.0.0" },
     { name = "pydantic-settings", specifier = ">=2.15.0" },
     { name = "pypdf", specifier = ">=6.20.1" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=9.1.1" },
     { name = "python-multipart", specifier = ">=0.0.20" },
     { name = "uvicorn", extras = ["standard"], specifier = ">=0.54.0" },
 ]
+provides-extras = ["dev"]
 
 [package.metadata.requires-dev]
 dev = [

@@ -492,8 +492,7 @@ export default function DocumentVault() {
               <h2 id="comparison-heading" className="text-lg font-bold text-[#173f68]">Document discrepancy analysis</h2>
             </div>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-              Compare manually entered name, date of birth and address across files in the same holder category.
-              This does not read file contents or verify documents.
+              Compare name, date of birth and address across all uploaded documents belonging to the same holder category. Each pair shows matches, differences and missing details. Unreviewed metadata is provisional; this does not verify file contents.
             </p>
           </div>
           <button
@@ -517,7 +516,7 @@ export default function DocumentVault() {
             <div className="grid gap-3 sm:grid-cols-3">
               {[
                 { label: "Possible differences", value: currentAnalysis.findings.length },
-                { label: "Fields compared", value: currentAnalysis.comparableFieldPairs },
+                { label: "Matching field pairs", value: currentAnalysis.matchedFieldPairs },
                 { label: "Fields skipped (missing data)", value: currentAnalysis.skippedFieldPairs },
               ].map((stat) => (
                 <div key={stat.label} className="rounded-xl bg-[#f2f8f8] p-4">
@@ -527,6 +526,17 @@ export default function DocumentVault() {
               ))}
             </div>
 
+            <div className="rounded-xl border border-slate-200 bg-white p-4 text-slate-900" aria-label="Document-by-document field comparison">
+              <h3 className="font-bold text-slate-900">Exactly what matches and what needs checking</h3>
+              <p className="mt-1 text-sm text-slate-700">{documents.length} uploaded documents · {currentAnalysis.comparedPairs} same-holder document pairs · {currentAnalysis.comparableFieldPairs} populated field comparisons. Every field pair is listed below.</p>
+              <div className="mt-3 space-y-2">{currentAnalysis.comparisons.map((c, index) => (
+                <article key={`${c.firstId}-${c.secondId}-${c.field}-${index}`} className={`rounded-lg border p-3 text-sm ${c.status === "difference" ? "border-amber-400 bg-amber-50" : c.status === "match" ? "border-teal-300 bg-teal-50" : "border-slate-300 bg-slate-50"}`}>
+                  <div className="flex flex-wrap items-center justify-between gap-2"><strong className="capitalize text-slate-950">{c.field === "dateOfBirth" ? "Date of birth" : c.field}</strong><span className={`font-semibold ${c.status === "difference" ? "text-amber-900" : "text-slate-900"}`}>{c.status === "match" ? "MATCH" : c.status === "difference" ? "DIFFERENCE — REVIEW" : "MISSING DATA"}{c.needsReview ? " · unreviewed document" : ""}</span></div>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2"><p className="break-words text-slate-900"><strong>{c.firstName}</strong><span className="block">{c.firstValue || "Not provided"}</span></p><p className="break-words text-slate-900"><strong>{c.secondName}</strong><span className="block">{c.secondValue || "Not provided"}</span></p></div>
+                </article>
+              ))}</div>
+              {currentAnalysis.comparisons.length === 0 && <p className="mt-3 text-sm text-slate-700">No comparable holder pairs. Assign documents to the correct holder and review each file.</p>}
+            </div>
             {currentAnalysis.comparedPairs === 0 ? (
               <p className="rounded-xl border border-slate-200 p-4 text-sm text-slate-600">
                 No documents share a holder category. Set matching holders in Edit details before comparing.
@@ -538,8 +548,8 @@ export default function DocumentVault() {
             ) : currentAnalysis.findings.length === 0 ? (
               <div className="flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
                 <CheckCircle2 size={20} className="shrink-0 text-emerald-700" />
-                <p className="text-sm leading-6 text-emerald-900">
-                  No differences found in the populated fields compared. This does not confirm document validity or completeness.
+                <p className="text-sm leading-6 !text-white-950">
+                  No mismatches among the {currentAnalysis.comparableFieldPairs} populated field pairs. {currentAnalysis.skippedFieldPairs} field pairs remain unassessed because values are missing. Check unreviewed files before relying on these results.
                 </p>
               </div>
             ) : (
