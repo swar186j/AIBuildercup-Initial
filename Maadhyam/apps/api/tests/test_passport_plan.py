@@ -1,6 +1,6 @@
 """M5/M6 behavior tests. Put in apps/api/tests and run uv run pytest tests/test_passport_plan.py -q."""
 import pytest
-from fastapi.testclient import TestClient
+from starlette.testclient import TestClient
 from maadhyam_api.main import app
 
 client = TestClient(app)
