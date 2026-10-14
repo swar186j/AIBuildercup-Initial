@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse
 
 from maadhyam_api.config import get_settings
 from maadhyam_api.routes.gemini import router as gemini_router
+from maadhyam_api.routes.intelligence import router as intelligence_router
 from maadhyam_api.routes.extraction import router as extraction_router
 from maadhyam_api.routes.health import router as health_router
 from maadhyam_api.routes.services import router as services_router
@@ -63,6 +64,7 @@ def create_app() -> FastAPI:
     app.include_router(gemini_router, prefix="/api")
     app.include_router(extraction_router, prefix="/api")
     app.include_router(passport_rules_router, prefix="/api")
+    app.include_router(intelligence_router, prefix="/api")
     return app
 
 

@@ -1,0 +1,43 @@
+{
+  "suite": "Maadhyam Frontend E2E",
+  "base_url": "http://127.0.0.1:5173",
+  "results": [
+    {
+      "case": "FE01 Dashboard renders",
+      "status": "PASS",
+      "seconds": 0.37
+    },
+    {
+      "case": "FE02 Document Vault route and upload control",
+      "status": "PASS",
+      "seconds": 0.33
+    },
+    {
+      "case": "FE03 Fictional document upload stays local and needs review",
+      "status": "PASS",
+      "seconds": 0.34
+    },
+    {
+      "case": "FE04 Passport Guided Journey renders",
+      "status": "PASS",
+      "seconds": 0.32
+    },
+    {
+      "case": "FE05 Planner displays API-generated steps",
+      "status": "PASS",
+      "seconds": 0.33
+    },
+    {
+      "case": "FE06 Assistant opens and accepts local prompt",
+      "status": "PASS",
+      "seconds": 0.4
+    },
+    {
+      "case": "FE07 No uncaught browser page errors across core routes",
+      "status": "PASS",
+      "seconds": 1.83
+    }
+  ],
+  "passed": 7,
+  "failed": 0
+}

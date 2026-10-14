@@ -1,0 +1,42 @@
+{
+  "generatedAt": "2026-10-14T00:01:47.464223+00:00",
+  "results": [
+    {
+      "suite": "backend-full",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "suite": "frontend-smoke",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "suite": "frontend-functional",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "suite": "vault-e2e",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "suite": "reasoning-e2e",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "suite": "m9-browser",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "suite": "live-gemini-ocr",
+      "status": "NOT_RUN",
+      "detail": "Opt-in only; use --live-gemini with fictional docs and configured key"
+    }
+  ],
+  "passedSuites": 6,
+  "failedSuites": 0
+}
