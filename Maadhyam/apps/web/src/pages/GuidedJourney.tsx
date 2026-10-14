@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { assessPassport, type PassportAssessment } from "../services/passportAssessment";
+import { preparePassport, type PassportPlanResponse } from "../services/citizenIntelligence";
 import {
   Link,
   useSearchParams,
@@ -442,6 +443,16 @@ function PassportWizard({
   const [assessment, setAssessment] = useState<PassportAssessment | null>(null);
   const [assessmentError, setAssessmentError] = useState('');
   const [applicantDob, setApplicantDob] = useState('');
+  const [citizenIntelligence, setCitizenIntelligence] = useState<PassportPlanResponse | null>(null);
+  const [citizenIntelligenceError, setCitizenIntelligenceError] = useState('');
+  useEffect(() => {
+    let active = true;
+    preparePassport(documents, assistanceType, answers.applicantAgeGroup)
+      .then((result) => { if (active) { setCitizenIntelligence(result); setCitizenIntelligenceError(''); } })
+      .catch(() => { if (active) { setCitizenIntelligence(null); setCitizenIntelligenceError('Citizen intelligence is unavailable. Start the backend.'); } });
+    return () => { active = false; };
+  }, [documents, assistanceType, answers.applicantAgeGroup]);
+
   useEffect(() => {
     const controller = new AbortController();
     const handle = window.setTimeout(() => {
@@ -563,6 +574,33 @@ function PassportWizard({
         <label className="mt-4 block text-sm font-semibold" htmlFor="applicant-dob">Applicant date of birth</label>
         <input id="applicant-dob" type="date" value={applicantDob} onChange={event => setApplicantDob(event.target.value)} className="mt-2 w-full max-w-xs rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-900 [color-scheme:light] dark:border-slate-600 dark:bg-[#101A30] dark:text-white dark:[color-scheme:dark]" />
         <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Required to select the official date-of-birth evidence rule (1 October 2023 cutoff).</p>
+      </section>
+      <section className="rounded-2xl border border-[#253947] bg-[#162430] p-5 text-[#EAF4F7]" aria-label="Vault intelligence">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div><h3 className="font-bold text-[#2FE9C2]">Your Vault → Passport preparation</h3>
+            <p className="mt-1 text-xs text-[#A7BBC8]">Only manually reviewed self-held metadata informs comparisons. This is not an official eligibility decision.</p></div>
+          <Link to="/documents" className="text-sm font-semibold text-[#2FE9C2] underline">Review documents</Link>
+        </div>
+        {citizenIntelligenceError && <p role="alert" className="mt-3 text-sm text-amber-300">{citizenIntelligenceError}</p>}
+        {citizenIntelligence && <div className="mt-3 space-y-2 text-sm">
+          <p>{citizenIntelligence.assessment.documentCount} uploaded · {citizenIntelligence.assessment.reviewedSelfDocuments} reviewed self-held · {citizenIntelligence.assessment.findings.length} potential discrepancies</p>
+          {citizenIntelligence.assessment.findings.slice(0, 3).map((finding) => <p key={finding.id} className="rounded-lg bg-[#203440] p-3"><strong>{finding.field}:</strong> {finding.message}</p>)}
+          {citizenIntelligence.assessment.reviewedSelfDocuments === 0 && <p className="text-amber-200">Review your own document metadata in the Vault before relying on comparisons.</p>}
+          <div className="mt-4 space-y-3" aria-label="Personalized Passport checklist">
+            <h4 className="font-bold text-[#2FE9C2]">Personalized Passport checklist — {citizenIntelligence.passportPlan.scenarioTitle}</h4>
+            {citizenIntelligence.passportPlan.checklist.map(item => <div key={item.id} className="rounded-lg border border-[#345061] p-3">
+              <p className="font-semibold">{item.label}</p>
+              <p className="mt-1 text-xs text-[#A7BBC8]">{item.candidateDocumentIds.length ? `Possible Vault evidence: ${item.candidateDocumentIds.join(', ')}` : 'No reviewed applicant evidence matched this preparation category.'}</p>
+              <p className="mt-1 text-xs text-amber-200">{item.note}</p>
+            </div>)}
+            {citizenIntelligence.passportPlan.preparationBlockers.length > 0 && <div aria-label="Preparation blockers" className="rounded-lg border border-amber-500/30 p-3">
+              <p className="font-semibold text-amber-200">Preparation blockers to review</p>
+              <ul className="mt-2 list-disc space-y-1 pl-5">{citizenIntelligence.passportPlan.preparationBlockers.map(blocker => <li key={blocker}>{blocker}</li>)}</ul>
+            </div>}
+            <p className="text-xs text-[#A7BBC8]">{citizenIntelligence.passportPlan.disclaimer}</p>
+          </div>
+          <Link to="/planner" className="inline-block pt-1 font-semibold text-[#2FE9C2] underline">Open personalized resolution plan →</Link>
+        </div>}
       </section>
       <section className="rounded-3xl bg-gradient-to-r from-[#124b50] to-[#173f68] p-7 text-white md:p-9">
         <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold">

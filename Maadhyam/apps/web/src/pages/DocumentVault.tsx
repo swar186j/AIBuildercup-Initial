@@ -91,7 +91,7 @@ function isSupportedFile(file: File): boolean {
 }
 
 export default function DocumentVault() {
-  const { documents, addDocuments, removeDocument: removeStoredDocument, toggleReviewed, updateMetadata } = useDocuments();
+  const { documents, addDocuments, removeDocument: removeStoredDocument, toggleReviewed, updateMetadata, persistenceEnabled, persistenceReady, persistenceError, setLocalPersistence, clearAllDocuments } = useDocuments();
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<DocumentFilter>("all");
   const [dragging, setDragging] = useState(false);
@@ -276,9 +276,27 @@ export default function DocumentVault() {
         <p className="text-xs font-bold uppercase tracking-widest text-[#147d83]">Document workspace</p>
         <h1 className="mt-2 text-3xl font-bold text-[#173f68]">Document Vault</h1>
         <p className="mt-3 max-w-2xl leading-7 text-slate-600">
-          Organize and preview documents for government-service preparation. Files stay in this browser session only.
+          Organize and preview documents for government-service preparation. Files stay in this browser session unless you explicitly enable browser-local saving.
         </p>
       </div>
+
+      <section aria-label="Local Vault storage controls" className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="font-semibold text-[#173f68]">Browser-local Vault storage</p>
+            <p className="mt-1 text-sm text-slate-600">Off by default. When enabled, files and manually reviewed identity fields remain in this browser after refresh. Not encrypted; use fictional documents for demos. Nothing is uploaded by this storage feature.</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button type="button" disabled={!persistenceReady} onClick={() => void setLocalPersistence(!persistenceEnabled)}
+              className="rounded-lg border border-[#147d83] px-4 py-2 text-sm font-semibold text-[#147d83] disabled:opacity-50">
+              {persistenceEnabled ? "Disable local saving" : "Enable local saving"}
+            </button>
+            <button type="button" onClick={() => { if (window.confirm("Delete all Vault documents and saved browser copies?")) void clearAllDocuments(); }}
+              className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Clear all Vault data</button>
+          </div>
+        </div>
+        {persistenceError && <p role="alert" className="mt-2 text-sm text-red-700">{persistenceError}</p>}
+      </section>
 
       <div className="grid gap-4 sm:grid-cols-3">
         {[

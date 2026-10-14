@@ -1,0 +1,37 @@
+{
+  "suite": "LIVE GEMINI OCR \u2014 fictional PDFs",
+  "results": [
+    {
+      "file": "fictional_aadhaar.pdf",
+      "status": "PASS",
+      "http": 200,
+      "extractedName": "Rahul Kumar Sharma",
+      "extractedDOB": "2000-05-12",
+      "expectedName": "Rahul Kumar Sharma",
+      "expectedDOB": "2000-05-12",
+      "warnings": [
+        "Document is explicitly marked as a fictional test document / sample and is not a valid government ID."
+      ],
+      "attempts": 1,
+      "elapsedSeconds": 8.49,
+      "errorType": null
+    },
+    {
+      "file": "fictional_birth_certificate.pdf",
+      "status": "PASS",
+      "http": 200,
+      "extractedName": "Rahul Kumar Sharma",
+      "extractedDOB": "2000-05-12",
+      "expectedName": "Rahul Kumar Sharma",
+      "expectedDOB": "2000-05-12",
+      "warnings": [
+        "Document is explicitly marked as a fictional test document and not a valid ID."
+      ],
+      "attempts": 2,
+      "elapsedSeconds": 14.63,
+      "errorType": null
+    }
+  ],
+  "passed": 2,
+  "failed": 0
+}

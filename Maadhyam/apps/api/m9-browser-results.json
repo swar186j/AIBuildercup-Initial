@@ -1,0 +1,27 @@
+{
+  "suite": "M9 browser real-API no-live-Gemini",
+  "passed": 5,
+  "failed": 0,
+  "results": [
+    {
+      "case": "M9B01 Gemini consent required before sending",
+      "status": "PASS"
+    },
+    {
+      "case": "M9B02 Consent reset when Gemini mode toggled",
+      "status": "PASS"
+    },
+    {
+      "case": "M9B03 Reviewed Vault context reaches real local assistant",
+      "status": "PASS"
+    },
+    {
+      "case": "M9B04 Real UI name mismatch flows into grounded assistant",
+      "status": "PASS"
+    },
+    {
+      "case": "M9B05 Clear chat resets history and Gemini mode",
+      "status": "PASS"
+    }
+  ]
+}

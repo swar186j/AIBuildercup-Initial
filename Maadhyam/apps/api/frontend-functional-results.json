@@ -1,0 +1,131 @@
+{
+  "suite": "Maadhyam Real-API Frontend Functional Extended",
+  "passed": 22,
+  "failed": 0,
+  "known_gaps": 2,
+  "resolved_gaps": 0,
+  "results": [
+    {
+      "case": "FF01 Fresh journey uses real API and displays every returned checklist label",
+      "status": "PASS",
+      "seconds": 0.78
+    },
+    {
+      "case": "FF02 Reissue journey changes backend scenario and checklist",
+      "status": "PASS",
+      "seconds": 0.77
+    },
+    {
+      "case": "FF03 Correction journey sends correction scenario",
+      "status": "PASS",
+      "seconds": 0.72
+    },
+    {
+      "case": "FF04 Empty Vault produces backend blockers rendered in journey",
+      "status": "PASS",
+      "seconds": 0.75
+    },
+    {
+      "case": "FF05 Planner reflects real API task count and blockers",
+      "status": "PASS",
+      "seconds": 0.36
+    },
+    {
+      "case": "FF06 Planner must not claim official acceptance or verified completion",
+      "status": "PASS",
+      "seconds": 0.33
+    },
+    {
+      "case": "FF07 Unreviewed fictional upload cannot become accepted applicant evidence",
+      "status": "PASS",
+      "seconds": 1.17
+    },
+    {
+      "case": "FF08 API failure displays actionable planner error, not stale success",
+      "status": "PASS",
+      "seconds": 0.32
+    },
+    {
+      "case": "FF09 API failure displays visible journey error",
+      "status": "PASS",
+      "seconds": 0.36
+    },
+    {
+      "case": "FF10 Planner correction alternatives match backend response",
+      "status": "PASS",
+      "seconds": 0.33
+    },
+    {
+      "case": "FF11 Reviewed applicant document reaches Passport API with correct type and category",
+      "status": "PASS",
+      "seconds": 1.43
+    },
+    {
+      "case": "FF12 Reviewed family-held document is excluded from applicant evidence",
+      "status": "PASS",
+      "seconds": 1.38
+    },
+    {
+      "case": "FF13 Removing a reviewed document removes it from subsequent API payload",
+      "status": "PASS",
+      "seconds": 1.27
+    },
+    {
+      "case": "FF14 Unsupported executable upload is rejected and not sent to API",
+      "status": "PASS",
+      "seconds": 0.31
+    },
+    {
+      "case": "FF15 Empty file upload is rejected",
+      "status": "PASS",
+      "seconds": 0.31
+    },
+    {
+      "case": "FF16 File above 10 MB is rejected",
+      "status": "PASS",
+      "seconds": 1.59
+    },
+    {
+      "case": "FF17 Review toggle is reversible and reaches API as unreviewed",
+      "status": "PASS",
+      "seconds": 1.29
+    },
+    {
+      "case": "FF18 Vault search and review filter actually filter documents",
+      "status": "PASS",
+      "seconds": 0.47
+    },
+    {
+      "case": "FF19 Assistant uses real API with Gemini disabled by default and user prompt",
+      "status": "PASS",
+      "seconds": 0.68
+    },
+    {
+      "case": "FF20 Assistant shows failure when backend unavailable",
+      "status": "PASS",
+      "seconds": 0.45
+    },
+    {
+      "case": "FF21 Assistant Clear chat removes earlier user messages",
+      "status": "PASS",
+      "seconds": 0.47
+    },
+    {
+      "case": "FF22 Preview opens and closes for fictional image",
+      "status": "PASS",
+      "seconds": 0.45
+    },
+    {
+      "case": "GAP01 Vault has editable printed name and DOB for real mismatch detection",
+      "status": "XFAIL",
+      "seconds": 0.39,
+      "error": "Missing DOB field: cannot test DOB conflict from UI"
+    },
+    {
+      "case": "GAP02 Vault metadata survives browser reload",
+      "status": "XFAIL",
+      "seconds": 0.46,
+      "error": "In-memory Vault lost on refresh"
+    }
+  ]
+}

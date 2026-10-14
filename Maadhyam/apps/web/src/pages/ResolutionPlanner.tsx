@@ -1,104 +1,64 @@
-import { useMemo, useState } from "react";
-import { useWorkspace, plannerTasks } from "../context/WorkspaceContext";
+import { useEffect, useState } from "react";
+import ReasoningWorkspace from "../components/ReasoningWorkspace";
 import { Link } from "react-router-dom";
-import { AlertCircle, ArrowRight, CheckCircle2, ClipboardList, FileText, RotateCcw, ShieldCheck } from "lucide-react";
 import { useDocuments } from "../context/DocumentContext";
+import { preparePassport, type PassportPlanResponse } from "../services/citizenIntelligence";
 
 export default function ResolutionPlanner() {
   const { documents } = useDocuments();
-  const { plannerCompleted: completed, togglePlannerTask, resetPlanner } = useWorkspace();
-  const tasks = plannerTasks;
-  const [showAll, setShowAll] = useState(true);
-  const [notice, setNotice] = useState("");
-  const completeSet = useMemo(() => new Set(completed), [completed]);
-  const readyCount = tasks.filter((task) => !completeSet.has(task.id) && task.dependsOn.every((id) => completeSet.has(id))).length;
-  const progress = Math.round((completed.length / tasks.length) * 100);
-  const nextTask = tasks.find((task) => !completeSet.has(task.id) && task.dependsOn.every((id) => completeSet.has(id)));
-
-  function toggleTask(id: string) {
-    if (completeSet.has(id)) {
-      setNotice("Step reopened. Dependent steps were reopened as well.");
-    } else {
-      setNotice("Marked complete for this demo session. No government status was changed.");
-    }
-    togglePlannerTask(id);
-  }
-
-  return (
-    <div className="mx-auto max-w-6xl space-y-7 pb-24">
-      <header>
-        <p className="text-xs font-bold uppercase tracking-widest text-[#147d83]">Preparation workspace</p>
-        <h1 className="mt-2 text-3xl font-bold text-[#173f68]">Resolution Planner</h1>
-        <p className="mt-3 max-w-3xl leading-7 text-slate-600">Follow a practical sequence for reviewing documents and planning your next steps. This demo plan is illustrative, not an official passport checklist.</p>
-      </header>
-
-      <div className="rounded-xl border border-[#cde5e3] bg-[#f2f8f8] px-4 py-3 text-sm leading-6 text-[#173f68]">
-        <strong>Frontend demo:</strong> Tasks are marked manually. Document uploads do not automatically complete tasks, and progress resets on refresh. No government system is connected.
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-3">
-        {[
-          { label: "Steps completed", value: `${completed.length}/${tasks.length}`, icon: CheckCircle2 },
-          { label: "Ready to work on", value: readyCount, icon: ClipboardList },
-          { label: "Files in your Vault", value: documents.length, icon: FileText },
-        ].map(({ label, value, icon: Icon }) => (
-          <div key={label} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div className="flex items-center justify-between text-sm font-medium text-slate-600"><span>{label}</span><Icon size={20} className="text-[#147d83]" /></div>
-            <p className="mt-4 text-3xl font-bold text-[#173f68]">{value}</p>
-          </div>
-        ))}
-      </div>
-
-      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h2 className="text-lg font-bold text-[#173f68]">Your preparation plan</h2>
-            <p className="mt-1 text-sm text-slate-500">Complete prerequisite steps before marking later steps done.</p>
-          </div>
-          <button type="button" onClick={() => { resetPlanner(); setNotice("Demo plan reset."); }} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-sm font-semibold text-[#173f68] hover:bg-slate-50"><RotateCcw size={16} /> Reset plan</button>
-        </div>
-        <div className="mt-5 flex items-center justify-between text-sm"><span className="font-medium text-slate-600">Overall progress</span><span className="font-bold text-[#173f68]">{progress}%</span></div>
-        <div className="mt-2 h-3 overflow-hidden rounded-full bg-slate-100" role="progressbar" aria-label="Preparation plan progress" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
-          <div className="h-full rounded-full bg-[#147d83] transition-all" style={{ width: `${progress}%` }} />
-        </div>
-        {notice && <p role="status" className="mt-3 text-sm text-[#147d83]">{notice}</p>}
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-slate-600">{nextTask ? <>Next suggested step: <strong className="text-[#173f68]">{nextTask.title}</strong></> : <strong className="text-[#173f68]">All demo steps completed.</strong>}</p>
-          <button type="button" onClick={() => setShowAll((previous) => !previous)} className="text-sm font-semibold text-[#147d83] hover:underline">{showAll ? "Show actionable steps" : "Show all steps"}</button>
-        </div>
-
-        <ol className="mt-6 space-y-4">
-          {tasks.filter((task) => showAll || completeSet.has(task.id) || task.dependsOn.every((id) => completeSet.has(id))).map((task) => {
-            const done = completeSet.has(task.id);
-            const unlocked = task.dependsOn.every((id) => completeSet.has(id));
-            const blockers = task.dependsOn.filter((id) => !completeSet.has(id)).map((id) => tasks.find((item) => item.id === id)?.title).filter(Boolean);
-            return (
-              <li key={task.id} className={`rounded-2xl border p-4 sm:p-5 ${done ? "border-[#cde5e3] bg-[#f4faf9]" : unlocked ? "border-slate-200 bg-white" : "border-slate-200 bg-slate-50"}`}>
-                <div className="flex items-start gap-3">
-                  <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold ${done ? "bg-[#147d83] text-white" : "bg-slate-200 text-[#173f68]"}`}>{done ? <CheckCircle2 size={20} /> : tasks.indexOf(task) + 1}</div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <h3 className="font-bold text-[#173f68]">{task.title}</h3>
-                      <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${done ? "bg-emerald-100 text-emerald-800" : unlocked ? "bg-blue-50 text-blue-800" : "bg-amber-50 text-amber-800"}`}>{done ? "Done" : unlocked ? "Ready" : "Blocked"}</span>
-                    </div>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{task.description}</p>
-                    {blockers.length > 0 && <p className="mt-3 flex items-start gap-2 text-xs text-amber-800"><AlertCircle size={15} className="mt-0.5 shrink-0" /> First complete: {blockers.join(", ")}</p>}
-                    <div className="mt-4 flex flex-wrap items-center gap-4">
-                      <button type="button" disabled={!done && !unlocked} onClick={() => toggleTask(task.id)} className="rounded-xl bg-[#147d83] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#126a70] disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-600">{done ? "Reopen step" : "Mark step done"}</button>
-                      <Link to={task.href} className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#147d83] hover:underline">{task.action} <ArrowRight size={15} /></Link>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            );
-          })}
-        </ol>
+  const [assessment, setAssessment] = useState<PassportPlanResponse | null>(null);
+  const [error, setError] = useState("");
+  useEffect(() => {
+    let active = true;
+    preparePassport(documents)
+      .then((result) => { if (active) { setAssessment(result); setError(""); } })
+      .catch(() => { if (active) { setAssessment(null); setError("Cannot reach the intelligence API. Start the backend and retry."); } });
+    return () => { active = false; };
+  }, [documents]);
+  const completed = new Set<string>(); // No inferred completion from upload or category.
+  const citizen = assessment?.assessment;
+  const plan = assessment?.passportPlan;
+  return <div className="mx-auto max-w-5xl space-y-6 pb-24 text-[#173f68] dark:text-[#EAF4F7]">
+    <header><p className="text-xs font-bold uppercase tracking-widest text-[#087f79] dark:text-[#2FE9C2]">Preparation workspace</p>
+      <h1 className="mt-2 text-3xl font-bold">Resolution Planner</h1>
+      <p className="mt-2 text-slate-600 dark:text-[#A7BBC8]">A personalized preparation sequence from your reviewed Vault metadata. Not an official checklist or eligibility decision.</p>
+    </header>
+    <div className="flex flex-wrap gap-3"><Link to="/documents" className="rounded-lg bg-[#167E75] px-4 py-2 font-semibold text-white">Review Vault documents</Link>
+      <Link to="/services/passport" className="rounded-lg border border-slate-200 dark:border-[#253947] px-4 py-2 font-semibold text-[#087f79] dark:text-[#2FE9C2]">Passport services</Link></div>
+    {error && <p role="alert" className="rounded-lg border border-amber-500/40 p-4 text-amber-800 dark:text-amber-200">{error}</p>}
+    {!assessment && !error && <p role="status">Building your plan…</p>}
+    {citizen && plan && <>
+      <section className="rounded-2xl border border-slate-200 dark:border-[#253947] bg-white dark:bg-[#162430] p-5">
+        <h2 className="text-xl font-bold text-[#087f79] dark:text-[#2FE9C2]">Your document situation</h2>
+        <p className="mt-3">{citizen.documentCount} uploaded · {citizen.reviewedSelfDocuments} reviewed self-held · {citizen.findings.length} potential discrepancies</p>
+        <p className="mt-2 text-sm text-slate-600 dark:text-[#A7BBC8]">{citizen.readinessNote}</p>
+        {citizen.familyHolders.length > 0 && <p className="mt-2 text-sm text-slate-600 dark:text-[#A7BBC8]">Other document holders: {citizen.familyHolders.join(", ")}. Their documents are not treated as the applicant's identity.</p>}
       </section>
-
-      <div className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 text-xs leading-6 text-slate-600">
-        <ShieldCheck size={19} className="mt-0.5 shrink-0 text-[#147d83]" />
-        <p>Maadhyam is an independent preparation assistant. Completing this planner does not confirm document validity, eligibility, submission or government approval. Check the current official instructions before acting.</p>
-      </div>
-    </div>
-  );
+      {citizen.findings.length > 0 && <section className="space-y-3"><h2 className="text-lg font-bold">Items to investigate</h2>
+        {citizen.findings.map(f => <article key={f.id} className="rounded-xl border border-amber-500/30 bg-[#edf5f4] dark:bg-[#203440] p-4"><strong className="text-amber-800 dark:text-amber-200">{f.field}</strong><p className="mt-1 text-sm">{f.message}</p></article>)}</section>}
+      <section className="space-y-3" aria-label="Passport correction alternatives">
+        <h2 className="text-lg font-bold text-[#087f79] dark:text-[#2FE9C2]">Passport correction alternatives</h2>
+        {plan.resolutionOptions.length === 0 && <p className="text-sm text-slate-600 dark:text-[#A7BBC8]">No conflicting fields detected in reviewed applicant metadata. This does not establish official acceptance.</p>}
+        {plan.resolutionOptions.map(option => <article key={option.findingId} className="rounded-xl border border-slate-200 dark:border-[#253947] bg-white dark:bg-[#162430] p-4">
+          <h3 className="font-semibold">{option.field} — verify before correcting</h3>
+          <p className="mt-2 text-sm text-slate-600 dark:text-[#A7BBC8]">{option.reason}</p>
+          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm">{option.alternatives.map(alt => <li key={alt.id}>{alt.label}</li>)}</ul>
+        </article>)}
+        {plan.preparationBlockers.length > 0 && <div className="rounded-xl border border-amber-500/30 p-4" aria-label="Preparation blockers"><h3 className="font-semibold text-amber-800 dark:text-amber-200">Preparation blockers</h3><ul className="mt-2 list-disc pl-5 text-sm">{plan.preparationBlockers.map(blocker => <li key={blocker}>{blocker}</li>)}</ul></div>}
+        {plan.nextAction && <p className="rounded-lg border border-slate-200 dark:border-[#253947] p-3 text-sm"><strong>Suggested next action:</strong> {plan.nextAction}</p>}
+        <p className="text-xs text-slate-600 dark:text-[#A7BBC8]">{plan.disclaimer}</p>
+      </section>
+      <section className="space-y-3"><h2 className="text-lg font-bold">Your next steps</h2>
+        {([...citizen.tasks].sort((a, b) => { const ai = plan.orderedTaskIds.indexOf(a.id); const bi = plan.orderedTaskIds.indexOf(b.id); return (ai < 0 ? 999 : ai) - (bi < 0 ? 999 : bi); })).map((task, index) => { const blocked = task.dependsOn.some(id => !completed.has(id)); return <article key={task.id} className="rounded-xl border border-slate-200 dark:border-[#253947] bg-white dark:bg-[#162430] p-4">
+          <div className="flex gap-3"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#edf5f4] dark:bg-[#203440] text-[#087f79] dark:text-[#2FE9C2]">{index + 1}</span>
+            <div><h3 className="font-bold">{task.title}</h3><p className="mt-1 text-sm text-slate-600 dark:text-[#A7BBC8]">{task.reason}</p>
+              {task.dependsOn.length > 0 && <p className="mt-2 text-xs text-[#087f79] dark:text-[#2FE9C2]">Prerequisites: {task.dependsOn.join(", ")}</p>}
+              <p className="mt-1 text-xs text-slate-600 dark:text-[#A7BBC8]">{blocked ? "Requires prerequisite review" : "Suggested preparation step"} · Completion is not automatically verified.</p>
+            </div></div></article>; })}</section>
+      <section className="rounded-xl border border-slate-200 dark:border-[#253947] bg-white dark:bg-[#162430] p-4 text-sm"><h2 className="font-bold text-[#087f79] dark:text-[#2FE9C2]">What-if simulation</h2>
+        <p className="mt-2 text-slate-600 dark:text-[#A7BBC8]">If every detected conflict is resolved, {citizen.whatIf.allConflictsResolved.remainingReviewTasks} review tasks remain in this illustrative scenario. This does not establish application readiness.</p></section>
+      <ReasoningWorkspace />
+      <a href={citizen.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-block text-sm font-semibold text-[#087f79] dark:text-[#2FE9C2] underline">Check official Passport Seva guidance ↗</a>
+    </>}
+  </div>;
 }
