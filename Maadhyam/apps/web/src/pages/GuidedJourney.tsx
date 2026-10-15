@@ -428,23 +428,85 @@ export default function GuidedJourney() {
     />
   );
 }
+// Browser-only demo draft. Do not store real identity data in localStorage.
+const JOURNEY_STORAGE_PREFIX = "maadhyam:passport-journey:v1:";
+
+type SavedJourney = {
+  stepIndex: number;
+  answers: PassportJourneyAnswers;
+  applicantDob: string;
+};
+
+function loadJourney(assistanceType: PassportAssistanceType): SavedJourney {
+  const fallback: SavedJourney = {
+    stepIndex: 0,
+    answers: { ...initialPassportAnswers, assistanceType },
+    applicantDob: "",
+  };
+  try {
+    const raw = window.localStorage.getItem(JOURNEY_STORAGE_PREFIX + assistanceType);
+    if (!raw) return fallback;
+    const saved: unknown = JSON.parse(raw);
+    if (!saved || typeof saved !== "object") return fallback;
+    const data = saved as Partial<SavedJourney>;
+    if (!data.answers || typeof data.answers !== "object") return fallback;
+    const allowedKeys = Object.keys(initialPassportAnswers) as (keyof PassportJourneyAnswers)[];
+    const answers = { ...fallback.answers };
+    for (const key of allowedKeys) {
+      const value = data.answers[key];
+      if (typeof value === "string" && value.length <= 80) {
+        // All questionnaire values are short predefined choices.
+        (answers as unknown as Record<string, string>)[key] = value;
+      }
+    }
+    answers.assistanceType = assistanceType;
+    const maxStep = passportJourneySteps.length - 1;
+    const stepIndex = typeof data.stepIndex === "number" && Number.isInteger(data.stepIndex)
+      ? Math.max(0, Math.min(data.stepIndex, maxStep)) : 0;
+    const applicantDob = typeof data.applicantDob === "string" && /^\d{4}-\d{2}-\d{2}$/.test(data.applicantDob)
+      ? data.applicantDob : "";
+    return { stepIndex, answers, applicantDob };
+  } catch {
+    return fallback;
+  }
+}
+
 function PassportWizard({
   assistanceType,
 }: {
   assistanceType: PassportAssistanceType;
 }) {
   const { documents } = useDocuments();
-  const [stepIndex, setStepIndex] = useState(0);
-  const [answers, setAnswers] = useState<PassportJourneyAnswers>({
-    ...initialPassportAnswers,
-    assistanceType,
-  });
+  const [savedJourney] = useState(() => loadJourney(assistanceType));
+  const [stepIndex, setStepIndex] = useState(savedJourney.stepIndex);
+  const [answers, setAnswers] = useState<PassportJourneyAnswers>(savedJourney.answers);
   const [showValidation, setShowValidation] = useState(false);
   const [assessment, setAssessment] = useState<PassportAssessment | null>(null);
   const [assessmentError, setAssessmentError] = useState('');
-  const [applicantDob, setApplicantDob] = useState('');
+  const [applicantDob, setApplicantDob] = useState(savedJourney.applicantDob);
   const [citizenIntelligence, setCitizenIntelligence] = useState<PassportPlanResponse | null>(null);
   const [citizenIntelligenceError, setCitizenIntelligenceError] = useState('');
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(
+        JOURNEY_STORAGE_PREFIX + assistanceType,
+        JSON.stringify({ stepIndex, answers, applicantDob } satisfies SavedJourney),
+      );
+    } catch {
+      // Private browsing or disabled storage: journey still works for this session.
+    }
+  }, [assistanceType, stepIndex, answers, applicantDob]);
+
+  function startOver() {
+    if (!window.confirm("Start this journey over? Saved answers and date of birth for this assistance type will be cleared.")) return;
+    setStepIndex(0);
+    setAnswers({ ...initialPassportAnswers, assistanceType });
+    setApplicantDob("");
+    setShowValidation(false);
+    setAssessment(null);
+    setAssessmentError("");
+  }
+
   useEffect(() => {
     let active = true;
     preparePassport(documents, assistanceType, answers.applicantAgeGroup)
@@ -570,6 +632,10 @@ function PassportWizard({
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Answer the questions below. Your official-source checklist is shown after the questionnaire.</p>
           </div>
           <a className="text-xs font-semibold text-teal-700 dark:text-[#96B1FF] underline underline-offset-4" href="https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp" target="_blank" rel="noreferrer">Passport Seva Document Advisor ↗</a>
+        </div>
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-teal-200 bg-teal-50 p-3 text-xs text-teal-900 dark:border-[#345061] dark:bg-[#203440] dark:text-[#EAF4F7]">
+          <p>Demo draft autosaved in this browser. Refresh to resume. Not encrypted or synced to an account; use fictional details only.</p>
+          <button type="button" onClick={startOver} className="rounded-lg border border-teal-400 px-3 py-2 font-semibold hover:bg-teal-100 dark:hover:bg-[#253947]">Start over</button>
         </div>
         <label className="mt-4 block text-sm font-semibold" htmlFor="applicant-dob">Applicant date of birth</label>
         <input id="applicant-dob" type="date" value={applicantDob} onChange={event => setApplicantDob(event.target.value)} className="mt-2 w-full max-w-xs rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-900 [color-scheme:light] dark:border-slate-600 dark:bg-[#101A30] dark:text-white dark:[color-scheme:dark]" />

@@ -13,6 +13,7 @@ from maadhyam_api.routes.extraction import router as extraction_router
 from maadhyam_api.routes.health import router as health_router
 from maadhyam_api.routes.services import router as services_router
 from maadhyam_api.routes.passport_rules import router as passport_rules_router
+from maadhyam_api.routes.applications import router as applications_router
 
 logger = logging.getLogger(__name__)
 
@@ -65,6 +66,7 @@ def create_app() -> FastAPI:
     app.include_router(extraction_router, prefix="/api")
     app.include_router(passport_rules_router, prefix="/api")
     app.include_router(intelligence_router, prefix="/api")
+    app.include_router(applications_router, prefix="/api")
     return app
 
 

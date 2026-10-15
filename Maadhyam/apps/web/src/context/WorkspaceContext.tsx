@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { applicationApi, type SavedApplication } from "../services/applicationApi";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
 export type Status = "draft" | "in-progress" | "completed";
 export type Application = {
@@ -12,6 +13,20 @@ export type Application = {
   updated: string;
   steps: string[];
 };
+
+const defaultSteps = ["Select assistance type", "Answer guided questions", "Review document readiness", "Prepare next steps"];
+function fromBackend(saved: SavedApplication): Application {
+  // Backend payload is untrusted; never assume it has frontend display fields.
+  const kind = saved.kind.toLowerCase();
+  const type = kind === "reissue" ? "Passport reissue preparation" : kind === "fresh" ? "Fresh passport preparation" : "Passport preparation";
+  return {
+    id: saved.id, service: "Passport", type, status: saved.status,
+    completedSteps: 0, totalSteps: 4,
+    nextAction: "Start the passport guided journey",
+    updated: `Backend draft · ${new Date(saved.updated_at).toLocaleDateString()}`,
+    steps: defaultSteps,
+  };
+}
 
 const initialApplications: Application[] = [
   {
@@ -41,23 +56,84 @@ export const plannerTasks = [
 
 type WorkspaceValue = {
   applications: Application[];
-  createDraft: () => string;
+  createDraft: () => Promise<{ id: string; savedToBackend: boolean }>;
+  backendState: "loading" | "connected" | "offline";
   plannerCompleted: string[];
   togglePlannerTask: (id: string) => void;
   resetPlanner: () => void;
 };
+const STORAGE_KEY = "maadhyam.workspace.v1";
+
+type SavedWorkspace = { applications: Application[]; plannerCompleted: string[] };
+function loadWorkspace(): SavedWorkspace {
+  const fallback = { applications: initialApplications, plannerCompleted: [] as string[] };
+  if (typeof window === "undefined") return fallback;
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return fallback;
+    const saved: unknown = JSON.parse(raw);
+    if (!saved || typeof saved !== "object") return fallback;
+    const data = saved as Partial<SavedWorkspace>;
+    const applications = Array.isArray(data.applications) && data.applications.every((item) =>
+      item && typeof item === "object" && typeof item.id === "string" &&
+      typeof item.service === "string" && typeof item.type === "string" &&
+      ["draft", "in-progress", "completed"].includes(item.status) &&
+      typeof item.completedSteps === "number" && typeof item.totalSteps === "number" &&
+      typeof item.nextAction === "string" && typeof item.updated === "string" &&
+      Array.isArray(item.steps) && item.steps.every((step: unknown) => typeof step === "string")
+    ) ? data.applications : fallback.applications;
+    const validTaskIds = new Set(plannerTasks.map((task) => task.id));
+    const plannerCompleted = Array.isArray(data.plannerCompleted)
+      ? data.plannerCompleted.filter((id): id is string => typeof id === "string" && validTaskIds.has(id))
+      : [];
+    return { applications, plannerCompleted };
+  } catch {
+    return fallback;
+  }
+}
+
 const WorkspaceContext = createContext<WorkspaceValue | null>(null);
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
-  const [applications, setApplications] = useState<Application[]>(initialApplications);
-  const [plannerCompleted, setPlannerCompleted] = useState<string[]>([]);
-  function createDraft() {
-    const id = `LOCAL-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
-    setApplications((previous) => [{
-      id, service: "Passport", type: "New passport preparation", status: "draft",
-      completedSteps: 0, totalSteps: 4, nextAction: "Start the passport guided journey",
-      updated: "Created this session", steps: ["Select assistance type", "Answer guided questions", "Review document readiness", "Prepare next steps"],
-    }, ...previous]);
-    return id;
+  const [initial] = useState(loadWorkspace);
+  const [applications, setApplications] = useState<Application[]>(initial.applications);
+  const [plannerCompleted, setPlannerCompleted] = useState<string[]>(initial.plannerCompleted);
+  const [backendState, setBackendState] = useState<"loading" | "connected" | "offline">("loading");
+  useEffect(() => {
+    let active = true;
+    applicationApi.list().then((remote) => {
+      if (!active) return;
+      const mapped = remote.map(fromBackend);
+      setApplications(previous => {
+        const remoteIds = new Set(mapped.map(app => app.id));
+        return [...mapped, ...previous.filter(app => !remoteIds.has(app.id))];
+      });
+      setBackendState("connected");
+    }).catch(() => { if (active) setBackendState("offline"); });
+    return () => { active = false; };
+  }, []);
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ applications, plannerCompleted }));
+    } catch {
+      // Storage may be disabled or full; keep the workspace usable for this session.
+    }
+  }, [applications, plannerCompleted]);
+  async function createDraft(): Promise<{ id: string; savedToBackend: boolean }> {
+    try {
+      const saved = await applicationApi.create("fresh");
+      setApplications(previous => [fromBackend(saved), ...previous.filter(app => app.id !== saved.id)]);
+      setBackendState("connected");
+      return { id: saved.id, savedToBackend: true };
+    } catch {
+      const id = `LOCAL-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+      setApplications(previous => [{
+        id, service: "Passport", type: "New passport preparation", status: "draft",
+        completedSteps: 0, totalSteps: 4, nextAction: "Start the passport guided journey",
+        updated: "Saved in this browser", steps: defaultSteps,
+      }, ...previous]);
+      setBackendState("offline");
+      return { id, savedToBackend: false };
+    }
   }
   function togglePlannerTask(id: string) {
     setPlannerCompleted((previous) => {
@@ -80,7 +156,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       return [...previous, id];
     });
   }
-  return <WorkspaceContext.Provider value={{ applications, createDraft, plannerCompleted, togglePlannerTask, resetPlanner: () => setPlannerCompleted([]) }}>{children}</WorkspaceContext.Provider>;
+  return <WorkspaceContext.Provider value={{ applications, createDraft, backendState, plannerCompleted, togglePlannerTask, resetPlanner: () => setPlannerCompleted([]) }}>{children}</WorkspaceContext.Provider>;
 }
 export function useWorkspace() {
   const context = useContext(WorkspaceContext);

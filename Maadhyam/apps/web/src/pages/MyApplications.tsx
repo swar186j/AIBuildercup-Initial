@@ -13,7 +13,8 @@ const statusStyle: Record<Status, string> = {
 type Filter = "all" | Status;
 
 export default function MyApplications() {
-  const { applications, createDraft: createWorkspaceDraft } = useWorkspace();
+  const { applications, createDraft: createWorkspaceDraft, backendState } = useWorkspace();
+  const [creating, setCreating] = useState(false);
   const [filter, setFilter] = useState<Filter>("all");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -24,11 +25,14 @@ export default function MyApplications() {
     `${app.service} ${app.type} ${app.id}`.toLowerCase().includes(query.trim().toLowerCase()),
   ), [applications, filter, query]);
 
-  function createDraft() {
-    const id = createWorkspaceDraft();
+  async function createDraft() {
+    if (creating) return;
+    setCreating(true);
+    const { id, savedToBackend } = await createWorkspaceDraft();
+    setCreating(false);
     setFilter("all");
     setQuery("");
-    setNotice("Demo draft created in this browser session. It is not a government application.");
+    setNotice(savedToBackend ? "Demo draft saved to the local FastAPI database. Not a government application." : "Backend unavailable: demo draft saved only in this browser. Not a government application.");
     setSelectedId(id);
   }
 
@@ -40,13 +44,13 @@ export default function MyApplications() {
           <h1 className="mt-2 text-3xl font-bold text-[#173f68]">My Applications</h1>
           <p className="mt-3 max-w-2xl leading-7 text-slate-600">Track preparation progress, pending tasks and next steps in one place.</p>
         </div>
-        <button type="button" onClick={createDraft} className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70]">
-          <Plus size={18} /> New demo draft
+        <button type="button" onClick={createDraft} disabled={creating} className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70]">
+          <Plus size={18} /> {creating ? "Creating…" : "New demo draft"}
         </button>
       </header>
 
       <div className="rounded-xl border border-[#cde5e3] bg-[#f2f8f8] px-4 py-3 text-sm leading-6 text-[#173f68]">
-        <strong>Frontend demo:</strong> These are fictional preparation records, not submitted applications or official status updates. Changes disappear when you refresh the page.
+        <strong>Demo workspace:</strong> Fictional preparation records only, not submitted applications or official status updates. Browser records survive refresh. Backend connection: {backendState === "connected" ? "connected (new drafts saved to local API)" : backendState === "loading" ? "checking…" : "offline (new drafts stay in this browser)"}. Existing browser-only drafts are not automatically uploaded.
       </div>
       {notice && <p role="status" className="text-sm text-[#147d83]">{notice}</p>}
 

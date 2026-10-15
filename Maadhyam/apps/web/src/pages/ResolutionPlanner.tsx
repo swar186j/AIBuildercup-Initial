@@ -4,6 +4,18 @@ import { Link } from "react-router-dom";
 import { useDocuments } from "../context/DocumentContext";
 import { preparePassport, type PassportPlanResponse } from "../services/citizenIntelligence";
 
+const COMPLETED_STORAGE_KEY = "maadhyam:planner-dynamic-completed:v1";
+
+function readCompletedTasks(): string[] {
+  try {
+    const stored = localStorage.getItem(COMPLETED_STORAGE_KEY);
+    const parsed: unknown = stored ? JSON.parse(stored) : [];
+    return Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
 export default function ResolutionPlanner() {
   const { documents } = useDocuments();
   const [assessment, setAssessment] = useState<PassportPlanResponse | null>(null);
@@ -15,7 +27,38 @@ export default function ResolutionPlanner() {
       .catch(() => { if (active) { setAssessment(null); setError("Cannot reach the intelligence API. Start the backend and retry."); } });
     return () => { active = false; };
   }, [documents]);
-  const completed = new Set<string>(); // No inferred completion from upload or category.
+  const [completedIds, setCompletedIds] = useState<string[]>(readCompletedTasks);
+  useEffect(() => {
+    try { localStorage.setItem(COMPLETED_STORAGE_KEY, JSON.stringify(completedIds)); }
+    catch { /* Browser storage may be unavailable; UI still works this session. */ }
+  }, [completedIds]);
+  const completed = new Set(completedIds);
+  function toggleTask(id: string) {
+    if (!assessment) return;
+    const tasks = assessment.assessment.tasks;
+    const target = tasks.find(task => task.id === id);
+    if (!target) return;
+    setCompletedIds(previous => {
+      const next = new Set(previous);
+      if (next.has(id)) {
+        next.delete(id);
+        // Undoing a prerequisite also undoes every dependent task transitively.
+        let changed = true;
+        while (changed) {
+          changed = false;
+          for (const task of tasks) {
+            if (next.has(task.id) && task.dependsOn.some(dep => !next.has(dep))) {
+              next.delete(task.id);
+              changed = true;
+            }
+          }
+        }
+      } else if (target.dependsOn.every(dep => next.has(dep))) {
+        next.add(id);
+      }
+      return [...next];
+    });
+  }
   const citizen = assessment?.assessment;
   const plan = assessment?.passportPlan;
   return <div className="mx-auto max-w-5xl space-y-6 pb-24 text-[#173f68] dark:text-[#EAF4F7]">
@@ -53,7 +96,12 @@ export default function ResolutionPlanner() {
           <div className="flex gap-3"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#edf5f4] dark:bg-[#203440] text-[#087f79] dark:text-[#2FE9C2]">{index + 1}</span>
             <div><h3 className="font-bold">{task.title}</h3><p className="mt-1 text-sm text-slate-600 dark:text-[#A7BBC8]">{task.reason}</p>
               {task.dependsOn.length > 0 && <p className="mt-2 text-xs text-[#087f79] dark:text-[#2FE9C2]">Prerequisites: {task.dependsOn.join(", ")}</p>}
-              <p className="mt-1 text-xs text-slate-600 dark:text-[#A7BBC8]">{blocked ? "Requires prerequisite review" : "Suggested preparation step"} · Completion is not automatically verified.</p>
+              <p className="mt-1 text-xs text-slate-600 dark:text-[#A7BBC8]">{completed.has(task.id) ? "Manually marked complete (not independently verified)" : blocked ? "Requires prerequisite review" : "Suggested preparation step"} · Completion is not automatically verified.</p>
+              <button type="button" onClick={() => toggleTask(task.id)} disabled={blocked && !completed.has(task.id)}
+                aria-pressed={completed.has(task.id)}
+                className="mt-3 rounded-lg border border-[#167E75] px-3 py-2 text-sm font-semibold text-[#087f79] dark:text-[#2FE9C2] disabled:cursor-not-allowed disabled:opacity-40">
+                {completed.has(task.id) ? "Undo completion" : "Mark complete"}
+              </button>
             </div></div></article>; })}</section>
       <section className="rounded-xl border border-slate-200 dark:border-[#253947] bg-white dark:bg-[#162430] p-4 text-sm"><h2 className="font-bold text-[#087f79] dark:text-[#2FE9C2]">What-if simulation</h2>
         <p className="mt-2 text-slate-600 dark:text-[#A7BBC8]">If every detected conflict is resolved, {citizen.whatIf.allConflictsResolved.remainingReviewTasks} review tasks remain in this illustrative scenario. This does not establish application readiness.</p></section>
