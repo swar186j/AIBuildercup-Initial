@@ -1,5 +1,8 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
+import PreparationStorageControls from '../components/PreparationStorageControls';
+import PageHero from "../components/PageHero";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight, CheckCircle2, ClipboardList,
@@ -29,13 +32,14 @@ const muted = "text-slate-600 dark:text-slate-400";
 const accent = "text-[#147d83] dark:text-[#2FE9C2]";
 
 export default function MyApplications() {
-  const { applications, createDraft: createWorkspaceDraft } = useWorkspace();
+  const { applications, createDraft: createWorkspaceDraft, deletePreparation } = useWorkspace();
 
   const [filter, setFilter] = useState<Filter>("all");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [notice, setNotice] = useState("");
 
+  useDialogFocus(!!selectedId,'[aria-labelledby="application-detail-title"]',()=>setSelectedId(null));
   const selected = applications.find(app => app.id === selectedId);
 
   const filtered = useMemo(
@@ -50,7 +54,11 @@ export default function MyApplications() {
     [applications, filter, query]
   );
 
+  const creating=useRef(false);
+  useEffect(()=>{if(!selectedId)creating.current=false;},[selectedId]);
   function createDraft() {
+    if(creating.current)return;
+    creating.current=true;
     const id = createWorkspaceDraft();
     setFilter("all");
     setQuery("");
@@ -62,39 +70,23 @@ export default function MyApplications() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-7 pb-24">
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className={`text-xs font-bold uppercase tracking-widest ${accent}`}>
-            Your preparation workspace
-          </p>
-
-          <h1 className={`mt-2 text-3xl font-bold ${heading}`}>
-            My Preparations
-          </h1>
-
-          <p className={`mt-3 max-w-2xl leading-7 ${muted}`}>
-            Keep track of your preparation records, review pending
-            steps and continue where you left off.
-          </p>
+      <PageHero eyebrow="Your preparation workspace" title="My Preparations" description="Keep track of your preparation records, review pending steps and continue where you left off." />
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div className="min-w-0 flex-1 rounded-xl border border-[#cde5e3] bg-[#f2f8f8] px-4 py-3 text-sm leading-6 text-[#173f68] dark:border-[#293956] dark:bg-[#18243B] dark:text-slate-200">
+          <strong>Preparation only:</strong> These are fictional local preparation records, not government applications or official status updates. Session-only changes disappear when you refresh unless you explicitly enable preparation saving below.
         </div>
-
         <button
           type="button"
+          disabled={!!selectedId}
           onClick={createDraft}
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70]"
+          className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70] lg:self-auto"
         >
           <Plus size={18} />
           Start new preparation
         </button>
-      </header>
-
-      <div className="rounded-xl border border-[#cde5e3] bg-[#f2f8f8] px-4 py-3 text-sm leading-6 text-[#173f68] dark:border-[#293956] dark:bg-[#18243B] dark:text-slate-200">
-        <strong>Preparation only:</strong> These are fictional
-        local preparation records, not government applications
-        or official status updates. Changes disappear when you
-        refresh the page.
       </div>
 
+      <PreparationStorageControls />
       {notice && (
         <p role="status" className={`text-sm ${accent}`}>
           {notice}
@@ -354,9 +346,10 @@ export default function MyApplications() {
               ))}
             </ol>
 
+            {selected.journey&&<button type="button" onClick={()=>{deletePreparation(selected.id);setSelectedId(null);}} className="mt-4 text-sm text-red-700 underline">Delete this preparation</button>}
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <Link
-                to="/services/passport/journey"
+                to={selected.journey?`/services/passport/journey?type=${selected.journey.assistanceType}&preparation=${encodeURIComponent(selected.id)}`:"/services/passport/journey"}
                 onClick={() => setSelectedId(null)}
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#147d83] px-4 py-3 text-sm font-semibold text-white hover:bg-[#126a70]"
               >

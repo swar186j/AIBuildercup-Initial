@@ -1,0 +1,71 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/documents",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/household/assess",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/household/assess",
+      "request": {
+        "members": [
+          {
+            "id": "applicant",
+            "label": "Applicant (this workspace)",
+            "relationship": "self",
+            "dependsOnMemberIds": [],
+            "dependsOnDocumentIds": [],
+            "relationshipEvidenceDocumentIds": []
+          }
+        ],
+        "documents": []
+      },
+      "response": {
+        "memberCount": 1,
+        "documentCount": 0,
+        "dependencyGraph": {
+          "nodes": [
+            {
+              "id": "member:applicant",
+              "label": "Applicant (this workspace)",
+              "kind": "member"
+            }
+          ],
+          "edges": [],
+          "executionOrder": [
+            "member:applicant"
+          ],
+          "cycleOrBlockedNodeIds": []
+        },
+        "missingRelationshipEvidenceMemberIds": [],
+        "reviewedEvidenceByMember": {
+          "applicant": []
+        },
+        "ownershipAssociations": [],
+        "applicantLabelMissing": false,
+        "officialRelationshipVerified": false,
+        "crossAccountAuthorizationVerified": false,
+        "disclaimer": "Local preparation labels and user-confirmed associations only. Relationships and evidence acceptance require official verification. No authentication or cross-account authorization is provided."
+      }
+    }
+  ]
+}

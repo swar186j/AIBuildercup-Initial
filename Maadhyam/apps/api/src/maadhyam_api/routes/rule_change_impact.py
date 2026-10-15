@@ -24,6 +24,7 @@ class ImpactDocument(BaseModel):
 
 
 class CompareRequest(BaseModel):
+    baselineVersion: str | None = None
     proposedPack: dict[str, Any]
     documents: list[ImpactDocument] = Field(default_factory=list, max_length=60)
 
@@ -205,9 +206,19 @@ def compare_packs(
     }
 
 
+@router.get('/versions')
+def available_versions():
+    current = pack()
+    return {'versions': [{'version': current['version'], 'kind': 'stored-reference', 'pack': current}],
+            'officialChangeVerified': False,
+            'note': 'Only locally stored complete rule packs are available. Source content hashes are not historical rule packs. No live update is implied.'}
+
+
 @router.post("/compare")
 def compare_rules(request: CompareRequest):
     try:
+        if request.baselineVersion is not None and request.baselineVersion != pack()['version']:
+            raise ValueError('Requested comparison baseline is unavailable; refresh available versions')
         return compare_packs(
             pack(),
             request.proposedPack,

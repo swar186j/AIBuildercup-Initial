@@ -1,0 +1,10 @@
+........................................F.....................           [100%]
+=================================== FAILURES ===================================
+_________________________ test_reasoning_whatif_family _________________________
+qa/test_browser.py:219: in test_reasoning_whatif_family
+    assert 'printedName-conflict' in data['simulations'][0]['resolvedFindingIds']
+                                     ^^^^^^^^^^^^^^^^^^^^^^
+E   IndexError: list index out of range
+=========================== short test summary info ============================
+FAILED qa/test_browser.py::test_reasoning_whatif_family - IndexError: list in...
+1 failed, 61 passed in 41.41s

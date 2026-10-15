@@ -1,3 +1,4 @@
+from maadhyam_api.routes.household import router as household_router
 """Maadhyam FastAPI application factory."""
 import logging
 
@@ -69,6 +70,7 @@ def create_app() -> FastAPI:
     app.include_router(rule_change_impact_router, prefix="/api")
     app.include_router(intelligence_router, prefix="/api")
     app.include_router(citizen_workflows_router, prefix="/api")
+    app.include_router(household_router, prefix="/api")
 
     @app.post('/api/intelligence/advanced-plan')
     def advanced_plan(request: PlanningRequest):

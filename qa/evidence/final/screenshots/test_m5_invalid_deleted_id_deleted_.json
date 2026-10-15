@@ -1,0 +1,31 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/applications",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/services/passport/journey?preparation=LOCAL-6fb4d820-b9e4-46dd-ab0b-1fc57634fe9d",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    }
+  ],
+  "apiAssertions": []
+}

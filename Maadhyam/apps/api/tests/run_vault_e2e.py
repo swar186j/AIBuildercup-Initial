@@ -3,13 +3,14 @@
 """Real browser + real backend checks. No API mocking. Fictional documents only."""
 
 import traceback
+import os
 from playwright.sync_api import sync_playwright
 
 PNG = bytes.fromhex(
     "89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000b49444154789c636000020000050001a5f645400000000049454e44ae426082"
 )
 
-BASE = "http://127.0.0.1:5173"
+BASE = os.environ.get("MAADHYAM_TEST_WEB", "http://127.0.0.1:5173")
 DB_NAME = "maadhyam-local-vault-v1"
 DB_STORE = "documents"
 
@@ -136,10 +137,10 @@ def main():
             if services.count():
                 services.first.click()
 
-            page.goto("/services/passport/journey?type=fresh")
+            page.goto("/planner")
 
             page.get_by_label(
-                "Personalized Passport checklist"
+                "Passport correction alternatives"
             ).wait_for(timeout=15000)
 
             assert captures, "No passport-plan API request"
@@ -286,7 +287,7 @@ def main():
             ).wait_for(timeout=10000)
 
             # Allow hydration and any pending autosave to settle.
-            page.wait_for_timeout(1000)
+            page.get_by_text("No documents yet", exact=True).wait_for()
 
             aadhaar_count = page.get_by_text(
                 "fictional_aadhaar.png"

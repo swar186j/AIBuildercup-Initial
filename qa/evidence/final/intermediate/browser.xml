@@ -1,0 +1,1200 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="2" failures="24" skipped="0" tests="159" time="128.987" timestamp="2026-10-15T14:50:36.371262+05:30" hostname="Swar"><testcase classname="qa.test_browser" name="test_navigation[1440-/-]" time="0.902" /><testcase classname="qa.test_browser" name="test_navigation[1440-/services-Find a government service]" time="0.174" /><testcase classname="qa.test_browser" name="test_navigation[1440-/documents-Document Vault]" time="0.184" /><testcase classname="qa.test_browser" name="test_navigation[1440-/applications-My Preparations]" time="0.182" /><testcase classname="qa.test_browser" name="test_navigation[1440-/planner-Resolution Planner]" time="0.299" /><testcase classname="qa.test_browser" name="test_navigation[1440-/workflows-Citizen workflow assistant]" time="0.170" /><testcase classname="qa.test_browser" name="test_navigation[1440-/services/passport-]" time="0.181" /><testcase classname="qa.test_browser" name="test_navigation[1440-/services/passport/journey?type=fresh-]" time="0.207" /><testcase classname="qa.test_browser" name="test_navigation[390-/-]" time="0.156" /><testcase classname="qa.test_browser" name="test_navigation[390-/services-Find a government service]" time="0.135" /><testcase classname="qa.test_browser" name="test_navigation[390-/documents-Document Vault]" time="0.148" /><testcase classname="qa.test_browser" name="test_navigation[390-/applications-My Preparations]" time="0.151" /><testcase classname="qa.test_browser" name="test_navigation[390-/planner-Resolution Planner]" time="0.209" /><testcase classname="qa.test_browser" name="test_navigation[390-/workflows-Citizen workflow assistant]" time="0.142" /><testcase classname="qa.test_browser" name="test_navigation[390-/services/passport-]" time="0.147" /><testcase classname="qa.test_browser" name="test_navigation[390-/services/passport/journey?type=fresh-]" time="0.175" /><testcase classname="qa.test_browser" name="test_hero[/services-Service Navigator-Find a government service]" time="0.158" /><testcase classname="qa.test_browser" name="test_hero[/documents-Document workspace-Document Vault]" time="0.181" /><testcase classname="qa.test_browser" name="test_hero[/applications-Your preparation workspace-My Preparations]" time="0.184" /><testcase classname="qa.test_browser" name="test_hero[/workflows-Maadhyam \xb7 Guided preparation-Citizen workflow assistant]" time="0.170" /><testcase classname="qa.test_browser" name="test_vault_review_session" time="0.673" /><testcase classname="qa.test_browser" name="test_vault_optin_clear" time="0.659" /><testcase classname="qa.test_browser" name="test_vault_invalid[empty]" time="0.197" /><testcase classname="qa.test_browser" name="test_vault_invalid[unsupported]" time="0.183" /><testcase classname="qa.test_browser" name="test_vault_invalid[oversized]" time="1.050" /><testcase classname="qa.test_browser" name="test_vault_invalid[malformed]" time="0.212" /><testcase classname="qa.test_browser" name="test_ocr[missing]" time="0.372" /><testcase classname="qa.test_browser" name="test_ocr[success]" time="0.466" /><testcase classname="qa.test_browser" name="test_ocr[malformed]" time="0.398" /><testcase classname="qa.test_browser" name="test_passport_guided[True]" time="2.103" /><testcase classname="qa.test_browser" name="test_passport_guided[False]" time="1.561" /><testcase classname="qa.test_browser" name="test_planner_documents[0]" time="0.355" /><testcase classname="qa.test_browser" name="test_planner_documents[1]" time="0.630" /><testcase classname="qa.test_browser" name="test_planner_documents[3]" time="1.018" /><testcase classname="qa.test_browser" name="test_planner_unexpected[/api/intelligence/passport-plan-body0]" time="0.133" /><testcase classname="qa.test_browser" name="test_planner_unexpected[/api/intelligence/reasoning-body1]" time="0.292" /><testcase classname="qa.test_browser" name="test_planner_unexpected[/api/intelligence/reasoning-body2]" time="0.260" /><testcase classname="qa.test_browser" name="test_planner_unexpected[/api/intelligence/passport-plan-body3]" time="0.140" /><testcase classname="qa.test_browser" name="test_planner_api_failure[/api/intelligence/passport-plan]" time="0.157" /><testcase classname="qa.test_browser" name="test_planner_api_failure[/api/intelligence/reasoning]" time="0.263" /><testcase classname="qa.test_browser" name="test_reasoning_whatif_family" time="6.040"><failure message="AssertionError: Locator expected to be visible&#10;Actual value: None&#10;Error: element(s) not found &#10;Call log:&#10;  - Expect &quot;to_be_visible&quot; get_by_label(&quot;Minimum prerequisite review path&quot;) with timeout 5000ms&#10;  - waiting for get_by_label(&quot;Minimum prerequisite review path&quot;)&#10;&#10;Aria snapshot:&#10;- complementary:&#10;  - link &quot;Maadhyam home&quot;:&#10;    - /url: /&#10;    - text: Maadhyam माध्यम&#10;  - paragraph: Workspace&#10;  - navigation &quot;Main navigation&quot;:&#10;    - link &quot;Dashboard&quot;:&#10;      - /url: /&#10;    - link &quot;Find Services&quot;:&#10;      - /url: /services&#10;    - link &quot;My Documents&quot;:&#10;      - /url: /documents&#10;    - link &quot;My Applications&quot;:&#10;      - /url: /applications&#10;    - link &quot;Resolution Planner&quot;:&#10;      - /url: /planner&#10;    - link &quot;Household Intelligence&quot;:&#10;      - /url: /household&#10;    - link &quot;Citizen Workflows&quot;:&#10;      - /url: /workflows&#10;  - paragraph: Guidance you can verify&#10;  - paragraph: Maadhyam is an independent assistance platform, not an official government website.&#10;- banner:&#10;  - button &quot;Collapse sidebar&quot; [expanded]&#10;  - paragraph: Citizen Workspace&#10;  - paragraph: Understand. Prepare. Resolve.&#10;  - button &quot;Switch to dark mode&quot;&#10;  - text: Preview&#10;- main:&#10;  - paragraph: Preparation workspace&#10;  - heading &quot;Resolution Planner&quot; [level=1]&#10;  - paragraph: Review potential document differences, understand dependencies and plan your next preparation steps. This is not an official eligibility decision.&#10;  - link &quot;Review Vault documents&quot;:&#10;    - /url: /documents&#10;  - link &quot;Passport services&quot;:&#10;    - /url: /services/passport&#10;  - heading &quot;Your document situation&quot; [level=2]&#10;  - paragraph: 3 uploaded · 2 reviewed self-held · 1 potential discrepancies&#10;  - paragraph: Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.&#10;  - paragraph: &quot;Other document holders: parent-guardian. Their documents are not treated as the applicant's identity.&quot;&#10;  - heading &quot;Items to investigate&quot; [level=2]&#10;  - article:&#10;    - strong: printedName&#10;    - paragraph: Potential name variants detected (initials or name order); confirm against originals.&#10;  - region &quot;Passport correction alternatives&quot;:&#10;    - heading &quot;Passport correction alternatives&quot; [level=2]&#10;    - article:&#10;      - heading &quot;printedName — verify before correcting&quot; [level=3]&#10;      - paragraph: The system cannot determine which record is legally correct from conflicting metadata.&#10;      - list:&#10;        - listitem: Compare the original records and establish the correct detail&#10;        - listitem: Check correction procedure with the issuing authority if an error is confirmed&#10;        - listitem: Confirm whether the discrepancy affects this application&#10;    - heading &quot;Preparation blockers&quot; [level=3]&#10;    - list:&#10;      - listitem: Unresolved evidence discrepancies or extraction quality&#10;      - listitem: Applicant age group not specified&#10;      - listitem: Family relationship and evidence acceptance not verified&#10;    - paragraph:&#10;      - strong: &quot;Suggested next action:&quot;&#10;      - text: Review name discrepancy&#10;    - paragraph: Preparation guidance only; verify current scenario-specific requirements and accepted proofs on Passport Seva.&#10;  - heading &quot;Your next steps&quot; [level=2]&#10;  - article:&#10;    - text: &quot;1&quot;&#10;    - heading &quot;Review name discrepancy&quot; [level=3]&#10;    - paragraph: Check originals and applicable official correction guidance; do not assume which value is correct.&#10;    - paragraph: Suggested preparation step · Completion is not automatically verified.&#10;  - article:&#10;    - text: &quot;2&quot;&#10;    - heading &quot;Review family-linked documents&quot; [level=3]&#10;    - paragraph: Confirm relationships and whether the particular family document is accepted for this scenario.&#10;    - paragraph: Suggested preparation step · Completion is not automatically verified.&#10;  - article:&#10;    - text: &quot;3&quot;&#10;    - heading &quot;Verify current Passport Seva requirements&quot; [level=3]&#10;    - paragraph: Document categories are not official proof-acceptance decisions.&#10;    - paragraph: &quot;Prerequisites: resolve-printedName&quot;&#10;    - paragraph: Requires prerequisite review · Completion is not automatically verified.&#10;  - article:&#10;    - text: &quot;4&quot;&#10;    - heading &quot;Prepare originals and copies&quot; [level=3]&#10;    - paragraph: Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.&#10;    - paragraph: &quot;Prerequisites: official-review&quot;&#10;    - paragraph: Requires prerequisite review · Completion is not automatically verified.&#10;  - region &quot;Your deadline and action plan&quot;:&#10;    - heading &quot;Your deadline and action plan&quot; [level=2]&#10;    - text: When do you want your documents ready? (Your target, not a government deadline)&#10;    - textbox &quot;When do you want your documents ready? (Your target, not a government deadline)&quot;&#10;    - list:&#10;      - listitem: Review the 0 unreviewed uploaded document(s) in Vault.&#10;      - listitem: Fill missing name, DOB and address metadata where it appears on each document.&#10;      - listitem: Compare the records; investigate differences using original documents and issuing authorities.&#10;      - listitem: Confirm accepted proofs and appointment requirements on the official Passport Seva website.&#10;      - listitem: Re-run this planner after reviewing evidence; unresolved blockers remain visible below.&#10;  - region &quot;Advanced preparation intelligence&quot;:&#10;    - heading &quot;Advanced preparation intelligence&quot; [level=2]&#10;    - paragraph: Deterministic planning from Vault metadata; no official document acceptance or government processing time is inferred.&#10;    - alert: Advanced reasoning could not be loaded. Check the backend and retry.&#10;  - region &quot;Citizen document decision assistant&quot;:&#10;    - paragraph: Explore your options&#10;    - heading &quot;Find a way forward with your documents&quot; [level=2]&#10;    - paragraph: Choose a situation below. Maadhyam uses your Vault details to explain what to check next—without changing any document.&#10;    - group &quot;Choose a document situation&quot;:&#10;      - button &quot;I need to correct a detail See what could change if a name, DOB or address is corrected.&quot; [pressed]&#10;      - button &quot;I have a family member's document Understand what relationship evidence may need checking.&quot;&#10;    - text: &quot;1&quot;&#10;    - heading &quot;Try a correction before taking action&quot; [level=3]&#10;    - paragraph: This is a safe preview. Your original Vault document stays unchanged.&#10;    - text: Which document would you like to check?&#10;    - combobox &quot;What-if document&quot;:&#10;      - option &quot;Select your document&quot; [selected]&#10;      - option &quot;fictional_aadhaar.png&quot;&#10;      - option &quot;fictional_pan.png&quot;&#10;    - text: What detail needs correction?&#10;    - combobox &quot;What-if field&quot;:&#10;      - option &quot;Name&quot; [selected]&#10;      - option &quot;Date of birth&quot;&#10;      - option &quot;Residential address&quot;&#10;    - text: What should the corrected value be?&#10;    - textbox &quot;Hypothetical value&quot;:&#10;      - /placeholder: Enter a hypothetical corrected value&#10;    - button &quot;See the impact →&quot; [disabled]&#10;    - button &quot;Start over&quot;&#10;    - alert: Could not analyze your documents. Please check the backend and try again.&#10;  - region &quot;Weighted correction optimizer&quot;:&#10;    - heading &quot;Compare correction paths&quot; [level=2]&#10;    - paragraph: Enter possible actions and your own cost, time and visit estimates. These are illustrative assumptions, not government fees, processing times or approved routes. Dependencies describe which issues need review first.&#10;    - group:&#10;      - text: Priority for cost&#10;      - spinbutton &quot;Priority for cost&quot;: &quot;1&quot;&#10;      - text: Priority for days&#10;      - spinbutton &quot;Priority for days&quot;: &quot;1&quot;&#10;      - text: Priority for visits&#10;      - spinbutton &quot;Priority for visits&quot;: &quot;1&quot;&#10;      - text: Optimizer target date (optional)&#10;      - textbox &quot;Optimizer target date&quot;&#10;      - group &quot;Correction issue 1&quot;:&#10;        - text: Issue 1 Issue description&#10;        - textbox &quot;Issue 1 description&quot;: Review identity details&#10;        - button &quot;Remove issue&quot;&#10;        - heading &quot;Option 1&quot; [level=3]&#10;        - text: Action description&#10;        - textbox &quot;Action description&quot;: Lower-cost evidence review&#10;        - text: Responsible authority&#10;        - textbox &quot;Responsible authority&quot;: Issuing authority&#10;        - text: Estimated cost (INR)&#10;        - spinbutton &quot;Estimated cost (INR)&quot;: &quot;100&quot;&#10;        - text: Estimated days&#10;        - spinbutton &quot;Estimated days&quot;: &quot;10&quot;&#10;        - text: Estimated visits&#10;        - spinbutton &quot;Estimated visits&quot;: &quot;1&quot;&#10;        - group &quot;This option depends on&quot;:&#10;          - text: This option depends on&#10;          - checkbox &quot;Review identity details (self-dependency creates a cycle)&quot;&#10;          - text: Review identity details (self-dependency creates a cycle)&#10;        - checkbox &quot;Possible online route (unverified)&quot;&#10;        - text: Possible online route (unverified)&#10;        - button &quot;Remove option&quot;&#10;        - heading &quot;Option 2&quot; [level=3]&#10;        - text: Action description&#10;        - textbox &quot;Action description&quot;: Quicker review estimate&#10;        - text: Responsible authority&#10;        - textbox &quot;Responsible authority&quot;: Issuing authority&#10;        - text: Estimated cost (INR)&#10;        - spinbutton &quot;Estimated cost (INR)&quot;: &quot;1000&quot;&#10;        - text: Estimated days&#10;        - spinbutton &quot;Estimated days&quot;: &quot;2&quot;&#10;        - text: Estimated visits&#10;        - spinbutton &quot;Estimated visits&quot;: &quot;2&quot;&#10;        - group &quot;This option depends on&quot;:&#10;          - text: This option depends on&#10;          - checkbox &quot;Review identity details (self-dependency creates a cycle)&quot;&#10;          - text: Review identity details (self-dependency creates a cycle)&#10;        - checkbox &quot;Possible online route (unverified)&quot;&#10;        - text: Possible online route (unverified)&#10;        - button &quot;Remove option&quot;&#10;        - button &quot;Add correction option&quot;&#10;      - button &quot;Add correction issue&quot;&#10;      - button &quot;Find recommended path&quot;&#10;  - region &quot;Government rule change impact analyzer&quot;:&#10;    - heading &quot;Review rule changes and your preparation&quot; [level=2]&#10;    - paragraph: Compare locally available complete rule packs. Historical source hashes are not rule-pack versions. You can create a clearly hypothetical proposal to understand potential effects; this never changes active rules or invents a live government update.&#10;    - group:&#10;      - text: Stored baseline version&#10;      - combobox &quot;Stored baseline version&quot;:&#10;        - option &quot;passport-official-2026-10-13-v1&quot; [selected]&#10;      - text: Compare with version&#10;      - combobox &quot;Compare with version&quot;:&#10;        - option &quot;passport-official-2026-10-13-v1 (stored reference)&quot; [selected]&#10;      - button &quot;Create hypothetical comparison version&quot;&#10;      - text: Preparation to review&#10;      - combobox &quot;Preparation to review&quot;:&#10;        - option &quot;General preparation&quot; [selected]&#10;      - button &quot;Compare preparation impact&quot;&#10;  - link &quot;Check official Passport Seva guidance ↗&quot;:&#10;    - /url: https://www.passportindia.gov.in/&#10;- button &quot;Open Maadhyam AI&quot;: Ask Maadhyam AI">qa/test_browser.py:198: in test_reasoning_whatif_family
+    expect(page.get_by_label('Minimum prerequisite review path')).to_be_visible()
+E   AssertionError: Locator expected to be visible
+E   Actual value: None
+E   Error: element(s) not found 
+E   Call log:
+E     - Expect "to_be_visible" get_by_label("Minimum prerequisite review path") with timeout 5000ms
+E     - waiting for get_by_label("Minimum prerequisite review path")
+E   
+E   Aria snapshot:
+E   - complementary:
+E     - link "Maadhyam home":
+E       - /url: /
+E       - text: Maadhyam माध्यम
+E     - paragraph: Workspace
+E     - navigation "Main navigation":
+E       - link "Dashboard":
+E         - /url: /
+E       - link "Find Services":
+E         - /url: /services
+E       - link "My Documents":
+E         - /url: /documents
+E       - link "My Applications":
+E         - /url: /applications
+E       - link "Resolution Planner":
+E         - /url: /planner
+E       - link "Household Intelligence":
+E         - /url: /household
+E       - link "Citizen Workflows":
+E         - /url: /workflows
+E     - paragraph: Guidance you can verify
+E     - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E   - banner:
+E     - button "Collapse sidebar" [expanded]
+E     - paragraph: Citizen Workspace
+E     - paragraph: Understand. Prepare. Resolve.
+E     - button "Switch to dark mode"
+E     - text: Preview
+E   - main:
+E     - paragraph: Preparation workspace
+E     - heading "Resolution Planner" [level=1]
+E     - paragraph: Review potential document differences, understand dependencies and plan your next preparation steps. This is not an official eligibility decision.
+E     - link "Review Vault documents":
+E       - /url: /documents
+E     - link "Passport services":
+E       - /url: /services/passport
+E     - heading "Your document situation" [level=2]
+E     - paragraph: 3 uploaded · 2 reviewed self-held · 1 potential discrepancies
+E     - paragraph: Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.
+E     - paragraph: "Other document holders: parent-guardian. Their documents are not treated as the applicant's identity."
+E     - heading "Items to investigate" [level=2]
+E     - article:
+E       - strong: printedName
+E       - paragraph: Potential name variants detected (initials or name order); confirm against originals.
+E     - region "Passport correction alternatives":
+E       - heading "Passport correction alternatives" [level=2]
+E       - article:
+E         - heading "printedName — verify before correcting" [level=3]
+E         - paragraph: The system cannot determine which record is legally correct from conflicting metadata.
+E         - list:
+E           - listitem: Compare the original records and establish the correct detail
+E           - listitem: Check correction procedure with the issuing authority if an error is confirmed
+E           - listitem: Confirm whether the discrepancy affects this application
+E       - heading "Preparation blockers" [level=3]
+E       - list:
+E         - listitem: Unresolved evidence discrepancies or extraction quality
+E         - listitem: Applicant age group not specified
+E         - listitem: Family relationship and evidence acceptance not verified
+E       - paragraph:
+E         - strong: "Suggested next action:"
+E         - text: Review name discrepancy
+E       - paragraph: Preparation guidance only; verify current scenario-specific requirements and accepted proofs on Passport Seva.
+E     - heading "Your next steps" [level=2]
+E     - article:
+E       - text: "1"
+E       - heading "Review name discrepancy" [level=3]
+E       - paragraph: Check originals and applicable official correction guidance; do not assume which value is correct.
+E       - paragraph: Suggested preparation step · Completion is not automatically verified.
+E     - article:
+E       - text: "2"
+E       - heading "Review family-linked documents" [level=3]
+E       - paragraph: Confirm relationships and whether the particular family document is accepted for this scenario.
+E       - paragraph: Suggested preparation step · Completion is not automatically verified.
+E     - article:
+E       - text: "3"
+E       - heading "Verify current Passport Seva requirements" [level=3]
+E       - paragraph: Document categories are not official proof-acceptance decisions.
+E       - paragraph: "Prerequisites: resolve-printedName"
+E       - paragraph: Requires prerequisite review · Completion is not automatically verified.
+E     - article:
+E       - text: "4"
+E       - heading "Prepare originals and copies" [level=3]
+E       - paragraph: Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.
+E       - paragraph: "Prerequisites: official-review"
+E       - paragraph: Requires prerequisite review · Completion is not automatically verified.
+E     - region "Your deadline and action plan":
+E       - heading "Your deadline and action plan" [level=2]
+E       - text: When do you want your documents ready? (Your target, not a government deadline)
+E       - textbox "When do you want your documents ready? (Your target, not a government deadline)"
+E       - list:
+E         - listitem: Review the 0 unreviewed uploaded document(s) in Vault.
+E         - listitem: Fill missing name, DOB and address metadata where it appears on each document.
+E         - listitem: Compare the records; investigate differences using original documents and issuing authorities.
+E         - listitem: Confirm accepted proofs and appointment requirements on the official Passport Seva website.
+E         - listitem: Re-run this planner after reviewing evidence; unresolved blockers remain visible below.
+E     - region "Advanced preparation intelligence":
+E       - heading "Advanced preparation intelligence" [level=2]
+E       - paragraph: Deterministic planning from Vault metadata; no official document acceptance or government processing time is inferred.
+E       - alert: Advanced reasoning could not be loaded. Check the backend and retry.
+E     - region "Citizen document decision assistant":
+E       - paragraph: Explore your options
+E       - heading "Find a way forward with your documents" [level=2]
+E       - paragraph: Choose a situation below. Maadhyam uses your Vault details to explain what to check next—without changing any document.
+E       - group "Choose a document situation":
+E         - button "I need to correct a detail See what could change if a name, DOB or address is corrected." [pressed]
+E         - button "I have a family member's document Understand what relationship evidence may need checking."
+E       - text: "1"
+E       - heading "Try a correction before taking action" [level=3]
+E       - paragraph: This is a safe preview. Your original Vault document stays unchanged.
+E       - text: Which document would you like to check?
+E       - combobox "What-if document":
+E         - option "Select your document" [selected]
+E         - option "fictional_aadhaar.png"
+E         - option "fictional_pan.png"
+E       - text: What detail needs correction?
+E       - combobox "What-if field":
+E         - option "Name" [selected]
+E         - option "Date of birth"
+E         - option "Residential address"
+E       - text: What should the corrected value be?
+E       - textbox "Hypothetical value":
+E         - /placeholder: Enter a hypothetical corrected value
+E       - button "See the impact →" [disabled]
+E       - button "Start over"
+E       - alert: Could not analyze your documents. Please check the backend and try again.
+E     - region "Weighted correction optimizer":
+E       - heading "Compare correction paths" [level=2]
+E       - paragraph: Enter possible actions and your own cost, time and visit estimates. These are illustrative assumptions, not government fees, processing times or approved routes. Dependencies describe which issues need review first.
+E       - group:
+E         - text: Priority for cost
+E         - spinbutton "Priority for cost": "1"
+E         - text: Priority for days
+E         - spinbutton "Priority for days": "1"
+E         - text: Priority for visits
+E         - spinbutton "Priority for visits": "1"
+E         - text: Optimizer target date (optional)
+E         - textbox "Optimizer target date"
+E         - group "Correction issue 1":
+E           - text: Issue 1 Issue description
+E           - textbox "Issue 1 description": Review identity details
+E           - button "Remove issue"
+E           - heading "Option 1" [level=3]
+E           - text: Action description
+E           - textbox "Action description": Lower-cost evidence review
+E           - text: Responsible authority
+E           - textbox "Responsible authority": Issuing authority
+E           - text: Estimated cost (INR)
+E           - spinbutton "Estimated cost (INR)": "100"
+E           - text: Estimated days
+E           - spinbutton "Estimated days": "10"
+E           - text: Estimated visits
+E           - spinbutton "Estimated visits": "1"
+E           - group "This option depends on":
+E             - text: This option depends on
+E             - checkbox "Review identity details (self-dependency creates a cycle)"
+E             - text: Review identity details (self-dependency creates a cycle)
+E           - checkbox "Possible online route (unverified)"
+E           - text: Possible online route (unverified)
+E           - button "Remove option"
+E           - heading "Option 2" [level=3]
+E           - text: Action description
+E           - textbox "Action description": Quicker review estimate
+E           - text: Responsible authority
+E           - textbox "Responsible authority": Issuing authority
+E           - text: Estimated cost (INR)
+E           - spinbutton "Estimated cost (INR)": "1000"
+E           - text: Estimated days
+E           - spinbutton "Estimated days": "2"
+E           - text: Estimated visits
+E           - spinbutton "Estimated visits": "2"
+E           - group "This option depends on":
+E             - text: This option depends on
+E             - checkbox "Review identity details (self-dependency creates a cycle)"
+E             - text: Review identity details (self-dependency creates a cycle)
+E           - checkbox "Possible online route (unverified)"
+E           - text: Possible online route (unverified)
+E           - button "Remove option"
+E           - button "Add correction option"
+E         - button "Add correction issue"
+E         - button "Find recommended path"
+E     - region "Government rule change impact analyzer":
+E       - heading "Review rule changes and your preparation" [level=2]
+E       - paragraph: Compare locally available complete rule packs. Historical source hashes are not rule-pack versions. You can create a clearly hypothetical proposal to understand potential effects; this never changes active rules or invents a live government update.
+E       - group:
+E         - text: Stored baseline version
+E         - combobox "Stored baseline version":
+E           - option "passport-official-2026-10-13-v1" [selected]
+E         - text: Compare with version
+E         - combobox "Compare with version":
+E           - option "passport-official-2026-10-13-v1 (stored reference)" [selected]
+E         - button "Create hypothetical comparison version"
+E         - text: Preparation to review
+E         - combobox "Preparation to review":
+E           - option "General preparation" [selected]
+E         - button "Compare preparation impact"
+E     - link "Check official Passport Seva guidance ↗":
+E       - /url: https://www.passportindia.gov.in/
+E   - button "Open Maadhyam AI": Ask Maadhyam AI</failure></testcase><testcase classname="qa.test_browser" name="test_citizen_workflow[False-human-support-Human assistance]" time="0.285" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-life-event-discovery-Life-event discovery]" time="0.274" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-multi-department-rules-Multi-department guidance]" time="0.286" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-rejection-diagnosis-Rejection diagnosis]" time="0.284" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-legacy-reconstruction-Legacy record recovery]" time="0.297" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-authority-bottlenecks-Authority bottlenecks]" time="0.288" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-deadline-rescue-Deadline rescue]" time="0.328" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-visit-eliminator-Visit reduction planner]" time="0.296" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-human-support-Human assistance]" time="0.258" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-life-event-discovery-Life-event discovery]" time="0.236" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-multi-department-rules-Multi-department guidance]" time="0.237" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-rejection-diagnosis-Rejection diagnosis]" time="0.235" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-legacy-reconstruction-Legacy record recovery]" time="0.235" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-authority-bottlenecks-Authority bottlenecks]" time="0.259" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-deadline-rescue-Deadline rescue]" time="0.275" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-visit-eliminator-Visit reduction planner]" time="0.268" /><testcase classname="qa.test_browser" name="test_assistant[local]" time="0.246" /><testcase classname="qa.test_browser" name="test_assistant[missing]" time="0.368" /><testcase classname="qa.test_browser" name="test_assistant[429]" time="0.329" /><testcase classname="qa.test_browser" name="test_assistant[timeout]" time="0.255" /><testcase classname="qa.test_browser" name="test_assistant[malformed]" time="0.283" /><testcase classname="qa.test_browser" name="test_preparations_session_and_layout" time="0.363" /><testcase classname="qa.test_browser" name="test_workflow_required_inputs[human-support-Human assistance-What problem are you facing?-Please describe the problem]" time="0.251" /><testcase classname="qa.test_browser" name="test_workflow_required_inputs[rejection-diagnosis-Rejection diagnosis-What reason was given for rejection?-Please describe the rejection]" time="0.218" /><testcase classname="qa.test_browser" name="test_workflow_required_inputs[legacy-reconstruction-Legacy record recovery-Which old document do you need?-Please enter the document type]" time="0.221" /><testcase classname="qa.test_browser" name="test_workflow_required_inputs[deadline-rescue-Deadline rescue-What is your target date?-Choose a target date]" time="0.263" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[pdf-aadhaar]" time="0.269" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[pdf-pan]" time="0.275" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[pdf-address]" time="0.269" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[png-aadhaar]" time="0.269" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[png-pan]" time="0.268" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[png-address]" time="0.265" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[jpg-aadhaar]" time="0.266" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[jpg-pan]" time="0.270" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[jpg-address]" time="0.267" /><testcase classname="qa.test_browser" name="test_assistant_reviewed_context" time="0.803" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[minimumCorrectionPath]" time="0.296" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[identityEvolution]" time="0.262" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[proofSubstitution]" time="0.280" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[deadlockAnalysis]" time="0.285" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[deadlineRescue]" time="0.288" /><testcase classname="qa.test_completion" name="test_m5_resume_edit_multiple" time="1.292" /><testcase classname="qa.test_completion" name="test_m5_reload_consent[False]" time="0.412" /><testcase classname="qa.test_completion" name="test_m5_reload_consent[True]" time="0.686" /><testcase classname="qa.test_completion" name="test_m5_malformed_saved[not-json]" time="0.277" /><testcase classname="qa.test_completion" name="test_m5_malformed_saved[{&quot;schemaVersion&quot;:0,&quot;records&quot;:[]}]" time="0.243" /><testcase classname="qa.test_completion" name="test_m5_malformed_saved[{&quot;schemaVersion&quot;:1,&quot;records&quot;:[{&quot;id&quot;:&quot;LOCAL-broken&quot;,&quot;journey&quot;:{}}]}]" time="0.241" /><testcase classname="qa.test_completion" name="test_m7_expiry_ui[2000-01-01-2099-02-01-already expired]" time="5.698"><failure message="AssertionError: Locator expected to contain text 'already expired'&#10;Actual value: None&#10;Error: element(s) not found &#10;Call log:&#10;  - Expect &quot;to_contain_text&quot; get_by_label(&quot;Document expiry conflicts&quot;) with timeout 5000ms&#10;  - waiting for get_by_label(&quot;Document expiry conflicts&quot;)&#10;&#10;Aria snapshot:&#10;- complementary:&#10;  - link &quot;Maadhyam home&quot;:&#10;    - /url: /&#10;    - text: Maadhyam माध्यम&#10;  - paragraph: Workspace&#10;  - navigation &quot;Main navigation&quot;:&#10;    - link &quot;Dashboard&quot;:&#10;      - /url: /&#10;    - link &quot;Find Services&quot;:&#10;      - /url: /services&#10;    - link &quot;My Documents&quot;:&#10;      - /url: /documents&#10;    - link &quot;My Applications&quot;:&#10;      - /url: /applications&#10;    - link &quot;Resolution Planner&quot;:&#10;      - /url: /planner&#10;    - link &quot;Household Intelligence&quot;:&#10;      - /url: /household&#10;    - link &quot;Citizen Workflows&quot;:&#10;      - /url: /workflows&#10;  - paragraph: Guidance you can verify&#10;  - paragraph: Maadhyam is an independent assistance platform, not an official government website.&#10;- banner:&#10;  - button &quot;Collapse sidebar&quot; [expanded]&#10;  - paragraph: Citizen Workspace&#10;  - paragraph: Understand. Prepare. Resolve.&#10;  - button &quot;Switch to dark mode&quot;&#10;  - text: Preview&#10;- main:&#10;  - paragraph: Preparation workspace&#10;  - heading &quot;Resolution Planner&quot; [level=1]&#10;  - paragraph: Review potential document differences, understand dependencies and plan your next preparation steps. This is not an official eligibility decision.&#10;  - link &quot;Review Vault documents&quot;:&#10;    - /url: /documents&#10;  - link &quot;Passport services&quot;:&#10;    - /url: /services/passport&#10;  - heading &quot;Your document situation&quot; [level=2]&#10;  - paragraph: 1 uploaded · 1 reviewed self-held · 0 potential discrepancies&#10;  - paragraph: Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.&#10;  - region &quot;Passport correction alternatives&quot;:&#10;    - heading &quot;Passport correction alternatives&quot; [level=2]&#10;    - paragraph: No conflicting fields detected in reviewed applicant metadata. This does not establish official acceptance.&#10;    - heading &quot;Preparation blockers&quot; [level=3]&#10;    - list:&#10;      - listitem: Applicant age group not specified&#10;    - paragraph:&#10;      - strong: &quot;Suggested next action:&quot;&#10;      - text: Verify current Passport Seva requirements&#10;    - paragraph: Preparation guidance only; verify current scenario-specific requirements and accepted proofs on Passport Seva.&#10;  - heading &quot;Your next steps&quot; [level=2]&#10;  - article:&#10;    - text: &quot;1&quot;&#10;    - heading &quot;Verify current Passport Seva requirements&quot; [level=3]&#10;    - paragraph: Document categories are not official proof-acceptance decisions.&#10;    - paragraph: Suggested preparation step · Completion is not automatically verified.&#10;  - article:&#10;    - text: &quot;2&quot;&#10;    - heading &quot;Prepare originals and copies&quot; [level=3]&#10;    - paragraph: Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.&#10;    - paragraph: &quot;Prerequisites: official-review&quot;&#10;    - paragraph: Requires prerequisite review · Completion is not automatically verified.&#10;  - region &quot;Your deadline and action plan&quot;:&#10;    - heading &quot;Your deadline and action plan&quot; [level=2]&#10;    - text: When do you want your documents ready? (Your target, not a government deadline)&#10;    - textbox &quot;When do you want your documents ready? (Your target, not a government deadline)&quot;: 2099-02-01&#10;    - paragraph: 26408 day(s) until your personal target. This does not predict official processing time.&#10;    - list:&#10;      - listitem: Review the 0 unreviewed uploaded document(s) in Vault.&#10;      - listitem: Fill missing name, DOB and address metadata where it appears on each document.&#10;      - listitem: Compare the records; investigate differences using original documents and issuing authorities.&#10;      - listitem: Confirm accepted proofs and appointment requirements on the official Passport Seva website.&#10;      - listitem: Re-run this planner after reviewing evidence; unresolved blockers remain visible below.&#10;  - region &quot;Advanced preparation intelligence&quot;:&#10;    - heading &quot;Advanced preparation intelligence&quot; [level=2]&#10;    - paragraph: Deterministic planning from Vault metadata; no official document acceptance or government processing time is inferred.&#10;    - alert: Advanced reasoning could not be loaded. Check the backend and retry.&#10;  - region &quot;Citizen document decision assistant&quot;:&#10;    - paragraph: Explore your options&#10;    - heading &quot;Find a way forward with your documents&quot; [level=2]&#10;    - paragraph: Choose a situation below. Maadhyam uses your Vault details to explain what to check next—without changing any document.&#10;    - group &quot;Choose a document situation&quot;:&#10;      - button &quot;I need to correct a detail See what could change if a name, DOB or address is corrected.&quot; [pressed]&#10;      - button &quot;I have a family member's document Understand what relationship evidence may need checking.&quot;&#10;    - text: &quot;1&quot;&#10;    - heading &quot;Try a correction before taking action&quot; [level=3]&#10;    - paragraph: This is a safe preview. Your original Vault document stays unchanged.&#10;    - text: Which document would you like to check?&#10;    - combobox &quot;What-if document&quot;:&#10;      - option &quot;Select your document&quot; [selected]&#10;      - option &quot;fictional_aadhaar.png&quot;&#10;    - text: What detail needs correction?&#10;    - combobox &quot;What-if field&quot;:&#10;      - option &quot;Name&quot; [selected]&#10;      - option &quot;Date of birth&quot;&#10;      - option &quot;Residential address&quot;&#10;    - text: What should the corrected value be?&#10;    - textbox &quot;Hypothetical value&quot;:&#10;      - /placeholder: Enter a hypothetical corrected value&#10;    - button &quot;See the impact →&quot; [disabled]&#10;    - button &quot;Start over&quot;&#10;    - alert: Could not analyze your documents. Please check the backend and try again.&#10;  - region &quot;Weighted correction optimizer&quot;:&#10;    - heading &quot;Compare correction paths&quot; [level=2]&#10;    - paragraph: Enter possible actions and your own cost, time and visit estimates. These are illustrative assumptions, not government fees, processing times or approved routes. Dependencies describe which issues need review first.&#10;    - group:&#10;      - text: Priority for cost&#10;      - spinbutton &quot;Priority for cost&quot;: &quot;1&quot;&#10;      - text: Priority for days&#10;      - spinbutton &quot;Priority for days&quot;: &quot;1&quot;&#10;      - text: Priority for visits&#10;      - spinbutton &quot;Priority for visits&quot;: &quot;1&quot;&#10;      - text: Optimizer target date (optional)&#10;      - textbox &quot;Optimizer target date&quot;&#10;      - group &quot;Correction issue 1&quot;:&#10;        - text: Issue 1 Issue description&#10;        - textbox &quot;Issue 1 description&quot;: Review identity details&#10;        - button &quot;Remove issue&quot;&#10;        - heading &quot;Option 1&quot; [level=3]&#10;        - text: Action description&#10;        - textbox &quot;Action description&quot;: Lower-cost evidence review&#10;        - text: Responsible authority&#10;        - textbox &quot;Responsible authority&quot;: Issuing authority&#10;        - text: Estimated cost (INR)&#10;        - spinbutton &quot;Estimated cost (INR)&quot;: &quot;100&quot;&#10;        - text: Estimated days&#10;        - spinbutton &quot;Estimated days&quot;: &quot;10&quot;&#10;        - text: Estimated visits&#10;        - spinbutton &quot;Estimated visits&quot;: &quot;1&quot;&#10;        - group &quot;This option depends on&quot;:&#10;          - text: This option depends on&#10;          - checkbox &quot;Review identity details (self-dependency creates a cycle)&quot;&#10;          - text: Review identity details (self-dependency creates a cycle)&#10;        - checkbox &quot;Possible online route (unverified)&quot;&#10;        - text: Possible online route (unverified)&#10;        - button &quot;Remove option&quot;&#10;        - heading &quot;Option 2&quot; [level=3]&#10;        - text: Action description&#10;        - textbox &quot;Action description&quot;: Quicker review estimate&#10;        - text: Responsible authority&#10;        - textbox &quot;Responsible authority&quot;: Issuing authority&#10;        - text: Estimated cost (INR)&#10;        - spinbutton &quot;Estimated cost (INR)&quot;: &quot;1000&quot;&#10;        - text: Estimated days&#10;        - spinbutton &quot;Estimated days&quot;: &quot;2&quot;&#10;        - text: Estimated visits&#10;        - spinbutton &quot;Estimated visits&quot;: &quot;2&quot;&#10;        - group &quot;This option depends on&quot;:&#10;          - text: This option depends on&#10;          - checkbox &quot;Review identity details (self-dependency creates a cycle)&quot;&#10;          - text: Review identity details (self-dependency creates a cycle)&#10;        - checkbox &quot;Possible online route (unverified)&quot;&#10;        - text: Possible online route (unverified)&#10;        - button &quot;Remove option&quot;&#10;        - button &quot;Add correction option&quot;&#10;      - button &quot;Add correction issue&quot;&#10;      - button &quot;Find recommended path&quot;&#10;  - region &quot;Government rule change impact analyzer&quot;:&#10;    - heading &quot;Review rule changes and your preparation&quot; [level=2]&#10;    - paragraph: Compare locally available complete rule packs. Historical source hashes are not rule-pack versions. You can create a clearly hypothetical proposal to understand potential effects; this never changes active rules or invents a live government update.&#10;    - group:&#10;      - text: Stored baseline version&#10;      - combobox &quot;Stored baseline version&quot;:&#10;        - option &quot;passport-official-2026-10-13-v1&quot; [selected]&#10;      - text: Compare with version&#10;      - combobox &quot;Compare with version&quot;:&#10;        - option &quot;passport-official-2026-10-13-v1 (stored reference)&quot; [selected]&#10;      - button &quot;Create hypothetical comparison version&quot;&#10;      - text: Preparation to review&#10;      - combobox &quot;Preparation to review&quot;:&#10;        - option &quot;General preparation&quot; [selected]&#10;      - button &quot;Compare preparation impact&quot;&#10;  - link &quot;Check official Passport Seva guidance ↗&quot;:&#10;    - /url: https://www.passportindia.gov.in/&#10;- button &quot;Open Maadhyam AI&quot;: Ask Maadhyam AI">qa/test_completion.py:99: in test_m7_expiry_ui
+    expect(page.get_by_label('Document expiry conflicts')).to_contain_text(kind)
+E   AssertionError: Locator expected to contain text 'already expired'
+E   Actual value: None
+E   Error: element(s) not found 
+E   Call log:
+E     - Expect "to_contain_text" get_by_label("Document expiry conflicts") with timeout 5000ms
+E     - waiting for get_by_label("Document expiry conflicts")
+E   
+E   Aria snapshot:
+E   - complementary:
+E     - link "Maadhyam home":
+E       - /url: /
+E       - text: Maadhyam माध्यम
+E     - paragraph: Workspace
+E     - navigation "Main navigation":
+E       - link "Dashboard":
+E         - /url: /
+E       - link "Find Services":
+E         - /url: /services
+E       - link "My Documents":
+E         - /url: /documents
+E       - link "My Applications":
+E         - /url: /applications
+E       - link "Resolution Planner":
+E         - /url: /planner
+E       - link "Household Intelligence":
+E         - /url: /household
+E       - link "Citizen Workflows":
+E         - /url: /workflows
+E     - paragraph: Guidance you can verify
+E     - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E   - banner:
+E     - button "Collapse sidebar" [expanded]
+E     - paragraph: Citizen Workspace
+E     - paragraph: Understand. Prepare. Resolve.
+E     - button "Switch to dark mode"
+E     - text: Preview
+E   - main:
+E     - paragraph: Preparation workspace
+E     - heading "Resolution Planner" [level=1]
+E     - paragraph: Review potential document differences, understand dependencies and plan your next preparation steps. This is not an official eligibility decision.
+E     - link "Review Vault documents":
+E       - /url: /documents
+E     - link "Passport services":
+E       - /url: /services/passport
+E     - heading "Your document situation" [level=2]
+E     - paragraph: 1 uploaded · 1 reviewed self-held · 0 potential discrepancies
+E     - paragraph: Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.
+E     - region "Passport correction alternatives":
+E       - heading "Passport correction alternatives" [level=2]
+E       - paragraph: No conflicting fields detected in reviewed applicant metadata. This does not establish official acceptance.
+E       - heading "Preparation blockers" [level=3]
+E       - list:
+E         - listitem: Applicant age group not specified
+E       - paragraph:
+E         - strong: "Suggested next action:"
+E         - text: Verify current Passport Seva requirements
+E       - paragraph: Preparation guidance only; verify current scenario-specific requirements and accepted proofs on Passport Seva.
+E     - heading "Your next steps" [level=2]
+E     - article:
+E       - text: "1"
+E       - heading "Verify current Passport Seva requirements" [level=3]
+E       - paragraph: Document categories are not official proof-acceptance decisions.
+E       - paragraph: Suggested preparation step · Completion is not automatically verified.
+E     - article:
+E       - text: "2"
+E       - heading "Prepare originals and copies" [level=3]
+E       - paragraph: Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.
+E       - paragraph: "Prerequisites: official-review"
+E       - paragraph: Requires prerequisite review · Completion is not automatically verified.
+E     - region "Your deadline and action plan":
+E       - heading "Your deadline and action plan" [level=2]
+E       - text: When do you want your documents ready? (Your target, not a government deadline)
+E       - textbox "When do you want your documents ready? (Your target, not a government deadline)": 2099-02-01
+E       - paragraph: 26408 day(s) until your personal target. This does not predict official processing time.
+E       - list:
+E         - listitem: Review the 0 unreviewed uploaded document(s) in Vault.
+E         - listitem: Fill missing name, DOB and address metadata where it appears on each document.
+E         - listitem: Compare the records; investigate differences using original documents and issuing authorities.
+E         - listitem: Confirm accepted proofs and appointment requirements on the official Passport Seva website.
+E         - listitem: Re-run this planner after reviewing evidence; unresolved blockers remain visible below.
+E     - region "Advanced preparation intelligence":
+E       - heading "Advanced preparation intelligence" [level=2]
+E       - paragraph: Deterministic planning from Vault metadata; no official document acceptance or government processing time is inferred.
+E       - alert: Advanced reasoning could not be loaded. Check the backend and retry.
+E     - region "Citizen document decision assistant":
+E       - paragraph: Explore your options
+E       - heading "Find a way forward with your documents" [level=2]
+E       - paragraph: Choose a situation below. Maadhyam uses your Vault details to explain what to check next—without changing any document.
+E       - group "Choose a document situation":
+E         - button "I need to correct a detail See what could change if a name, DOB or address is corrected." [pressed]
+E         - button "I have a family member's document Understand what relationship evidence may need checking."
+E       - text: "1"
+E       - heading "Try a correction before taking action" [level=3]
+E       - paragraph: This is a safe preview. Your original Vault document stays unchanged.
+E       - text: Which document would you like to check?
+E       - combobox "What-if document":
+E         - option "Select your document" [selected]
+E         - option "fictional_aadhaar.png"
+E       - text: What detail needs correction?
+E       - combobox "What-if field":
+E         - option "Name" [selected]
+E         - option "Date of birth"
+E         - option "Residential address"
+E       - text: What should the corrected value be?
+E       - textbox "Hypothetical value":
+E         - /placeholder: Enter a hypothetical corrected value
+E       - button "See the impact →" [disabled]
+E       - button "Start over"
+E       - alert: Could not analyze your documents. Please check the backend and try again.
+E     - region "Weighted correction optimizer":
+E       - heading "Compare correction paths" [level=2]
+E       - paragraph: Enter possible actions and your own cost, time and visit estimates. These are illustrative assumptions, not government fees, processing times or approved routes. Dependencies describe which issues need review first.
+E       - group:
+E         - text: Priority for cost
+E         - spinbutton "Priority for cost": "1"
+E         - text: Priority for days
+E         - spinbutton "Priority for days": "1"
+E         - text: Priority for visits
+E         - spinbutton "Priority for visits": "1"
+E         - text: Optimizer target date (optional)
+E         - textbox "Optimizer target date"
+E         - group "Correction issue 1":
+E           - text: Issue 1 Issue description
+E           - textbox "Issue 1 description": Review identity details
+E           - button "Remove issue"
+E           - heading "Option 1" [level=3]
+E           - text: Action description
+E           - textbox "Action description": Lower-cost evidence review
+E           - text: Responsible authority
+E           - textbox "Responsible authority": Issuing authority
+E           - text: Estimated cost (INR)
+E           - spinbutton "Estimated cost (INR)": "100"
+E           - text: Estimated days
+E           - spinbutton "Estimated days": "10"
+E           - text: Estimated visits
+E           - spinbutton "Estimated visits": "1"
+E           - group "This option depends on":
+E             - text: This option depends on
+E             - checkbox "Review identity details (self-dependency creates a cycle)"
+E             - text: Review identity details (self-dependency creates a cycle)
+E           - checkbox "Possible online route (unverified)"
+E           - text: Possible online route (unverified)
+E           - button "Remove option"
+E           - heading "Option 2" [level=3]
+E           - text: Action description
+E           - textbox "Action description": Quicker review estimate
+E           - text: Responsible authority
+E           - textbox "Responsible authority": Issuing authority
+E           - text: Estimated cost (INR)
+E           - spinbutton "Estimated cost (INR)": "1000"
+E           - text: Estimated days
+E           - spinbutton "Estimated days": "2"
+E           - text: Estimated visits
+E           - spinbutton "Estimated visits": "2"
+E           - group "This option depends on":
+E             - text: This option depends on
+E             - checkbox "Review identity details (self-dependency creates a cycle)"
+E             - text: Review identity details (self-dependency creates a cycle)
+E           - checkbox "Possible online route (unverified)"
+E           - text: Possible online route (unverified)
+E           - button "Remove option"
+E           - button "Add correction option"
+E         - button "Add correction issue"
+E         - button "Find recommended path"
+E     - region "Government rule change impact analyzer":
+E       - heading "Review rule changes and your preparation" [level=2]
+E       - paragraph: Compare locally available complete rule packs. Historical source hashes are not rule-pack versions. You can create a clearly hypothetical proposal to understand potential effects; this never changes active rules or invents a live government update.
+E       - group:
+E         - text: Stored baseline version
+E         - combobox "Stored baseline version":
+E           - option "passport-official-2026-10-13-v1" [selected]
+E         - text: Compare with version
+E         - combobox "Compare with version":
+E           - option "passport-official-2026-10-13-v1 (stored reference)" [selected]
+E         - button "Create hypothetical comparison version"
+E         - text: Preparation to review
+E         - combobox "Preparation to review":
+E           - option "General preparation" [selected]
+E         - button "Compare preparation impact"
+E     - link "Check official Passport Seva guidance ↗":
+E       - /url: https://www.passportindia.gov.in/
+E   - button "Open Maadhyam AI": Ask Maadhyam AI</failure></testcase><testcase classname="qa.test_completion" name="test_m7_expiry_ui[2099-01-01-2099-02-01-expires before target]" time="5.718"><failure message="AssertionError: Locator expected to contain text 'expires before target'&#10;Actual value: None&#10;Error: element(s) not found &#10;Call log:&#10;  - Expect &quot;to_contain_text&quot; get_by_label(&quot;Document expiry conflicts&quot;) with timeout 5000ms&#10;  - waiting for get_by_label(&quot;Document expiry conflicts&quot;)&#10;&#10;Aria snapshot:&#10;- complementary:&#10;  - link &quot;Maadhyam home&quot;:&#10;    - /url: /&#10;    - text: Maadhyam माध्यम&#10;  - paragraph: Workspace&#10;  - navigation &quot;Main navigation&quot;:&#10;    - link &quot;Dashboard&quot;:&#10;      - /url: /&#10;    - link &quot;Find Services&quot;:&#10;      - /url: /services&#10;    - link &quot;My Documents&quot;:&#10;      - /url: /documents&#10;    - link &quot;My Applications&quot;:&#10;      - /url: /applications&#10;    - link &quot;Resolution Planner&quot;:&#10;      - /url: /planner&#10;    - link &quot;Household Intelligence&quot;:&#10;      - /url: /household&#10;    - link &quot;Citizen Workflows&quot;:&#10;      - /url: /workflows&#10;  - paragraph: Guidance you can verify&#10;  - paragraph: Maadhyam is an independent assistance platform, not an official government website.&#10;- banner:&#10;  - button &quot;Collapse sidebar&quot; [expanded]&#10;  - paragraph: Citizen Workspace&#10;  - paragraph: Understand. Prepare. Resolve.&#10;  - button &quot;Switch to dark mode&quot;&#10;  - text: Preview&#10;- main:&#10;  - paragraph: Preparation workspace&#10;  - heading &quot;Resolution Planner&quot; [level=1]&#10;  - paragraph: Review potential document differences, understand dependencies and plan your next preparation steps. This is not an official eligibility decision.&#10;  - link &quot;Review Vault documents&quot;:&#10;    - /url: /documents&#10;  - link &quot;Passport services&quot;:&#10;    - /url: /services/passport&#10;  - heading &quot;Your document situation&quot; [level=2]&#10;  - paragraph: 1 uploaded · 1 reviewed self-held · 0 potential discrepancies&#10;  - paragraph: Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.&#10;  - region &quot;Passport correction alternatives&quot;:&#10;    - heading &quot;Passport correction alternatives&quot; [level=2]&#10;    - paragraph: No conflicting fields detected in reviewed applicant metadata. This does not establish official acceptance.&#10;    - heading &quot;Preparation blockers&quot; [level=3]&#10;    - list:&#10;      - listitem: Applicant age group not specified&#10;    - paragraph:&#10;      - strong: &quot;Suggested next action:&quot;&#10;      - text: Verify current Passport Seva requirements&#10;    - paragraph: Preparation guidance only; verify current scenario-specific requirements and accepted proofs on Passport Seva.&#10;  - heading &quot;Your next steps&quot; [level=2]&#10;  - article:&#10;    - text: &quot;1&quot;&#10;    - heading &quot;Verify current Passport Seva requirements&quot; [level=3]&#10;    - paragraph: Document categories are not official proof-acceptance decisions.&#10;    - paragraph: Suggested preparation step · Completion is not automatically verified.&#10;  - article:&#10;    - text: &quot;2&quot;&#10;    - heading &quot;Prepare originals and copies&quot; [level=3]&#10;    - paragraph: Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.&#10;    - paragraph: &quot;Prerequisites: official-review&quot;&#10;    - paragraph: Requires prerequisite review · Completion is not automatically verified.&#10;  - region &quot;Your deadline and action plan&quot;:&#10;    - heading &quot;Your deadline and action plan&quot; [level=2]&#10;    - text: When do you want your documents ready? (Your target, not a government deadline)&#10;    - textbox &quot;When do you want your documents ready? (Your target, not a government deadline)&quot;: 2099-02-01&#10;    - paragraph: 26408 day(s) until your personal target. This does not predict official processing time.&#10;    - list:&#10;      - listitem: Review the 0 unreviewed uploaded document(s) in Vault.&#10;      - listitem: Fill missing name, DOB and address metadata where it appears on each document.&#10;      - listitem: Compare the records; investigate differences using original documents and issuing authorities.&#10;      - listitem: Confirm accepted proofs and appointment requirements on the official Passport Seva website.&#10;      - listitem: Re-run this planner after reviewing evidence; unresolved blockers remain visible below.&#10;  - region &quot;Advanced preparation intelligence&quot;:&#10;    - heading &quot;Advanced preparation intelligence&quot; [level=2]&#10;    - paragraph: Deterministic planning from Vault metadata; no official document acceptance or government processing time is inferred.&#10;    - alert: Advanced reasoning could not be loaded. Check the backend and retry.&#10;  - region &quot;Citizen document decision assistant&quot;:&#10;    - paragraph: Explore your options&#10;    - heading &quot;Find a way forward with your documents&quot; [level=2]&#10;    - paragraph: Choose a situation below. Maadhyam uses your Vault details to explain what to check next—without changing any document.&#10;    - group &quot;Choose a document situation&quot;:&#10;      - button &quot;I need to correct a detail See what could change if a name, DOB or address is corrected.&quot; [pressed]&#10;      - button &quot;I have a family member's document Understand what relationship evidence may need checking.&quot;&#10;    - text: &quot;1&quot;&#10;    - heading &quot;Try a correction before taking action&quot; [level=3]&#10;    - paragraph: This is a safe preview. Your original Vault document stays unchanged.&#10;    - text: Which document would you like to check?&#10;    - combobox &quot;What-if document&quot;:&#10;      - option &quot;Select your document&quot; [selected]&#10;      - option &quot;fictional_aadhaar.png&quot;&#10;    - text: What detail needs correction?&#10;    - combobox &quot;What-if field&quot;:&#10;      - option &quot;Name&quot; [selected]&#10;      - option &quot;Date of birth&quot;&#10;      - option &quot;Residential address&quot;&#10;    - text: What should the corrected value be?&#10;    - textbox &quot;Hypothetical value&quot;:&#10;      - /placeholder: Enter a hypothetical corrected value&#10;    - button &quot;See the impact →&quot; [disabled]&#10;    - button &quot;Start over&quot;&#10;    - alert: Could not analyze your documents. Please check the backend and try again.&#10;  - region &quot;Weighted correction optimizer&quot;:&#10;    - heading &quot;Compare correction paths&quot; [level=2]&#10;    - paragraph: Enter possible actions and your own cost, time and visit estimates. These are illustrative assumptions, not government fees, processing times or approved routes. Dependencies describe which issues need review first.&#10;    - group:&#10;      - text: Priority for cost&#10;      - spinbutton &quot;Priority for cost&quot;: &quot;1&quot;&#10;      - text: Priority for days&#10;      - spinbutton &quot;Priority for days&quot;: &quot;1&quot;&#10;      - text: Priority for visits&#10;      - spinbutton &quot;Priority for visits&quot;: &quot;1&quot;&#10;      - text: Optimizer target date (optional)&#10;      - textbox &quot;Optimizer target date&quot;&#10;      - group &quot;Correction issue 1&quot;:&#10;        - text: Issue 1 Issue description&#10;        - textbox &quot;Issue 1 description&quot;: Review identity details&#10;        - button &quot;Remove issue&quot;&#10;        - heading &quot;Option 1&quot; [level=3]&#10;        - text: Action description&#10;        - textbox &quot;Action description&quot;: Lower-cost evidence review&#10;        - text: Responsible authority&#10;        - textbox &quot;Responsible authority&quot;: Issuing authority&#10;        - text: Estimated cost (INR)&#10;        - spinbutton &quot;Estimated cost (INR)&quot;: &quot;100&quot;&#10;        - text: Estimated days&#10;        - spinbutton &quot;Estimated days&quot;: &quot;10&quot;&#10;        - text: Estimated visits&#10;        - spinbutton &quot;Estimated visits&quot;: &quot;1&quot;&#10;        - group &quot;This option depends on&quot;:&#10;          - text: This option depends on&#10;          - checkbox &quot;Review identity details (self-dependency creates a cycle)&quot;&#10;          - text: Review identity details (self-dependency creates a cycle)&#10;        - checkbox &quot;Possible online route (unverified)&quot;&#10;        - text: Possible online route (unverified)&#10;        - button &quot;Remove option&quot;&#10;        - heading &quot;Option 2&quot; [level=3]&#10;        - text: Action description&#10;        - textbox &quot;Action description&quot;: Quicker review estimate&#10;        - text: Responsible authority&#10;        - textbox &quot;Responsible authority&quot;: Issuing authority&#10;        - text: Estimated cost (INR)&#10;        - spinbutton &quot;Estimated cost (INR)&quot;: &quot;1000&quot;&#10;        - text: Estimated days&#10;        - spinbutton &quot;Estimated days&quot;: &quot;2&quot;&#10;        - text: Estimated visits&#10;        - spinbutton &quot;Estimated visits&quot;: &quot;2&quot;&#10;        - group &quot;This option depends on&quot;:&#10;          - text: This option depends on&#10;          - checkbox &quot;Review identity details (self-dependency creates a cycle)&quot;&#10;          - text: Review identity details (self-dependency creates a cycle)&#10;        - checkbox &quot;Possible online route (unverified)&quot;&#10;        - text: Possible online route (unverified)&#10;        - button &quot;Remove option&quot;&#10;        - button &quot;Add correction option&quot;&#10;      - button &quot;Add correction issue&quot;&#10;      - button &quot;Find recommended path&quot;&#10;  - region &quot;Government rule change impact analyzer&quot;:&#10;    - heading &quot;Review rule changes and your preparation&quot; [level=2]&#10;    - paragraph: Compare locally available complete rule packs. Historical source hashes are not rule-pack versions. You can create a clearly hypothetical proposal to understand potential effects; this never changes active rules or invents a live government update.&#10;    - group:&#10;      - text: Stored baseline version&#10;      - combobox &quot;Stored baseline version&quot;:&#10;        - option &quot;passport-official-2026-10-13-v1&quot; [selected]&#10;      - text: Compare with version&#10;      - combobox &quot;Compare with version&quot;:&#10;        - option &quot;passport-official-2026-10-13-v1 (stored reference)&quot; [selected]&#10;      - button &quot;Create hypothetical comparison version&quot;&#10;      - text: Preparation to review&#10;      - combobox &quot;Preparation to review&quot;:&#10;        - option &quot;General preparation&quot; [selected]&#10;      - button &quot;Compare preparation impact&quot;&#10;  - link &quot;Check official Passport Seva guidance ↗&quot;:&#10;    - /url: https://www.passportindia.gov.in/&#10;- button &quot;Open Maadhyam AI&quot;: Ask Maadhyam AI">qa/test_completion.py:99: in test_m7_expiry_ui
+    expect(page.get_by_label('Document expiry conflicts')).to_contain_text(kind)
+E   AssertionError: Locator expected to contain text 'expires before target'
+E   Actual value: None
+E   Error: element(s) not found 
+E   Call log:
+E     - Expect "to_contain_text" get_by_label("Document expiry conflicts") with timeout 5000ms
+E     - waiting for get_by_label("Document expiry conflicts")
+E   
+E   Aria snapshot:
+E   - complementary:
+E     - link "Maadhyam home":
+E       - /url: /
+E       - text: Maadhyam माध्यम
+E     - paragraph: Workspace
+E     - navigation "Main navigation":
+E       - link "Dashboard":
+E         - /url: /
+E       - link "Find Services":
+E         - /url: /services
+E       - link "My Documents":
+E         - /url: /documents
+E       - link "My Applications":
+E         - /url: /applications
+E       - link "Resolution Planner":
+E         - /url: /planner
+E       - link "Household Intelligence":
+E         - /url: /household
+E       - link "Citizen Workflows":
+E         - /url: /workflows
+E     - paragraph: Guidance you can verify
+E     - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E   - banner:
+E     - button "Collapse sidebar" [expanded]
+E     - paragraph: Citizen Workspace
+E     - paragraph: Understand. Prepare. Resolve.
+E     - button "Switch to dark mode"
+E     - text: Preview
+E   - main:
+E     - paragraph: Preparation workspace
+E     - heading "Resolution Planner" [level=1]
+E     - paragraph: Review potential document differences, understand dependencies and plan your next preparation steps. This is not an official eligibility decision.
+E     - link "Review Vault documents":
+E       - /url: /documents
+E     - link "Passport services":
+E       - /url: /services/passport
+E     - heading "Your document situation" [level=2]
+E     - paragraph: 1 uploaded · 1 reviewed self-held · 0 potential discrepancies
+E     - paragraph: Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.
+E     - region "Passport correction alternatives":
+E       - heading "Passport correction alternatives" [level=2]
+E       - paragraph: No conflicting fields detected in reviewed applicant metadata. This does not establish official acceptance.
+E       - heading "Preparation blockers" [level=3]
+E       - list:
+E         - listitem: Applicant age group not specified
+E       - paragraph:
+E         - strong: "Suggested next action:"
+E         - text: Verify current Passport Seva requirements
+E       - paragraph: Preparation guidance only; verify current scenario-specific requirements and accepted proofs on Passport Seva.
+E     - heading "Your next steps" [level=2]
+E     - article:
+E       - text: "1"
+E       - heading "Verify current Passport Seva requirements" [level=3]
+E       - paragraph: Document categories are not official proof-acceptance decisions.
+E       - paragraph: Suggested preparation step · Completion is not automatically verified.
+E     - article:
+E       - text: "2"
+E       - heading "Prepare originals and copies" [level=3]
+E       - paragraph: Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.
+E       - paragraph: "Prerequisites: official-review"
+E       - paragraph: Requires prerequisite review · Completion is not automatically verified.
+E     - region "Your deadline and action plan":
+E       - heading "Your deadline and action plan" [level=2]
+E       - text: When do you want your documents ready? (Your target, not a government deadline)
+E       - textbox "When do you want your documents ready? (Your target, not a government deadline)": 2099-02-01
+E       - paragraph: 26408 day(s) until your personal target. This does not predict official processing time.
+E       - list:
+E         - listitem: Review the 0 unreviewed uploaded document(s) in Vault.
+E         - listitem: Fill missing name, DOB and address metadata where it appears on each document.
+E         - listitem: Compare the records; investigate differences using original documents and issuing authorities.
+E         - listitem: Confirm accepted proofs and appointment requirements on the official Passport Seva website.
+E         - listitem: Re-run this planner after reviewing evidence; unresolved blockers remain visible below.
+E     - region "Advanced preparation intelligence":
+E       - heading "Advanced preparation intelligence" [level=2]
+E       - paragraph: Deterministic planning from Vault metadata; no official document acceptance or government processing time is inferred.
+E       - alert: Advanced reasoning could not be loaded. Check the backend and retry.
+E     - region "Citizen document decision assistant":
+E       - paragraph: Explore your options
+E       - heading "Find a way forward with your documents" [level=2]
+E       - paragraph: Choose a situation below. Maadhyam uses your Vault details to explain what to check next—without changing any document.
+E       - group "Choose a document situation":
+E         - button "I need to correct a detail See what could change if a name, DOB or address is corrected." [pressed]
+E         - button "I have a family member's document Understand what relationship evidence may need checking."
+E       - text: "1"
+E       - heading "Try a correction before taking action" [level=3]
+E       - paragraph: This is a safe preview. Your original Vault document stays unchanged.
+E       - text: Which document would you like to check?
+E       - combobox "What-if document":
+E         - option "Select your document" [selected]
+E         - option "fictional_aadhaar.png"
+E       - text: What detail needs correction?
+E       - combobox "What-if field":
+E         - option "Name" [selected]
+E         - option "Date of birth"
+E         - option "Residential address"
+E       - text: What should the corrected value be?
+E       - textbox "Hypothetical value":
+E         - /placeholder: Enter a hypothetical corrected value
+E       - button "See the impact →" [disabled]
+E       - button "Start over"
+E       - alert: Could not analyze your documents. Please check the backend and try again.
+E     - region "Weighted correction optimizer":
+E       - heading "Compare correction paths" [level=2]
+E       - paragraph: Enter possible actions and your own cost, time and visit estimates. These are illustrative assumptions, not government fees, processing times or approved routes. Dependencies describe which issues need review first.
+E       - group:
+E         - text: Priority for cost
+E         - spinbutton "Priority for cost": "1"
+E         - text: Priority for days
+E         - spinbutton "Priority for days": "1"
+E         - text: Priority for visits
+E         - spinbutton "Priority for visits": "1"
+E         - text: Optimizer target date (optional)
+E         - textbox "Optimizer target date"
+E         - group "Correction issue 1":
+E           - text: Issue 1 Issue description
+E           - textbox "Issue 1 description": Review identity details
+E           - button "Remove issue"
+E           - heading "Option 1" [level=3]
+E           - text: Action description
+E           - textbox "Action description": Lower-cost evidence review
+E           - text: Responsible authority
+E           - textbox "Responsible authority": Issuing authority
+E           - text: Estimated cost (INR)
+E           - spinbutton "Estimated cost (INR)": "100"
+E           - text: Estimated days
+E           - spinbutton "Estimated days": "10"
+E           - text: Estimated visits
+E           - spinbutton "Estimated visits": "1"
+E           - group "This option depends on":
+E             - text: This option depends on
+E             - checkbox "Review identity details (self-dependency creates a cycle)"
+E             - text: Review identity details (self-dependency creates a cycle)
+E           - checkbox "Possible online route (unverified)"
+E           - text: Possible online route (unverified)
+E           - button "Remove option"
+E           - heading "Option 2" [level=3]
+E           - text: Action description
+E           - textbox "Action description": Quicker review estimate
+E           - text: Responsible authority
+E           - textbox "Responsible authority": Issuing authority
+E           - text: Estimated cost (INR)
+E           - spinbutton "Estimated cost (INR)": "1000"
+E           - text: Estimated days
+E           - spinbutton "Estimated days": "2"
+E           - text: Estimated visits
+E           - spinbutton "Estimated visits": "2"
+E           - group "This option depends on":
+E             - text: This option depends on
+E             - checkbox "Review identity details (self-dependency creates a cycle)"
+E             - text: Review identity details (self-dependency creates a cycle)
+E           - checkbox "Possible online route (unverified)"
+E           - text: Possible online route (unverified)
+E           - button "Remove option"
+E           - button "Add correction option"
+E         - button "Add correction issue"
+E         - button "Find recommended path"
+E     - region "Government rule change impact analyzer":
+E       - heading "Review rule changes and your preparation" [level=2]
+E       - paragraph: Compare locally available complete rule packs. Historical source hashes are not rule-pack versions. You can create a clearly hypothetical proposal to understand potential effects; this never changes active rules or invents a live government update.
+E       - group:
+E         - text: Stored baseline version
+E         - combobox "Stored baseline version":
+E           - option "passport-official-2026-10-13-v1" [selected]
+E         - text: Compare with version
+E         - combobox "Compare with version":
+E           - option "passport-official-2026-10-13-v1 (stored reference)" [selected]
+E         - button "Create hypothetical comparison version"
+E         - text: Preparation to review
+E         - combobox "Preparation to review":
+E           - option "General preparation" [selected]
+E         - button "Compare preparation impact"
+E     - link "Check official Passport Seva guidance ↗":
+E       - /url: https://www.passportindia.gov.in/
+E   - button "Open Maadhyam AI": Ask Maadhyam AI</failure></testcase><testcase classname="qa.test_completion" name="test_m7_expiry_ui[-2099-02-01-No expiry conflicts detected]" time="5.700"><failure message="AssertionError: Locator expected to contain text 'No expiry conflicts detected'&#10;Actual value: None&#10;Error: element(s) not found &#10;Call log:&#10;  - Expect &quot;to_contain_text&quot; get_by_label(&quot;Document expiry conflicts&quot;) with timeout 5000ms&#10;  - waiting for get_by_label(&quot;Document expiry conflicts&quot;)&#10;&#10;Aria snapshot:&#10;- complementary:&#10;  - link &quot;Maadhyam home&quot;:&#10;    - /url: /&#10;    - text: Maadhyam माध्यम&#10;  - paragraph: Workspace&#10;  - navigation &quot;Main navigation&quot;:&#10;    - link &quot;Dashboard&quot;:&#10;      - /url: /&#10;    - link &quot;Find Services&quot;:&#10;      - /url: /services&#10;    - link &quot;My Documents&quot;:&#10;      - /url: /documents&#10;    - link &quot;My Applications&quot;:&#10;      - /url: /applications&#10;    - link &quot;Resolution Planner&quot;:&#10;      - /url: /planner&#10;    - link &quot;Household Intelligence&quot;:&#10;      - /url: /household&#10;    - link &quot;Citizen Workflows&quot;:&#10;      - /url: /workflows&#10;  - paragraph: Guidance you can verify&#10;  - paragraph: Maadhyam is an independent assistance platform, not an official government website.&#10;- banner:&#10;  - button &quot;Collapse sidebar&quot; [expanded]&#10;  - paragraph: Citizen Workspace&#10;  - paragraph: Understand. Prepare. Resolve.&#10;  - button &quot;Switch to dark mode&quot;&#10;  - text: Preview&#10;- main:&#10;  - paragraph: Preparation workspace&#10;  - heading &quot;Resolution Planner&quot; [level=1]&#10;  - paragraph: Review potential document differences, understand dependencies and plan your next preparation steps. This is not an official eligibility decision.&#10;  - link &quot;Review Vault documents&quot;:&#10;    - /url: /documents&#10;  - link &quot;Passport services&quot;:&#10;    - /url: /services/passport&#10;  - heading &quot;Your document situation&quot; [level=2]&#10;  - paragraph: 1 uploaded · 1 reviewed self-held · 0 potential discrepancies&#10;  - paragraph: Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.&#10;  - region &quot;Passport correction alternatives&quot;:&#10;    - heading &quot;Passport correction alternatives&quot; [level=2]&#10;    - paragraph: No conflicting fields detected in reviewed applicant metadata. This does not establish official acceptance.&#10;    - heading &quot;Preparation blockers&quot; [level=3]&#10;    - list:&#10;      - listitem: Applicant age group not specified&#10;    - paragraph:&#10;      - strong: &quot;Suggested next action:&quot;&#10;      - text: Verify current Passport Seva requirements&#10;    - paragraph: Preparation guidance only; verify current scenario-specific requirements and accepted proofs on Passport Seva.&#10;  - heading &quot;Your next steps&quot; [level=2]&#10;  - article:&#10;    - text: &quot;1&quot;&#10;    - heading &quot;Verify current Passport Seva requirements&quot; [level=3]&#10;    - paragraph: Document categories are not official proof-acceptance decisions.&#10;    - paragraph: Suggested preparation step · Completion is not automatically verified.&#10;  - article:&#10;    - text: &quot;2&quot;&#10;    - heading &quot;Prepare originals and copies&quot; [level=3]&#10;    - paragraph: Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.&#10;    - paragraph: &quot;Prerequisites: official-review&quot;&#10;    - paragraph: Requires prerequisite review · Completion is not automatically verified.&#10;  - region &quot;Your deadline and action plan&quot;:&#10;    - heading &quot;Your deadline and action plan&quot; [level=2]&#10;    - text: When do you want your documents ready? (Your target, not a government deadline)&#10;    - textbox &quot;When do you want your documents ready? (Your target, not a government deadline)&quot;: 2099-02-01&#10;    - paragraph: 26408 day(s) until your personal target. This does not predict official processing time.&#10;    - list:&#10;      - listitem: Review the 0 unreviewed uploaded document(s) in Vault.&#10;      - listitem: Fill missing name, DOB and address metadata where it appears on each document.&#10;      - listitem: Compare the records; investigate differences using original documents and issuing authorities.&#10;      - listitem: Confirm accepted proofs and appointment requirements on the official Passport Seva website.&#10;      - listitem: Re-run this planner after reviewing evidence; unresolved blockers remain visible below.&#10;  - region &quot;Advanced preparation intelligence&quot;:&#10;    - heading &quot;Advanced preparation intelligence&quot; [level=2]&#10;    - paragraph: Deterministic planning from Vault metadata; no official document acceptance or government processing time is inferred.&#10;    - alert: Advanced reasoning could not be loaded. Check the backend and retry.&#10;  - region &quot;Citizen document decision assistant&quot;:&#10;    - paragraph: Explore your options&#10;    - heading &quot;Find a way forward with your documents&quot; [level=2]&#10;    - paragraph: Choose a situation below. Maadhyam uses your Vault details to explain what to check next—without changing any document.&#10;    - group &quot;Choose a document situation&quot;:&#10;      - button &quot;I need to correct a detail See what could change if a name, DOB or address is corrected.&quot; [pressed]&#10;      - button &quot;I have a family member's document Understand what relationship evidence may need checking.&quot;&#10;    - text: &quot;1&quot;&#10;    - heading &quot;Try a correction before taking action&quot; [level=3]&#10;    - paragraph: This is a safe preview. Your original Vault document stays unchanged.&#10;    - text: Which document would you like to check?&#10;    - combobox &quot;What-if document&quot;:&#10;      - option &quot;Select your document&quot; [selected]&#10;      - option &quot;fictional_aadhaar.png&quot;&#10;    - text: What detail needs correction?&#10;    - combobox &quot;What-if field&quot;:&#10;      - option &quot;Name&quot; [selected]&#10;      - option &quot;Date of birth&quot;&#10;      - option &quot;Residential address&quot;&#10;    - text: What should the corrected value be?&#10;    - textbox &quot;Hypothetical value&quot;:&#10;      - /placeholder: Enter a hypothetical corrected value&#10;    - button &quot;See the impact →&quot; [disabled]&#10;    - button &quot;Start over&quot;&#10;    - alert: Could not analyze your documents. Please check the backend and try again.&#10;  - region &quot;Weighted correction optimizer&quot;:&#10;    - heading &quot;Compare correction paths&quot; [level=2]&#10;    - paragraph: Enter possible actions and your own cost, time and visit estimates. These are illustrative assumptions, not government fees, processing times or approved routes. Dependencies describe which issues need review first.&#10;    - group:&#10;      - text: Priority for cost&#10;      - spinbutton &quot;Priority for cost&quot;: &quot;1&quot;&#10;      - text: Priority for days&#10;      - spinbutton &quot;Priority for days&quot;: &quot;1&quot;&#10;      - text: Priority for visits&#10;      - spinbutton &quot;Priority for visits&quot;: &quot;1&quot;&#10;      - text: Optimizer target date (optional)&#10;      - textbox &quot;Optimizer target date&quot;&#10;      - group &quot;Correction issue 1&quot;:&#10;        - text: Issue 1 Issue description&#10;        - textbox &quot;Issue 1 description&quot;: Review identity details&#10;        - button &quot;Remove issue&quot;&#10;        - heading &quot;Option 1&quot; [level=3]&#10;        - text: Action description&#10;        - textbox &quot;Action description&quot;: Lower-cost evidence review&#10;        - text: Responsible authority&#10;        - textbox &quot;Responsible authority&quot;: Issuing authority&#10;        - text: Estimated cost (INR)&#10;        - spinbutton &quot;Estimated cost (INR)&quot;: &quot;100&quot;&#10;        - text: Estimated days&#10;        - spinbutton &quot;Estimated days&quot;: &quot;10&quot;&#10;        - text: Estimated visits&#10;        - spinbutton &quot;Estimated visits&quot;: &quot;1&quot;&#10;        - group &quot;This option depends on&quot;:&#10;          - text: This option depends on&#10;          - checkbox &quot;Review identity details (self-dependency creates a cycle)&quot;&#10;          - text: Review identity details (self-dependency creates a cycle)&#10;        - checkbox &quot;Possible online route (unverified)&quot;&#10;        - text: Possible online route (unverified)&#10;        - button &quot;Remove option&quot;&#10;        - heading &quot;Option 2&quot; [level=3]&#10;        - text: Action description&#10;        - textbox &quot;Action description&quot;: Quicker review estimate&#10;        - text: Responsible authority&#10;        - textbox &quot;Responsible authority&quot;: Issuing authority&#10;        - text: Estimated cost (INR)&#10;        - spinbutton &quot;Estimated cost (INR)&quot;: &quot;1000&quot;&#10;        - text: Estimated days&#10;        - spinbutton &quot;Estimated days&quot;: &quot;2&quot;&#10;        - text: Estimated visits&#10;        - spinbutton &quot;Estimated visits&quot;: &quot;2&quot;&#10;        - group &quot;This option depends on&quot;:&#10;          - text: This option depends on&#10;          - checkbox &quot;Review identity details (self-dependency creates a cycle)&quot;&#10;          - text: Review identity details (self-dependency creates a cycle)&#10;        - checkbox &quot;Possible online route (unverified)&quot;&#10;        - text: Possible online route (unverified)&#10;        - button &quot;Remove option&quot;&#10;        - button &quot;Add correction option&quot;&#10;      - button &quot;Add correction issue&quot;&#10;      - button &quot;Find recommended path&quot;&#10;  - region &quot;Government rule change impact analyzer&quot;:&#10;    - heading &quot;Review rule changes and your preparation&quot; [level=2]&#10;    - paragraph: Compare locally available complete rule packs. Historical source hashes are not rule-pack versions. You can create a clearly hypothetical proposal to understand potential effects; this never changes active rules or invents a live government update.&#10;    - group:&#10;      - text: Stored baseline version&#10;      - combobox &quot;Stored baseline version&quot;:&#10;        - option &quot;passport-official-2026-10-13-v1&quot; [selected]&#10;      - text: Compare with version&#10;      - combobox &quot;Compare with version&quot;:&#10;        - option &quot;passport-official-2026-10-13-v1 (stored reference)&quot; [selected]&#10;      - button &quot;Create hypothetical comparison version&quot;&#10;      - text: Preparation to review&#10;      - combobox &quot;Preparation to review&quot;:&#10;        - option &quot;General preparation&quot; [selected]&#10;      - button &quot;Compare preparation impact&quot;&#10;  - link &quot;Check official Passport Seva guidance ↗&quot;:&#10;    - /url: https://www.passportindia.gov.in/&#10;- button &quot;Open Maadhyam AI&quot;: Ask Maadhyam AI">qa/test_completion.py:99: in test_m7_expiry_ui
+    expect(page.get_by_label('Document expiry conflicts')).to_contain_text(kind)
+E   AssertionError: Locator expected to contain text 'No expiry conflicts detected'
+E   Actual value: None
+E   Error: element(s) not found 
+E   Call log:
+E     - Expect "to_contain_text" get_by_label("Document expiry conflicts") with timeout 5000ms
+E     - waiting for get_by_label("Document expiry conflicts")
+E   
+E   Aria snapshot:
+E   - complementary:
+E     - link "Maadhyam home":
+E       - /url: /
+E       - text: Maadhyam माध्यम
+E     - paragraph: Workspace
+E     - navigation "Main navigation":
+E       - link "Dashboard":
+E         - /url: /
+E       - link "Find Services":
+E         - /url: /services
+E       - link "My Documents":
+E         - /url: /documents
+E       - link "My Applications":
+E         - /url: /applications
+E       - link "Resolution Planner":
+E         - /url: /planner
+E       - link "Household Intelligence":
+E         - /url: /household
+E       - link "Citizen Workflows":
+E         - /url: /workflows
+E     - paragraph: Guidance you can verify
+E     - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E   - banner:
+E     - button "Collapse sidebar" [expanded]
+E     - paragraph: Citizen Workspace
+E     - paragraph: Understand. Prepare. Resolve.
+E     - button "Switch to dark mode"
+E     - text: Preview
+E   - main:
+E     - paragraph: Preparation workspace
+E     - heading "Resolution Planner" [level=1]
+E     - paragraph: Review potential document differences, understand dependencies and plan your next preparation steps. This is not an official eligibility decision.
+E     - link "Review Vault documents":
+E       - /url: /documents
+E     - link "Passport services":
+E       - /url: /services/passport
+E     - heading "Your document situation" [level=2]
+E     - paragraph: 1 uploaded · 1 reviewed self-held · 0 potential discrepancies
+E     - paragraph: Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.
+E     - region "Passport correction alternatives":
+E       - heading "Passport correction alternatives" [level=2]
+E       - paragraph: No conflicting fields detected in reviewed applicant metadata. This does not establish official acceptance.
+E       - heading "Preparation blockers" [level=3]
+E       - list:
+E         - listitem: Applicant age group not specified
+E       - paragraph:
+E         - strong: "Suggested next action:"
+E         - text: Verify current Passport Seva requirements
+E       - paragraph: Preparation guidance only; verify current scenario-specific requirements and accepted proofs on Passport Seva.
+E     - heading "Your next steps" [level=2]
+E     - article:
+E       - text: "1"
+E       - heading "Verify current Passport Seva requirements" [level=3]
+E       - paragraph: Document categories are not official proof-acceptance decisions.
+E       - paragraph: Suggested preparation step · Completion is not automatically verified.
+E     - article:
+E       - text: "2"
+E       - heading "Prepare originals and copies" [level=3]
+E       - paragraph: Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.
+E       - paragraph: "Prerequisites: official-review"
+E       - paragraph: Requires prerequisite review · Completion is not automatically verified.
+E     - region "Your deadline and action plan":
+E       - heading "Your deadline and action plan" [level=2]
+E       - text: When do you want your documents ready? (Your target, not a government deadline)
+E       - textbox "When do you want your documents ready? (Your target, not a government deadline)": 2099-02-01
+E       - paragraph: 26408 day(s) until your personal target. This does not predict official processing time.
+E       - list:
+E         - listitem: Review the 0 unreviewed uploaded document(s) in Vault.
+E         - listitem: Fill missing name, DOB and address metadata where it appears on each document.
+E         - listitem: Compare the records; investigate differences using original documents and issuing authorities.
+E         - listitem: Confirm accepted proofs and appointment requirements on the official Passport Seva website.
+E         - listitem: Re-run this planner after reviewing evidence; unresolved blockers remain visible below.
+E     - region "Advanced preparation intelligence":
+E       - heading "Advanced preparation intelligence" [level=2]
+E       - paragraph: Deterministic planning from Vault metadata; no official document acceptance or government processing time is inferred.
+E       - alert: Advanced reasoning could not be loaded. Check the backend and retry.
+E     - region "Citizen document decision assistant":
+E       - paragraph: Explore your options
+E       - heading "Find a way forward with your documents" [level=2]
+E       - paragraph: Choose a situation below. Maadhyam uses your Vault details to explain what to check next—without changing any document.
+E       - group "Choose a document situation":
+E         - button "I need to correct a detail See what could change if a name, DOB or address is corrected." [pressed]
+E         - button "I have a family member's document Understand what relationship evidence may need checking."
+E       - text: "1"
+E       - heading "Try a correction before taking action" [level=3]
+E       - paragraph: This is a safe preview. Your original Vault document stays unchanged.
+E       - text: Which document would you like to check?
+E       - combobox "What-if document":
+E         - option "Select your document" [selected]
+E         - option "fictional_aadhaar.png"
+E       - text: What detail needs correction?
+E       - combobox "What-if field":
+E         - option "Name" [selected]
+E         - option "Date of birth"
+E         - option "Residential address"
+E       - text: What should the corrected value be?
+E       - textbox "Hypothetical value":
+E         - /placeholder: Enter a hypothetical corrected value
+E       - button "See the impact →" [disabled]
+E       - button "Start over"
+E       - alert: Could not analyze your documents. Please check the backend and try again.
+E     - region "Weighted correction optimizer":
+E       - heading "Compare correction paths" [level=2]
+E       - paragraph: Enter possible actions and your own cost, time and visit estimates. These are illustrative assumptions, not government fees, processing times or approved routes. Dependencies describe which issues need review first.
+E       - group:
+E         - text: Priority for cost
+E         - spinbutton "Priority for cost": "1"
+E         - text: Priority for days
+E         - spinbutton "Priority for days": "1"
+E         - text: Priority for visits
+E         - spinbutton "Priority for visits": "1"
+E         - text: Optimizer target date (optional)
+E         - textbox "Optimizer target date"
+E         - group "Correction issue 1":
+E           - text: Issue 1 Issue description
+E           - textbox "Issue 1 description": Review identity details
+E           - button "Remove issue"
+E           - heading "Option 1" [level=3]
+E           - text: Action description
+E           - textbox "Action description": Lower-cost evidence review
+E           - text: Responsible authority
+E           - textbox "Responsible authority": Issuing authority
+E           - text: Estimated cost (INR)
+E           - spinbutton "Estimated cost (INR)": "100"
+E           - text: Estimated days
+E           - spinbutton "Estimated days": "10"
+E           - text: Estimated visits
+E           - spinbutton "Estimated visits": "1"
+E           - group "This option depends on":
+E             - text: This option depends on
+E             - checkbox "Review identity details (self-dependency creates a cycle)"
+E             - text: Review identity details (self-dependency creates a cycle)
+E           - checkbox "Possible online route (unverified)"
+E           - text: Possible online route (unverified)
+E           - button "Remove option"
+E           - heading "Option 2" [level=3]
+E           - text: Action description
+E           - textbox "Action description": Quicker review estimate
+E           - text: Responsible authority
+E           - textbox "Responsible authority": Issuing authority
+E           - text: Estimated cost (INR)
+E           - spinbutton "Estimated cost (INR)": "1000"
+E           - text: Estimated days
+E           - spinbutton "Estimated days": "2"
+E           - text: Estimated visits
+E           - spinbutton "Estimated visits": "2"
+E           - group "This option depends on":
+E             - text: This option depends on
+E             - checkbox "Review identity details (self-dependency creates a cycle)"
+E             - text: Review identity details (self-dependency creates a cycle)
+E           - checkbox "Possible online route (unverified)"
+E           - text: Possible online route (unverified)
+E           - button "Remove option"
+E           - button "Add correction option"
+E         - button "Add correction issue"
+E         - button "Find recommended path"
+E     - region "Government rule change impact analyzer":
+E       - heading "Review rule changes and your preparation" [level=2]
+E       - paragraph: Compare locally available complete rule packs. Historical source hashes are not rule-pack versions. You can create a clearly hypothetical proposal to understand potential effects; this never changes active rules or invents a live government update.
+E       - group:
+E         - text: Stored baseline version
+E         - combobox "Stored baseline version":
+E           - option "passport-official-2026-10-13-v1" [selected]
+E         - text: Compare with version
+E         - combobox "Compare with version":
+E           - option "passport-official-2026-10-13-v1 (stored reference)" [selected]
+E         - button "Create hypothetical comparison version"
+E         - text: Preparation to review
+E         - combobox "Preparation to review":
+E           - option "General preparation" [selected]
+E         - button "Compare preparation impact"
+E     - link "Check official Passport Seva guidance ↗":
+E       - /url: https://www.passportindia.gov.in/
+E   - button "Open Maadhyam AI": Ask Maadhyam AI</failure></testcase><testcase classname="qa.test_completion" name="test_m7_rule_comparison[False]" time="0.355" /><testcase classname="qa.test_completion" name="test_m7_rule_comparison[True]" time="0.532" /><testcase classname="qa.test_completion" name="test_m7_rule_errors[missing-baseline]" time="0.272" /><testcase classname="qa.test_completion" name="test_m7_rule_errors[malformed-result]" time="0.366" /><testcase classname="qa.test_completion" name="test_m7_rule_errors[invalid-version]" time="0.416" /><testcase classname="qa.test_completion" name="test_m7_weighted_paths[cost]" time="0.361" /><testcase classname="qa.test_completion" name="test_m7_weighted_paths[days]" time="0.378" /><testcase classname="qa.test_completion" name="test_m7_optimizer_cycle_invalid" time="0.452" /><testcase classname="qa.test_completion" name="test_m8_members_ownership_dependencies" time="1.295" /><testcase classname="qa.test_completion" name="test_m8_cycle_edit_delete" time="1.156" /><testcase classname="qa.test_completion" name="test_m8_session_isolation" time="0.393" /><testcase classname="qa.test_completion" name="test_cross_milestone_household_assistant" time="0.952" /><testcase classname="qa.test_completion" name="test_m5_selected_type_and_delete" time="0.630" /><testcase classname="qa.test_completion" name="test_completion_mobile[/planner]" time="5.071"><failure message="AssertionError: Locator expected to be visible&#10;Actual value: None&#10;Error: element(s) not found &#10;Call log:&#10;  - Expect &quot;to_be_visible&quot; locator(&quot;h1&quot;) with timeout 5000ms&#10;  - waiting for locator(&quot;h1&quot;)">qa/test_completion.py:266: in test_completion_mobile
+    expect(page.locator('h1')).to_be_visible()
+E   AssertionError: Locator expected to be visible
+E   Actual value: None
+E   Error: element(s) not found 
+E   Call log:
+E     - Expect "to_be_visible" locator("h1") with timeout 5000ms
+E     - waiting for locator("h1")</failure></testcase><testcase classname="qa.test_completion" name="test_completion_mobile[/household]" time="0.150" /><testcase classname="qa.test_completion" name="test_completion_mobile[/applications]" time="0.152" /><testcase classname="qa.test_completion" name="test_completion_unexpected_results[/api/intelligence/advanced-plan-Find recommended path-Weighted correction optimizer]" time="0.441" /><testcase classname="qa.test_completion" name="test_completion_unexpected_results[/api/passport/rules/compare-Compare preparation impact-Government rule change impact analyzer]" time="0.428" /><testcase classname="qa.test_completion" name="test_completion_unexpected_results[/api/household/assess-Analyze household dependencies-Household members]" time="0.286" /><testcase classname="qa.test_completion" name="test_m8_distinct_parents_do_not_compare_as_one_person" time="1.048" /><testcase classname="qa.test_completion" name="test_m8_remove_owned_dependency_safely" time="0.792" /><testcase classname="qa.test_final_journeys" name="test_journey_a_passport_full" time="0.376"><failure message="IndexError: list index out of range">qa/test_final_journeys.py:29: in test_journey_a_passport_full
+    record=url.split('preparation=')[1]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   IndexError: list index out of range</failure></testcase><testcase classname="qa.test_final_journeys" name="test_m5_document_references_isolated_and_missing" time="5.601"><failure message="AssertionError: Locator expected to be checked&#10;Actual value: None&#10;Error: element(s) not found &#10;Call log:&#10;  - Expect &quot;to_be_checked&quot; get_by_label(&quot;Preparation document references&quot;).get_by_role(&quot;checkbox&quot;) with timeout 5000ms&#10;  - waiting for get_by_label(&quot;Preparation document references&quot;).get_by_role(&quot;checkbox&quot;)&#10;&#10;Aria snapshot:&#10;- complementary:&#10;  - link &quot;Maadhyam home&quot;:&#10;    - /url: /&#10;    - text: Maadhyam माध्यम&#10;  - paragraph: Workspace&#10;  - navigation &quot;Main navigation&quot;:&#10;    - link &quot;Dashboard&quot;:&#10;      - /url: /&#10;    - link &quot;Find Services&quot;:&#10;      - /url: /services&#10;    - link &quot;My Documents&quot;:&#10;      - /url: /documents&#10;    - link &quot;My Applications&quot;:&#10;      - /url: /applications&#10;    - link &quot;Resolution Planner&quot;:&#10;      - /url: /planner&#10;    - link &quot;Household Intelligence&quot;:&#10;      - /url: /household&#10;    - link &quot;Citizen Workflows&quot;:&#10;      - /url: /workflows&#10;  - paragraph: Guidance you can verify&#10;  - paragraph: Maadhyam is an independent assistance platform, not an official government website.&#10;- banner:&#10;  - button &quot;Collapse sidebar&quot; [expanded]&#10;  - paragraph: Citizen Workspace&#10;  - paragraph: Understand. Prepare. Resolve.&#10;  - button &quot;Switch to dark mode&quot;&#10;  - text: Preview&#10;- main:&#10;  - link &quot;Back to Passport Seva&quot;:&#10;    - /url: /services/passport&#10;  - text: Guided Preparation&#10;  - heading &quot;Applying for a new passport&quot; [level=1]&#10;  - paragraph: Answer a few questions to organize your preparation. This is not an official eligibility assessment.&#10;  - region &quot;Preparation save controls&quot;:&#10;    - paragraph:&#10;      - text: &quot;Preparation record:&quot;&#10;      - strong: LOCAL-0016329d-7053-4e23-9bb4-d3cd01b0abb8&#10;    - status: Saved in this workspace session. Reload clears it unless you enable preparation saving.&#10;    - text: Applicant name (optional, fictional while testing)&#10;    - textbox &quot;Applicant name&quot;&#10;    - button &quot;Save preparation&quot;&#10;    - link &quot;My Preparations and saving options&quot;:&#10;      - /url: /applications&#10;  - paragraph: Step 1 of 4&#10;  - heading &quot;Choose assistance&quot; [level=2]&#10;  - text: 25%&#10;  - progressbar &quot;Journey progress&quot;&#10;  - paragraph: Select what you need help with.&#10;  - heading &quot;What do you need help with?&quot; [level=3]&#10;  - link &quot;Applying for a new passport Prepare for your first passport application.&quot;:&#10;    - /url: /services/passport/journey?type=fresh&amp;preparation=LOCAL-0016329d-7053-4e23-9bb4-d3cd01b0abb8&#10;    - paragraph: Applying for a new passport&#10;    - paragraph: Prepare for your first passport application.&#10;  - link &quot;Reissuing an existing passport Explore preparation for renewal, expiry or other reissue reasons.&quot;:&#10;    - /url: /services/passport/journey?type=reissue&amp;preparation=LOCAL-0016329d-7053-4e23-9bb4-d3cd01b0abb8&#10;    - paragraph: Reissuing an existing passport&#10;    - paragraph: Explore preparation for renewal, expiry or other reissue reasons.&#10;  - link &quot;Correcting personal details Review potential differences in name, address or other details.&quot;:&#10;    - /url: /services/passport/journey?type=correction&amp;preparation=LOCAL-0016329d-7053-4e23-9bb4-d3cd01b0abb8&#10;    - paragraph: Correcting personal details&#10;    - paragraph: Review potential differences in name, address or other details.&#10;  - link &quot;Checking document readiness Understand which documents may need review.&quot;:&#10;    - /url: /services/passport/journey?type=documents&amp;preparation=LOCAL-0016329d-7053-4e23-9bb4-d3cd01b0abb8&#10;    - paragraph: Checking document readiness&#10;    - paragraph: Understand which documents may need review.&#10;  - link &quot;Getting help with police verification Understand verification stages, delays and possible next steps.&quot;:&#10;    - /url: /services/passport/journey?type=police&amp;preparation=LOCAL-0016329d-7053-4e23-9bb4-d3cd01b0abb8&#10;    - paragraph: Getting help with police verification&#10;    - paragraph: Understand verification stages, delays and possible next steps.&#10;  - button &quot;Back&quot; [disabled]&#10;  - button &quot;Continue&quot;&#10;  - region &quot;Preparation document references&quot;:&#10;    - heading &quot;Documents for this preparation&quot; [level=2]&#10;    - paragraph: Select the Vault records belonging to this applicant. These references are saved with this preparation; files use separate Vault saving consent. Review status and ownership still apply.&#10;    - paragraph: No Vault evidence available. Add documents in Document Vault, then return here to select them.&#10;  - region &quot;Passport document requirements&quot;:&#10;    - paragraph: Your document plan&#10;    - heading &quot;Official-source requirements&quot; [level=2]&#10;    - paragraph: Based on your answers and self-reviewed Document Vault records. Not an approval decision.&#10;    - link &quot;Verify with Passport Seva ↗&quot;:&#10;      - /url: https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp&#10;    - text: Applicant date of birth (for document guidance)&#10;    - paragraph: Enter the date to select the applicable date-of-birth evidence guidance. This does not establish eligibility.&#10;    - textbox &quot;Applicant date of birth (for document guidance)&quot;&#10;    - text: 3 requirements to review 0 possible proofs found 3 need follow-up&#10;    - paragraph: Official-source monitoring needs review (review-required). These are preparation suggestions, not confirmation that government rules are unchanged. Verify your case using the official links.&#10;    - article:&#10;      - text: &quot;1&quot;&#10;      - heading &quot;Proof of present residential address&quot; [level=3]&#10;      - text: Check required&#10;      - paragraph: No self-reviewed vault document matches the listed proof types; confirm actual evidence and document details.&#10;      - paragraph:&#10;        - strong: &quot;What to do:&quot;&#10;        - text: Provide one officially listed proof of your current address. Check name, holder and address, plus category-specific conditions.&#10;      - group: See possible supporting documents&#10;      - link &quot;View government source ↗&quot;:&#10;        - /url: https://www.passportindia.gov.in/psp/ListDocuments&#10;    - article:&#10;      - text: &quot;2&quot;&#10;      - heading &quot;Confirm DOB to select the legal evidence rule&quot; [level=3]&#10;      - text: Check required&#10;      - paragraph: Birth date is required to determine which official DOB-proof rule applies.&#10;      - paragraph:&#10;        - strong: &quot;What to do:&quot;&#10;        - text: Enter applicant date of birth (YYYY-MM-DD).&#10;      - link &quot;View government source ↗&quot;:&#10;        - /url: https://services2.passportindia.gov.in/AppOnlineProject/pdf/Gazette_Notification_DoB.pdf&#10;    - article:&#10;      - text: &quot;3&quot;&#10;      - heading &quot;Non-ECR supporting proof&quot; [level=3]&#10;      - text: Check required&#10;      - paragraph: Non-ECR documentary evidence depends on eligibility category.&#10;      - paragraph:&#10;        - strong: &quot;What to do:&quot;&#10;        - text: Check your category in the official Document Advisor and prepare supporting evidence where applicable.&#10;      - link &quot;View government source ↗&quot;:&#10;        - /url: https://passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf&#10;    - paragraph: Official sources are referenced, but this is a preparation aid, not government acceptance or approval. Confirm your case in the Passport Seva Document Advisor and jurisdictional Passport Office.&#10;  - paragraph: Maadhyam is an independent assistance platform. This preparation journey does not verify eligibility, confirm document acceptance, determine police verification requirements, or submit an application. Always verify current requirements through official Passport Seva sources.&#10;- button &quot;Open Maadhyam AI&quot;: Ask Maadhyam AI">qa/test_final_journeys.py:59: in test_m5_document_references_isolated_and_missing
+    expect(page.get_by_label('Preparation document references').get_by_role('checkbox')).to_be_checked()
+E   AssertionError: Locator expected to be checked
+E   Actual value: None
+E   Error: element(s) not found 
+E   Call log:
+E     - Expect "to_be_checked" get_by_label("Preparation document references").get_by_role("checkbox") with timeout 5000ms
+E     - waiting for get_by_label("Preparation document references").get_by_role("checkbox")
+E   
+E   Aria snapshot:
+E   - complementary:
+E     - link "Maadhyam home":
+E       - /url: /
+E       - text: Maadhyam माध्यम
+E     - paragraph: Workspace
+E     - navigation "Main navigation":
+E       - link "Dashboard":
+E         - /url: /
+E       - link "Find Services":
+E         - /url: /services
+E       - link "My Documents":
+E         - /url: /documents
+E       - link "My Applications":
+E         - /url: /applications
+E       - link "Resolution Planner":
+E         - /url: /planner
+E       - link "Household Intelligence":
+E         - /url: /household
+E       - link "Citizen Workflows":
+E         - /url: /workflows
+E     - paragraph: Guidance you can verify
+E     - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E   - banner:
+E     - button "Collapse sidebar" [expanded]
+E     - paragraph: Citizen Workspace
+E     - paragraph: Understand. Prepare. Resolve.
+E     - button "Switch to dark mode"
+E     - text: Preview
+E   - main:
+E     - link "Back to Passport Seva":
+E       - /url: /services/passport
+E     - text: Guided Preparation
+E     - heading "Applying for a new passport" [level=1]
+E     - paragraph: Answer a few questions to organize your preparation. This is not an official eligibility assessment.
+E     - region "Preparation save controls":
+E       - paragraph:
+E         - text: "Preparation record:"
+E         - strong: LOCAL-0016329d-7053-4e23-9bb4-d3cd01b0abb8
+E       - status: Saved in this workspace session. Reload clears it unless you enable preparation saving.
+E       - text: Applicant name (optional, fictional while testing)
+E       - textbox "Applicant name"
+E       - button "Save preparation"
+E       - link "My Preparations and saving options":
+E         - /url: /applications
+E     - paragraph: Step 1 of 4
+E     - heading "Choose assistance" [level=2]
+E     - text: 25%
+E     - progressbar "Journey progress"
+E     - paragraph: Select what you need help with.
+E     - heading "What do you need help with?" [level=3]
+E     - link "Applying for a new passport Prepare for your first passport application.":
+E       - /url: /services/passport/journey?type=fresh&amp;preparation=LOCAL-0016329d-7053-4e23-9bb4-d3cd01b0abb8
+E       - paragraph: Applying for a new passport
+E       - paragraph: Prepare for your first passport application.
+E     - link "Reissuing an existing passport Explore preparation for renewal, expiry or other reissue reasons.":
+E       - /url: /services/passport/journey?type=reissue&amp;preparation=LOCAL-0016329d-7053-4e23-9bb4-d3cd01b0abb8
+E       - paragraph: Reissuing an existing passport
+E       - paragraph: Explore preparation for renewal, expiry or other reissue reasons.
+E     - link "Correcting personal details Review potential differences in name, address or other details.":
+E       - /url: /services/passport/journey?type=correction&amp;preparation=LOCAL-0016329d-7053-4e23-9bb4-d3cd01b0abb8
+E       - paragraph: Correcting personal details
+E       - paragraph: Review potential differences in name, address or other details.
+E     - link "Checking document readiness Understand which documents may need review.":
+E       - /url: /services/passport/journey?type=documents&amp;preparation=LOCAL-0016329d-7053-4e23-9bb4-d3cd01b0abb8
+E       - paragraph: Checking document readiness
+E       - paragraph: Understand which documents may need review.
+E     - link "Getting help with police verification Understand verification stages, delays and possible next steps.":
+E       - /url: /services/passport/journey?type=police&amp;preparation=LOCAL-0016329d-7053-4e23-9bb4-d3cd01b0abb8
+E       - paragraph: Getting help with police verification
+E       - paragraph: Understand verification stages, delays and possible next steps.
+E     - button "Back" [disabled]
+E     - button "Continue"
+E     - region "Preparation document references":
+E       - heading "Documents for this preparation" [level=2]
+E       - paragraph: Select the Vault records belonging to this applicant. These references are saved with this preparation; files use separate Vault saving consent. Review status and ownership still apply.
+E       - paragraph: No Vault evidence available. Add documents in Document Vault, then return here to select them.
+E     - region "Passport document requirements":
+E       - paragraph: Your document plan
+E       - heading "Official-source requirements" [level=2]
+E       - paragraph: Based on your answers and self-reviewed Document Vault records. Not an approval decision.
+E       - link "Verify with Passport Seva ↗":
+E         - /url: https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp
+E       - text: Applicant date of birth (for document guidance)
+E       - paragraph: Enter the date to select the applicable date-of-birth evidence guidance. This does not establish eligibility.
+E       - textbox "Applicant date of birth (for document guidance)"
+E       - text: 3 requirements to review 0 possible proofs found 3 need follow-up
+E       - paragraph: Official-source monitoring needs review (review-required). These are preparation suggestions, not confirmation that government rules are unchanged. Verify your case using the official links.
+E       - article:
+E         - text: "1"
+E         - heading "Proof of present residential address" [level=3]
+E         - text: Check required
+E         - paragraph: No self-reviewed vault document matches the listed proof types; confirm actual evidence and document details.
+E         - paragraph:
+E           - strong: "What to do:"
+E           - text: Provide one officially listed proof of your current address. Check name, holder and address, plus category-specific conditions.
+E         - group: See possible supporting documents
+E         - link "View government source ↗":
+E           - /url: https://www.passportindia.gov.in/psp/ListDocuments
+E       - article:
+E         - text: "2"
+E         - heading "Confirm DOB to select the legal evidence rule" [level=3]
+E         - text: Check required
+E         - paragraph: Birth date is required to determine which official DOB-proof rule applies.
+E         - paragraph:
+E           - strong: "What to do:"
+E           - text: Enter applicant date of birth (YYYY-MM-DD).
+E         - link "View government source ↗":
+E           - /url: https://services2.passportindia.gov.in/AppOnlineProject/pdf/Gazette_Notification_DoB.pdf
+E       - article:
+E         - text: "3"
+E         - heading "Non-ECR supporting proof" [level=3]
+E         - text: Check required
+E         - paragraph: Non-ECR documentary evidence depends on eligibility category.
+E         - paragraph:
+E           - strong: "What to do:"
+E           - text: Check your category in the official Document Advisor and prepare supporting evidence where applicable.
+E         - link "View government source ↗":
+E           - /url: https://passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf
+E       - paragraph: Official sources are referenced, but this is a preparation aid, not government acceptance or approval. Confirm your case in the Passport Seva Document Advisor and jurisdictional Passport Office.
+E     - paragraph: Maadhyam is an independent assistance platform. This preparation journey does not verify eligibility, confirm document acceptance, determine police verification requirements, or submit an application. Always verify current requirements through official Passport Seva sources.
+E   - button "Open Maadhyam AI": Ask Maadhyam AI</failure></testcase><testcase classname="qa.test_final_journeys" name="test_m5_invalid_deleted_id[missing]" time="0.339" /><testcase classname="qa.test_final_journeys" name="test_m5_invalid_deleted_id[deleted]" time="0.434" /><testcase classname="qa.test_final_journeys" name="test_m5_repeated_create_click" time="0.244"><failure message="assert 3 == 1&#10; +  where 3 = count()&#10; +    where count = &lt;Locator frame=&lt;Frame name= url='http://127.0.0.1:52281/applications'&gt; selector='article &gt;&gt; internal:has-text=&quot;LOCAL-&quot;i'&gt;.count&#10; +      where &lt;Locator frame=&lt;Frame name= url='http://127.0.0.1:52281/applications'&gt; selector='article &gt;&gt; internal:has-text=&quot;LOCAL-&quot;i'&gt; = filter(has_text='LOCAL-')&#10; +        where filter = &lt;Locator frame=&lt;Frame name= url='http://127.0.0.1:52281/applications'&gt; selector='article'&gt;.filter&#10; +          where &lt;Locator frame=&lt;Frame name= url='http://127.0.0.1:52281/applications'&gt; selector='article'&gt; = locator('article')&#10; +            where locator = &lt;Page url='http://127.0.0.1:52281/applications'&gt;.locator">qa/test_final_journeys.py:96: in test_m5_repeated_create_click
+    assert page.locator('article').filter(has_text='LOCAL-').count()==1
+E   assert 3 == 1
+E    +  where 3 = count()
+E    +    where count = &lt;Locator frame=&lt;Frame name= url='http://127.0.0.1:52281/applications'&gt; selector='article &gt;&gt; internal:has-text="LOCAL-"i'&gt;.count
+E    +      where &lt;Locator frame=&lt;Frame name= url='http://127.0.0.1:52281/applications'&gt; selector='article &gt;&gt; internal:has-text="LOCAL-"i'&gt; = filter(has_text='LOCAL-')
+E    +        where filter = &lt;Locator frame=&lt;Frame name= url='http://127.0.0.1:52281/applications'&gt; selector='article'&gt;.filter
+E    +          where &lt;Locator frame=&lt;Frame name= url='http://127.0.0.1:52281/applications'&gt; selector='article'&gt; = locator('article')
+E    +            where locator = &lt;Page url='http://127.0.0.1:52281/applications'&gt;.locator</failure></testcase><testcase classname="qa.test_final_journeys" name="test_storage_failure_usable_workspace[read-denied]" time="6.066"><failure message="playwright._impl._errors.TimeoutError: Locator.set_input_files: Timeout 6000ms exceeded.&#10;Call log:&#10;  - waiting for get_by_label(&quot;Choose documents to add&quot;)">qa/test_final_journeys.py:104: in test_storage_failure_usable_workspace
+    page.goto('/documents');upload(page)
+                            ^^^^^^^^^^^^
+qa/test_browser.py:23: in upload
+    page.get_by_label('Choose documents to add').set_input_files({'name':name,'mimeType':'image/png','buffer':PNG})
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_generated.py:20334: in set_input_files
+    self._sync(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_locator.py:663: in set_input_files
+    return await self._frame.set_input_files(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_frame.py:838: in set_input_files
+    await self._channel.send(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:76: in send
+    return await self._connection.wrap_api_call(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:632: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Locator.set_input_files: Timeout 6000ms exceeded.
+E   Call log:
+E     - waiting for get_by_label("Choose documents to add")</failure></testcase><testcase classname="qa.test_final_journeys" name="test_storage_failure_usable_workspace[read-denied]" time="0.016"><error message="failed on teardown with &quot;AssertionError: Uncaught runtime errors: ['Denied']&#10;assert not ['Denied']&quot;">qa/conftest.py:38: in page
+    assert not errors, f'Uncaught runtime errors: {errors}'
+E   AssertionError: Uncaught runtime errors: ['Denied']
+E   assert not ['Denied']</error></testcase><testcase classname="qa.test_final_journeys" name="test_storage_failure_usable_workspace[write-denied]" time="6.058"><failure message="playwright._impl._errors.TimeoutError: Locator.set_input_files: Timeout 6000ms exceeded.&#10;Call log:&#10;  - waiting for get_by_label(&quot;Choose documents to add&quot;)">qa/test_final_journeys.py:104: in test_storage_failure_usable_workspace
+    page.goto('/documents');upload(page)
+                            ^^^^^^^^^^^^
+qa/test_browser.py:23: in upload
+    page.get_by_label('Choose documents to add').set_input_files({'name':name,'mimeType':'image/png','buffer':PNG})
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_generated.py:20334: in set_input_files
+    self._sync(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_locator.py:663: in set_input_files
+    return await self._frame.set_input_files(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_frame.py:838: in set_input_files
+    await self._channel.send(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:76: in send
+    return await self._connection.wrap_api_call(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:632: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Locator.set_input_files: Timeout 6000ms exceeded.
+E   Call log:
+E     - waiting for get_by_label("Choose documents to add")</failure></testcase><testcase classname="qa.test_final_journeys" name="test_storage_failure_usable_workspace[write-denied]" time="0.016"><error message="failed on teardown with &quot;AssertionError: Uncaught runtime errors: ['Full']&#10;assert not ['Full']&quot;">qa/conftest.py:38: in page
+    assert not errors, f'Uncaught runtime errors: {errors}'
+E   AssertionError: Uncaught runtime errors: ['Full']
+E   assert not ['Full']</error></testcase><testcase classname="qa.test_final_journeys" name="test_storage_failure_usable_workspace[indexeddb]" time="0.576" /><testcase classname="qa.test_final_journeys" name="test_passport_malformed_response[body0]" time="0.597" /><testcase classname="qa.test_final_journeys" name="test_passport_malformed_response[body1]" time="1.115" /><testcase classname="qa.test_final_journeys" name="test_passport_malformed_response[body2]" time="1.112" /><testcase classname="qa.test_final_journeys" name="test_journey_b_identity_whatif" time="6.903"><failure message="playwright._impl._errors.TimeoutError: Locator.click: Timeout 6000ms exceeded.&#10;Call log:&#10;  - waiting for get_by_role(&quot;button&quot;, name=&quot;See the impact&quot;, exact=True)">qa/test_final_journeys.py:132: in test_journey_b_identity_whatif
+    _,data=response_for(page,'/api/intelligence/reasoning',lambda:page.get_by_role('button',name='See the impact',exact=True).click(),lambda p:bool(p.get('simulations')))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+qa/test_browser.py:44: in response_for
+    action()
+qa/test_final_journeys.py:132: in &lt;lambda&gt;
+    _,data=response_for(page,'/api/intelligence/reasoning',lambda:page.get_by_role('button',name='See the impact',exact=True).click(),lambda p:bool(p.get('simulations')))
+                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_generated.py:18032: in click
+    self._sync(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_locator.py:165: in click
+    return await self._frame._click(self._selector, strict=True, **params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_frame.py:594: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:76: in send
+    return await self._connection.wrap_api_call(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:632: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Locator.click: Timeout 6000ms exceeded.
+E   Call log:
+E     - waiting for get_by_role("button", name="See the impact", exact=True)</failure></testcase><testcase classname="qa.test_final_journeys" name="test_journey_c_address_continuity" time="1.223"><failure message="assert (0 == 2)&#10; +  where 0 = len([])">qa/test_final_journeys.py:144: in test_journey_c_address_continuity
+    assert len(payload['documents'])==2 and any('address' in c['id'] for c in data['checks'])
+E   assert (0 == 2)
+E    +  where 0 = len([])</failure></testcase><testcase classname="qa.test_final_journeys" name="test_journey_d_deadline_dependencies_expiry" time="0.814" /><testcase classname="qa.test_final_journeys" name="test_journey_e_household_consent_withdrawal" time="6.658"><failure message="playwright._impl._errors.TimeoutError: Locator.select_option: Timeout 6000ms exceeded.&#10;Call log:&#10;  - waiting for get_by_label(&quot;Associate household evidence&quot;).get_by_label(&quot;Evidence document&quot;, exact=True)&#10;    - locator resolved to &lt;select aria-label=&quot;Evidence document&quot; class=&quot;mt-1 w-full rounded-lg border border-slate-300 bg-white p-2 text-slate-900 dark:bg-slate-900 dark:text-white&quot;&gt;…&lt;/select&gt;&#10;  - attempting select option action&#10;    2 × waiting for element to be visible and enabled&#10;      - did not find some options&#10;    - retrying select option action&#10;    - waiting 20ms&#10;    2 × waiting for element to be visible and enabled&#10;      - did not find some options&#10;    - retrying select option action&#10;      - waiting 100ms&#10;    12 × waiting for element to be visible and enabled&#10;       - did not find some options&#10;     - retrying select option action&#10;       - waiting 500ms">qa/test_final_journeys.py:167: in test_journey_e_household_consent_withdrawal
+    spa(page,'/household');add_member(page,'Fictional Parent');associate(page,'fictional_aadhaar.png','Fictional Parent')
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+qa/test_completion.py:166: in associate
+    area.get_by_label('Evidence document',exact=True).select_option(label=filename)
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_generated.py:20226: in select_option
+    self._sync(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_locator.py:637: in select_option
+    return await self._frame.select_option(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_frame.py:815: in select_option
+    return await self._channel.send("selectOption", self._timeout, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:76: in send
+    return await self._connection.wrap_api_call(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:632: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Locator.select_option: Timeout 6000ms exceeded.
+E   Call log:
+E     - waiting for get_by_label("Associate household evidence").get_by_label("Evidence document", exact=True)
+E       - locator resolved to &lt;select aria-label="Evidence document" class="mt-1 w-full rounded-lg border border-slate-300 bg-white p-2 text-slate-900 dark:bg-slate-900 dark:text-white"&gt;…&lt;/select&gt;
+E     - attempting select option action
+E       2 × waiting for element to be visible and enabled
+E         - did not find some options
+E       - retrying select option action
+E       - waiting 20ms
+E       2 × waiting for element to be visible and enabled
+E         - did not find some options
+E       - retrying select option action
+E         - waiting 100ms
+E       12 × waiting for element to be visible and enabled
+E          - did not find some options
+E        - retrying select option action
+E          - waiting 500ms</failure></testcase><testcase classname="qa.test_final_journeys" name="test_journey_f_rule_saved_preparation" time="0.641" /><testcase classname="qa.test_final_journeys" name="test_journey_g_assistant_grounding_provider_failure" time="6.128"><failure message="AssertionError: Locator expected to be visible&#10;Actual value: None&#10;Error: element(s) not found &#10;Call log:&#10;  - Expect &quot;to_be_visible&quot; get_by_role(&quot;dialog&quot;, name=&quot;Maadhyam AI assistant&quot;).get_by_text(&quot;503&quot;) with timeout 5000ms&#10;  - waiting for get_by_role(&quot;dialog&quot;, name=&quot;Maadhyam AI assistant&quot;).get_by_text(&quot;503&quot;)&#10;&#10;Aria snapshot:&#10;- complementary:&#10;  - link &quot;Maadhyam home&quot;:&#10;    - /url: /&#10;    - text: Maadhyam माध्यम&#10;  - paragraph: Workspace&#10;  - navigation &quot;Main navigation&quot;:&#10;    - link &quot;Dashboard&quot;:&#10;      - /url: /&#10;    - link &quot;Find Services&quot;:&#10;      - /url: /services&#10;    - link &quot;My Documents&quot;:&#10;      - /url: /documents&#10;    - link &quot;My Applications&quot;:&#10;      - /url: /applications&#10;    - link &quot;Resolution Planner&quot;:&#10;      - /url: /planner&#10;    - link &quot;Household Intelligence&quot;:&#10;      - /url: /household&#10;    - link &quot;Citizen Workflows&quot;:&#10;      - /url: /workflows&#10;  - paragraph: Guidance you can verify&#10;  - paragraph: Maadhyam is an independent assistance platform, not an official government website.&#10;- banner:&#10;  - button &quot;Collapse sidebar&quot; [expanded]&#10;  - paragraph: Citizen Workspace&#10;  - paragraph: Understand. Prepare. Resolve.&#10;  - button &quot;Switch to dark mode&quot;&#10;  - text: Preview&#10;- main:&#10;  - paragraph: Local household preparation&#10;  - heading &quot;Household Intelligence&quot; [level=1]&#10;  - paragraph: Organize member labels, evidence ownership and preparation dependencies in this browser session. Relationships and document acceptance are not legally verified.&#10;  - text: This is one local workspace, not separate member accounts. Only associate another person's evidence after confirming permission. Household labels and graph data stay in memory and reset on reload. Vault files have separate opt-in saving controls; saved files with unavailable owners are not reassigned automatically. No cross-account authorization is provided.&#10;  - heading &quot;Add a household member&quot; [level=2]&#10;  - text: Member name or label&#10;  - textbox &quot;New member name&quot;&#10;  - text: Claimed relationship to applicant&#10;  - combobox &quot;New member relationship&quot;:&#10;    - option &quot;parent&quot;&#10;    - option &quot;guardian&quot;&#10;    - option &quot;spouse&quot; [selected]&#10;    - option &quot;child&quot;&#10;    - option &quot;sibling&quot;&#10;    - option &quot;other&quot;&#10;  - button &quot;Add member&quot;&#10;  - region &quot;Associate household evidence&quot;:&#10;    - heading &quot;Confirm evidence ownership&quot; [level=2]&#10;    - paragraph: Ownership labels only organize evidence. Selecting a person does not verify a legal relationship or authorize access to any external account.&#10;    - text: Evidence document&#10;    - combobox &quot;Evidence document&quot;:&#10;      - option &quot;Choose a Vault document&quot;&#10;      - option &quot;fictional_aadhaar.png&quot;&#10;      - option &quot;fictional_parent.png&quot; [selected]&#10;    - text: Evidence owner&#10;    - combobox &quot;Evidence owner&quot;:&#10;      - option &quot;Choose a member&quot;&#10;      - option &quot;Applicant (this workspace)&quot;&#10;      - option &quot;Fictional Parent&quot; [selected]&#10;    - checkbox &quot;I confirm the owner and have permission to associate this evidence in this local workspace.&quot;&#10;    - text: I confirm the owner and have permission to associate this evidence in this local workspace.&#10;    - button &quot;Associate evidence&quot; [disabled]&#10;    - list:&#10;      - listitem: fictional_aadhaar.png — Not assigned to a household member · Self-reviewed&#10;      - listitem:&#10;        - text: fictional_parent.png — Fictional Parent · Self-reviewed&#10;        - button &quot;Unassign fictional_parent.png&quot;: Unassign ownership&#10;  - region &quot;Household members&quot;:&#10;    - heading &quot;Members and prerequisites&quot; [level=2]&#10;    - article &quot;Household member Applicant (this workspace)&quot;:&#10;      - text: Member label&#10;      - textbox &quot;Label for applicant&quot;: Applicant (this workspace)&#10;      - text: Relationship label&#10;      - combobox &quot;Relationship for applicant&quot; [disabled]:&#10;        - option &quot;self&quot; [selected]&#10;      - group &quot;Member prerequisites&quot;:&#10;        - text: Member prerequisites&#10;        - checkbox &quot;Applicant (this workspace) depends on Applicant (this workspace)&quot;&#10;        - text: Applicant (this workspace) (creates a cycle)&#10;        - checkbox &quot;Applicant (this workspace) depends on Fictional Parent&quot;&#10;        - text: Fictional Parent&#10;      - group &quot;Required document prerequisites&quot;:&#10;        - text: Required document prerequisites&#10;        - checkbox &quot;Applicant (this workspace) requires fictional_parent.png&quot;&#10;        - text: fictional_parent.png&#10;    - article &quot;Household member Fictional Parent&quot;:&#10;      - text: Member label&#10;      - textbox &quot;Label for 18732e98-525d-45a5-b171-260e640d41e6&quot;: Fictional Parent&#10;      - text: Relationship label&#10;      - combobox &quot;Relationship for 18732e98-525d-45a5-b171-260e640d41e6&quot;:&#10;        - option &quot;parent&quot; [selected]&#10;        - option &quot;guardian&quot;&#10;        - option &quot;spouse&quot;&#10;        - option &quot;child&quot;&#10;        - option &quot;sibling&quot;&#10;        - option &quot;other&quot;&#10;      - group &quot;Member prerequisites&quot;:&#10;        - text: Member prerequisites&#10;        - checkbox &quot;Fictional Parent depends on Applicant (this workspace)&quot;&#10;        - text: Applicant (this workspace)&#10;        - checkbox &quot;Fictional Parent depends on Fictional Parent&quot;&#10;        - text: Fictional Parent (creates a cycle)&#10;      - group &quot;Required document prerequisites&quot;:&#10;        - text: Required document prerequisites&#10;        - checkbox &quot;Fictional Parent requires fictional_parent.png&quot;&#10;        - text: fictional_parent.png&#10;      - group &quot;Evidence supporting this relationship (optional)&quot;:&#10;        - text: Evidence supporting this relationship (optional)&#10;        - checkbox &quot;Fictional Parent relationship evidence fictional_parent.png&quot;&#10;        - text: fictional_parent.png&#10;      - button &quot;Remove member Fictional Parent&quot;: Remove member&#10;  - button &quot;Analyze household dependencies&quot;&#10;- dialog &quot;Maadhyam AI assistant&quot;:&#10;  - heading &quot;Maadhyam AI&quot; [level=2]&#10;  - paragraph: Context-aware · local by default&#10;  - button &quot;Clear chat&quot;&#10;  - button &quot;Close AI assistant&quot;&#10;  - text: Uses reviewed metadata. Gemini is optional for fictional demo data only. No government verification.&#10;  - paragraph: Namaste! I'm Maadhyam's demo assistant. I can guide you through this workspace and summarize document details you've entered manually. I use reviewed Vault metadata, not uploaded file contents. I cannot verify government eligibility or acceptance.&#10;  - paragraph: What should I prepare?&#10;  - paragraph: &quot;Suggested next step: Review family-linked documents. Confirm relationships and whether the particular family document is accepted for this scenario.&quot;&#10;  - paragraph: Help me again&#10;  - paragraph: Assistant unavailable. Check backend connection or turn off Gemini mode for local guidance.&#10;  - text: Suggested for this page&#10;  - button &quot;Help me with passport preparation&quot;&#10;  - button &quot;What can Maadhyam do?&quot;&#10;  - button &quot;Show my documents&quot;&#10;  - checkbox &quot;Use Gemini (fictional demo metadata only)&quot;&#10;  - text: Use Gemini (fictional demo metadata only)&#10;  - textbox &quot;Message to Maadhyam AI&quot;:&#10;    - /placeholder: Ask Maadhyam…&#10;  - button &quot;Send message&quot; [disabled]&#10;- button &quot;Close Maadhyam AI&quot; [expanded]: Close">qa/test_final_journeys.py:206: in test_journey_g_assistant_grounding_provider_failure
+    expect(d.get_by_text('503',exact=False)).to_be_visible()
+E   AssertionError: Locator expected to be visible
+E   Actual value: None
+E   Error: element(s) not found 
+E   Call log:
+E     - Expect "to_be_visible" get_by_role("dialog", name="Maadhyam AI assistant").get_by_text("503") with timeout 5000ms
+E     - waiting for get_by_role("dialog", name="Maadhyam AI assistant").get_by_text("503")
+E   
+E   Aria snapshot:
+E   - complementary:
+E     - link "Maadhyam home":
+E       - /url: /
+E       - text: Maadhyam माध्यम
+E     - paragraph: Workspace
+E     - navigation "Main navigation":
+E       - link "Dashboard":
+E         - /url: /
+E       - link "Find Services":
+E         - /url: /services
+E       - link "My Documents":
+E         - /url: /documents
+E       - link "My Applications":
+E         - /url: /applications
+E       - link "Resolution Planner":
+E         - /url: /planner
+E       - link "Household Intelligence":
+E         - /url: /household
+E       - link "Citizen Workflows":
+E         - /url: /workflows
+E     - paragraph: Guidance you can verify
+E     - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E   - banner:
+E     - button "Collapse sidebar" [expanded]
+E     - paragraph: Citizen Workspace
+E     - paragraph: Understand. Prepare. Resolve.
+E     - button "Switch to dark mode"
+E     - text: Preview
+E   - main:
+E     - paragraph: Local household preparation
+E     - heading "Household Intelligence" [level=1]
+E     - paragraph: Organize member labels, evidence ownership and preparation dependencies in this browser session. Relationships and document acceptance are not legally verified.
+E     - text: This is one local workspace, not separate member accounts. Only associate another person's evidence after confirming permission. Household labels and graph data stay in memory and reset on reload. Vault files have separate opt-in saving controls; saved files with unavailable owners are not reassigned automatically. No cross-account authorization is provided.
+E     - heading "Add a household member" [level=2]
+E     - text: Member name or label
+E     - textbox "New member name"
+E     - text: Claimed relationship to applicant
+E     - combobox "New member relationship":
+E       - option "parent"
+E       - option "guardian"
+E       - option "spouse" [selected]
+E       - option "child"
+E       - option "sibling"
+E       - option "other"
+E     - button "Add member"
+E     - region "Associate household evidence":
+E       - heading "Confirm evidence ownership" [level=2]
+E       - paragraph: Ownership labels only organize evidence. Selecting a person does not verify a legal relationship or authorize access to any external account.
+E       - text: Evidence document
+E       - combobox "Evidence document":
+E         - option "Choose a Vault document"
+E         - option "fictional_aadhaar.png"
+E         - option "fictional_parent.png" [selected]
+E       - text: Evidence owner
+E       - combobox "Evidence owner":
+E         - option "Choose a member"
+E         - option "Applicant (this workspace)"
+E         - option "Fictional Parent" [selected]
+E       - checkbox "I confirm the owner and have permission to associate this evidence in this local workspace."
+E       - text: I confirm the owner and have permission to associate this evidence in this local workspace.
+E       - button "Associate evidence" [disabled]
+E       - list:
+E         - listitem: fictional_aadhaar.png — Not assigned to a household member · Self-reviewed
+E         - listitem:
+E           - text: fictional_parent.png — Fictional Parent · Self-reviewed
+E           - button "Unassign fictional_parent.png": Unassign ownership
+E     - region "Household members":
+E       - heading "Members and prerequisites" [level=2]
+E       - article "Household member Applicant (this workspace)":
+E         - text: Member label
+E         - textbox "Label for applicant": Applicant (this workspace)
+E         - text: Relationship label
+E         - combobox "Relationship for applicant" [disabled]:
+E           - option "self" [selected]
+E         - group "Member prerequisites":
+E           - text: Member prerequisites
+E           - checkbox "Applicant (this workspace) depends on Applicant (this workspace)"
+E           - text: Applicant (this workspace) (creates a cycle)
+E           - checkbox "Applicant (this workspace) depends on Fictional Parent"
+E           - text: Fictional Parent
+E         - group "Required document prerequisites":
+E           - text: Required document prerequisites
+E           - checkbox "Applicant (this workspace) requires fictional_parent.png"
+E           - text: fictional_parent.png
+E       - article "Household member Fictional Parent":
+E         - text: Member label
+E         - textbox "Label for 18732e98-525d-45a5-b171-260e640d41e6": Fictional Parent
+E         - text: Relationship label
+E         - combobox "Relationship for 18732e98-525d-45a5-b171-260e640d41e6":
+E           - option "parent" [selected]
+E           - option "guardian"
+E           - option "spouse"
+E           - option "child"
+E           - option "sibling"
+E           - option "other"
+E         - group "Member prerequisites":
+E           - text: Member prerequisites
+E           - checkbox "Fictional Parent depends on Applicant (this workspace)"
+E           - text: Applicant (this workspace)
+E           - checkbox "Fictional Parent depends on Fictional Parent"
+E           - text: Fictional Parent (creates a cycle)
+E         - group "Required document prerequisites":
+E           - text: Required document prerequisites
+E           - checkbox "Fictional Parent requires fictional_parent.png"
+E           - text: fictional_parent.png
+E         - group "Evidence supporting this relationship (optional)":
+E           - text: Evidence supporting this relationship (optional)
+E           - checkbox "Fictional Parent relationship evidence fictional_parent.png"
+E           - text: fictional_parent.png
+E         - button "Remove member Fictional Parent": Remove member
+E     - button "Analyze household dependencies"
+E   - dialog "Maadhyam AI assistant":
+E     - heading "Maadhyam AI" [level=2]
+E     - paragraph: Context-aware · local by default
+E     - button "Clear chat"
+E     - button "Close AI assistant"
+E     - text: Uses reviewed metadata. Gemini is optional for fictional demo data only. No government verification.
+E     - paragraph: Namaste! I'm Maadhyam's demo assistant. I can guide you through this workspace and summarize document details you've entered manually. I use reviewed Vault metadata, not uploaded file contents. I cannot verify government eligibility or acceptance.
+E     - paragraph: What should I prepare?
+E     - paragraph: "Suggested next step: Review family-linked documents. Confirm relationships and whether the particular family document is accepted for this scenario."
+E     - paragraph: Help me again
+E     - paragraph: Assistant unavailable. Check backend connection or turn off Gemini mode for local guidance.
+E     - text: Suggested for this page
+E     - button "Help me with passport preparation"
+E     - button "What can Maadhyam do?"
+E     - button "Show my documents"
+E     - checkbox "Use Gemini (fictional demo metadata only)"
+E     - text: Use Gemini (fictional demo metadata only)
+E     - textbox "Message to Maadhyam AI":
+E       - /placeholder: Ask Maadhyam…
+E     - button "Send message" [disabled]
+E   - button "Close Maadhyam AI" [expanded]: Close</failure></testcase><testcase classname="qa.test_final_journeys" name="test_journey_h_all_workflows_mobile" time="6.267"><failure message="playwright._impl._errors.TimeoutError: Locator.click: Timeout 6000ms exceeded.&#10;Call log:&#10;  - waiting for locator(&quot;a[href=\&quot;/workflows\&quot;]&quot;).first&#10;    - locator resolved to &lt;a href=&quot;/workflows&quot; data-discover=&quot;true&quot; title=&quot;Citizen Workflows&quot; aria-label=&quot;Citizen Workflows&quot; class=&quot;flex items-center rounded-xl py-3↵                      text-sm font-medium transition-colors↵                      gap-3 px-4↵                      text-slate-600 hover:bg-slate-100 hover:text-slate-900&quot;&gt;…&lt;/a&gt;&#10;  - attempting click action&#10;    2 × waiting for element to be visible, enabled and stable&#10;      - element is visible, enabled and stable&#10;      - scrolling into view if needed&#10;      - done scrolling&#10;      - element is outside of the viewport&#10;    - retrying click action&#10;    - waiting 20ms&#10;    2 × waiting for element to be visible, enabled and stable&#10;      - element is visible, enabled and stable&#10;      - scrolling into view if needed&#10;      - done scrolling&#10;      - element is outside of the viewport&#10;    - retrying click action&#10;      - waiting 100ms&#10;    11 × waiting for element to be visible, enabled and stable&#10;       - element is visible, enabled and stable&#10;       - scrolling into view if needed&#10;       - done scrolling&#10;       - element is outside of the viewport&#10;     - retrying click action&#10;       - waiting 500ms">qa/test_final_journeys.py:220: in test_journey_h_all_workflows_mobile
+    spa(page,'/workflows')
+qa/test_browser.py:40: in spa
+    page.locator(f'a[href="{path}"]').first.click()
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_generated.py:18032: in click
+    self._sync(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_locator.py:165: in click
+    return await self._frame._click(self._selector, strict=True, **params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_frame.py:594: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:76: in send
+    return await self._connection.wrap_api_call(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:632: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Locator.click: Timeout 6000ms exceeded.
+E   Call log:
+E     - waiting for locator("a[href=\"/workflows\"]").first
+E       - locator resolved to &lt;a href="/workflows" data-discover="true" title="Citizen Workflows" aria-label="Citizen Workflows" class="flex items-center rounded-xl py-3↵                      text-sm font-medium transition-colors↵                      gap-3 px-4↵                      text-slate-600 hover:bg-slate-100 hover:text-slate-900"&gt;…&lt;/a&gt;
+E     - attempting click action
+E       2 × waiting for element to be visible, enabled and stable
+E         - element is visible, enabled and stable
+E         - scrolling into view if needed
+E         - done scrolling
+E         - element is outside of the viewport
+E       - retrying click action
+E       - waiting 20ms
+E       2 × waiting for element to be visible, enabled and stable
+E         - element is visible, enabled and stable
+E         - scrolling into view if needed
+E         - done scrolling
+E         - element is outside of the viewport
+E       - retrying click action
+E         - waiting 100ms
+E       11 × waiting for element to be visible, enabled and stable
+E          - element is visible, enabled and stable
+E          - scrolling into view if needed
+E          - done scrolling
+E          - element is outside of the viewport
+E        - retrying click action
+E          - waiting 500ms</failure></testcase><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[malformed-human-support-Human assistance]" time="0.308" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[malformed-life-event-discovery-Life-event discovery]" time="0.290" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[malformed-multi-department-rules-Multi-department guidance]" time="0.291" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[malformed-rejection-diagnosis-Rejection diagnosis]" time="0.296" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[malformed-legacy-reconstruction-Legacy record recovery]" time="0.314" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[malformed-authority-bottlenecks-Authority bottlenecks]" time="0.301" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[malformed-deadline-rescue-Deadline rescue]" time="0.334" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[malformed-visit-eliminator-Visit reduction planner]" time="0.314" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[invalid-input-human-support-Human assistance]" time="0.290" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[invalid-input-life-event-discovery-Life-event discovery]" time="0.290" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[invalid-input-multi-department-rules-Multi-department guidance]" time="0.291" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[invalid-input-rejection-diagnosis-Rejection diagnosis]" time="0.299" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[invalid-input-legacy-reconstruction-Legacy record recovery]" time="0.298" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[invalid-input-authority-bottlenecks-Authority bottlenecks]" time="0.301" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[invalid-input-deadline-rescue-Deadline rescue]" time="0.341" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[invalid-input-visit-eliminator-Visit reduction planner]" time="0.310" /><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[loading-retry-human-support-Human assistance]" time="0.216"><failure message="assert []">qa/test_final_journeys.py:245: in test_workflow_contract_error_retry
+    assert held
+E   assert []</failure></testcase><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[loading-retry-life-event-discovery-Life-event discovery]" time="0.224"><failure message="assert []">qa/test_final_journeys.py:245: in test_workflow_contract_error_retry
+    assert held
+E   assert []</failure></testcase><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[loading-retry-multi-department-rules-Multi-department guidance]" time="0.219"><failure message="assert []">qa/test_final_journeys.py:245: in test_workflow_contract_error_retry
+    assert held
+E   assert []</failure></testcase><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[loading-retry-rejection-diagnosis-Rejection diagnosis]" time="0.216"><failure message="assert []">qa/test_final_journeys.py:245: in test_workflow_contract_error_retry
+    assert held
+E   assert []</failure></testcase><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[loading-retry-legacy-reconstruction-Legacy record recovery]" time="0.215"><failure message="assert []">qa/test_final_journeys.py:245: in test_workflow_contract_error_retry
+    assert held
+E   assert []</failure></testcase><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[loading-retry-authority-bottlenecks-Authority bottlenecks]" time="0.309"><failure message="assert []">qa/test_final_journeys.py:245: in test_workflow_contract_error_retry
+    assert held
+E   assert []</failure></testcase><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[loading-retry-deadline-rescue-Deadline rescue]" time="0.255"><failure message="assert []">qa/test_final_journeys.py:245: in test_workflow_contract_error_retry
+    assert held
+E   assert []</failure></testcase><testcase classname="qa.test_final_journeys" name="test_workflow_contract_error_retry[loading-retry-visit-eliminator-Visit reduction planner]" time="0.237"><failure message="assert []">qa/test_final_journeys.py:245: in test_workflow_contract_error_retry
+    assert held
+E   assert []</failure></testcase><testcase classname="qa.test_final_journeys" name="test_household_stale_response_after_edit" time="0.248"><failure message="assert []">qa/test_final_journeys.py:261: in test_household_stale_response_after_edit
+    assert held
+E   assert []</failure></testcase><testcase classname="qa.test_final_journeys" name="test_workflow_stale_response_after_switch" time="0.284" /><testcase classname="qa.test_final_journeys" name="test_m7_malformed_expiry_conflict" time="0.319" /></testsuite></testsuites>

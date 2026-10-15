@@ -1,0 +1,188 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/services",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/services",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/assess",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/passport-plan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/rules/versions",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/passport/assess",
+      "request": {
+        "assistanceType": "fresh",
+        "applicantAgeGroup": "",
+        "currentAddressMatches": "",
+        "hasIdentityDocument": "",
+        "hasAddressDocument": "",
+        "hasDateOfBirthDocument": "",
+        "nameConsistent": "",
+        "policeVerificationStatus": "",
+        "applicantDateOfBirth": "1998-06-15",
+        "documents": [
+          {
+            "id": "934e39d1-425a-4398-b4e2-c1f74a24ab31",
+            "documentType": "Aadhaar card",
+            "holder": "self",
+            "associationConsent": false,
+            "reviewed": true,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "Rahul Kumar Sharma",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra",
+            "expiryDate": ""
+          }
+        ]
+      },
+      "response": {
+        "service": "passport",
+        "ruleset_version": "passport-official-2026-10-13-v1",
+        "official_requirements_verified": false,
+        "source_health": "review-required",
+        "checks": [
+          {
+            "id": "address",
+            "title": "Proof of present residential address",
+            "status": "available-for-review",
+            "reason": "Matching self-reviewed vault document found; authenticity, details and acceptance still need confirmation.",
+            "next_action": "Provide one officially listed proof of your current address. Check name, holder and address, plus category-specific conditions.",
+            "matching_document_ids": [
+              "934e39d1-425a-4398-b4e2-c1f74a24ab31"
+            ],
+            "alternatives": [
+              "Aadhaar card",
+              "Voter ID",
+              "Utility bill",
+              "Rental agreement",
+              "Rent Agreement",
+              "Water Bill",
+              "Electricity bill",
+              "Telephone bill",
+              "Gas connection bill",
+              "Photo bank passbook",
+              "Income Tax Assessment Order",
+              "Spouse passport",
+              "Parent passport"
+            ],
+            "source_url": "https://www.passportindia.gov.in/psp/ListDocuments",
+            "source_id": "official-documents"
+          },
+          {
+            "id": "dob-old",
+            "title": "DOB proof \u2014 born before 1 October 2023",
+            "status": "needs-confirmation",
+            "reason": "No self-reviewed vault document matches the listed proof types; confirm actual evidence and document details.",
+            "next_action": "Choose one officially permitted DOB document with complete date of birth where required.",
+            "matching_document_ids": [],
+            "alternatives": [
+              "Birth certificate",
+              "School leaving certificate",
+              "Matriculation certificate",
+              "PAN card",
+              "Driving licence",
+              "Voter ID",
+              "Life insurance policy bond",
+              "Government service record",
+              "Pension order"
+            ],
+            "source_url": "https://services2.passportindia.gov.in/AppOnlineProject/pdf/Gazette_Notification_DoB.pdf",
+            "source_id": "official-gazette"
+          },
+          {
+            "id": "non-ecr",
+            "title": "Non-ECR supporting proof",
+            "status": "needs-confirmation",
+            "reason": "Non-ECR documentary evidence depends on eligibility category.",
+            "next_action": "Check your category in the official Document Advisor and prepare supporting evidence where applicable.",
+            "matching_document_ids": [],
+            "alternatives": [],
+            "source_url": "https://passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+            "source_id": "official-booklet"
+          }
+        ],
+        "sources": [
+          {
+            "id": "official-documents",
+            "url": "https://www.passportindia.gov.in/psp/ListDocuments",
+            "description": "Passport Seva list of accepted proofs",
+            "fallback_urls": [
+              "https://services1.passportindia.gov.in/psp/ListDocuments"
+            ]
+          },
+          {
+            "id": "official-fresh",
+            "url": "https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp",
+            "description": "Passport Seva fresh document advisor",
+            "fallback_urls": [
+              "https://portal1.passportindia.gov.in/AppOnlineProject/smartPhone/mobAttachmentAdvFreshInp"
+            ]
+          },
+          {
+            "id": "official-reissue",
+            "url": "https://www.passportindia.gov.in/psp/docAdvisor/reissuePassport",
+            "description": "Passport Seva reissue document advisor",
+            "fallback_urls": [
+              "https://services2.passportindia.gov.in/psp/docAdvisor/reissuePassport"
+            ]
+          },
+          {
+            "id": "official-gazette",
+            "url": "https://services2.passportindia.gov.in/AppOnlineProject/pdf/Gazette_Notification_DoB.pdf",
+            "description": "Gazette amendment DOB proof cutoff"
+          },
+          {
+            "id": "official-booklet",
+            "url": "https://portal4.passportindia.gov.in/Online/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+            "description": "Passport application instruction booklet",
+            "fallback_urls": [
+              "https://passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+              "https://portal1.passportindia.gov.in/AppOnlineProject/pdf/InstructionBooklet.pdf"
+            ]
+          }
+        ],
+        "disclaimer": "Official sources are referenced, but this is a preparation aid, not government acceptance or approval. Confirm your case in the Passport Seva Document Advisor and jurisdictional Passport Office."
+      }
+    }
+  ]
+}

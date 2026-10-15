@@ -1,0 +1,87 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/workflows",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/citizen-workflows/human-support",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/citizen-workflows/life-event-discovery",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/citizen-workflows/life-event-discovery",
+      "request": {
+        "lifeEvents": [
+          "marriage"
+        ],
+        "catalog": [
+          {
+            "id": "marriage",
+            "label": "Marriage registration preparation",
+            "department": "Local registrar",
+            "lifeEvents": [
+              "marriage"
+            ]
+          },
+          {
+            "id": "birth",
+            "label": "Birth registration preparation",
+            "department": "Local registrar",
+            "lifeEvents": [
+              "birth"
+            ]
+          },
+          {
+            "id": "moving",
+            "label": "Address update preparation",
+            "department": "Identity services",
+            "lifeEvents": [
+              "relocation"
+            ]
+          },
+          {
+            "id": "retirement",
+            "label": "Retirement service exploration",
+            "department": "Citizen services",
+            "lifeEvents": [
+              "retirement"
+            ]
+          }
+        ]
+      },
+      "response": {
+        "matches": [
+          {
+            "id": "marriage",
+            "label": "Marriage registration preparation",
+            "lifeEvents": [
+              "marriage"
+            ],
+            "department": "Local registrar",
+            "sourceUrl": ""
+          }
+        ],
+        "matchCount": 1,
+        "catalogProvidedByCaller": true,
+        "officialEligibilityVerified": false,
+        "disclaimer": "Advisory scenario only. Confirm requirements, timelines, availability and acceptance with the responsible authority."
+      }
+    }
+  ]
+}

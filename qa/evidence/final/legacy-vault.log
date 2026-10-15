@@ -1,0 +1,7 @@
+PASS VE01 Metadata editor creates reviewed fictional Aadhaar and PAN
+PASS VE02 Real Passport API detects reviewed name conflict
+PASS VE03 Opt-in IndexedDB restores files and metadata after reload
+DEBUG VE04: IndexedDB empty before reload
+DEBUG VE04: Aadhaar=0, PAN=0, IndexedDB=0
+PASS VE04 Clear all deletes persisted documents
+4 passed, 0 failed

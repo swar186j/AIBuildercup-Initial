@@ -1,0 +1,265 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/applications",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/passport-plan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/rules/versions",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/household/assess",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/chat",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/household/assess",
+      "request": {
+        "members": [
+          {
+            "id": "applicant",
+            "label": "Applicant (this workspace)",
+            "relationship": "self",
+            "dependsOnMemberIds": [],
+            "dependsOnDocumentIds": [],
+            "relationshipEvidenceDocumentIds": []
+          },
+          {
+            "id": "285f2a95-556e-418e-9552-a7db1c048abb",
+            "label": "Fictional Parent",
+            "relationship": "parent",
+            "dependsOnMemberIds": [],
+            "dependsOnDocumentIds": [],
+            "relationshipEvidenceDocumentIds": []
+          }
+        ],
+        "documents": [
+          {
+            "id": "643618df-54c4-48eb-8e5b-443ea33434e7",
+            "memberId": "285f2a95-556e-418e-9552-a7db1c048abb",
+            "associationConfirmed": true,
+            "reviewed": true
+          }
+        ]
+      },
+      "response": {
+        "memberCount": 2,
+        "documentCount": 1,
+        "dependencyGraph": {
+          "nodes": [
+            {
+              "id": "member:applicant",
+              "label": "Applicant (this workspace)",
+              "kind": "member"
+            },
+            {
+              "id": "member:285f2a95-556e-418e-9552-a7db1c048abb",
+              "label": "Fictional Parent",
+              "kind": "member"
+            },
+            {
+              "id": "document:643618df-54c4-48eb-8e5b-443ea33434e7",
+              "label": "643618df-54c4-48eb-8e5b-443ea33434e7",
+              "kind": "document"
+            }
+          ],
+          "edges": [],
+          "executionOrder": [
+            "document:643618df-54c4-48eb-8e5b-443ea33434e7",
+            "member:285f2a95-556e-418e-9552-a7db1c048abb",
+            "member:applicant"
+          ],
+          "cycleOrBlockedNodeIds": []
+        },
+        "missingRelationshipEvidenceMemberIds": [
+          "285f2a95-556e-418e-9552-a7db1c048abb"
+        ],
+        "reviewedEvidenceByMember": {
+          "applicant": [],
+          "285f2a95-556e-418e-9552-a7db1c048abb": [
+            "643618df-54c4-48eb-8e5b-443ea33434e7"
+          ]
+        },
+        "ownershipAssociations": [
+          {
+            "documentId": "643618df-54c4-48eb-8e5b-443ea33434e7",
+            "memberId": "285f2a95-556e-418e-9552-a7db1c048abb"
+          }
+        ],
+        "applicantLabelMissing": false,
+        "officialRelationshipVerified": false,
+        "crossAccountAuthorizationVerified": false,
+        "disclaimer": "Local preparation labels and user-confirmed associations only. Relationships and evidence acceptance require official verification. No authentication or cross-account authorization is provided."
+      }
+    },
+    {
+      "endpoint": "/api/intelligence/chat",
+      "request": {
+        "documents": [
+          {
+            "id": "643618df-54c4-48eb-8e5b-443ea33434e7",
+            "documentType": "Aadhaar card",
+            "holder": "parent-guardian",
+            "householdMemberId": "285f2a95-556e-418e-9552-a7db1c048abb",
+            "associationConsent": true,
+            "reviewed": true,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "Rahul Kumar Sharma",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra",
+            "expiryDate": ""
+          }
+        ],
+        "question": "How many reviewed applicant documents do I have?",
+        "useGemini": false,
+        "fictionalDataConfirmed": false
+      },
+      "response": {
+        "answer": "1 documents in the vault; 0 reviewed applicant document(s) can inform preparation. Unreviewed or family-held documents are not treated as applicant evidence.",
+        "mode": "local-explainable",
+        "sourceUrl": "https://www.passportindia.gov.in/",
+        "assessment": {
+          "mode": "local-explainable",
+          "sourceUrl": "https://www.passportindia.gov.in/",
+          "documentCount": 1,
+          "reviewedSelfDocuments": 0,
+          "findings": [],
+          "tasks": [
+            {
+              "id": "verify-self",
+              "title": "Verify at least one self-held document",
+              "reason": "Only manually reviewed self-held documents inform applicant comparisons.",
+              "dependsOn": [],
+              "priority": 1,
+              "status": "pending"
+            },
+            {
+              "id": "check-identity",
+              "title": "Check identity evidence",
+              "reason": "No reviewed self-held document has this organizational category. This does not determine official acceptance.",
+              "dependsOn": [
+                "verify-self"
+              ],
+              "priority": 2,
+              "status": "pending"
+            },
+            {
+              "id": "check-address",
+              "title": "Check address evidence",
+              "reason": "No reviewed self-held document has this organizational category. This does not determine official acceptance.",
+              "dependsOn": [
+                "verify-self"
+              ],
+              "priority": 2,
+              "status": "pending"
+            },
+            {
+              "id": "check-birth",
+              "title": "Check birth evidence",
+              "reason": "No reviewed self-held document has this organizational category. This does not determine official acceptance.",
+              "dependsOn": [
+                "verify-self"
+              ],
+              "priority": 2,
+              "status": "pending"
+            },
+            {
+              "id": "family-proof",
+              "title": "Review family-linked documents",
+              "reason": "Confirm relationships and whether the particular family document is accepted for this scenario.",
+              "dependsOn": [],
+              "priority": 2,
+              "status": "pending"
+            },
+            {
+              "id": "official-review",
+              "title": "Verify current Passport Seva requirements",
+              "reason": "Document categories are not official proof-acceptance decisions.",
+              "dependsOn": [
+                "verify-self"
+              ],
+              "priority": 2,
+              "status": "pending"
+            },
+            {
+              "id": "prepare-visit",
+              "title": "Prepare originals and copies",
+              "reason": "Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.",
+              "dependsOn": [
+                "official-review"
+              ],
+              "priority": 2,
+              "status": "pending"
+            }
+          ],
+          "minimumReviewSet": [
+            "verify-self"
+          ],
+          "executionOrder": [
+            "verify-self",
+            "check-identity",
+            "check-address",
+            "check-birth",
+            "family-proof",
+            "official-review",
+            "prepare-visit"
+          ],
+          "readyForOfficialSubmission": false,
+          "readinessNote": "Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.",
+          "familyHolders": [
+            "parent-guardian"
+          ],
+          "whatIf": {
+            "allConflictsResolved": {
+              "remainingReviewTasks": 7
+            }
+          },
+          "deadlocks": [],
+          "deadlineNote": "No official processing deadline has been inferred."
+        },
+        "grounding": {
+          "reviewedApplicantDocumentIds": [],
+          "officiallyVerified": false,
+          "sourceType": "official-portal-reference-not-live-verified"
+        },
+        "disclaimer": "Preparation guidance only; verify current requirements with Passport Seva."
+      }
+    }
+  ]
+}

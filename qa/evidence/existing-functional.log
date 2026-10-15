@@ -1,0 +1,37 @@
+FAIL FF01 Fresh journey uses real API and displays every returned checklist label
+  Page.wait_for_function: Timeout 15000ms exceeded.
+FAIL FF02 Reissue journey changes backend scenario and checklist
+  Page.wait_for_function: Timeout 15000ms exceeded.
+FAIL FF03 Correction journey sends correction scenario
+  Page.wait_for_function: Timeout 15000ms exceeded.
+FAIL FF04 Empty Vault produces backend blockers rendered in journey
+  Page.wait_for_function: Timeout 15000ms exceeded.
+PASS FF05 Planner reflects real API task count and blockers
+FAIL FF06 Planner must not claim official acceptance or verified completion
+  Missing user-facing official disclaimer
+FAIL FF07 Unreviewed fictional upload cannot become accepted applicant evidence
+  Page.wait_for_function: Timeout 15000ms exceeded.
+PASS FF08 API failure displays actionable planner error, not stale success
+FAIL FF09 API failure displays visible journey error
+  Locator.wait_for: Timeout 12000ms exceeded.
+PASS FF10 Planner correction alternatives match backend response
+FAIL FF11 Reviewed applicant document reaches Passport API with correct type and category
+  Page.wait_for_function: Timeout 15000ms exceeded.
+FAIL FF12 Reviewed family-held document is excluded from applicant evidence
+  Page.wait_for_function: Timeout 15000ms exceeded.
+FAIL FF13 Removing a reviewed document removes it from subsequent API payload
+  Page.wait_for_function: Timeout 15000ms exceeded.
+PASS FF14 Unsupported executable upload is rejected and not sent to API
+PASS FF15 Empty file upload is rejected
+PASS FF16 File above 10 MB is rejected
+FAIL FF17 Review toggle is reversible and reaches API as unreviewed
+  Page.wait_for_function: Timeout 15000ms exceeded.
+PASS FF18 Vault search and review filter actually filter documents
+PASS FF19 Assistant uses real API with Gemini disabled by default and user prompt
+PASS FF20 Assistant shows failure when backend unavailable
+PASS FF21 Assistant Clear chat removes earlier user messages
+PASS FF22 Preview opens and closes for fictional image
+PASS GAP01 Vault exposes editable printed name and DOB
+PASS GAP02 Opt-in Vault persistence survives reload
+
+13 passed, 11 failed, 0 known gaps. Report: /Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/frontend-functional-results.json

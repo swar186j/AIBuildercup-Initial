@@ -98,7 +98,8 @@ export function compareDocuments(documents: LocalDocument[]): ComparisonResult {
       const first = documents[i];
       const second = documents[j];
 
-      if (first.metadata.holder !== second.metadata.holder) continue;
+      const ownerKey = (d:LocalDocument) => d.metadata.householdMemberId ? `member:${d.metadata.householdMemberId}` : d.metadata.holder==='self' ? 'member:applicant' : `unassigned:${d.metadata.holder}`;
+      if (ownerKey(first) !== ownerKey(second)) continue;
       comparedPairs += 1;
 
       for (const field of FIELDS) {

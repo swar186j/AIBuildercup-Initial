@@ -1,0 +1,645 @@
+....................F...FEF.F.......FFF..F....................F          [100%]
+==================================== ERRORS ====================================
+_ ERROR at teardown of test_vault_invalid[huge.png-image/png-[OVERSIZED_FIXTURE_BYTES]-10 MB] _
+
+browser = <Browser type=<BrowserType name=chromium executable_path=/Users/swar/Library/Caches/ms-playwright/chromium-1243/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing> version=153.0.8010.12>
+request = <SubRequest 'page' for <Function test_vault_invalid[huge.png-image/png-00000000000000000000000000000000000000000000000...[OVERSIZED_FIXTURE_BYTES]-10 MB]>>
+
+    @pytest.fixture
+    def page(browser, request):
+        ctx = browser.new_context(base_url=WEB, viewport={'width':1440,'height':1000})
+        # Preserve real HTTP backend behavior while isolating from developer credentials.
+        ctx.route('**/api/**', lambda r: r.fulfill(response=r.fetch(url=API + '/api' + r.request.url.split('/api',1)[1])))
+        p = ctx.new_page()
+        p.set_default_timeout(6000)
+        errors, console, network = [], [], []
+        p.on('pageerror', lambda e: errors.append(str(e)))
+        p.on('console', lambda m: console.append({'type':m.type,'text':m.text}))
+        p.on('response', lambda r: network.append({'url':r.url,'status':r.status}))
+        yield p
+        name = re.sub(r'[^a-zA-Z0-9_-]', '_', request.node.name)
+>       p.screenshot(path=str(EVIDENCE / (name+'.png')), full_page=True)
+
+qa/test_browser.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_generated.py:10909: in screenshot
+    self._sync(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_page.py:836: in screenshot
+    await async_writefile(path, decoded_binary)
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py:546: in async_writefile
+    await loop.run_in_executor(None, inner)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/concurrent/futures/thread.py:59: in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def inner() -> None:
+>       with open(file, "w" if isinstance(data, str) else "wb") as fh:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       OSError: [Errno 63] File name too long: '/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/qa/evidence/test_vault_invalid_huge_png-image_png-[OVERSIZED_FIXTURE_BYTES]-10_MB_.png'
+
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py:542: OSError
+=================================== FAILURES ===================================
+__________________________ test_vault_review_session ___________________________
+
+page = <Page url='http://127.0.0.1:5173/documents'>
+
+    def test_vault_review_session(page):
+        page.goto('/documents')
+        upload(page)
+        spa(page,'/planner')
+        expect(page.get_by_text('1 uploaded · 1 reviewed self-held',exact=False)).to_be_visible()
+        spa(page,'/documents')
+>       expect(page.get_by_text('Rahul Kumar Sharma',exact=False).first).to_be_visible()
+E       AssertionError: Locator expected to be visible
+E       Actual value: None
+E       Error: element(s) not found 
+E       Call log:
+E         - Expect "to_be_visible" get_by_text("Rahul Kumar Sharma").first with timeout 5000ms
+E         - waiting for get_by_text("Rahul Kumar Sharma").first
+E       
+E       Aria snapshot:
+E       - complementary:
+E         - link "Maadhyam home":
+E           - /url: /
+E           - text: Maadhyam माध्यम
+E         - paragraph: Workspace
+E         - navigation "Main navigation":
+E           - link "Dashboard":
+E             - /url: /
+E           - link "Find Services":
+E             - /url: /services
+E           - link "My Documents":
+E             - /url: /documents
+E           - link "My Applications":
+E             - /url: /applications
+E           - link "Resolution Planner":
+E             - /url: /planner
+E           - link "Citizen Workflows":
+E             - /url: /workflows
+E         - paragraph: Guidance you can verify
+E         - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E       - banner:
+E         - button "Collapse sidebar" [expanded]
+E         - paragraph: Citizen Workspace
+E         - paragraph: Understand. Prepare. Resolve.
+E         - button "Switch to dark mode"
+E         - text: Preview
+E       - main:
+E         - paragraph: Document workspace
+E         - heading "Document Vault" [level=1]
+E         - paragraph: Organize and preview documents for government-service preparation. Files stay in this browser session unless you explicitly enable browser-local saving.
+E         - region "Local Vault storage controls":
+E           - paragraph: Browser-local Vault storage
+E           - paragraph: Off by default. When enabled, files and manually reviewed identity fields remain in this browser after refresh. Not encrypted; use fictional documents for demos. Nothing is uploaded by this storage feature.
+E           - button "Enable local saving"
+E           - button "Clear all Vault data"
+E         - text: Total documents
+E         - paragraph: "1"
+E         - text: Needs review
+E         - paragraph: "0"
+E         - text: Self-reviewed
+E         - paragraph: "1"
+E         - heading "Add documents for preview" [level=2]
+E         - paragraph: Drag files here or select PDFs, JPGs and PNGs (up to 10 MB each). This is a local prototype, not secure cloud storage.
+E         - button "Choose documents to add"
+E         - button "Choose files"
+E         - text: Files are not sent to the Maadhyam backend. Refreshing the page clears this list.
+E         - heading "Your documents" [level=2]
+E         - paragraph: Temporary files added during this session.
+E         - searchbox "Search documents"
+E         - group "Document status filter":
+E           - button "All documents" [pressed]
+E           - button "Needs review"
+E           - button "Self-reviewed"
+E         - text: Category
+E         - combobox "Category":
+E           - option "All categories" [selected]
+E           - option "Identity proof"
+E           - option "Address proof"
+E           - option "Date of birth"
+E           - option "Education"
+E           - option "Employment"
+E           - option "Other / Unclassified"
+E         - article:
+E           - heading "fictional_aadhaar.png" [level=3]
+E           - paragraph: Image · 0.1 KB · 10/15/2026, 1:10:04 PM
+E           - text: Self-reviewed Identity proof Address proof Date of birth Unclassified · Self· Structured details added
+E           - button "Preview"
+E           - button "AI extraction"
+E           - button "Edit details"
+E           - button "Mark for review"
+E           - button "Remove fictional_aadhaar.png": Remove
+E         - region "Document discrepancy analysis":
+E           - heading "Document discrepancy analysis" [level=2]
+E           - paragraph: Compare name, date of birth and address across all uploaded documents belonging to the same holder category. Each pair shows matches, differences and missing details. Unreviewed metadata is provisional; this does not verify file contents.
+E           - button "Analyze documents" [disabled]
+E           - paragraph: Add at least two documents to enable comparison.
+E         - paragraph: Maadhyam is an independent assistance platform. “Self-reviewed” only means you marked a file as reviewed; it does not indicate authenticity, eligibility, document acceptance or government verification. For now, use dummy documents rather than sensitive personal records.
+E       - button "Open Maadhyam AI": Ask Maadhyam AI
+
+qa/test_browser.py:96: AssertionError
+_ test_vault_invalid[huge.png-image/png-[OVERSIZED_FIXTURE_BYTES]-10 MB] _
+
+page = <Page url='http://127.0.0.1:5173/documents'>, name = 'huge.png'
+mime = 'image/png'
+content = b'[OVERSIZED_FIXTURE_BYTES]...[OVERSIZED_FIXTURE_BYTES]'
+message = '10 MB'
+
+    @pytest.mark.parametrize('name,mime,content,message', [('empty.png','image/png',b'','empty files'),('bad.exe','application/octet-stream',b'bad','only PDF'),('huge.png','image/png',b'0'*(10*1024*1024+1),'10 MB'),('malformed.png','image/png',b'not an image','contents do not match')])
+    def test_vault_invalid(page,name,mime,content,message):
+        page.goto('/documents')
+        page.get_by_label('Choose documents to add').set_input_files({'name':name,'mimeType':mime,'buffer':content})
+>       expect(page.get_by_text(message,exact=False)).to_be_visible()
+E       AssertionError: Locator expected to be visible
+E       Actual value: None
+E       Error: strict mode violation: get_by_text("10 MB") resolved to 2 elements:
+E           1) <p class="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-600">Drag files here or select PDFs, JPGs and PNGs (up…</p> aka get_by_text("Drag files here or select")
+E           2) <p role="status" class="mx-auto mt-4 max-w-xl text-sm text-[#173f68]">huge.png: file exceeds the 10 MB limit.</p> aka get_by_text("huge.png: file exceeds the 10")
+E        
+E       Call log:
+E         - Expect "to_be_visible" get_by_text("10 MB") with timeout 5000ms
+E         - waiting for get_by_text("10 MB")
+
+qa/test_browser.py:117: AssertionError
+_ test_vault_invalid[malformed.png-image/png-not an image-contents do not match] _
+
+page = <Page url='http://127.0.0.1:5173/documents'>, name = 'malformed.png'
+mime = 'image/png', content = b'not an image', message = 'contents do not match'
+
+    @pytest.mark.parametrize('name,mime,content,message', [('empty.png','image/png',b'','empty files'),('bad.exe','application/octet-stream',b'bad','only PDF'),('huge.png','image/png',b'0'*(10*1024*1024+1),'10 MB'),('malformed.png','image/png',b'not an image','contents do not match')])
+    def test_vault_invalid(page,name,mime,content,message):
+        page.goto('/documents')
+        page.get_by_label('Choose documents to add').set_input_files({'name':name,'mimeType':mime,'buffer':content})
+>       expect(page.get_by_text(message,exact=False)).to_be_visible()
+E       AssertionError: Locator expected to be visible
+E       Actual value: None
+E       Error: element(s) not found 
+E       Call log:
+E         - Expect "to_be_visible" get_by_text("contents do not match") with timeout 5000ms
+E         - waiting for get_by_text("contents do not match")
+E       
+E       Aria snapshot:
+E       - complementary:
+E         - link "Maadhyam home":
+E           - /url: /
+E           - text: Maadhyam माध्यम
+E         - paragraph: Workspace
+E         - navigation "Main navigation":
+E           - link "Dashboard":
+E             - /url: /
+E           - link "Find Services":
+E             - /url: /services
+E           - link "My Documents":
+E             - /url: /documents
+E           - link "My Applications":
+E             - /url: /applications
+E           - link "Resolution Planner":
+E             - /url: /planner
+E           - link "Citizen Workflows":
+E             - /url: /workflows
+E         - paragraph: Guidance you can verify
+E         - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E       - banner:
+E         - button "Collapse sidebar" [expanded]
+E         - paragraph: Citizen Workspace
+E         - paragraph: Understand. Prepare. Resolve.
+E         - button "Switch to dark mode"
+E         - text: Preview
+E       - main:
+E         - paragraph: Document workspace
+E         - heading "Document Vault" [level=1]
+E         - paragraph: Organize and preview documents for government-service preparation. Files stay in this browser session unless you explicitly enable browser-local saving.
+E         - region "Local Vault storage controls":
+E           - paragraph: Browser-local Vault storage
+E           - paragraph: Off by default. When enabled, files and manually reviewed identity fields remain in this browser after refresh. Not encrypted; use fictional documents for demos. Nothing is uploaded by this storage feature.
+E           - button "Enable local saving"
+E           - button "Clear all Vault data"
+E         - text: Total documents
+E         - paragraph: "1"
+E         - text: Needs review
+E         - paragraph: "1"
+E         - text: Self-reviewed
+E         - paragraph: "0"
+E         - heading "Add documents for preview" [level=2]
+E         - paragraph: Drag files here or select PDFs, JPGs and PNGs (up to 10 MB each). This is a local prototype, not secure cloud storage.
+E         - button "Choose documents to add"
+E         - button "Choose files"
+E         - text: Files are not sent to the Maadhyam backend. Refreshing the page clears this list.
+E         - status: 1 file added to this browser session.
+E         - heading "Your documents" [level=2]
+E         - paragraph: Temporary files added during this session.
+E         - searchbox "Search documents"
+E         - group "Document status filter":
+E           - button "All documents" [pressed]
+E           - button "Needs review"
+E           - button "Self-reviewed"
+E         - text: Category
+E         - combobox "Category":
+E           - option "All categories" [selected]
+E           - option "Identity proof"
+E           - option "Address proof"
+E           - option "Date of birth"
+E           - option "Education"
+E           - option "Employment"
+E           - option "Other / Unclassified"
+E         - article:
+E           - heading "malformed.png" [level=3]
+E           - paragraph: Image · 0.0 KB · 10/15/2026, 1:10:13 PM
+E           - text: Needs review Other / Unclassified Unclassified · Self
+E           - button "Preview"
+E           - button "AI extraction"
+E           - button "Edit details"
+E           - button "Mark self-reviewed"
+E           - button "Remove malformed.png": Remove
+E         - region "Document discrepancy analysis":
+E           - heading "Document discrepancy analysis" [level=2]
+E           - paragraph: Compare name, date of birth and address across all uploaded documents belonging to the same holder category. Each pair shows matches, differences and missing details. Unreviewed metadata is provisional; this does not verify file contents.
+E           - button "Analyze documents" [disabled]
+E           - paragraph: Add at least two documents to enable comparison.
+E         - paragraph: Maadhyam is an independent assistance platform. “Self-reviewed” only means you marked a file as reviewed; it does not indicate authenticity, eligibility, document acceptance or government verification. For now, use dummy documents rather than sensitive personal records.
+E       - button "Open Maadhyam AI": Ask Maadhyam AI
+
+qa/test_browser.py:117: AssertionError
+______________________________ test_ocr[success] _______________________________
+
+page = <Page url='http://127.0.0.1:5173/documents'>, mode = 'success'
+
+    @pytest.mark.parametrize('mode',['missing','success','malformed'])
+    def test_ocr(page,mode):
+        page.goto('/documents')
+        page.get_by_label('Choose documents to add').set_input_files(str(ROOT/'qa/fixtures/fictional_aadhaar.pdf'))
+        if mode=='success':
+            page.route('**/api/ai/extract-document', lambda r:r.fulfill(json={'documentType':'Aadhaar card','printedName':'Rahul Kumar Sharma','dateOfBirth':'1998-06-15','residentialAddress':'12 MG Road, Pune, Maharashtra','categories':['identity','address'],'warnings':['Fictional provider stub; verify manually.']}))
+        if mode=='malformed': page.route('**/api/ai/extract-document',lambda r:r.fulfill(json={'unexpected':True}))
+        page.get_by_role('button',name='AI extraction',exact=True).click()
+        d=page.get_by_role('dialog',name='Document extraction preview')
+        expect(d.get_by_role('button',name='Extract with Gemini')).to_be_disabled()
+        d.get_by_role('checkbox').check()
+        d.get_by_role('button',name='Extract with Gemini').click()
+        if mode=='success':
+            expect(d.get_by_role('button',name='Review & apply extracted details')).to_be_visible()
+            d.get_by_role('button',name='Review & apply extracted details').click()
+>           expect(page.get_by_text('Rahul Kumar Sharma',exact=False).first).to_be_visible()
+E           AssertionError: Locator expected to be visible
+E           Actual value: None
+E           Error: element(s) not found 
+E           Call log:
+E             - Expect "to_be_visible" get_by_text("Rahul Kumar Sharma").first with timeout 5000ms
+E             - waiting for get_by_text("Rahul Kumar Sharma").first
+E           
+E           Aria snapshot:
+E           - complementary:
+E             - link "Maadhyam home":
+E               - /url: /
+E               - text: Maadhyam माध्यम
+E             - paragraph: Workspace
+E             - navigation "Main navigation":
+E               - link "Dashboard":
+E                 - /url: /
+E               - link "Find Services":
+E                 - /url: /services
+E               - link "My Documents":
+E                 - /url: /documents
+E               - link "My Applications":
+E                 - /url: /applications
+E               - link "Resolution Planner":
+E                 - /url: /planner
+E               - link "Citizen Workflows":
+E                 - /url: /workflows
+E             - paragraph: Guidance you can verify
+E             - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E           - banner:
+E             - button "Collapse sidebar" [expanded]
+E             - paragraph: Citizen Workspace
+E             - paragraph: Understand. Prepare. Resolve.
+E             - button "Switch to dark mode"
+E             - text: Preview
+E           - main:
+E             - paragraph: Document workspace
+E             - heading "Document Vault" [level=1]
+E             - paragraph: Organize and preview documents for government-service preparation. Files stay in this browser session unless you explicitly enable browser-local saving.
+E             - region "Local Vault storage controls":
+E               - paragraph: Browser-local Vault storage
+E               - paragraph: Off by default. When enabled, files and manually reviewed identity fields remain in this browser after refresh. Not encrypted; use fictional documents for demos. Nothing is uploaded by this storage feature.
+E               - button "Enable local saving"
+E               - button "Clear all Vault data"
+E             - text: Total documents
+E             - paragraph: "1"
+E             - text: Needs review
+E             - paragraph: "1"
+E             - text: Self-reviewed
+E             - paragraph: "0"
+E             - heading "Add documents for preview" [level=2]
+E             - paragraph: Drag files here or select PDFs, JPGs and PNGs (up to 10 MB each). This is a local prototype, not secure cloud storage.
+E             - button "Choose documents to add"
+E             - button "Choose files"
+E             - text: Files are not sent to the Maadhyam backend. Refreshing the page clears this list.
+E             - status: AI-extracted details saved after your review. Verify them against the original document.
+E             - heading "Your documents" [level=2]
+E             - paragraph: Temporary files added during this session.
+E             - searchbox "Search documents"
+E             - group "Document status filter":
+E               - button "All documents" [pressed]
+E               - button "Needs review"
+E               - button "Self-reviewed"
+E             - text: Category
+E             - combobox "Category":
+E               - option "All categories" [selected]
+E               - option "Identity proof"
+E               - option "Address proof"
+E               - option "Date of birth"
+E               - option "Education"
+E               - option "Employment"
+E               - option "Other / Unclassified"
+E             - article:
+E               - heading "fictional_aadhaar.pdf" [level=3]
+E               - paragraph: PDF · 1.7 KB · 10/15/2026, 1:10:19 PM
+E               - text: Needs review Identity proof Address proof Aadhaar card · Self· Structured details added
+E               - button "Preview"
+E               - button "AI extraction"
+E               - button "Edit details"
+E               - button "Mark self-reviewed"
+E               - button "Remove fictional_aadhaar.pdf": Remove
+E             - region "Document discrepancy analysis":
+E               - heading "Document discrepancy analysis" [level=2]
+E               - paragraph: Compare name, date of birth and address across all uploaded documents belonging to the same holder category. Each pair shows matches, differences and missing details. Unreviewed metadata is provisional; this does not verify file contents.
+E               - button "Analyze documents" [disabled]
+E               - paragraph: Add at least two documents to enable comparison.
+E             - paragraph: Maadhyam is an independent assistance platform. “Self-reviewed” only means you marked a file as reviewed; it does not indicate authenticity, eligibility, document acceptance or government verification. For now, use dummy documents rather than sensitive personal records.
+E           - button "Open Maadhyam AI": Ask Maadhyam AI
+
+qa/test_browser.py:135: AssertionError
+__________ test_planner_unexpected[/api/intelligence/reasoning-body1] __________
+
+page = <Page url='http://127.0.0.1:5173/planner'>
+endpoint = '/api/intelligence/reasoning', body = {}
+
+    @pytest.mark.parametrize('endpoint,body', [('/api/intelligence/passport-plan',{}),('/api/intelligence/reasoning',{}),('/api/intelligence/reasoning',{'simulations':None}),('/api/intelligence/passport-plan',{'assessment':{'tasks':[{}]},'passportPlan':{}})])
+    def test_planner_unexpected(page,endpoint,body):
+        page.route('**'+endpoint,lambda r:r.fulfill(json=body))
+        page.goto('/planner')
+        expect(page.get_by_role('heading',name='Resolution Planner',exact=True)).to_be_visible()
+        page.wait_for_timeout(900)
+>       assert 'needs a refresh' not in page.locator('body').inner_text(), 'Error boundary caught a render crash'
+E       AssertionError: Error boundary caught a render crash
+E       assert 'needs a refresh' not in 'Maadhyam\nम... Maadhyam AI'
+E         
+E         'needs a refresh' is contained here:
+E           n Planner needs a refresh
+E           
+E           We couldn't display the planning analysis. Your Vault records have not been deleted. Please retry; if the issue continues, check the browser console and backend response.
+E           
+E           Diagnostic: Cannot read properties of undefined (reading 'find')...
+E         
+E         ...Full output truncated (3 lines hidden), use '-vv' to show
+
+qa/test_browser.py:194: AssertionError
+__________ test_planner_unexpected[/api/intelligence/reasoning-body2] __________
+
+page = <Page url='http://127.0.0.1:5173/planner'>
+endpoint = '/api/intelligence/reasoning', body = {'simulations': None}
+
+    @pytest.mark.parametrize('endpoint,body', [('/api/intelligence/passport-plan',{}),('/api/intelligence/reasoning',{}),('/api/intelligence/reasoning',{'simulations':None}),('/api/intelligence/passport-plan',{'assessment':{'tasks':[{}]},'passportPlan':{}})])
+    def test_planner_unexpected(page,endpoint,body):
+        page.route('**'+endpoint,lambda r:r.fulfill(json=body))
+        page.goto('/planner')
+        expect(page.get_by_role('heading',name='Resolution Planner',exact=True)).to_be_visible()
+        page.wait_for_timeout(900)
+>       assert 'needs a refresh' not in page.locator('body').inner_text(), 'Error boundary caught a render crash'
+E       AssertionError: Error boundary caught a render crash
+E       assert 'needs a refresh' not in 'Maadhyam\nम... Maadhyam AI'
+E         
+E         'needs a refresh' is contained here:
+E           n Planner needs a refresh
+E           
+E           We couldn't display the planning analysis. Your Vault records have not been deleted. Please retry; if the issue continues, check the browser console and backend response.
+E           
+E           Diagnostic: Cannot read properties of null (reading 'find')...
+E         
+E         ...Full output truncated (3 lines hidden), use '-vv' to show
+
+qa/test_browser.py:194: AssertionError
+________ test_planner_unexpected[/api/intelligence/passport-plan-body3] ________
+
+page = <Page url='http://127.0.0.1:5173/planner'>
+endpoint = '/api/intelligence/passport-plan'
+body = {'assessment': {'tasks': [{}]}, 'passportPlan': {}}
+
+    @pytest.mark.parametrize('endpoint,body', [('/api/intelligence/passport-plan',{}),('/api/intelligence/reasoning',{}),('/api/intelligence/reasoning',{'simulations':None}),('/api/intelligence/passport-plan',{'assessment':{'tasks':[{}]},'passportPlan':{}})])
+    def test_planner_unexpected(page,endpoint,body):
+        page.route('**'+endpoint,lambda r:r.fulfill(json=body))
+        page.goto('/planner')
+        expect(page.get_by_role('heading',name='Resolution Planner',exact=True)).to_be_visible()
+        page.wait_for_timeout(900)
+>       assert 'needs a refresh' not in page.locator('body').inner_text(), 'Error boundary caught a render crash'
+E       AssertionError: Error boundary caught a render crash
+E       assert 'needs a refresh' not in 'Maadhyam\nम... Maadhyam AI'
+E         
+E         'needs a refresh' is contained here:
+E           n Planner needs a refresh
+E           
+E           We couldn't display the planning analysis. Your Vault records have not been deleted. Please retry; if the issue continues, check the browser console and backend response.
+E           
+E           Diagnostic: Cannot read properties of undefined (reading 'some')...
+E         
+E         ...Full output truncated (3 lines hidden), use '-vv' to show
+
+qa/test_browser.py:194: AssertionError
+_________________________ test_reasoning_whatif_family _________________________
+
+page = <Page url='http://127.0.0.1:5173/planner'>
+
+    def test_reasoning_whatif_family(page):
+        page.goto('/documents')
+        upload(page)
+        upload(page,'fictional_pan.png','Rahul K Sharma')
+        upload(page,'fictional_parent.png','Fictional Parent',holder='parent-guardian')
+        spa(page,'/planner')
+        expect(page.get_by_label('Minimum prerequisite review path')).to_be_visible()
+        for label in ['Dependency diagnostics','Alternative evidence candidates','Identity name variations','Address consistency','Visit preparation','Deadline planning']:
+            expect(page.get_by_label(label,exact=True)).to_be_visible()
+        page.get_by_label('What-if document').select_option(label='fictional_pan.png')
+        page.get_by_label('Hypothetical value').fill('Rahul Kumar Sharma')
+        payload,data=response_for(page,'/api/intelligence/reasoning',lambda:page.get_by_role('button',name='See the impact').click())
+        assert 'printedName-conflict' in data['simulations'][0]['resolvedFindingIds']
+        expect(page.get_by_text('Potentially resolved: printedName-conflict',exact=True)).to_be_visible()
+        assert data['simulations'][0]['officialAcceptanceVerified'] is False
+        page.get_by_role('button',name="I have a family member's document").click()
+>       page.get_by_label('Family document').select_option(label='fictional_parent.png')
+
+qa/test_browser.py:219: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_generated.py:20226: in select_option
+    self._sync(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_locator.py:637: in select_option
+    return await self._frame.select_option(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_frame.py:815: in select_option
+    return await self._channel.send("selectOption", self._timeout, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:76: in send
+    return await self._connection.wrap_api_call(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <playwright._impl._connection.Connection object at 0x10916ba10>
+cb = <function Channel.send.<locals>.<lambda> at 0x109b662a0>
+is_internal = False, title = None
+
+    async def wrap_api_call(
+        self, cb: Callable[[], Any], is_internal: bool = False, title: str = None
+    ) -> Any:
+        if self._api_zone.get():
+            return await cb()
+        task = asyncio.current_task(self._loop)
+        parsed_st = _attach_api_call_information(
+            getattr(task, "__pw_stack__", None) or _capture_stack_trace(),
+            is_internal,
+            title,
+        )
+        self._api_zone.set(parsed_st)
+        try:
+            return await cb()
+        except Exception as error:
+>           raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E           playwright._impl._errors.Error: Locator.select_option: Error: strict mode violation: get_by_label("Family document") resolved to 2 elements:
+E               1) <div aria-label="Check family document evidence" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-[#293956] dark:bg-[#162430]">…</div> aka get_by_label("Check family document evidence")
+E               2) <select aria-label="Family document" class="mt-2 w-full rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm text-slate-900 outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20 dark:border-[#385065] dark:bg-[#203440] dark:text-slate-100">…</select> aka get_by_label("Family document", exact=True)
+E           
+E           Call log:
+E             - waiting for get_by_label("Family document")
+
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:632: Error
+__________________________ test_assistant[malformed] ___________________________
+
+page = <Page url='http://127.0.0.1:5173/documents'>, mode = 'malformed'
+
+    @pytest.mark.parametrize('mode',['local','missing','429','timeout','malformed'])
+    def test_assistant(page,mode):
+        page.goto('/documents')
+        page.get_by_role('button',name='Open Maadhyam AI').click()
+        d=page.get_by_role('dialog',name='Maadhyam AI assistant')
+        expect(d.get_by_role('button',name='Send message')).to_be_disabled()
+        if mode=='missing':
+            d.get_by_label('Use Gemini (fictional demo metadata only)').check()
+            d.get_by_label('Message to Maadhyam AI').fill('Help with missing evidence')
+            expect(d.get_by_role('button',name='Send message')).to_be_disabled()
+            d.get_by_label('Confirm all metadata is fictional').check()
+        if mode=='429': page.route('**/api/intelligence/chat',lambda r:r.fulfill(status=429,json={'error':{'message':'Rate limited'}}))
+        if mode=='timeout': page.route('**/api/intelligence/chat',lambda r:r.abort('timedout'))
+        if mode=='malformed': page.route('**/api/intelligence/chat',lambda r:r.fulfill(json={}))
+        d.get_by_label('Message to Maadhyam AI').fill('What evidence is missing?')
+        d.get_by_role('button',name='Send message').click()
+        if mode=='local': expect(d.get_by_text('cannot determine',exact=False).or_(d.get_by_text('review',exact=False)).last).to_be_visible()
+>       else: expect(d.get_by_text('Assistant unavailable.',exact=False)).to_be_visible()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Locator expected to be visible
+E       Actual value: None
+E       Error: element(s) not found 
+E       Call log:
+E         - Expect "to_be_visible" get_by_role("dialog", name="Maadhyam AI assistant").get_by_text("Assistant unavailable.") with timeout 5000ms
+E         - waiting for get_by_role("dialog", name="Maadhyam AI assistant").get_by_text("Assistant unavailable.")
+E       
+E       Aria snapshot:
+E       - complementary:
+E         - link "Maadhyam home":
+E           - /url: /
+E           - text: Maadhyam माध्यम
+E         - paragraph: Workspace
+E         - navigation "Main navigation":
+E           - link "Dashboard":
+E             - /url: /
+E           - link "Find Services":
+E             - /url: /services
+E           - link "My Documents":
+E             - /url: /documents
+E           - link "My Applications":
+E             - /url: /applications
+E           - link "Resolution Planner":
+E             - /url: /planner
+E           - link "Citizen Workflows":
+E             - /url: /workflows
+E         - paragraph: Guidance you can verify
+E         - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E       - banner:
+E         - button "Collapse sidebar" [expanded]
+E         - paragraph: Citizen Workspace
+E         - paragraph: Understand. Prepare. Resolve.
+E         - button "Switch to dark mode"
+E         - text: Preview
+E       - main:
+E         - paragraph: Document workspace
+E         - heading "Document Vault" [level=1]
+E         - paragraph: Organize and preview documents for government-service preparation. Files stay in this browser session unless you explicitly enable browser-local saving.
+E         - region "Local Vault storage controls":
+E           - paragraph: Browser-local Vault storage
+E           - paragraph: Off by default. When enabled, files and manually reviewed identity fields remain in this browser after refresh. Not encrypted; use fictional documents for demos. Nothing is uploaded by this storage feature.
+E           - button "Enable local saving"
+E           - button "Clear all Vault data"
+E         - text: Total documents
+E         - paragraph: "0"
+E         - text: Needs review
+E         - paragraph: "0"
+E         - text: Self-reviewed
+E         - paragraph: "0"
+E         - heading "Add documents for preview" [level=2]
+E         - paragraph: Drag files here or select PDFs, JPGs and PNGs (up to 10 MB each). This is a local prototype, not secure cloud storage.
+E         - button "Choose documents to add"
+E         - button "Choose files"
+E         - text: Files are not sent to the Maadhyam backend. Refreshing the page clears this list.
+E         - heading "Your documents" [level=2]
+E         - paragraph: Temporary files added during this session.
+E         - searchbox "Search documents"
+E         - group "Document status filter":
+E           - button "All documents" [pressed]
+E           - button "Needs review"
+E           - button "Self-reviewed"
+E         - text: Category
+E         - combobox "Category":
+E           - option "All categories" [selected]
+E           - option "Identity proof"
+E           - option "Address proof"
+E           - option "Date of birth"
+E           - option "Education"
+E           - option "Employment"
+E           - option "Other / Unclassified"
+E         - heading "No documents yet" [level=3]
+E         - paragraph: Add a sample PDF or image to preview it here.
+E         - region "Document discrepancy analysis":
+E           - heading "Document discrepancy analysis" [level=2]
+E           - paragraph: Compare name, date of birth and address across all uploaded documents belonging to the same holder category. Each pair shows matches, differences and missing details. Unreviewed metadata is provisional; this does not verify file contents.
+E           - button "Analyze documents" [disabled]
+E           - paragraph: Add at least two documents to enable comparison.
+E         - paragraph: Maadhyam is an independent assistance platform. “Self-reviewed” only means you marked a file as reviewed; it does not indicate authenticity, eligibility, document acceptance or government verification. For now, use dummy documents rather than sensitive personal records.
+E       - dialog "Maadhyam AI assistant":
+E         - heading "Maadhyam AI" [level=2]
+E         - paragraph: Context-aware · local by default
+E         - button "Clear chat"
+E         - button "Close AI assistant"
+E         - text: Uses reviewed metadata. Gemini is optional for fictional demo data only. No government verification.
+E         - paragraph: Namaste! I'm Maadhyam's demo assistant. I can guide you through this workspace and summarize document details you've entered manually. I use reviewed Vault metadata, not uploaded file contents. I cannot verify government eligibility or acceptance.
+E         - paragraph: What evidence is missing?
+E         - paragraph
+E         - text: Suggested for this page
+E         - button "How many documents do I have?"
+E         - button "What document details are missing?"
+E         - button "How do I check discrepancies?"
+E         - checkbox "Use Gemini (fictional demo metadata only)"
+E         - text: Use Gemini (fictional demo metadata only)
+E         - textbox "Message to Maadhyam AI":
+E           - /placeholder: Ask Maadhyam…
+E         - button "Send message" [disabled]
+E       - button "Close Maadhyam AI" [expanded]: Close
+
+qa/test_browser.py:273: AssertionError
+=========================== short test summary info ============================
+FAILED qa/test_browser.py::test_vault_review_session - AssertionError: Locato...
+FAILED qa/test_browser.py::test_vault_invalid[huge.png-image/png-[OVERSIZED_FIXTURE_BYTES]-10 MB]
+FAILED qa/test_browser.py::test_vault_invalid[malformed.png-image/png-not an image-contents do not match]
+FAILED qa/test_browser.py::test_ocr[success] - AssertionError: Locator expect...
+FAILED qa/test_browser.py::test_planner_unexpected[/api/intelligence/reasoning-body1]
+FAILED qa/test_browser.py::test_planner_unexpected[/api/intelligence/reasoning-body2]
+FAILED qa/test_browser.py::test_planner_unexpected[/api/intelligence/passport-plan-body3]
+FAILED qa/test_browser.py::test_reasoning_whatif_family - playwright._impl._e...
+FAILED qa/test_browser.py::test_assistant[malformed] - AssertionError: Locato...
+ERROR qa/test_browser.py::test_vault_invalid[huge.png-image/png-[OVERSIZED_FIXTURE_BYTES]-10 MB]
+9 failed, 53 passed, 1 error in 63.53s (0:01:03)

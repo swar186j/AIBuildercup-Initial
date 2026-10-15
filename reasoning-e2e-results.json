@@ -1,0 +1,27 @@
+[
+  {
+    "case": "RE01 Real API receives reviewed Vault metadata and detects conflict",
+    "status": "PASS",
+    "detail": ""
+  },
+  {
+    "case": "RE02 Dependency-safe graph rendered and valid",
+    "status": "PASS",
+    "detail": ""
+  },
+  {
+    "case": "RE03 What-if recomputes and displays resolved name conflict",
+    "status": "PASS",
+    "detail": ""
+  },
+  {
+    "case": "RE04 Family claim reaches real API, remains unverified",
+    "status": "PASS",
+    "detail": ""
+  },
+  {
+    "case": "RE05 Clearing what-if removes hypothetical changes",
+    "status": "PASS",
+    "detail": ""
+  }
+]

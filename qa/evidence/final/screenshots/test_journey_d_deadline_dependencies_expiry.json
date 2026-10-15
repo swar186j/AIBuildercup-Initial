@@ -1,0 +1,569 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/documents",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/passport-plan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/rules/versions",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/advanced-plan",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/intelligence/reasoning",
+      "request": {
+        "documents": [
+          {
+            "id": "c11e86da-f85d-448b-91bb-1fbec859f3af",
+            "documentType": "Aadhaar card",
+            "holder": "self",
+            "associationConsent": false,
+            "reviewed": true,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "Rahul Kumar Sharma",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra",
+            "expiryDate": "2099-01-01"
+          }
+        ],
+        "targetDate": "2099-02-01"
+      },
+      "response": {
+        "identityEvolution": {
+          "variationDetected": false,
+          "observedNameVariants": [
+            {
+              "name": "Rahul Kumar Sharma",
+              "documentIds": [
+                "c11e86da-f85d-448b-91bb-1fbec859f3af"
+              ]
+            }
+          ],
+          "legalNameChangeVerified": false,
+          "requiresOfficialReview": false,
+          "note": "Different printed names were observed. This does not establish a legal name change or identity mismatch."
+        },
+        "addressContinuity": {
+          "differentAddressesDetected": false,
+          "observedAddresses": [
+            {
+              "address": "12 MG Road, Pune, Maharashtra",
+              "documentIds": [
+                "c11e86da-f85d-448b-91bb-1fbec859f3af"
+              ]
+            }
+          ],
+          "currentAddressVerified": false,
+          "migrationHistoryVerified": false,
+          "requiresReview": false,
+          "note": "Different document addresses do not establish which address is current or whether the applicant migrated."
+        },
+        "visitPreparation": {
+          "governmentVisitEliminated": false,
+          "digitalSubmissionVerified": false,
+          "reviewedDocumentCount": 1,
+          "actions": [
+            "Verify current requirements and appointment instructions through the official Passport Seva portal.",
+            "Confirm which documents require original verification or physical attendance.",
+            "Compare reviewed document details and resolve discrepancies before the appointment."
+          ],
+          "note": "Digital preparation may reduce avoidable follow-ups, but no government visit elimination is verified."
+        },
+        "mode": "local-deterministic",
+        "baseline": {
+          "assessment": {
+            "mode": "local-explainable",
+            "sourceUrl": "https://www.passportindia.gov.in/",
+            "documentCount": 1,
+            "reviewedSelfDocuments": 1,
+            "findings": [],
+            "tasks": [
+              {
+                "id": "official-review",
+                "title": "Verify current Passport Seva requirements",
+                "reason": "Document categories are not official proof-acceptance decisions.",
+                "dependsOn": [],
+                "priority": 2,
+                "status": "pending"
+              },
+              {
+                "id": "prepare-visit",
+                "title": "Prepare originals and copies",
+                "reason": "Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.",
+                "dependsOn": [
+                  "official-review"
+                ],
+                "priority": 2,
+                "status": "pending"
+              }
+            ],
+            "minimumReviewSet": [],
+            "executionOrder": [
+              "official-review",
+              "prepare-visit"
+            ],
+            "readyForOfficialSubmission": false,
+            "readinessNote": "Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.",
+            "familyHolders": [],
+            "whatIf": {
+              "allConflictsResolved": {
+                "remainingReviewTasks": 2
+              }
+            },
+            "deadlocks": [],
+            "deadlineNote": "No official processing deadline has been inferred."
+          },
+          "passportPlan": {
+            "scenario": "fresh",
+            "scenarioTitle": "Fresh passport",
+            "checklist": [
+              {
+                "id": "identity-details",
+                "label": "Confirm applicant identity details",
+                "status": "evidence-to-review",
+                "candidateDocumentIds": [
+                  "c11e86da-f85d-448b-91bb-1fbec859f3af"
+                ],
+                "officialAcceptanceVerified": false,
+                "note": "Vault categories indicate possible evidence, not acceptance by Passport Seva."
+              },
+              {
+                "id": "present-address",
+                "label": "Check present-address evidence options",
+                "status": "evidence-to-review",
+                "candidateDocumentIds": [
+                  "c11e86da-f85d-448b-91bb-1fbec859f3af"
+                ],
+                "officialAcceptanceVerified": false,
+                "note": "Vault categories indicate possible evidence, not acceptance by Passport Seva."
+              },
+              {
+                "id": "birth-details",
+                "label": "Check date-of-birth evidence options",
+                "status": "evidence-to-review",
+                "candidateDocumentIds": [
+                  "c11e86da-f85d-448b-91bb-1fbec859f3af"
+                ],
+                "officialAcceptanceVerified": false,
+                "note": "Vault categories indicate possible evidence, not acceptance by Passport Seva."
+              }
+            ],
+            "resolutionOptions": [],
+            "preparationBlockers": [
+              "Applicant age group not specified"
+            ],
+            "orderedTaskIds": [
+              "official-review",
+              "prepare-visit"
+            ],
+            "nextAction": "Verify current Passport Seva requirements",
+            "officialEligibilityDetermined": false,
+            "officialAcceptanceDetermined": false,
+            "sourceUrl": "https://www.passportindia.gov.in/",
+            "disclaimer": "Preparation guidance only; verify current scenario-specific requirements and accepted proofs on Passport Seva."
+          },
+          "reviewFindings": [],
+          "blockers": [
+            "Applicant age group not specified"
+          ]
+        },
+        "dependencyGraph": {
+          "nodes": [
+            {
+              "id": "official-review",
+              "title": "Verify current Passport Seva requirements",
+              "priority": 2
+            },
+            {
+              "id": "prepare-visit",
+              "title": "Prepare originals and copies",
+              "priority": 2
+            }
+          ],
+          "edges": [
+            {
+              "before": "official-review",
+              "after": "prepare-visit"
+            }
+          ],
+          "executionOrder": [
+            "official-review",
+            "prepare-visit"
+          ],
+          "cyclesDetected": false,
+          "diagnostics": {
+            "missingDependencyIds": [],
+            "cycles": [],
+            "cyclesDetected": false
+          },
+          "optimizationScope": "Deduplicated preparation tasks and dependency-safe ordering only; no legal or time-cost optimization."
+        },
+        "familyEvidence": {
+          "links": [],
+          "unlinkedFamilyDocumentIds": [],
+          "officialRelationshipVerified": false,
+          "note": "A claimed family relationship is not independently verified by the Vault."
+        },
+        "simulations": [],
+        "minimumCorrectionPath": {
+          "requiredReviewTaskIds": [],
+          "selectedTaskIds": [],
+          "selectedTaskCount": 0,
+          "totalTaskCount": 2,
+          "excludedOptionalTaskIds": [
+            "official-review",
+            "prepare-visit"
+          ],
+          "method": "Exact dependency closure for priority-1 preparation tasks",
+          "optimizationScope": "Minimum number of prerequisite tasks for the specified critical review set; not minimum legal corrections, time, money or visits.",
+          "officialAcceptanceVerified": false
+        },
+        "deadlockAnalysis": {
+          "structuralDeadlockDetected": false,
+          "issues": [],
+          "bureaucraticDeadlockVerified": false,
+          "note": "This checks software task dependencies only. Government process deadlocks require verified authority-specific rules."
+        },
+        "proofSubstitution": {
+          "candidates": [
+            {
+              "category": "identity",
+              "candidateDocumentIds": [
+                "c11e86da-f85d-448b-91bb-1fbec859f3af"
+              ],
+              "hasMultipleCandidates": false,
+              "substitutionApproved": false,
+              "status": "scenario-specific-rule-required",
+              "ruleId": null,
+              "sourceId": null,
+              "sourceUrl": null,
+              "alternatives": [],
+              "note": "Listed proof types are candidates for official review, not interchangeable or approved proofs."
+            },
+            {
+              "category": "address",
+              "candidateDocumentIds": [
+                "c11e86da-f85d-448b-91bb-1fbec859f3af"
+              ],
+              "hasMultipleCandidates": false,
+              "substitutionApproved": false,
+              "status": "source-linked-options-for-review",
+              "ruleId": "address",
+              "sourceId": "official-documents",
+              "sourceUrl": "https://www.passportindia.gov.in/psp/ListDocuments",
+              "alternatives": [
+                {
+                  "documentType": "Aadhaar card",
+                  "matchingReviewedDocumentIds": [
+                    "c11e86da-f85d-448b-91bb-1fbec859f3af"
+                  ],
+                  "availability": "in-vault-for-review",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Voter ID",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Utility bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Rent Agreement",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Water Bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Electricity bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Telephone bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Gas connection bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Photo bank passbook",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Income Tax Assessment Order",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Spouse passport",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Parent passport",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                }
+              ],
+              "note": "Listed proof types are candidates for official review, not interchangeable or approved proofs."
+            },
+            {
+              "category": "birth",
+              "candidateDocumentIds": [],
+              "hasMultipleCandidates": false,
+              "substitutionApproved": false,
+              "status": "source-linked-options-for-review",
+              "ruleId": "dob-old",
+              "sourceId": "official-gazette",
+              "sourceUrl": "https://services2.passportindia.gov.in/AppOnlineProject/pdf/Gazette_Notification_DoB.pdf",
+              "alternatives": [
+                {
+                  "documentType": "Birth certificate",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "School leaving certificate",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Matriculation certificate",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "PAN card",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Driving licence",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Voter ID",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Life insurance policy bond",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Government service record",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Pension order",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                }
+              ],
+              "note": "Listed proof types are candidates for official review, not interchangeable or approved proofs."
+            }
+          ],
+          "officialSubstitutionApproved": false
+        },
+        "deadlineRescue": {
+          "targetDate": "2099-02-01",
+          "daysRemaining": 26407,
+          "urgency": "planning",
+          "officialDeadlineVerified": false,
+          "actions": [
+            "Verify the actual deadline, appointment availability and required evidence on the official portal.",
+            "Review document expiry conflicts and verify acceptable proof or renewal routes with the authority."
+          ],
+          "note": "User-entered planning target only; expiry warnings do not establish official document rejection or processing times.",
+          "documentExpiryConflicts": [
+            {
+              "documentId": "c11e86da-f85d-448b-91bb-1fbec859f3af",
+              "documentType": "Aadhaar card",
+              "expiryDate": "2099-01-01",
+              "type": "expires-before-target",
+              "severity": "review",
+              "daysUntilExpiry": 26376,
+              "action": "Review renewal or alternative proof options before the planned target date.",
+              "officialAcceptanceVerified": false
+            }
+          ],
+          "expiryConflictDetected": true,
+          "resolutionOptions": [
+            {
+              "documentId": "c11e86da-f85d-448b-91bb-1fbec859f3af",
+              "conflictType": "expires-before-target",
+              "action": "Review renewal or alternative proof options before the planned target date.",
+              "prerequisiteTaskIds": [
+                "official-review",
+                "prepare-visit"
+              ],
+              "estimatedCompletionDays": null,
+              "officialFeasibilityVerified": false
+            }
+          ],
+          "officialDocumentValidityVerified": false
+        },
+        "officialEligibilityDetermined": false,
+        "disclaimer": "Scenario planning only. Verify real evidence and current Passport Seva rules independently."
+      }
+    },
+    {
+      "endpoint": "/api/intelligence/advanced-plan",
+      "request": {
+        "issues": [
+          {
+            "id": "issue-1",
+            "options": [
+              {
+                "id": "0f5becc0-d7bc-49c0-a070-56f9fdc30a9b",
+                "label": "Lower-cost evidence review",
+                "authority": "Issuing authority",
+                "costINR": 100,
+                "durationDays": 10,
+                "visits": 1,
+                "prerequisites": [],
+                "onlinePossible": false,
+                "officialEligibilityVerified": false
+              },
+              {
+                "id": "57869d5c-05cf-4437-ba2e-98ed382e418b",
+                "label": "Quicker review estimate",
+                "authority": "Issuing authority",
+                "costINR": 1000,
+                "durationDays": 2,
+                "visits": 2,
+                "prerequisites": [],
+                "onlinePossible": false,
+                "officialEligibilityVerified": false
+              }
+            ]
+          }
+        ],
+        "weights": {
+          "cost": 1,
+          "days": 1,
+          "visits": 1
+        },
+        "targetDate": null
+      },
+      "response": {
+        "status": "planned",
+        "candidatePathsEvaluated": 2,
+        "alternatives": [
+          {
+            "selectedOptions": [
+              {
+                "issueId": "issue-1",
+                "id": "0f5becc0-d7bc-49c0-a070-56f9fdc30a9b",
+                "label": "Lower-cost evidence review",
+                "costINR": 100,
+                "durationDays": 10,
+                "visits": 1,
+                "authority": "Issuing authority",
+                "prerequisites": [],
+                "onlinePossible": false,
+                "officialEligibilityVerified": false
+              }
+            ],
+            "totalCostINR": 100,
+            "estimatedSequentialDays": 10,
+            "estimatedVisits": 1
+          }
+        ],
+        "selectedOptions": [
+          {
+            "issueId": "issue-1",
+            "id": "57869d5c-05cf-4437-ba2e-98ed382e418b",
+            "label": "Quicker review estimate",
+            "costINR": 1000,
+            "durationDays": 2,
+            "visits": 2,
+            "authority": "Issuing authority",
+            "prerequisites": [],
+            "onlinePossible": false,
+            "officialEligibilityVerified": false
+          }
+        ],
+        "totalCostINR": 1000,
+        "estimatedSequentialDays": 2,
+        "estimatedVisits": 2,
+        "potentialOnlineSteps": [],
+        "targetDate": null,
+        "daysUntilTarget": null,
+        "targetFeasibleUnderAssumptions": null,
+        "officialAcceptanceVerified": false,
+        "officialProcessingTimesVerified": false,
+        "disclaimer": "Scenario-only optimization using user-supplied assumptions. Verify official eligibility, authority requirements, appointments, processing times and online availability."
+      }
+    }
+  ]
+}

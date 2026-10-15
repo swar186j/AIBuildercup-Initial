@@ -1,0 +1,58 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/workflows",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/citizen-workflows/legacy-reconstruction",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/citizen-workflows/legacy-reconstruction",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/citizen-workflows/legacy-reconstruction",
+      "request": {
+        "documentType": "Birth certificate",
+        "issuingAuthority": "",
+        "availableEvidence": [
+          "Fictional school record"
+        ],
+        "missingFields": [],
+        "isOriginalAvailable": false
+      },
+      "response": {
+        "documentType": "Birth certificate",
+        "issuingAuthority": "",
+        "originalAvailable": false,
+        "evidenceInventory": [
+          "Fictional school record"
+        ],
+        "fieldsToVerify": [],
+        "suggestedSteps": [
+          "Identify the original issuing office and request its official duplicate, certified copy or record-search procedure.",
+          "Gather existing reference numbers and available supporting evidence.",
+          "Check spelling, dates and record identifiers against originals before submission.",
+          "Ask the authority whether an affidavit, archival search or additional verification is required."
+        ],
+        "documentReconstructed": false,
+        "officialDuplicateIssued": false,
+        "disclaimer": "Advisory scenario only. Confirm requirements, timelines, availability and acceptance with the responsible authority."
+      }
+    }
+  ]
+}

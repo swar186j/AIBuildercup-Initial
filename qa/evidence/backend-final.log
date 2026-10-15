@@ -1,0 +1,12 @@
+........................................................................ [ 21%]
+........................................................................ [ 42%]
+........................................................................ [ 63%]
+........................................................................ [ 84%]
+...................................................                      [100%]
+=============================== warnings summary ===============================
+Maadhyam/apps/api/tests/test_api_foundation.py:3
+  /Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/tests/test_api_foundation.py:3: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+339 passed, 1 warning in 2.37s

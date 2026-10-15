@@ -1,0 +1,75 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/workflows",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/citizen-workflows/visit-eliminator",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/citizen-workflows/visit-eliminator",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/citizen-workflows/visit-eliminator",
+      "request": {
+        "steps": [
+          {
+            "id": "s1",
+            "authority": "Aadhaar",
+            "label": "Review identity correction",
+            "estimatedDays": 4,
+            "visits": 1,
+            "dependsOn": [],
+            "onlinePossible": false,
+            "onlineOfficiallyVerified": false,
+            "completed": false
+          },
+          {
+            "id": "s2",
+            "authority": "Passport",
+            "label": "Prepare passport application",
+            "estimatedDays": 3,
+            "visits": 1,
+            "dependsOn": [
+              "s1"
+            ],
+            "onlinePossible": true,
+            "onlineOfficiallyVerified": false,
+            "completed": false
+          }
+        ]
+      },
+      "response": {
+        "baselineEstimatedVisits": 2,
+        "potentialAvoidableVisitsUnderAssumptions": 0,
+        "onlineVerifiedByCallerStepIds": [],
+        "onlineAvailabilityNeedsVerificationStepIds": [
+          "s2"
+        ],
+        "remainingEstimatedVisitsUnderAssumptions": 2,
+        "executionOrder": [
+          "s1",
+          "s2"
+        ],
+        "cycleOrCycleBlockedStepIds": [],
+        "governmentVisitsActuallyEliminated": false,
+        "disclaimer": "Advisory scenario only. Confirm requirements, timelines, availability and acceptance with the responsible authority."
+      }
+    }
+  ]
+}

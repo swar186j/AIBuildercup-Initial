@@ -1,0 +1,134 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/documents",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/chat",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/intelligence/chat",
+      "request": {
+        "documents": [
+          {
+            "id": "e41fbe0e-0004-43b4-87a8-b7dd22d7f51b",
+            "documentType": "Aadhaar card",
+            "holder": "self",
+            "associationConsent": false,
+            "reviewed": true,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "Rahul Kumar Sharma",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra",
+            "expiryDate": ""
+          },
+          {
+            "id": "563b910c-a5cd-4b1a-85a8-6cd96c14ef0a",
+            "documentType": "Aadhaar card",
+            "holder": "self",
+            "associationConsent": false,
+            "reviewed": false,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "SECRET_UNREVIEWED",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra",
+            "expiryDate": ""
+          }
+        ],
+        "question": "How many reviewed documents are present?",
+        "useGemini": false,
+        "fictionalDataConfirmed": false
+      },
+      "response": {
+        "answer": "2 documents in the vault; 1 reviewed applicant document(s) can inform preparation. Unreviewed or family-held documents are not treated as applicant evidence.",
+        "mode": "local-explainable",
+        "sourceUrl": "https://www.passportindia.gov.in/",
+        "assessment": {
+          "mode": "local-explainable",
+          "sourceUrl": "https://www.passportindia.gov.in/",
+          "documentCount": 2,
+          "reviewedSelfDocuments": 1,
+          "findings": [],
+          "tasks": [
+            {
+              "id": "review-documents",
+              "title": "Manually review document details",
+              "reason": "1 document(s) still need review.",
+              "dependsOn": [],
+              "priority": 1,
+              "status": "pending"
+            },
+            {
+              "id": "official-review",
+              "title": "Verify current Passport Seva requirements",
+              "reason": "Document categories are not official proof-acceptance decisions.",
+              "dependsOn": [
+                "review-documents"
+              ],
+              "priority": 2,
+              "status": "pending"
+            },
+            {
+              "id": "prepare-visit",
+              "title": "Prepare originals and copies",
+              "reason": "Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.",
+              "dependsOn": [
+                "official-review"
+              ],
+              "priority": 2,
+              "status": "pending"
+            }
+          ],
+          "minimumReviewSet": [
+            "review-documents"
+          ],
+          "executionOrder": [
+            "review-documents",
+            "official-review",
+            "prepare-visit"
+          ],
+          "readyForOfficialSubmission": false,
+          "readinessNote": "Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.",
+          "familyHolders": [],
+          "whatIf": {
+            "allConflictsResolved": {
+              "remainingReviewTasks": 3
+            }
+          },
+          "deadlocks": [],
+          "deadlineNote": "No official processing deadline has been inferred."
+        },
+        "grounding": {
+          "reviewedApplicantDocumentIds": [
+            "e41fbe0e-0004-43b4-87a8-b7dd22d7f51b"
+          ],
+          "officiallyVerified": false,
+          "sourceType": "official-portal-reference-not-live-verified"
+        },
+        "disclaimer": "Preparation guidance only; verify current requirements with Passport Seva."
+      }
+    }
+  ]
+}

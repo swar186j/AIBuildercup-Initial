@@ -22,8 +22,11 @@ export type DocumentMetadata = {
   categories?: DocumentCategory[]; // Additional manually assigned purposes; legacy category stays primary
   documentType: string;
   holder: DocumentHolder;
+  householdMemberId?: string;
+  associationConsent?: boolean;
   printedName?: string;
   dateOfBirth?: string; // YYYY-MM-DD when entered manually
+  expiryDate?: string; // Optional printed expiry, ISO YYYY-MM-DD
   residentialAddress?: string;
 };
 
@@ -105,9 +108,13 @@ const DocumentContext = createContext<DocumentContextValue | null>(null);
 export function DocumentProvider({ children }: { children: ReactNode }) {
   const [documents, setDocuments] = useState<LocalDocument[]>([]);
   const documentsRef = useRef<LocalDocument[]>([]);
-  const [persistenceEnabled, setPersistenceEnabled] = useState(() => localStorage.getItem(PREF) === "yes");
+  const [storagePreference] = useState(() => {
+    try { return {enabled:localStorage.getItem(PREF)==='yes', error:''}; }
+    catch { return {enabled:false,error:'Browser storage is unavailable. Vault remains in this session.'}; }
+  });
+  const [persistenceEnabled, setPersistenceEnabled] = useState(storagePreference.enabled);
   const [persistenceReady, setPersistenceReady] = useState(false);
-  const [persistenceError, setPersistenceError] = useState("");
+  const [persistenceError, setPersistenceError] = useState(storagePreference.error);
   const persistQueue = useRef<Promise<void>>(Promise.resolve());
   const persistenceEnabledRef = useRef(persistenceEnabled);
   persistenceEnabledRef.current = persistenceEnabled;
@@ -120,7 +127,7 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
         if (persistenceEnabledRef.current) {
           const stored = await readVault();
           if (cancelled || !persistenceEnabledRef.current) return;
-          setDocuments(stored.filter(d => d.file instanceof Blob).map(d => ({
+          setDocuments(stored.filter(d => d && typeof d.id==='string' && d.file instanceof File && d.metadata && typeof d.metadata==='object' && ['self','parent-guardian','spouse','other'].includes(d.metadata.holder) && ['identity','address','birth','education','employment','other'].includes(d.metadata.category) && typeof d.metadata.documentType==='string' && (!d.metadata.categories||Array.isArray(d.metadata.categories)) && (!d.metadata.printedName||typeof d.metadata.printedName==='string') && (!d.metadata.residentialAddress||typeof d.metadata.residentialAddress==='string') && ['reviewed','needs-review'].includes(d.status) && Number.isFinite(d.addedAt)).map(d => ({
             ...d, file: d.file as File, addedAt: new Date(d.addedAt), url: URL.createObjectURL(d.file),
           })));
         }
@@ -152,16 +159,22 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
     setPersistenceError("");
     if (!persistenceReady) return;
     if (enabled) {
-      localStorage.setItem(PREF, "yes");
+      try { localStorage.setItem(PREF, "yes"); }
+      catch { setPersistenceError('Browser storage is unavailable. Vault remains in this session.'); return; }
       persistenceEnabledRef.current = true;
       setPersistenceEnabled(true);
       // Save the current session immediately; no upload to a server.
       persistQueue.current = persistQueue.current.catch(() => { }).then(() => saveVault(documentsRef.current));
-      try { await persistQueue.current; } catch (err) { setPersistenceError(`Local Vault save failed: ${String(err)}`); }
+      try { await persistQueue.current; } catch (err) {
+        persistenceEnabledRef.current=false;setPersistenceEnabled(false);
+        try { localStorage.removeItem(PREF); } catch { /* Storage already unavailable. */ }
+        setPersistenceError(`Local Vault save failed: ${String(err)}`);
+      }
     } else {
       persistenceEnabledRef.current = false;
-      localStorage.removeItem(PREF);
       setPersistenceEnabled(false);
+      try { localStorage.removeItem(PREF); }
+      catch { setPersistenceError('Could not remove the Vault saving preference. Check browser permissions.'); }
       try { await persistQueue.current.catch(() => { }); await deleteVault(); }
       catch (err) { setPersistenceError(`Local Vault deletion failed: ${String(err)}`); }
     }
@@ -169,13 +182,6 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
 
   async function clearAllDocuments() {
     const existing = documentsRef.current;
-
-    documentsRef.current = [];
-    setDocuments([]);
-
-    existing.forEach((document) => {
-      URL.revokeObjectURL(document.url);
-    });
 
     // Serialize deletion after all previously queued saves.
     // This prevents older snapshots from overwriting the cleared Vault.
@@ -189,8 +195,17 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
 
     try {
       await clearOperation;
+      // Show the empty state only once deletion has committed. Otherwise a
+      // reload immediately after the UI clears can restore the old records.
+      documentsRef.current = [];
+      setDocuments([]);
+      existing.forEach((document) => URL.revokeObjectURL(document.url));
     } catch (err) {
-      setPersistenceError(`Local Vault deletion failed: ${String(err)}`);
+      // A browser denying IndexedDB must still allow removal of session data.
+      documentsRef.current=[];
+      setDocuments([]);
+      existing.forEach(document=>URL.revokeObjectURL(document.url));
+      setPersistenceError(`Session documents cleared, but browser-local deletion failed: ${String(err)}. Use browser site-data settings to remove any stored copies.`);
     }
   }
 

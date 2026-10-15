@@ -1,3 +1,5 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
+import PageHero from "../components/PageHero";
 import { useEffect, useRef, useState, type ChangeEvent, type DragEvent } from "react";
 import { extractDocument } from "../services/documentExtraction";
 import {
@@ -183,7 +185,7 @@ export default function DocumentVault() {
     setMessage("AI-extracted details saved after your review. Verify them against the original document.");
   }
 
-  function addFiles(fileList: FileList | File[]) {
+  async function addFiles(fileList: FileList | File[]) {
     const accepted: LocalDocument[] = [];
     const errors: string[] = [];
 
@@ -195,6 +197,14 @@ export default function DocumentVault() {
       } else if (file.size === 0) {
         errors.push(`${file.name}: empty files cannot be added.`);
       } else {
+        const header = new Uint8Array(await file.slice(0, 8).arrayBuffer());
+        const extension = file.name.split('.').pop()?.toLowerCase();
+        const signature = extension === 'pdf' ? [37, 80, 68, 70, 45]
+          : extension === 'png' ? [137, 80, 78, 71, 13, 10, 26, 10] : [255, 216, 255];
+        if (!signature.every((byte, index) => header[index] === byte)) {
+          errors.push(`${file.name}: file contents do not match its PDF or image type.`);
+          continue;
+        }
         accepted.push({
           id: crypto.randomUUID(),
           file,
@@ -243,6 +253,8 @@ export default function DocumentVault() {
     setEditId(document.id);
   }
 
+  useDialogFocus(!!(previewId||editId||extractId),'[aria-labelledby="metadata-dialog-title"], [aria-labelledby="demo-extraction-title"], [role="dialog"][aria-label^="Preview "]',()=>{setPreviewId(null);setEditId(null);closeDemo();});
+
   function saveMetadata() {
     if (!editId) return;
     updateMetadata(editId, {
@@ -272,13 +284,7 @@ export default function DocumentVault() {
 
   return (
     <div className="mx-auto w-full max-w-[1560px] space-y-7 pb-24">
-      <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-[#147d83]">Document workspace</p>
-        <h1 className="mt-2 text-3xl font-bold text-[#173f68]">Document Vault</h1>
-        <p className="mt-3 max-w-2xl leading-7 text-slate-600">
-          Organize and preview documents for government-service preparation. Files stay in this browser session unless you explicitly enable browser-local saving.
-        </p>
-      </div>
+      <PageHero eyebrow="Document workspace" title="Document Vault" description="Organize and preview documents for government-service preparation. Files stay in this browser session unless you explicitly enable browser-local saving." />
 
       <section aria-label="Local Vault storage controls" className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -492,7 +498,7 @@ export default function DocumentVault() {
               <h2 id="comparison-heading" className="text-lg font-bold text-[#173f68]">Document discrepancy analysis</h2>
             </div>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-              Compare name, date of birth and address across all uploaded documents belonging to the same holder category. Each pair shows matches, differences and missing details. Unreviewed metadata is provisional; this does not verify file contents.
+              Compare name, date of birth and address across all uploaded documents assigned to the same household member. Unassigned documents use their holder category; confirm that they belong to the same person. Each pair shows matches, differences and missing details. Unreviewed metadata is provisional; this does not verify file contents.
             </p>
           </div>
           <button
@@ -718,8 +724,8 @@ export default function DocumentVault() {
                 </div>
               </fieldset>
               <div>
-                <label htmlFor="metadata-holder" className="mb-2 block text-sm font-semibold text-[#173f68]">Document holder</label>
-                <select id="metadata-holder" value={draftMetadata.holder} onChange={(event) => setDraftMetadata((previous) => ({ ...previous, holder: event.target.value as DocumentHolder }))} className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#147d83]">
+                <label htmlFor="metadata-holder" className="mb-2 block text-sm font-semibold text-[#173f68]">Document holder</label>{draftMetadata.householdMemberId&&<p className="mb-2 text-xs text-teal-700">Ownership is assigned in Household Intelligence. Change it there with explicit confirmation.</p>}
+                <select id="metadata-holder" disabled={!!draftMetadata.householdMemberId} value={draftMetadata.holder} onChange={(event) => setDraftMetadata((previous) => ({ ...previous, holder: event.target.value as DocumentHolder }))} className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#147d83]">
                   {holders.map((holder) => <option key={holder.value} value={holder.value}>{holder.label}</option>)}
                 </select>
               </div>
@@ -752,6 +758,11 @@ export default function DocumentVault() {
                     onChange={(event) => setDraftMetadata((previous) => ({ ...previous, dateOfBirth: event.target.value }))}
                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#147d83]"
                   />
+                </div>
+                <div>
+                  <label htmlFor="metadata-expiry" className="mb-2 block text-sm font-semibold text-[#173f68]">Document expiry date (optional)</label>
+                  <input id="metadata-expiry" type="date" value={draftMetadata.expiryDate??''} onChange={e=>setDraftMetadata(previous=>({...previous,expiryDate:e.target.value}))} className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm"/>
+                  <p className="mt-1 text-xs text-slate-500">Copy the printed date only. Leave blank if absent. This does not determine official validity.</p>
                 </div>
                 <div>
                   <label htmlFor="metadata-address" className="mb-2 block text-sm font-semibold text-[#173f68]">Residential address as printed</label>

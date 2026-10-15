@@ -1,0 +1,6 @@
+Maadhyam/apps/web/src/services/responseValidation.ts:48:    !object(identity) || !records(identity.observedNameVariants, item => typeof item.name === 'string' && strings(item.documentIds)) ||
+Maadhyam/apps/web/src/services/responseValidation.ts:49:    !object(address) || !records(address.observedAddresses, item => typeof item.address === 'string' && strings(item.documentIds)) ||
+Maadhyam/apps/web/src/pages/ResolutionPlanner.tsx:11:    observedNameVariants: { name: string; documentIds: string[] }[];
+Maadhyam/apps/web/src/pages/ResolutionPlanner.tsx:16:    observedAddresses: { address: string; documentIds: string[] }[];
+Maadhyam/apps/web/src/pages/ResolutionPlanner.tsx:200:            {(advanced.identityEvolution.observedNameVariants ?? []).map((item, i) => <p key={i} className="mt-2 text-sm"><strong>{item.name}</strong> · {item.documentIds.length} reviewed document(s)</p>)}
+Maadhyam/apps/web/src/pages/ResolutionPlanner.tsx:207:            {(advanced.addressContinuity.observedAddresses ?? []).map((item, i) => <p key={i} className="mt-2 break-words text-sm"><strong>{item.address}</strong> · {item.documentIds.length} document(s)</p>)}

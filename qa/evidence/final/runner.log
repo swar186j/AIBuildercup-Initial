@@ -1,0 +1,20 @@
+Running backend
+backend: exit 0
+Running frontend-build
+frontend-build: exit 0
+Running collection
+collection: exit 0
+Running browser
+browser: exit 0
+Running http
+http: exit 0
+Running legacy-functional
+legacy-functional: exit 0
+Running legacy-reasoning
+legacy-reasoning: exit 0
+Running legacy-m9
+legacy-m9: exit 0
+Running legacy-vault
+legacy-vault: exit 0
+Running legacy-smoke
+legacy-smoke: exit 0

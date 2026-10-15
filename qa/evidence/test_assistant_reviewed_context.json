@@ -1,0 +1,271 @@
+{
+  "runtimeErrors": [],
+  "console": [
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    }
+  ],
+  "network": [
+    {
+      "url": "http://127.0.0.1:5173/documents",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/main.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@vite/client",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@react-refresh",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/App.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/vite/dist/client/env.mjs",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/index.css?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/rolldown-runtime-DC62tzP2.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AppLayout.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/Dashboard.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/Services.tsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/ServiceDetail.tsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/GuidedJourney.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/MyApplications.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/DocumentVault.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/ResolutionPlanner.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/CitizenWorkflows.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-router-dom.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AIAssistant.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/context/DocumentContext.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/context/WorkspaceContext.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/utils/documentComparison.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/PageHero.tsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/api.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/data/journeyData.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/passportAssessment.ts?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/documentExtraction.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/responseValidation.ts?t=1792050588208",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/citizenIntelligence.ts?t=1792050588208",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ReasoningWorkspace.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/lucide-react.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/intelligence/chat",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/intelligence/chat",
+      "request": {
+        "documents": [
+          {
+            "id": "ce4d96cd-e1aa-4509-aec8-7b1682c8c45f",
+            "documentType": "Aadhaar card",
+            "holder": "self",
+            "reviewed": true,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "Rahul Kumar Sharma",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra"
+          },
+          {
+            "id": "512b4db8-a077-4965-8719-29c15a4c0baa",
+            "documentType": "Aadhaar card",
+            "holder": "self",
+            "reviewed": false,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "SECRET_UNREVIEWED",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra"
+          }
+        ],
+        "question": "How many reviewed documents are present?",
+        "useGemini": false,
+        "fictionalDataConfirmed": false
+      },
+      "response": {
+        "answer": "2 documents in the vault; 1 reviewed applicant document(s) can inform preparation. Unreviewed or family-held documents are not treated as applicant evidence.",
+        "mode": "local-explainable",
+        "sourceUrl": "https://www.passportindia.gov.in/",
+        "assessment": {
+          "mode": "local-explainable",
+          "sourceUrl": "https://www.passportindia.gov.in/",
+          "documentCount": 2,
+          "reviewedSelfDocuments": 1,
+          "findings": [],
+          "tasks": [
+            {
+              "id": "review-documents",
+              "title": "Manually review document details",
+              "reason": "1 document(s) still need review.",
+              "dependsOn": [],
+              "priority": 1,
+              "status": "pending"
+            },
+            {
+              "id": "official-review",
+              "title": "Verify current Passport Seva requirements",
+              "reason": "Document categories are not official proof-acceptance decisions.",
+              "dependsOn": [
+                "review-documents"
+              ],
+              "priority": 2,
+              "status": "pending"
+            },
+            {
+              "id": "prepare-visit",
+              "title": "Prepare originals and copies",
+              "reason": "Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.",
+              "dependsOn": [
+                "official-review"
+              ],
+              "priority": 2,
+              "status": "pending"
+            }
+          ],
+          "minimumReviewSet": [
+            "review-documents"
+          ],
+          "executionOrder": [
+            "review-documents",
+            "official-review",
+            "prepare-visit"
+          ],
+          "readyForOfficialSubmission": false,
+          "readinessNote": "Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.",
+          "familyHolders": [],
+          "whatIf": {
+            "allConflictsResolved": {
+              "remainingReviewTasks": 3
+            }
+          },
+          "deadlocks": [],
+          "deadlineNote": "No official processing deadline has been inferred."
+        },
+        "grounding": {
+          "reviewedApplicantDocumentIds": [
+            "ce4d96cd-e1aa-4509-aec8-7b1682c8c45f"
+          ],
+          "officiallyVerified": false,
+          "sourceType": "official-portal-reference-not-live-verified"
+        },
+        "disclaimer": "Preparation guidance only; verify current requirements with Passport Seva."
+      }
+    }
+  ]
+}

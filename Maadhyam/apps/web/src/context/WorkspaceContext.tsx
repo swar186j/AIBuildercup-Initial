@@ -1,4 +1,6 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { newJourney, readJourney, PREPARATION_KEY, PREPARATION_CONSENT, type JourneyData } from './preparationStorage';
+import type { PassportAssistanceType } from '../data/journeyData';
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useDocuments } from "./DocumentContext";
 
 export type Status = "draft" | "in-progress" | "completed";
@@ -12,6 +14,7 @@ export type Application = {
   nextAction: string;
   updated: string;
   steps: string[];
+  journey?: JourneyData;
 };
 
 const initialApplications: Application[] = [
@@ -42,14 +45,58 @@ export const plannerTasks = [
 
 type WorkspaceValue = {
   applications: Application[];
-  createDraft: () => string;
+  createDraft: (type?: PassportAssistanceType) => string;
+  updatePreparation: (id:string, patch:Partial<JourneyData>) => void;
+  preparationSaving:boolean;
+  storageNotice:string;
+  setPreparationSaving:(enabled:boolean) => void;
+  deletePreparation:(id:string) => void;
   plannerCompleted: string[];
   togglePlannerTask: (id: string) => void;
   resetPlanner: () => void;
 };
+function applicationFor(id:string,journey:JourneyData):Application {
+ const names:Record<PassportAssistanceType,string>={fresh:'New passport preparation',reissue:'Passport reissue preparation',correction:'Passport correction preparation',documents:'Passport document preparation',police:'Police verification preparation'};
+ return {id,service:'Passport',type:names[journey.assistanceType],status:journey.stepIndex===3?'completed':journey.stepIndex===0?'draft':'in-progress',completedSteps:journey.stepIndex===3?4:journey.stepIndex,totalSteps:4,nextAction:journey.stepIndex===3?'Review your saved preparation summary':'Resume your guided questionnaire',updated:'Saved in this workspace',steps:['Select assistance type','Answer guided questions','Review document readiness','Prepare next steps'],journey};
+}
 const WorkspaceContext = createContext<WorkspaceValue | null>(null);
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
-  const [applications, setApplications] = useState<Application[]>(initialApplications);
+  const [loaded] = useState(() => {
+    try {
+      if(localStorage.getItem(PREPARATION_CONSENT)!=='yes')return {enabled:false,records:[] as Application[],notice:''};
+      const raw=localStorage.getItem(PREPARATION_KEY);
+      if(!raw)return {enabled:true,records:[] as Application[],notice:''};
+      const data=JSON.parse(raw);
+      if(data.schemaVersion!==1||!Array.isArray(data.records)||data.records.length>100)throw new Error('Unsupported saved format');
+      const seen=new Set<string>();
+      const records=data.records.map((r:unknown)=>{
+        if(!r||typeof r!=='object')throw new Error('Invalid record');
+        const item=r as Application;const journey=readJourney(item.journey);
+        if(typeof item.id!=='string'||!/^LOCAL-[a-zA-Z0-9-]+$/.test(item.id)||seen.has(item.id)||!journey)throw new Error('Invalid saved preparation');
+        seen.add(item.id);return applicationFor(item.id,journey);
+      });
+      return {enabled:true,records,notice:'Browser-local preparations restored. This is not government verification.'};
+    } catch { return {enabled:false,records:[] as Application[],notice:'Saved preparations could not be restored (missing, malformed or outdated format). Local saving is off. Start a new preparation; existing Vault data is unchanged.'}; }
+  });
+  const [applications, setApplications] = useState<Application[]>([...loaded.records,...initialApplications]);
+  const [preparationSaving,setSaving]=useState(loaded.enabled);
+  const [storageNotice,setStorageNotice]=useState(loaded.notice);
+  useEffect(()=>{
+    if(!preparationSaving)return;
+    try {localStorage.setItem(PREPARATION_KEY,JSON.stringify({schemaVersion:1,records:applications.filter(a=>a.journey)}));}
+    catch {setSaving(false);setStorageNotice('Browser-local preparation saving failed. Your records remain in this session.');}
+  },[applications,preparationSaving]);
+  function setPreparationSaving(enabled:boolean) {
+    try {
+      if(enabled){localStorage.setItem(PREPARATION_CONSENT,'yes');localStorage.setItem(PREPARATION_KEY,JSON.stringify({schemaVersion:1,records:applications.filter(a=>a.journey)}));}
+      else {localStorage.removeItem(PREPARATION_CONSENT);localStorage.removeItem(PREPARATION_KEY);}
+      setSaving(enabled);setStorageNotice(enabled?'Browser-local saving enabled for preparations. Files have separate Vault controls.':'Browser-local preparation copies deleted. Current preparations remain in this session.');
+    } catch {setStorageNotice('Could not change local storage. Check browser permissions.');}
+  }
+  function updatePreparation(id:string,patch:Partial<JourneyData>){
+    setApplications(old=>old.map(a=>{if(a.id!==id||!a.journey)return a;const data=readJourney({...a.journey,...patch});return data?applicationFor(id,data):a;}));
+  }
+  function deletePreparation(id:string){setApplications(old=>old.filter(a=>a.id!==id||!a.journey));}
   const { documents } = useDocuments();
   const [manuallyCompleted, setManuallyCompleted] = useState<string[]>([]);
   // Only objective Vault actions are inferred; reviewing a discrepancy or official
@@ -77,13 +124,9 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     steps: liveSteps,
   };
   const visibleApplications = [livePreparation, ...applications];
-  function createDraft() {
-    const id = `LOCAL-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
-    setApplications((previous) => [{
-      id, service: "Passport", type: "New passport preparation", status: "draft",
-      completedSteps: 0, totalSteps: 4, nextAction: "Start the passport guided journey",
-      updated: "Created this session", steps: ["Select assistance type", "Answer guided questions", "Review document readiness", "Prepare next steps"],
-    }, ...previous]);
+  function createDraft(type:PassportAssistanceType='fresh') {
+    const id = `LOCAL-${crypto.randomUUID()}`;
+    setApplications(previous=>[applicationFor(id,{...newJourney(type),documentIds:documents.map(d=>d.id)}),...previous]);
     return id;
   }
   function togglePlannerTask(id: string) {
@@ -107,7 +150,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       return [...previous, id];
     });
   }
-  return <WorkspaceContext.Provider value={{ applications: visibleApplications, createDraft, plannerCompleted, togglePlannerTask, resetPlanner: () => setManuallyCompleted([]) }}>{children}</WorkspaceContext.Provider>;
+  return <WorkspaceContext.Provider value={{ applications: visibleApplications, createDraft, updatePreparation, preparationSaving, storageNotice, setPreparationSaving, deletePreparation, plannerCompleted, togglePlannerTask, resetPlanner: () => setManuallyCompleted([]) }}>{children}</WorkspaceContext.Provider>;
 }
 export function useWorkspace() {
   const context = useContext(WorkspaceContext);

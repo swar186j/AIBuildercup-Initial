@@ -1,0 +1,6 @@
+
+> web@0.0.0 build
+> tsc -b && vite build
+
+src/pages/GuidedJourney.tsx(20,3): error TS6133: 'initialPassportAnswers' is declared but its value is never read.
+src/pages/GuidedJourney.tsx(419,18): error TS2552: Cannot find name 'useNavigate'. Did you mean 'navigate'?

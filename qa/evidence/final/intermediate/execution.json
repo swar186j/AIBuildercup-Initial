@@ -1,0 +1,16 @@
+{
+  "exitCodes": {
+    "backend": 0,
+    "frontend-build": 0,
+    "collection": 0,
+    "browser": 1,
+    "http": 0,
+    "legacy-functional": 1,
+    "legacy-reasoning": 0,
+    "legacy-m9": 0,
+    "legacy-vault": 0,
+    "legacy-smoke": 0
+  },
+  "serversOwnedAndStopped": true,
+  "liveProviders": false
+}

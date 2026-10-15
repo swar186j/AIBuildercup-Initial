@@ -1,0 +1,230 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/planner",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/passport-plan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/rules/versions",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/rules/compare",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/passport/rules/compare",
+      "request": {
+        "baselineVersion": "passport-official-2026-10-13-v1",
+        "proposedPack": {
+          "version": "local-proposal-5eca393e-a72f-4516-b9ce-0573a29cf83d",
+          "verified_on": "2026-10-13",
+          "sources": [
+            {
+              "id": "official-documents",
+              "url": "https://www.passportindia.gov.in/psp/ListDocuments",
+              "description": "Passport Seva list of accepted proofs",
+              "fallback_urls": [
+                "https://services1.passportindia.gov.in/psp/ListDocuments"
+              ]
+            },
+            {
+              "id": "official-fresh",
+              "url": "https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp",
+              "description": "Passport Seva fresh document advisor",
+              "fallback_urls": [
+                "https://portal1.passportindia.gov.in/AppOnlineProject/smartPhone/mobAttachmentAdvFreshInp"
+              ]
+            },
+            {
+              "id": "official-reissue",
+              "url": "https://www.passportindia.gov.in/psp/docAdvisor/reissuePassport",
+              "description": "Passport Seva reissue document advisor",
+              "fallback_urls": [
+                "https://services2.passportindia.gov.in/psp/docAdvisor/reissuePassport"
+              ]
+            },
+            {
+              "id": "official-gazette",
+              "url": "https://services2.passportindia.gov.in/AppOnlineProject/pdf/Gazette_Notification_DoB.pdf",
+              "description": "Gazette amendment DOB proof cutoff"
+            },
+            {
+              "id": "official-booklet",
+              "url": "https://portal4.passportindia.gov.in/Online/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+              "description": "Passport application instruction booklet",
+              "fallback_urls": [
+                "https://passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf",
+                "https://portal1.passportindia.gov.in/AppOnlineProject/pdf/InstructionBooklet.pdf"
+              ]
+            }
+          ],
+          "rules": [
+            {
+              "id": "address",
+              "title": "Hypothetical changed address requirement",
+              "types": [
+                "Voter ID",
+                "Utility bill",
+                "Rental agreement",
+                "Rent Agreement",
+                "Water Bill",
+                "Electricity bill",
+                "Telephone bill",
+                "Gas connection bill",
+                "Photo bank passbook",
+                "Income Tax Assessment Order",
+                "Spouse passport",
+                "Parent passport"
+              ],
+              "action": "Provide one officially listed proof of your current address. Check name, holder and address, plus category-specific conditions.",
+              "source_id": "official-documents",
+              "source_url": "https://www.passportindia.gov.in/psp/ListDocuments"
+            },
+            {
+              "id": "dob-old",
+              "title": "DOB proof \u2014 born before 1 October 2023",
+              "types": [
+                "Birth certificate",
+                "School leaving certificate",
+                "Matriculation certificate",
+                "PAN card",
+                "Driving licence",
+                "Voter ID",
+                "Life insurance policy bond",
+                "Government service record",
+                "Pension order"
+              ],
+              "action": "Choose one officially permitted DOB document with complete date of birth where required.",
+              "source_id": "official-gazette",
+              "source_url": "https://services2.passportindia.gov.in/AppOnlineProject/pdf/Gazette_Notification_DoB.pdf"
+            },
+            {
+              "id": "dob-new",
+              "title": "Birth certificate required \u2014 born on/after 1 October 2023",
+              "types": [
+                "Birth certificate"
+              ],
+              "action": "Obtain a birth certificate issued by the legally empowered registrar/municipal authority. Other DOB proofs do not substitute.",
+              "source_id": "official-gazette",
+              "source_url": "https://services2.passportindia.gov.in/AppOnlineProject/pdf/Gazette_Notification_DoB.pdf"
+            },
+            {
+              "id": "old-passport",
+              "title": "Existing passport for reissue",
+              "types": [
+                "Passport"
+              ],
+              "action": "Prepare the existing passport and prescribed copies; check extra evidence for changed particulars.",
+              "source_id": "official-reissue",
+              "source_url": "https://services2.passportindia.gov.in/psp/docAdvisor/reissuePassport"
+            },
+            {
+              "id": "minor",
+              "title": "Minor requirements",
+              "types": [],
+              "action": "Check parental consent and guardian circumstances in Document Advisor.",
+              "source_id": "official-fresh",
+              "source_url": "https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp"
+            },
+            {
+              "id": "non-ecr",
+              "title": "Non-ECR proof",
+              "types": [],
+              "action": "Verify eligibility category and applicable supporting documents.",
+              "source_id": "official-booklet",
+              "source_url": "https://passportindia.gov.in/AppOnlineProject/pdf/ApplicationformInstructionBooklet-V3.0.pdf"
+            },
+            {
+              "id": "name-change",
+              "title": "Change of name",
+              "types": [],
+              "action": "Use case-specific official name change instructions.",
+              "source_id": "official-fresh",
+              "source_url": "https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp"
+            },
+            {
+              "id": "tatkaal",
+              "title": "Tatkaal",
+              "types": [],
+              "action": "Verify Tatkaal eligibility and documents in official advisor.",
+              "source_id": "official-fresh",
+              "source_url": "https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp"
+            },
+            {
+              "id": "scenario-e1ac3df7-0e26-48aa-a4e5-ec45b6b45e58",
+              "title": "Hypothetical additional requirement",
+              "types": [],
+              "action": "Verify with the authority",
+              "source_url": ""
+            }
+          ]
+        },
+        "documents": []
+      },
+      "response": {
+        "baselineVersion": "passport-official-2026-10-13-v1",
+        "proposedVersion": "local-proposal-5eca393e-a72f-4516-b9ce-0573a29cf83d",
+        "changesDetected": true,
+        "changes": [
+          {
+            "ruleId": "address",
+            "changeType": "modified",
+            "addedProofTypes": [],
+            "removedProofTypes": [
+              "Aadhaar card"
+            ],
+            "affectedDocumentIds": [],
+            "directlyImpactedDocumentIds": [],
+            "reviewRecommendedDocumentIds": [],
+            "sourceUrl": "https://www.passportindia.gov.in/psp/ListDocuments",
+            "action": "Recheck this rule and any matching documents against current official guidance before relying on the proposed change.",
+            "officialChangeVerified": false
+          },
+          {
+            "ruleId": "scenario-e1ac3df7-0e26-48aa-a4e5-ec45b6b45e58",
+            "changeType": "added",
+            "addedProofTypes": [],
+            "removedProofTypes": [],
+            "affectedDocumentIds": [],
+            "directlyImpactedDocumentIds": [],
+            "reviewRecommendedDocumentIds": [],
+            "sourceUrl": "",
+            "action": "Recheck this rule and any matching documents against current official guidance before relying on the proposed change.",
+            "officialChangeVerified": false
+          }
+        ],
+        "affectedDocumentIds": [],
+        "directlyImpactedDocumentIds": [],
+        "reviewRecommendedDocumentIds": [],
+        "officialChangeVerified": false,
+        "currentRulePackModified": false,
+        "note": "Hypothetical read-only comparison. Direct impact means a proof type was removed from a proposed rule, not that a government authority has rejected the document. No official change, legal eligibility, or document acceptance is established."
+      }
+    }
+  ]
+}

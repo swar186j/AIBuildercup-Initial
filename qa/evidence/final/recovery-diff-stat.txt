@@ -1,0 +1,26 @@
+ .DS_Store                                          | Bin 10244 -> 10244 bytes
+ Maadhyam.zip                                       | Bin 210625415 -> 0 bytes
+ Maadhyam/.DS_Store                                 | Bin 10244 -> 10244 bytes
+ Maadhyam/apps/.DS_Store                            | Bin 10244 -> 10244 bytes
+ Maadhyam/apps/api/.DS_Store                        | Bin 6148 -> 8196 bytes
+ Maadhyam/apps/api/src/maadhyam_api/main.py         |   2 +
+ .../src/maadhyam_api/routes/advanced_planning.py   |  12 ++
+ .../api/src/maadhyam_api/routes/intelligence.py    |  18 +++
+ .../api/src/maadhyam_api/routes/passport_rules.py  |  13 ++-
+ .../src/maadhyam_api/routes/rule_change_impact.py  |  11 ++
+ Maadhyam/apps/api/tests/run_frontend_functional.py | 105 +++++++----------
+ Maadhyam/apps/api/tests/run_reasoning_e2e.py       |  23 ++--
+ Maadhyam/apps/api/tests/run_vault_e2e.py           |   4 +-
+ Maadhyam/apps/web/src/App.tsx                      |  24 +++-
+ Maadhyam/apps/web/src/components/AppLayout.tsx     |   9 +-
+ Maadhyam/apps/web/src/context/DocumentContext.tsx  |  15 +--
+ Maadhyam/apps/web/src/context/WorkspaceContext.tsx |  65 +++++++++--
+ Maadhyam/apps/web/src/pages/DocumentVault.tsx      |  30 +++--
+ Maadhyam/apps/web/src/pages/GuidedJourney.tsx      | 125 ++++++++-------------
+ Maadhyam/apps/web/src/pages/MyApplications.tsx     |  36 ++----
+ Maadhyam/apps/web/src/pages/ResolutionPlanner.tsx  |  92 ++++++++-------
+ Maadhyam/apps/web/src/pages/Services.tsx           |  15 +--
+ .../apps/web/src/services/citizenIntelligence.ts   |  14 ++-
+ .../apps/web/src/services/passportAssessment.ts    |   9 +-
+ Maadhyam/apps/web/src/utils/documentComparison.ts  |   3 +-
+ 25 files changed, 351 insertions(+), 274 deletions(-)

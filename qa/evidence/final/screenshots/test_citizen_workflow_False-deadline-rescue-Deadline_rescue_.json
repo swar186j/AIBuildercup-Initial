@@ -1,0 +1,69 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/workflows",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/citizen-workflows/deadline-rescue",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/citizen-workflows/deadline-rescue",
+      "request": {
+        "steps": [
+          {
+            "id": "s1",
+            "authority": "Aadhaar",
+            "label": "Review identity correction",
+            "estimatedDays": 4,
+            "visits": 1,
+            "dependsOn": [],
+            "onlinePossible": false,
+            "onlineOfficiallyVerified": false,
+            "completed": false
+          },
+          {
+            "id": "s2",
+            "authority": "Passport",
+            "label": "Prepare passport application",
+            "estimatedDays": 3,
+            "visits": 1,
+            "dependsOn": [
+              "s1"
+            ],
+            "onlinePossible": true,
+            "onlineOfficiallyVerified": false,
+            "completed": false
+          }
+        ],
+        "targetDate": "2000-01-01"
+      },
+      "response": {
+        "targetDate": "2000-01-01",
+        "daysRemaining": -9784,
+        "estimatedCriticalPathDays": 7,
+        "deadlineAtRiskUnderAssumptions": true,
+        "cycleOrCycleBlockedStepIds": [],
+        "suggestions": [
+          "Ask the responsible authority about urgent or alternative officially supported procedures.",
+          "Verify processing estimates and official deadlines before acting."
+        ],
+        "officialDeadlineOrExpediteVerified": false,
+        "disclaimer": "Advisory scenario only. Confirm requirements, timelines, availability and acceptance with the responsible authority."
+      }
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "runtimeErrors": [],
+  "console": [
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    }
+  ],
+  "network": [
+    {
+      "url": "http://127.0.0.1:5173/documents",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/main.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@vite/client",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@react-refresh",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/App.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/rolldown-runtime-DC62tzP2.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/index.css?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/vite/dist/client/env.mjs",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AppLayout.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/Dashboard.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/Services.tsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/ServiceDetail.tsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/GuidedJourney.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/MyApplications.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/ResolutionPlanner.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/DocumentVault.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/CitizenWorkflows.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-router-dom.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AIAssistant.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/utils/documentComparison.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/context/WorkspaceContext.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/PageHero.tsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/context/DocumentContext.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/api.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/data/journeyData.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/passportAssessment.ts?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/responseValidation.ts?t=1792050588208",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ReasoningWorkspace.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/citizenIntelligence.ts?t=1792050588208",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/documentExtraction.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/lucide-react.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/intelligence/chat",
+      "status": 200
+    }
+  ],
+  "apiAssertions": []
+}

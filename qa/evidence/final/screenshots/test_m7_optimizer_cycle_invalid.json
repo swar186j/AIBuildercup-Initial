@@ -1,0 +1,91 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/planner",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/passport-plan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/rules/versions",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/advanced-plan",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/intelligence/advanced-plan",
+      "request": {
+        "issues": [
+          {
+            "id": "issue-1",
+            "options": [
+              {
+                "id": "5eb82463-f9a0-4fa3-81fe-9844fb5160b6",
+                "label": "Lower-cost evidence review",
+                "authority": "Issuing authority",
+                "costINR": 100,
+                "durationDays": 10,
+                "visits": 1,
+                "prerequisites": [
+                  "issue-1"
+                ],
+                "onlinePossible": false,
+                "officialEligibilityVerified": false
+              },
+              {
+                "id": "bcb11fd9-394d-4d53-b965-6ba76b3db629",
+                "label": "Quicker review estimate",
+                "authority": "Issuing authority",
+                "costINR": 1000,
+                "durationDays": 2,
+                "visits": 2,
+                "prerequisites": [
+                  "issue-1"
+                ],
+                "onlinePossible": false,
+                "officialEligibilityVerified": false
+              }
+            ]
+          }
+        ],
+        "weights": {
+          "cost": 1,
+          "days": 1,
+          "visits": 1
+        },
+        "targetDate": null
+      },
+      "response": {
+        "status": "deadlock",
+        "candidatePathsEvaluated": 0,
+        "cycleDetected": true,
+        "officialAcceptanceVerified": false,
+        "message": "No acyclic combination of the supplied hypothetical options exists."
+      }
+    }
+  ]
+}

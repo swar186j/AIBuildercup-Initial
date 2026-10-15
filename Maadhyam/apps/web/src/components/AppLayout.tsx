@@ -1,3 +1,4 @@
+import { HouseholdProvider } from '../context/HouseholdContext';
 import { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import {
@@ -5,6 +6,8 @@ import {
   Landmark,
   Files,
   GitBranch,
+  Workflow,
+  Users,
   ClipboardList,
   Menu,
   X,
@@ -24,23 +27,27 @@ const navigation = [
   { label: "My Documents", path: "/documents", icon: Files },
   { label: "My Applications", path: "/applications", icon: ClipboardList },
   { label: "Resolution Planner", path: "/planner", icon: GitBranch },
+  { label: "Household Intelligence", path: "/household", icon: Users },
+  { label: "Citizen Workflows", path: "/workflows", icon: Workflow },
 ];
 
 export default function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [appearance, setAppearance] = useState<"light" | "dark">(() => {
-    const saved = localStorage.getItem("maadhyam-appearance");
+    let saved:string|null=null;
+    try {saved=localStorage.getItem("maadhyam-appearance");}catch { /* Private mode may deny storage. */ }
     return saved === "dark" ? "dark" : "light";
   });
   useEffect(() => {
     document.documentElement.classList.toggle("dark", appearance === "dark");
-    localStorage.setItem("maadhyam-appearance", appearance);
+    try {localStorage.setItem("maadhyam-appearance", appearance);}catch { /* Appearance remains usable in memory. */ }
   }, [appearance]);
   const [collapsed, setCollapsed] = useState(false);
 
   return (
     <DocumentProvider>
       <WorkspaceProvider>
+      <HouseholdProvider>
       <div className="min-h-screen bg-[#f5f7fa]">
         {mobileOpen && (
           <button
@@ -203,7 +210,8 @@ export default function AppLayout() {
         </div>
         <AIAssistant />
       </div>
-          </WorkspaceProvider>
+          </HouseholdProvider>
+      </WorkspaceProvider>
     </DocumentProvider>
   );
 }

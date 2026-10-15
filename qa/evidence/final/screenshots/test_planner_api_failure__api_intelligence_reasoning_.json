@@ -1,0 +1,44 @@
+{
+  "runtimeErrors": [],
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+    }
+  ],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/planner",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 503
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/passport-plan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 503
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/rules/versions",
+      "status": 200
+    }
+  ],
+  "apiAssertions": []
+}

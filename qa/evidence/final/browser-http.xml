@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="30" failures="0" skipped="0" tests="130" time="54.234" timestamp="2026-10-15T13:52:32.191135+05:30" hostname="Swar"><testcase classname="qa.test_browser" name="test_navigation[1440-/-]" time="1.594" /><testcase classname="qa.test_browser" name="test_navigation[1440-/services-Find a government service]" time="0.921" /><testcase classname="qa.test_browser" name="test_navigation[1440-/documents-Document Vault]" time="0.925" /><testcase classname="qa.test_browser" name="test_navigation[1440-/applications-My Preparations]" time="0.962" /><testcase classname="qa.test_browser" name="test_navigation[1440-/planner-Resolution Planner]" time="1.017" /><testcase classname="qa.test_browser" name="test_navigation[1440-/workflows-Citizen workflow assistant]" time="0.911" /><testcase classname="qa.test_browser" name="test_navigation[1440-/services/passport-]" time="0.940" /><testcase classname="qa.test_browser" name="test_navigation[1440-/services/passport/journey?type=fresh-]" time="1.007" /><testcase classname="qa.test_browser" name="test_navigation[390-/-]" time="0.907" /><testcase classname="qa.test_browser" name="test_navigation[390-/services-Find a government service]" time="0.894" /><testcase classname="qa.test_browser" name="test_navigation[390-/documents-Document Vault]" time="0.914" /><testcase classname="qa.test_browser" name="test_navigation[390-/applications-My Preparations]" time="0.912" /><testcase classname="qa.test_browser" name="test_navigation[390-/planner-Resolution Planner]" time="0.949" /><testcase classname="qa.test_browser" name="test_navigation[390-/workflows-Citizen workflow assistant]" time="0.928" /><testcase classname="qa.test_browser" name="test_navigation[390-/services/passport-]" time="0.952" /><testcase classname="qa.test_browser" name="test_navigation[390-/services/passport/journey?type=fresh-]" time="0.986" /><testcase classname="qa.test_browser" name="test_hero[/services-Service Navigator-Find a government service]" time="0.354" /><testcase classname="qa.test_browser" name="test_hero[/documents-Document workspace-Document Vault]" time="0.269" /><testcase classname="qa.test_browser" name="test_hero[/applications-Your preparation workspace-My Preparations]" time="0.290" /><testcase classname="qa.test_browser" name="test_hero[/workflows-Maadhyam \xb7 Guided preparation-Citizen workflow assistant]" time="0.257" /><testcase classname="qa.test_browser" name="test_vault_review_session" time="0.968" /><testcase classname="qa.test_browser" name="test_vault_optin_clear" time="1.105" /><testcase classname="qa.test_browser" name="test_vault_invalid[empty]" time="0.343" /><testcase classname="qa.test_browser" name="test_vault_invalid[unsupported]" time="0.306" /><testcase classname="qa.test_browser" name="test_vault_invalid[oversized]" time="1.175" /><testcase classname="qa.test_browser" name="test_vault_invalid[malformed]" time="0.326" /><testcase classname="qa.test_browser" name="test_ocr[missing]" time="0.506" /><testcase classname="qa.test_browser" name="test_ocr[success]" time="0.674" /><testcase classname="qa.test_browser" name="test_ocr[malformed]" time="1.216" /><testcase classname="qa.test_browser" name="test_passport_guided[True]" time="2.396" /><testcase classname="qa.test_browser" name="test_passport_guided[False]" time="1.793" /><testcase classname="qa.test_browser" name="test_planner_documents[0]" time="0.656" /><testcase classname="qa.test_browser" name="test_planner_documents[1]" time="0.989" /><testcase classname="qa.test_browser" name="test_planner_documents[3]" time="1.526" /><testcase classname="qa.test_browser" name="test_planner_unexpected[/api/intelligence/passport-plan-body0]" time="1.157" /><testcase classname="qa.test_browser" name="test_planner_unexpected[/api/intelligence/reasoning-body1]" time="1.287" /><testcase classname="qa.test_browser" name="test_planner_unexpected[/api/intelligence/reasoning-body2]" time="1.301" /><testcase classname="qa.test_browser" name="test_planner_unexpected[/api/intelligence/passport-plan-body3]" time="1.142" /><testcase classname="qa.test_browser" name="test_planner_api_failure[/api/intelligence/passport-plan]" time="0.274" /><testcase classname="qa.test_browser" name="test_planner_api_failure[/api/intelligence/reasoning]" time="0.388" /><testcase classname="qa.test_browser" name="test_reasoning_whatif_family" time="1.537" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-human-support-Human assistance]" time="0.369" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-life-event-discovery-Life-event discovery]" time="0.365" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-multi-department-rules-Multi-department guidance]" time="0.387" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-rejection-diagnosis-Rejection diagnosis]" time="0.370" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-legacy-reconstruction-Legacy record recovery]" time="0.375" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-authority-bottlenecks-Authority bottlenecks]" time="0.395" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-deadline-rescue-Deadline rescue]" time="0.411" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-visit-eliminator-Visit reduction planner]" time="0.378" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-human-support-Human assistance]" time="0.321" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-life-event-discovery-Life-event discovery]" time="0.319" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-multi-department-rules-Multi-department guidance]" time="0.316" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-rejection-diagnosis-Rejection diagnosis]" time="0.406" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-legacy-reconstruction-Legacy record recovery]" time="0.355" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-authority-bottlenecks-Authority bottlenecks]" time="0.346" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-deadline-rescue-Deadline rescue]" time="0.365" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-visit-eliminator-Visit reduction planner]" time="0.327" /><testcase classname="qa.test_browser" name="test_assistant[local]" time="0.340" /><testcase classname="qa.test_browser" name="test_assistant[missing]" time="0.447" /><testcase classname="qa.test_browser" name="test_assistant[429]" time="0.356" /><testcase classname="qa.test_browser" name="test_assistant[timeout]" time="0.374" /><testcase classname="qa.test_browser" name="test_assistant[malformed]" time="0.391" /><testcase classname="qa.test_browser" name="test_preparations_session_and_layout" time="0.537" /><testcase classname="qa.test_browser" name="test_workflow_required_inputs[human-support-Human assistance-What problem are you facing?-Please describe the problem]" time="0.324" /><testcase classname="qa.test_browser" name="test_workflow_required_inputs[rejection-diagnosis-Rejection diagnosis-What reason was given for rejection?-Please describe the rejection]" time="0.305" /><testcase classname="qa.test_browser" name="test_workflow_required_inputs[legacy-reconstruction-Legacy record recovery-Which old document do you need?-Please enter the document type]" time="0.311" /><testcase classname="qa.test_browser" name="test_workflow_required_inputs[deadline-rescue-Deadline rescue-What is your target date?-Choose a target date]" time="0.346" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[pdf-aadhaar]" time="0.368" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[pdf-pan]" time="0.353" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[pdf-address]" time="0.351" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[png-aadhaar]" time="0.353" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[png-pan]" time="0.366" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[png-address]" time="0.367" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[jpg-aadhaar]" time="0.368" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[jpg-pan]" time="0.350" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[jpg-address]" time="0.372" /><testcase classname="qa.test_browser" name="test_assistant_reviewed_context" time="1.039" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[minimumCorrectionPath]" time="0.389" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[identityEvolution]" time="0.367" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[proofSubstitution]" time="0.368" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[deadlockAnalysis]" time="0.384" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[deadlineRescue]" time="0.388" /><testcase classname="qa.test_completion" name="test_m5_resume_edit_multiple" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m5_reload_consent[False]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m5_reload_consent[True]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m5_malformed_saved[not-json]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m5_malformed_saved[{&quot;schemaVersion&quot;:0,&quot;records&quot;:[]}]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m5_malformed_saved[{&quot;schemaVersion&quot;:1,&quot;records&quot;:[{&quot;id&quot;:&quot;LOCAL-broken&quot;,&quot;journey&quot;:{}}]}]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m7_expiry_ui[2000-01-01-2099-02-01-already expired]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m7_expiry_ui[2099-01-01-2099-02-01-expires before target]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m7_expiry_ui[-2099-02-01-No expiry conflicts detected]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m7_rule_comparison[False]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m7_rule_comparison[True]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m7_rule_errors[missing-baseline]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m7_rule_errors[malformed-result]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m7_rule_errors[invalid-version]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m7_weighted_paths[cost]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m7_weighted_paths[days]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m7_optimizer_cycle_invalid" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m8_members_ownership_dependencies" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m8_cycle_edit_delete" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m8_session_isolation" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_cross_milestone_household_assistant" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m5_selected_type_and_delete" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_completion_mobile[/planner]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_completion_mobile[/household]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_completion_mobile[/applications]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_completion_unexpected_results[/api/intelligence/advanced-plan-Find recommended path-Weighted correction optimizer]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_completion_unexpected_results[/api/passport/rules/compare-Compare preparation impact-Government rule change impact analyzer]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_completion_unexpected_results[/api/household/assess-Analyze household dependencies-Household members]" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m8_distinct_parents_do_not_compare_as_one_person" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_completion" name="test_m8_remove_owned_dependency_safely" time="0.000"><error message="failed on setup with &quot;playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.&#10;Please use the Async API instead.&quot;">qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.</error></testcase><testcase classname="qa.test_http" name="test_rule_change_impact[payload0-200]" time="0.032" /><testcase classname="qa.test_http" name="test_rule_change_impact[payload1-422]" time="0.012" /><testcase classname="qa.test_http" name="test_optimizer[False]" time="0.012" /><testcase classname="qa.test_http" name="test_optimizer[True]" time="0.011" /><testcase classname="qa.test_http" name="test_circular_workflow[authority-bottlenecks]" time="0.011" /><testcase classname="qa.test_http" name="test_circular_workflow[deadline-rescue]" time="0.011" /><testcase classname="qa.test_http" name="test_circular_workflow[visit-eliminator]" time="0.010" /><testcase classname="qa.test_http" name="test_chat_validation[payload0-422]" time="0.010" /><testcase classname="qa.test_http" name="test_chat_validation[payload1-403]" time="0.010" /><testcase classname="qa.test_http" name="test_chat_validation[payload2-503]" time="0.010" /><testcase classname="qa.test_http" name="test_expiry[2000-01-01-already-expired]" time="0.011" /><testcase classname="qa.test_http" name="test_expiry[wrong-invalid-expiry-date]" time="0.011" /><testcase classname="qa.test_http" name="test_completion_available_versions_and_baseline_validation" time="0.012" /><testcase classname="qa.test_http" name="test_completion_household_http_validation[consent]" time="0.014" /><testcase classname="qa.test_http" name="test_completion_household_http_validation[owner]" time="0.011" /><testcase classname="qa.test_http" name="test_completion_household_http_validation[member-reference]" time="0.014" /><testcase classname="qa.test_http" name="test_completion_household_http_validation[evidence-reference]" time="0.011" /><testcase classname="qa.test_http" name="test_completion_household_http_owner_isolation" time="0.031" /></testsuite></testsuites>

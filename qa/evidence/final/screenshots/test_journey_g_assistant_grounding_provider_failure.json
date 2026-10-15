@@ -1,0 +1,142 @@
+{
+  "runtimeErrors": [],
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+    }
+  ],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/documents",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/chat",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/chat",
+      "status": 503
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/intelligence/chat",
+      "request": {
+        "documents": [
+          {
+            "id": "ce1070b9-c592-49ac-b07b-7e73db052475",
+            "documentType": "Aadhaar card",
+            "holder": "self",
+            "associationConsent": false,
+            "reviewed": true,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "Rahul Kumar Sharma",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra",
+            "expiryDate": ""
+          },
+          {
+            "id": "0dcb0396-4dc3-4231-a8e8-84e98e502c0a",
+            "documentType": "Aadhaar card",
+            "holder": "parent-guardian",
+            "householdMemberId": "02752e48-3639-4d29-bb12-2cc44020e39d",
+            "associationConsent": true,
+            "reviewed": true,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "Private Fictional Parent",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra",
+            "expiryDate": ""
+          }
+        ],
+        "question": "What should I prepare?",
+        "useGemini": false,
+        "fictionalDataConfirmed": false
+      },
+      "response": {
+        "answer": "Suggested next step: Review family-linked documents. Confirm relationships and whether the particular family document is accepted for this scenario.",
+        "mode": "local-explainable",
+        "sourceUrl": "https://www.passportindia.gov.in/",
+        "assessment": {
+          "mode": "local-explainable",
+          "sourceUrl": "https://www.passportindia.gov.in/",
+          "documentCount": 2,
+          "reviewedSelfDocuments": 1,
+          "findings": [],
+          "tasks": [
+            {
+              "id": "family-proof",
+              "title": "Review family-linked documents",
+              "reason": "Confirm relationships and whether the particular family document is accepted for this scenario.",
+              "dependsOn": [],
+              "priority": 2,
+              "status": "pending"
+            },
+            {
+              "id": "official-review",
+              "title": "Verify current Passport Seva requirements",
+              "reason": "Document categories are not official proof-acceptance decisions.",
+              "dependsOn": [],
+              "priority": 2,
+              "status": "pending"
+            },
+            {
+              "id": "prepare-visit",
+              "title": "Prepare originals and copies",
+              "reason": "Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.",
+              "dependsOn": [
+                "official-review"
+              ],
+              "priority": 2,
+              "status": "pending"
+            }
+          ],
+          "minimumReviewSet": [],
+          "executionOrder": [
+            "family-proof",
+            "official-review",
+            "prepare-visit"
+          ],
+          "readyForOfficialSubmission": false,
+          "readinessNote": "Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.",
+          "familyHolders": [
+            "parent-guardian"
+          ],
+          "whatIf": {
+            "allConflictsResolved": {
+              "remainingReviewTasks": 3
+            }
+          },
+          "deadlocks": [],
+          "deadlineNote": "No official processing deadline has been inferred."
+        },
+        "grounding": {
+          "reviewedApplicantDocumentIds": [
+            "ce1070b9-c592-49ac-b07b-7e73db052475"
+          ],
+          "officiallyVerified": false,
+          "sourceType": "official-portal-reference-not-live-verified"
+        },
+        "disclaimer": "Preparation guidance only; verify current requirements with Passport Seva."
+      }
+    }
+  ]
+}

@@ -2,6 +2,7 @@
 from __future__ import annotations
 from datetime import date, timedelta
 from itertools import product
+from math import isfinite, prod
 from pydantic import BaseModel, Field, ConfigDict, model_validator
 from typing import Literal
 
@@ -29,6 +30,10 @@ class PlanningRequest(BaseModel):
     weights: dict[Literal['cost','days','visits'], float] = Field(default_factory=lambda: {'cost':1,'days':1,'visits':1})
     @model_validator(mode='after')
     def unique_ids(self):
+        if any(not isfinite(w) or w < 0 or w > 100 for w in self.weights.values()):
+            raise ValueError('Weights must be finite values between 0 and 100')
+        if prod(len(issue.options) for issue in self.issues) > 10000:
+            raise ValueError('Too many option combinations; use at most 10000 candidate paths')
         ids = [x.id for x in self.issues]
         if len(ids) != len(set(ids)):
             raise ValueError('Duplicate issue IDs')
@@ -56,7 +61,11 @@ def _topology(selected: dict[str, Option]):
 
 def plan(req: PlanningRequest) -> dict:
     """Enumerate candidate paths; sequential duration is a conservative estimate."""
+    if not req.issues:
+        return {'status':'empty','candidatePathsEvaluated':0,'cycleDetected':False,
+                'officialAcceptanceVerified':False,'message':'Add at least one correction issue and option.'}
     best = None
+    ranked = []
     feasible = 0
     for combination in product(*(issue.options for issue in req.issues)):
         selected = dict(zip((issue.id for issue in req.issues), combination))
@@ -69,6 +78,9 @@ def plan(req: PlanningRequest) -> dict:
         visits = sum(x.visits for x in combination)
         score = (req.weights.get('cost',1)*cost/1000 + req.weights.get('days',1)*days + req.weights.get('visits',1)*visits*3)
         candidate = (score, cost, days, visits, tuple(x.id for x in combination), order, selected)
+        ranked.append(candidate)
+        ranked.sort(key=lambda c: c[:5])
+        ranked = ranked[:6]
         if best is None or candidate[:5] < best[:5]:
             best = candidate
     if best is None:
@@ -78,6 +90,9 @@ def plan(req: PlanningRequest) -> dict:
     _, cost, days, visits, _, order, selected = best
     remaining = (req.targetDate - date.today()).days if req.targetDate else None
     return {'status':'planned','candidatePathsEvaluated':feasible,
+            'alternatives':[{'selectedOptions':[{'issueId':key,**candidate[6][key].model_dump()} for key in candidate[5]],
+                             'totalCostINR':candidate[1], 'estimatedSequentialDays':candidate[2], 'estimatedVisits':candidate[3]}
+                            for candidate in ranked[1:]],
             'selectedOptions':[{'issueId':key,**selected[key].model_dump()} for key in order],
             'totalCostINR':cost,'estimatedSequentialDays':days,'estimatedVisits':visits,
             'potentialOnlineSteps':[key for key in order if selected[key].onlinePossible],

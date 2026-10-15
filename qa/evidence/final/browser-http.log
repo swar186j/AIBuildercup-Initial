@@ -1,0 +1,275 @@
+........................................................................ [ 55%]
+..........EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE..................               [100%]
+==================================== ERRORS ====================================
+________________ ERROR at setup of test_m5_resume_edit_multiple ________________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+_______________ ERROR at setup of test_m5_reload_consent[False] ________________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+________________ ERROR at setup of test_m5_reload_consent[True] ________________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+_____________ ERROR at setup of test_m5_malformed_saved[not-json] ______________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+_ ERROR at setup of test_m5_malformed_saved[{"schemaVersion":0,"records":[]}] __
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+_ ERROR at setup of test_m5_malformed_saved[{"schemaVersion":1,"records":[{"id":"LOCAL-broken","journey":{}}]}] _
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+__ ERROR at setup of test_m7_expiry_ui[2000-01-01-2099-02-01-already expired] __
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+_ ERROR at setup of test_m7_expiry_ui[2099-01-01-2099-02-01-expires before target] _
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+_ ERROR at setup of test_m7_expiry_ui[-2099-02-01-No expiry conflicts detected] _
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+_______________ ERROR at setup of test_m7_rule_comparison[False] _______________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+_______________ ERROR at setup of test_m7_rule_comparison[True] ________________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+___________ ERROR at setup of test_m7_rule_errors[missing-baseline] ____________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+___________ ERROR at setup of test_m7_rule_errors[malformed-result] ____________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+____________ ERROR at setup of test_m7_rule_errors[invalid-version] ____________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+________________ ERROR at setup of test_m7_weighted_paths[cost] ________________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+________________ ERROR at setup of test_m7_weighted_paths[days] ________________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+______________ ERROR at setup of test_m7_optimizer_cycle_invalid _______________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+___________ ERROR at setup of test_m8_members_ownership_dependencies ___________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+_________________ ERROR at setup of test_m8_cycle_edit_delete __________________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+_________________ ERROR at setup of test_m8_session_isolation __________________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+__________ ERROR at setup of test_cross_milestone_household_assistant __________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+______________ ERROR at setup of test_m5_selected_type_and_delete ______________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+______________ ERROR at setup of test_completion_mobile[/planner] ______________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+_____________ ERROR at setup of test_completion_mobile[/household] _____________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+___________ ERROR at setup of test_completion_mobile[/applications] ____________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+_ ERROR at setup of test_completion_unexpected_results[/api/intelligence/advanced-plan-Find recommended path-Weighted correction optimizer] _
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+_ ERROR at setup of test_completion_unexpected_results[/api/passport/rules/compare-Compare preparation impact-Government rule change impact analyzer] _
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+_ ERROR at setup of test_completion_unexpected_results[/api/household/assess-Analyze household dependencies-Household members] _
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+___ ERROR at setup of test_m8_distinct_parents_do_not_compare_as_one_person ____
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+___________ ERROR at setup of test_m8_remove_owned_dependency_safely ___________
+qa/test_browser.py:23: in browser
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_context_manager.py:46: in __enter__
+    raise Error(
+E   playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+E   Please use the Async API instead.
+=========================== short test summary info ============================
+ERROR qa/test_completion.py::test_m5_resume_edit_multiple - playwright._impl....
+ERROR qa/test_completion.py::test_m5_reload_consent[False] - playwright._impl...
+ERROR qa/test_completion.py::test_m5_reload_consent[True] - playwright._impl....
+ERROR qa/test_completion.py::test_m5_malformed_saved[not-json] - playwright._...
+ERROR qa/test_completion.py::test_m5_malformed_saved[{"schemaVersion":0,"records":[]}]
+ERROR qa/test_completion.py::test_m5_malformed_saved[{"schemaVersion":1,"records":[{"id":"LOCAL-broken","journey":{}}]}]
+ERROR qa/test_completion.py::test_m7_expiry_ui[2000-01-01-2099-02-01-already expired]
+ERROR qa/test_completion.py::test_m7_expiry_ui[2099-01-01-2099-02-01-expires before target]
+ERROR qa/test_completion.py::test_m7_expiry_ui[-2099-02-01-No expiry conflicts detected]
+ERROR qa/test_completion.py::test_m7_rule_comparison[False] - playwright._imp...
+ERROR qa/test_completion.py::test_m7_rule_comparison[True] - playwright._impl...
+ERROR qa/test_completion.py::test_m7_rule_errors[missing-baseline] - playwrig...
+ERROR qa/test_completion.py::test_m7_rule_errors[malformed-result] - playwrig...
+ERROR qa/test_completion.py::test_m7_rule_errors[invalid-version] - playwrigh...
+ERROR qa/test_completion.py::test_m7_weighted_paths[cost] - playwright._impl....
+ERROR qa/test_completion.py::test_m7_weighted_paths[days] - playwright._impl....
+ERROR qa/test_completion.py::test_m7_optimizer_cycle_invalid - playwright._im...
+ERROR qa/test_completion.py::test_m8_members_ownership_dependencies - playwri...
+ERROR qa/test_completion.py::test_m8_cycle_edit_delete - playwright._impl._er...
+ERROR qa/test_completion.py::test_m8_session_isolation - playwright._impl._er...
+ERROR qa/test_completion.py::test_cross_milestone_household_assistant - playw...
+ERROR qa/test_completion.py::test_m5_selected_type_and_delete - playwright._i...
+ERROR qa/test_completion.py::test_completion_mobile[/planner] - playwright._i...
+ERROR qa/test_completion.py::test_completion_mobile[/household] - playwright....
+ERROR qa/test_completion.py::test_completion_mobile[/applications] - playwrig...
+ERROR qa/test_completion.py::test_completion_unexpected_results[/api/intelligence/advanced-plan-Find recommended path-Weighted correction optimizer]
+ERROR qa/test_completion.py::test_completion_unexpected_results[/api/passport/rules/compare-Compare preparation impact-Government rule change impact analyzer]
+ERROR qa/test_completion.py::test_completion_unexpected_results[/api/household/assess-Analyze household dependencies-Household members]
+ERROR qa/test_completion.py::test_m8_distinct_parents_do_not_compare_as_one_person
+ERROR qa/test_completion.py::test_m8_remove_owned_dependency_safely - playwri...
+100 passed, 30 errors in 54.29s

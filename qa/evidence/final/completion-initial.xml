@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="21" time="30.589" timestamp="2026-10-15T13:46:04.518303+05:30" hostname="Swar"><testcase classname="qa.test_completion" name="test_m5_resume_edit_multiple" time="1.721" /><testcase classname="qa.test_completion" name="test_m5_reload_consent[False]" time="0.602" /><testcase classname="qa.test_completion" name="test_m5_reload_consent[True]" time="0.972" /><testcase classname="qa.test_completion" name="test_m5_malformed_saved[not-json]" time="0.452" /><testcase classname="qa.test_completion" name="test_m5_malformed_saved[{&quot;schemaVersion&quot;:0,&quot;records&quot;:[]}]" time="0.429" /><testcase classname="qa.test_completion" name="test_m5_malformed_saved[{&quot;schemaVersion&quot;:1,&quot;records&quot;:[{&quot;id&quot;:&quot;LOCAL-broken&quot;,&quot;journey&quot;:{}}]}]" time="0.450" /><testcase classname="qa.test_completion" name="test_m7_expiry_ui[2000-01-01-2099-02-01-already expired]" time="0.909" /><testcase classname="qa.test_completion" name="test_m7_expiry_ui[2099-01-01-2099-02-01-expires before target]" time="0.918" /><testcase classname="qa.test_completion" name="test_m7_expiry_ui[-2099-02-01-No expiry conflicts detected]" time="0.887" /><testcase classname="qa.test_completion" name="test_m7_rule_comparison[False]" time="0.520" /><testcase classname="qa.test_completion" name="test_m7_rule_comparison[True]" time="0.694" /><testcase classname="qa.test_completion" name="test_m7_rule_errors[missing-baseline]" time="0.437" /><testcase classname="qa.test_completion" name="test_m7_rule_errors[malformed-result]" time="0.577" /><testcase classname="qa.test_completion" name="test_m7_rule_errors[invalid-version]" time="0.496" /><testcase classname="qa.test_completion" name="test_m7_weighted_paths[cost]" time="0.485" /><testcase classname="qa.test_completion" name="test_m7_weighted_paths[days]" time="0.498" /><testcase classname="qa.test_completion" name="test_m7_optimizer_cycle_invalid" time="0.467"><failure message="AssertionError: assert 'planned' == 'deadlock'&#10;  &#10;  - deadlock&#10;  + planned">qa/test_completion.py:138: in test_m7_optimizer_cycle_invalid
+    assert data['status']=='deadlock'
+E   AssertionError: assert 'planned' == 'deadlock'
+E     
+E     - deadlock
+E     + planned</failure></testcase><testcase classname="qa.test_completion" name="test_m8_members_ownership_dependencies" time="6.311"><failure message="AssertionError: Locator expected to be visible&#10;Actual value: None&#10;Error: element(s) not found &#10;Call log:&#10;  - Expect &quot;to_be_visible&quot; get_by_label(&quot;Household dependency graph&quot;, exact=True) with timeout 5000ms&#10;  - waiting for get_by_label(&quot;Household dependency graph&quot;, exact=True)&#10;&#10;Aria snapshot:&#10;- complementary:&#10;  - link &quot;Maadhyam home&quot;:&#10;    - /url: /&#10;    - text: Maadhyam माध्यम&#10;  - paragraph: Workspace&#10;  - navigation &quot;Main navigation&quot;:&#10;    - link &quot;Dashboard&quot;:&#10;      - /url: /&#10;    - link &quot;Find Services&quot;:&#10;      - /url: /services&#10;    - link &quot;My Documents&quot;:&#10;      - /url: /documents&#10;    - link &quot;My Applications&quot;:&#10;      - /url: /applications&#10;    - link &quot;Resolution Planner&quot;:&#10;      - /url: /planner&#10;    - link &quot;Household Intelligence&quot;:&#10;      - /url: /household&#10;    - link &quot;Citizen Workflows&quot;:&#10;      - /url: /workflows&#10;  - paragraph: Guidance you can verify&#10;  - paragraph: Maadhyam is an independent assistance platform, not an official government website.&#10;- banner:&#10;  - button &quot;Collapse sidebar&quot; [expanded]&#10;  - paragraph: Citizen Workspace&#10;  - paragraph: Understand. Prepare. Resolve.&#10;  - button &quot;Switch to dark mode&quot;&#10;  - text: Preview&#10;- main:&#10;  - paragraph: Local household preparation&#10;  - heading &quot;Household Intelligence&quot; [level=1]&#10;  - paragraph: Organize member labels, evidence ownership and preparation dependencies in this browser session. Relationships and document acceptance are not legally verified.&#10;  - text: This is one local workspace, not separate member accounts. Only associate another person's evidence after confirming permission. Household labels and graph data stay in memory and reset on reload. Vault files have separate opt-in saving controls; saved files with unavailable owners are not reassigned automatically. No cross-account authorization is provided.&#10;  - heading &quot;Add a household member&quot; [level=2]&#10;  - text: Member name or label&#10;  - textbox &quot;New member name&quot;&#10;  - text: Claimed relationship to applicant&#10;  - combobox &quot;New member relationship&quot;:&#10;    - option &quot;parent&quot;&#10;    - option &quot;guardian&quot;&#10;    - option &quot;spouse&quot; [selected]&#10;    - option &quot;child&quot;&#10;    - option &quot;sibling&quot;&#10;    - option &quot;other&quot;&#10;  - button &quot;Add member&quot;&#10;  - region &quot;Associate household evidence&quot;:&#10;    - heading &quot;Confirm evidence ownership&quot; [level=2]&#10;    - paragraph: Ownership labels only organize evidence. Selecting a person does not verify a legal relationship or authorize access to any external account.&#10;    - text: Evidence document&#10;    - combobox &quot;Evidence document&quot;:&#10;      - option &quot;Choose a Vault document&quot;&#10;      - option &quot;fictional_aadhaar.png&quot;&#10;      - option &quot;fictional_pan.png&quot; [selected]&#10;    - text: Evidence owner&#10;    - combobox &quot;Evidence owner&quot;:&#10;      - option &quot;Choose a member&quot;&#10;      - option &quot;Applicant (this workspace)&quot;&#10;      - option &quot;Fictional Parent&quot; [selected]&#10;      - option &quot;Fictional Spouse&quot;&#10;    - checkbox &quot;I confirm the owner and have permission to associate this evidence in this local workspace.&quot;&#10;    - text: I confirm the owner and have permission to associate this evidence in this local workspace.&#10;    - button &quot;Associate evidence&quot; [disabled]&#10;    - list:&#10;      - listitem:&#10;        - text: fictional_aadhaar.png — Applicant (this workspace) · Self-reviewed&#10;        - button &quot;Unassign fictional_aadhaar.png&quot;: Unassign ownership&#10;      - listitem:&#10;        - text: fictional_pan.png — Fictional Parent · Self-reviewed&#10;        - button &quot;Unassign fictional_pan.png&quot;: Unassign ownership&#10;  - region &quot;Household members&quot;:&#10;    - heading &quot;Members and prerequisites&quot; [level=2]&#10;    - article &quot;Household member Applicant (this workspace)&quot;:&#10;      - text: Member label&#10;      - textbox &quot;Label for applicant&quot;: Applicant (this workspace)&#10;      - text: Relationship label&#10;      - combobox &quot;Relationship for applicant&quot; [disabled]:&#10;        - option &quot;self&quot; [selected]&#10;      - group &quot;Member prerequisites&quot;:&#10;        - text: Member prerequisites&#10;        - checkbox &quot;Applicant (this workspace) depends on Applicant (this workspace)&quot;&#10;        - text: Applicant (this workspace) (creates a cycle)&#10;        - checkbox &quot;Applicant (this workspace) depends on Fictional Parent&quot;&#10;        - text: Fictional Parent&#10;        - checkbox &quot;Applicant (this workspace) depends on Fictional Spouse&quot;&#10;        - text: Fictional Spouse&#10;      - group &quot;Required document prerequisites&quot;:&#10;        - text: Required document prerequisites&#10;        - checkbox &quot;Applicant (this workspace) requires fictional_aadhaar.png&quot;&#10;        - text: fictional_aadhaar.png&#10;        - checkbox &quot;Applicant (this workspace) requires fictional_pan.png&quot;&#10;        - text: fictional_pan.png&#10;    - article &quot;Household member Fictional Parent&quot;:&#10;      - text: Member label&#10;      - textbox &quot;Label for 6af3e929-98d0-471c-a073-43df9c901585&quot;: Fictional Parent&#10;      - text: Relationship label&#10;      - combobox &quot;Relationship for 6af3e929-98d0-471c-a073-43df9c901585&quot;:&#10;        - option &quot;parent&quot; [selected]&#10;        - option &quot;guardian&quot;&#10;        - option &quot;spouse&quot;&#10;        - option &quot;child&quot;&#10;        - option &quot;sibling&quot;&#10;        - option &quot;other&quot;&#10;      - group &quot;Member prerequisites&quot;:&#10;        - text: Member prerequisites&#10;        - checkbox &quot;Fictional Parent depends on Applicant (this workspace)&quot;&#10;        - text: Applicant (this workspace)&#10;        - checkbox &quot;Fictional Parent depends on Fictional Parent&quot;&#10;        - text: Fictional Parent (creates a cycle)&#10;        - checkbox &quot;Fictional Parent depends on Fictional Spouse&quot;&#10;        - text: Fictional Spouse&#10;      - group &quot;Required document prerequisites&quot;:&#10;        - text: Required document prerequisites&#10;        - checkbox &quot;Fictional Parent requires fictional_aadhaar.png&quot;&#10;        - text: fictional_aadhaar.png&#10;        - checkbox &quot;Fictional Parent requires fictional_pan.png&quot;&#10;        - text: fictional_pan.png&#10;      - group &quot;Evidence supporting this relationship (optional)&quot;:&#10;        - text: Evidence supporting this relationship (optional)&#10;        - checkbox &quot;Fictional Parent relationship evidence fictional_aadhaar.png&quot;&#10;        - text: fictional_aadhaar.png&#10;        - checkbox &quot;Fictional Parent relationship evidence fictional_pan.png&quot;&#10;        - text: fictional_pan.png&#10;      - button &quot;Remove member Fictional Parent&quot;: Remove member&#10;    - article &quot;Household member Fictional Spouse&quot;:&#10;      - text: Member label&#10;      - textbox &quot;Label for 341e4c5a-2068-4231-b7f4-c46fcabe8f56&quot;: Fictional Spouse&#10;      - text: Relationship label&#10;      - combobox &quot;Relationship for 341e4c5a-2068-4231-b7f4-c46fcabe8f56&quot;:&#10;        - option &quot;parent&quot;&#10;        - option &quot;guardian&quot;&#10;        - option &quot;spouse&quot; [selected]&#10;        - option &quot;child&quot;&#10;        - option &quot;sibling&quot;&#10;        - option &quot;other&quot;&#10;      - group &quot;Member prerequisites&quot;:&#10;        - text: Member prerequisites&#10;        - checkbox &quot;Fictional Spouse depends on Applicant (this workspace)&quot;&#10;        - text: Applicant (this workspace)&#10;        - checkbox &quot;Fictional Spouse depends on Fictional Parent&quot; [checked]&#10;        - text: Fictional Parent&#10;        - checkbox &quot;Fictional Spouse depends on Fictional Spouse&quot;&#10;        - text: Fictional Spouse (creates a cycle)&#10;      - group &quot;Required document prerequisites&quot;:&#10;        - text: Required document prerequisites&#10;        - checkbox &quot;Fictional Spouse requires fictional_aadhaar.png&quot;&#10;        - text: fictional_aadhaar.png&#10;        - checkbox &quot;Fictional Spouse requires fictional_pan.png&quot; [checked]&#10;        - text: fictional_pan.png&#10;      - group &quot;Evidence supporting this relationship (optional)&quot;:&#10;        - text: Evidence supporting this relationship (optional)&#10;        - checkbox &quot;Fictional Spouse relationship evidence fictional_aadhaar.png&quot;&#10;        - text: fictional_aadhaar.png&#10;        - checkbox &quot;Fictional Spouse relationship evidence fictional_pan.png&quot;&#10;        - text: fictional_pan.png&#10;      - button &quot;Remove member Fictional Spouse&quot;: Remove member&#10;  - button &quot;Analyze household dependencies&quot;&#10;  - alert: Unexpected household analysis response.&#10;  - status: Evidence ownership associated with your explicit confirmation. Review status was preserved.&#10;- button &quot;Open Maadhyam AI&quot;: Ask Maadhyam AI">qa/test_completion.py:175: in test_m8_members_ownership_dependencies
+    payload,data=household_result(page)
+                 ^^^^^^^^^^^^^^^^^^^^^^
+qa/test_completion.py:163: in household_result
+    expect(page.get_by_label('Household dependency graph',exact=True)).to_be_visible()
+E   AssertionError: Locator expected to be visible
+E   Actual value: None
+E   Error: element(s) not found 
+E   Call log:
+E     - Expect "to_be_visible" get_by_label("Household dependency graph", exact=True) with timeout 5000ms
+E     - waiting for get_by_label("Household dependency graph", exact=True)
+E   
+E   Aria snapshot:
+E   - complementary:
+E     - link "Maadhyam home":
+E       - /url: /
+E       - text: Maadhyam माध्यम
+E     - paragraph: Workspace
+E     - navigation "Main navigation":
+E       - link "Dashboard":
+E         - /url: /
+E       - link "Find Services":
+E         - /url: /services
+E       - link "My Documents":
+E         - /url: /documents
+E       - link "My Applications":
+E         - /url: /applications
+E       - link "Resolution Planner":
+E         - /url: /planner
+E       - link "Household Intelligence":
+E         - /url: /household
+E       - link "Citizen Workflows":
+E         - /url: /workflows
+E     - paragraph: Guidance you can verify
+E     - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E   - banner:
+E     - button "Collapse sidebar" [expanded]
+E     - paragraph: Citizen Workspace
+E     - paragraph: Understand. Prepare. Resolve.
+E     - button "Switch to dark mode"
+E     - text: Preview
+E   - main:
+E     - paragraph: Local household preparation
+E     - heading "Household Intelligence" [level=1]
+E     - paragraph: Organize member labels, evidence ownership and preparation dependencies in this browser session. Relationships and document acceptance are not legally verified.
+E     - text: This is one local workspace, not separate member accounts. Only associate another person's evidence after confirming permission. Household labels and graph data stay in memory and reset on reload. Vault files have separate opt-in saving controls; saved files with unavailable owners are not reassigned automatically. No cross-account authorization is provided.
+E     - heading "Add a household member" [level=2]
+E     - text: Member name or label
+E     - textbox "New member name"
+E     - text: Claimed relationship to applicant
+E     - combobox "New member relationship":
+E       - option "parent"
+E       - option "guardian"
+E       - option "spouse" [selected]
+E       - option "child"
+E       - option "sibling"
+E       - option "other"
+E     - button "Add member"
+E     - region "Associate household evidence":
+E       - heading "Confirm evidence ownership" [level=2]
+E       - paragraph: Ownership labels only organize evidence. Selecting a person does not verify a legal relationship or authorize access to any external account.
+E       - text: Evidence document
+E       - combobox "Evidence document":
+E         - option "Choose a Vault document"
+E         - option "fictional_aadhaar.png"
+E         - option "fictional_pan.png" [selected]
+E       - text: Evidence owner
+E       - combobox "Evidence owner":
+E         - option "Choose a member"
+E         - option "Applicant (this workspace)"
+E         - option "Fictional Parent" [selected]
+E         - option "Fictional Spouse"
+E       - checkbox "I confirm the owner and have permission to associate this evidence in this local workspace."
+E       - text: I confirm the owner and have permission to associate this evidence in this local workspace.
+E       - button "Associate evidence" [disabled]
+E       - list:
+E         - listitem:
+E           - text: fictional_aadhaar.png — Applicant (this workspace) · Self-reviewed
+E           - button "Unassign fictional_aadhaar.png": Unassign ownership
+E         - listitem:
+E           - text: fictional_pan.png — Fictional Parent · Self-reviewed
+E           - button "Unassign fictional_pan.png": Unassign ownership
+E     - region "Household members":
+E       - heading "Members and prerequisites" [level=2]
+E       - article "Household member Applicant (this workspace)":
+E         - text: Member label
+E         - textbox "Label for applicant": Applicant (this workspace)
+E         - text: Relationship label
+E         - combobox "Relationship for applicant" [disabled]:
+E           - option "self" [selected]
+E         - group "Member prerequisites":
+E           - text: Member prerequisites
+E           - checkbox "Applicant (this workspace) depends on Applicant (this workspace)"
+E           - text: Applicant (this workspace) (creates a cycle)
+E           - checkbox "Applicant (this workspace) depends on Fictional Parent"
+E           - text: Fictional Parent
+E           - checkbox "Applicant (this workspace) depends on Fictional Spouse"
+E           - text: Fictional Spouse
+E         - group "Required document prerequisites":
+E           - text: Required document prerequisites
+E           - checkbox "Applicant (this workspace) requires fictional_aadhaar.png"
+E           - text: fictional_aadhaar.png
+E           - checkbox "Applicant (this workspace) requires fictional_pan.png"
+E           - text: fictional_pan.png
+E       - article "Household member Fictional Parent":
+E         - text: Member label
+E         - textbox "Label for 6af3e929-98d0-471c-a073-43df9c901585": Fictional Parent
+E         - text: Relationship label
+E         - combobox "Relationship for 6af3e929-98d0-471c-a073-43df9c901585":
+E           - option "parent" [selected]
+E           - option "guardian"
+E           - option "spouse"
+E           - option "child"
+E           - option "sibling"
+E           - option "other"
+E         - group "Member prerequisites":
+E           - text: Member prerequisites
+E           - checkbox "Fictional Parent depends on Applicant (this workspace)"
+E           - text: Applicant (this workspace)
+E           - checkbox "Fictional Parent depends on Fictional Parent"
+E           - text: Fictional Parent (creates a cycle)
+E           - checkbox "Fictional Parent depends on Fictional Spouse"
+E           - text: Fictional Spouse
+E         - group "Required document prerequisites":
+E           - text: Required document prerequisites
+E           - checkbox "Fictional Parent requires fictional_aadhaar.png"
+E           - text: fictional_aadhaar.png
+E           - checkbox "Fictional Parent requires fictional_pan.png"
+E           - text: fictional_pan.png
+E         - group "Evidence supporting this relationship (optional)":
+E           - text: Evidence supporting this relationship (optional)
+E           - checkbox "Fictional Parent relationship evidence fictional_aadhaar.png"
+E           - text: fictional_aadhaar.png
+E           - checkbox "Fictional Parent relationship evidence fictional_pan.png"
+E           - text: fictional_pan.png
+E         - button "Remove member Fictional Parent": Remove member
+E       - article "Household member Fictional Spouse":
+E         - text: Member label
+E         - textbox "Label for 341e4c5a-2068-4231-b7f4-c46fcabe8f56": Fictional Spouse
+E         - text: Relationship label
+E         - combobox "Relationship for 341e4c5a-2068-4231-b7f4-c46fcabe8f56":
+E           - option "parent"
+E           - option "guardian"
+E           - option "spouse" [selected]
+E           - option "child"
+E           - option "sibling"
+E           - option "other"
+E         - group "Member prerequisites":
+E           - text: Member prerequisites
+E           - checkbox "Fictional Spouse depends on Applicant (this workspace)"
+E           - text: Applicant (this workspace)
+E           - checkbox "Fictional Spouse depends on Fictional Parent" [checked]
+E           - text: Fictional Parent
+E           - checkbox "Fictional Spouse depends on Fictional Spouse"
+E           - text: Fictional Spouse (creates a cycle)
+E         - group "Required document prerequisites":
+E           - text: Required document prerequisites
+E           - checkbox "Fictional Spouse requires fictional_aadhaar.png"
+E           - text: fictional_aadhaar.png
+E           - checkbox "Fictional Spouse requires fictional_pan.png" [checked]
+E           - text: fictional_pan.png
+E         - group "Evidence supporting this relationship (optional)":
+E           - text: Evidence supporting this relationship (optional)
+E           - checkbox "Fictional Spouse relationship evidence fictional_aadhaar.png"
+E           - text: fictional_aadhaar.png
+E           - checkbox "Fictional Spouse relationship evidence fictional_pan.png"
+E           - text: fictional_pan.png
+E         - button "Remove member Fictional Spouse": Remove member
+E     - button "Analyze household dependencies"
+E     - alert: Unexpected household analysis response.
+E     - status: Evidence ownership associated with your explicit confirmation. Review status was preserved.
+E   - button "Open Maadhyam AI": Ask Maadhyam AI</failure></testcase><testcase classname="qa.test_completion" name="test_m8_cycle_edit_delete" time="5.932"><failure message="AssertionError: Locator expected to be visible&#10;Actual value: None&#10;Error: element(s) not found &#10;Call log:&#10;  - Expect &quot;to_be_visible&quot; get_by_label(&quot;Household dependency graph&quot;, exact=True) with timeout 5000ms&#10;  - waiting for get_by_label(&quot;Household dependency graph&quot;, exact=True)&#10;&#10;Aria snapshot:&#10;- complementary:&#10;  - link &quot;Maadhyam home&quot;:&#10;    - /url: /&#10;    - text: Maadhyam माध्यम&#10;  - paragraph: Workspace&#10;  - navigation &quot;Main navigation&quot;:&#10;    - link &quot;Dashboard&quot;:&#10;      - /url: /&#10;    - link &quot;Find Services&quot;:&#10;      - /url: /services&#10;    - link &quot;My Documents&quot;:&#10;      - /url: /documents&#10;    - link &quot;My Applications&quot;:&#10;      - /url: /applications&#10;    - link &quot;Resolution Planner&quot;:&#10;      - /url: /planner&#10;    - link &quot;Household Intelligence&quot;:&#10;      - /url: /household&#10;    - link &quot;Citizen Workflows&quot;:&#10;      - /url: /workflows&#10;  - paragraph: Guidance you can verify&#10;  - paragraph: Maadhyam is an independent assistance platform, not an official government website.&#10;- banner:&#10;  - button &quot;Collapse sidebar&quot; [expanded]&#10;  - paragraph: Citizen Workspace&#10;  - paragraph: Understand. Prepare. Resolve.&#10;  - button &quot;Switch to dark mode&quot;&#10;  - text: Preview&#10;- main:&#10;  - paragraph: Local household preparation&#10;  - heading &quot;Household Intelligence&quot; [level=1]&#10;  - paragraph: Organize member labels, evidence ownership and preparation dependencies in this browser session. Relationships and document acceptance are not legally verified.&#10;  - text: This is one local workspace, not separate member accounts. Only associate another person's evidence after confirming permission. Household labels and graph data stay in memory and reset on reload. Vault files have separate opt-in saving controls; saved files with unavailable owners are not reassigned automatically. No cross-account authorization is provided.&#10;  - heading &quot;Add a household member&quot; [level=2]&#10;  - text: Member name or label&#10;  - textbox &quot;New member name&quot;&#10;  - text: Claimed relationship to applicant&#10;  - combobox &quot;New member relationship&quot;:&#10;    - option &quot;parent&quot; [selected]&#10;    - option &quot;guardian&quot;&#10;    - option &quot;spouse&quot;&#10;    - option &quot;child&quot;&#10;    - option &quot;sibling&quot;&#10;    - option &quot;other&quot;&#10;  - button &quot;Add member&quot;&#10;  - region &quot;Associate household evidence&quot;:&#10;    - heading &quot;Confirm evidence ownership&quot; [level=2]&#10;    - paragraph: Ownership labels only organize evidence. Selecting a person does not verify a legal relationship or authorize access to any external account.&#10;    - text: Evidence document&#10;    - combobox &quot;Evidence document&quot;:&#10;      - option &quot;Choose a Vault document&quot;&#10;      - option &quot;fictional_aadhaar.png&quot; [selected]&#10;    - text: Evidence owner&#10;    - combobox &quot;Evidence owner&quot;:&#10;      - option &quot;Choose a member&quot;&#10;      - option &quot;Applicant (this workspace)&quot;&#10;      - option &quot;Fictional Parent&quot; [selected]&#10;    - checkbox &quot;I confirm the owner and have permission to associate this evidence in this local workspace.&quot;&#10;    - text: I confirm the owner and have permission to associate this evidence in this local workspace.&#10;    - button &quot;Associate evidence&quot; [disabled]&#10;    - list:&#10;      - listitem:&#10;        - text: fictional_aadhaar.png — Fictional Parent · Self-reviewed&#10;        - button &quot;Unassign fictional_aadhaar.png&quot;: Unassign ownership&#10;  - region &quot;Household members&quot;:&#10;    - heading &quot;Members and prerequisites&quot; [level=2]&#10;    - article &quot;Household member Applicant (this workspace)&quot;:&#10;      - text: Member label&#10;      - textbox &quot;Label for applicant&quot;: Applicant (this workspace)&#10;      - text: Relationship label&#10;      - combobox &quot;Relationship for applicant&quot; [disabled]:&#10;        - option &quot;self&quot; [selected]&#10;      - group &quot;Member prerequisites&quot;:&#10;        - text: Member prerequisites&#10;        - checkbox &quot;Applicant (this workspace) depends on Applicant (this workspace)&quot;&#10;        - text: Applicant (this workspace) (creates a cycle)&#10;        - checkbox &quot;Applicant (this workspace) depends on Fictional Parent&quot; [checked]&#10;        - text: Fictional Parent&#10;      - group &quot;Required document prerequisites&quot;:&#10;        - text: Required document prerequisites&#10;        - checkbox &quot;Applicant (this workspace) requires fictional_aadhaar.png&quot;&#10;        - text: fictional_aadhaar.png&#10;    - article &quot;Household member Fictional Parent&quot;:&#10;      - text: Member label&#10;      - textbox &quot;Label for 2ebc5757-296f-4991-8cec-080f8c3e7bd9&quot;: Fictional Parent&#10;      - text: Relationship label&#10;      - combobox &quot;Relationship for 2ebc5757-296f-4991-8cec-080f8c3e7bd9&quot;:&#10;        - option &quot;parent&quot; [selected]&#10;        - option &quot;guardian&quot;&#10;        - option &quot;spouse&quot;&#10;        - option &quot;child&quot;&#10;        - option &quot;sibling&quot;&#10;        - option &quot;other&quot;&#10;      - group &quot;Member prerequisites&quot;:&#10;        - text: Member prerequisites&#10;        - checkbox &quot;Fictional Parent depends on Applicant (this workspace)&quot; [checked]&#10;        - text: Applicant (this workspace)&#10;        - checkbox &quot;Fictional Parent depends on Fictional Parent&quot;&#10;        - text: Fictional Parent (creates a cycle)&#10;      - group &quot;Required document prerequisites&quot;:&#10;        - text: Required document prerequisites&#10;        - checkbox &quot;Fictional Parent requires fictional_aadhaar.png&quot;&#10;        - text: fictional_aadhaar.png&#10;      - group &quot;Evidence supporting this relationship (optional)&quot;:&#10;        - text: Evidence supporting this relationship (optional)&#10;        - checkbox &quot;Fictional Parent relationship evidence fictional_aadhaar.png&quot;&#10;        - text: fictional_aadhaar.png&#10;      - button &quot;Remove member Fictional Parent&quot;: Remove member&#10;  - button &quot;Analyze household dependencies&quot;&#10;  - alert: Unexpected household analysis response.&#10;  - status: Evidence ownership associated with your explicit confirmation. Review status was preserved.&#10;- button &quot;Open Maadhyam AI&quot;: Ask Maadhyam AI">qa/test_completion.py:200: in test_m8_cycle_edit_delete
+    _,data=household_result(page);assert data['dependencyGraph']['cycleOrBlockedNodeIds']
+           ^^^^^^^^^^^^^^^^^^^^^^
+qa/test_completion.py:163: in household_result
+    expect(page.get_by_label('Household dependency graph',exact=True)).to_be_visible()
+E   AssertionError: Locator expected to be visible
+E   Actual value: None
+E   Error: element(s) not found 
+E   Call log:
+E     - Expect "to_be_visible" get_by_label("Household dependency graph", exact=True) with timeout 5000ms
+E     - waiting for get_by_label("Household dependency graph", exact=True)
+E   
+E   Aria snapshot:
+E   - complementary:
+E     - link "Maadhyam home":
+E       - /url: /
+E       - text: Maadhyam माध्यम
+E     - paragraph: Workspace
+E     - navigation "Main navigation":
+E       - link "Dashboard":
+E         - /url: /
+E       - link "Find Services":
+E         - /url: /services
+E       - link "My Documents":
+E         - /url: /documents
+E       - link "My Applications":
+E         - /url: /applications
+E       - link "Resolution Planner":
+E         - /url: /planner
+E       - link "Household Intelligence":
+E         - /url: /household
+E       - link "Citizen Workflows":
+E         - /url: /workflows
+E     - paragraph: Guidance you can verify
+E     - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E   - banner:
+E     - button "Collapse sidebar" [expanded]
+E     - paragraph: Citizen Workspace
+E     - paragraph: Understand. Prepare. Resolve.
+E     - button "Switch to dark mode"
+E     - text: Preview
+E   - main:
+E     - paragraph: Local household preparation
+E     - heading "Household Intelligence" [level=1]
+E     - paragraph: Organize member labels, evidence ownership and preparation dependencies in this browser session. Relationships and document acceptance are not legally verified.
+E     - text: This is one local workspace, not separate member accounts. Only associate another person's evidence after confirming permission. Household labels and graph data stay in memory and reset on reload. Vault files have separate opt-in saving controls; saved files with unavailable owners are not reassigned automatically. No cross-account authorization is provided.
+E     - heading "Add a household member" [level=2]
+E     - text: Member name or label
+E     - textbox "New member name"
+E     - text: Claimed relationship to applicant
+E     - combobox "New member relationship":
+E       - option "parent" [selected]
+E       - option "guardian"
+E       - option "spouse"
+E       - option "child"
+E       - option "sibling"
+E       - option "other"
+E     - button "Add member"
+E     - region "Associate household evidence":
+E       - heading "Confirm evidence ownership" [level=2]
+E       - paragraph: Ownership labels only organize evidence. Selecting a person does not verify a legal relationship or authorize access to any external account.
+E       - text: Evidence document
+E       - combobox "Evidence document":
+E         - option "Choose a Vault document"
+E         - option "fictional_aadhaar.png" [selected]
+E       - text: Evidence owner
+E       - combobox "Evidence owner":
+E         - option "Choose a member"
+E         - option "Applicant (this workspace)"
+E         - option "Fictional Parent" [selected]
+E       - checkbox "I confirm the owner and have permission to associate this evidence in this local workspace."
+E       - text: I confirm the owner and have permission to associate this evidence in this local workspace.
+E       - button "Associate evidence" [disabled]
+E       - list:
+E         - listitem:
+E           - text: fictional_aadhaar.png — Fictional Parent · Self-reviewed
+E           - button "Unassign fictional_aadhaar.png": Unassign ownership
+E     - region "Household members":
+E       - heading "Members and prerequisites" [level=2]
+E       - article "Household member Applicant (this workspace)":
+E         - text: Member label
+E         - textbox "Label for applicant": Applicant (this workspace)
+E         - text: Relationship label
+E         - combobox "Relationship for applicant" [disabled]:
+E           - option "self" [selected]
+E         - group "Member prerequisites":
+E           - text: Member prerequisites
+E           - checkbox "Applicant (this workspace) depends on Applicant (this workspace)"
+E           - text: Applicant (this workspace) (creates a cycle)
+E           - checkbox "Applicant (this workspace) depends on Fictional Parent" [checked]
+E           - text: Fictional Parent
+E         - group "Required document prerequisites":
+E           - text: Required document prerequisites
+E           - checkbox "Applicant (this workspace) requires fictional_aadhaar.png"
+E           - text: fictional_aadhaar.png
+E       - article "Household member Fictional Parent":
+E         - text: Member label
+E         - textbox "Label for 2ebc5757-296f-4991-8cec-080f8c3e7bd9": Fictional Parent
+E         - text: Relationship label
+E         - combobox "Relationship for 2ebc5757-296f-4991-8cec-080f8c3e7bd9":
+E           - option "parent" [selected]
+E           - option "guardian"
+E           - option "spouse"
+E           - option "child"
+E           - option "sibling"
+E           - option "other"
+E         - group "Member prerequisites":
+E           - text: Member prerequisites
+E           - checkbox "Fictional Parent depends on Applicant (this workspace)" [checked]
+E           - text: Applicant (this workspace)
+E           - checkbox "Fictional Parent depends on Fictional Parent"
+E           - text: Fictional Parent (creates a cycle)
+E         - group "Required document prerequisites":
+E           - text: Required document prerequisites
+E           - checkbox "Fictional Parent requires fictional_aadhaar.png"
+E           - text: fictional_aadhaar.png
+E         - group "Evidence supporting this relationship (optional)":
+E           - text: Evidence supporting this relationship (optional)
+E           - checkbox "Fictional Parent relationship evidence fictional_aadhaar.png"
+E           - text: fictional_aadhaar.png
+E         - button "Remove member Fictional Parent": Remove member
+E     - button "Analyze household dependencies"
+E     - alert: Unexpected household analysis response.
+E     - status: Evidence ownership associated with your explicit confirmation. Review status was preserved.
+E   - button "Open Maadhyam AI": Ask Maadhyam AI</failure></testcase><testcase classname="qa.test_completion" name="test_m8_session_isolation" time="0.622" /><testcase classname="qa.test_completion" name="test_cross_milestone_household_assistant" time="6.074"><failure message="AssertionError: Locator expected to be visible&#10;Actual value: None&#10;Error: element(s) not found &#10;Call log:&#10;  - Expect &quot;to_be_visible&quot; get_by_label(&quot;Household dependency graph&quot;, exact=True) with timeout 5000ms&#10;  - waiting for get_by_label(&quot;Household dependency graph&quot;, exact=True)&#10;&#10;Aria snapshot:&#10;- complementary:&#10;  - link &quot;Maadhyam home&quot;:&#10;    - /url: /&#10;    - text: Maadhyam माध्यम&#10;  - paragraph: Workspace&#10;  - navigation &quot;Main navigation&quot;:&#10;    - link &quot;Dashboard&quot;:&#10;      - /url: /&#10;    - link &quot;Find Services&quot;:&#10;      - /url: /services&#10;    - link &quot;My Documents&quot;:&#10;      - /url: /documents&#10;    - link &quot;My Applications&quot;:&#10;      - /url: /applications&#10;    - link &quot;Resolution Planner&quot;:&#10;      - /url: /planner&#10;    - link &quot;Household Intelligence&quot;:&#10;      - /url: /household&#10;    - link &quot;Citizen Workflows&quot;:&#10;      - /url: /workflows&#10;  - paragraph: Guidance you can verify&#10;  - paragraph: Maadhyam is an independent assistance platform, not an official government website.&#10;- banner:&#10;  - button &quot;Collapse sidebar&quot; [expanded]&#10;  - paragraph: Citizen Workspace&#10;  - paragraph: Understand. Prepare. Resolve.&#10;  - button &quot;Switch to dark mode&quot;&#10;  - text: Preview&#10;- main:&#10;  - paragraph: Local household preparation&#10;  - heading &quot;Household Intelligence&quot; [level=1]&#10;  - paragraph: Organize member labels, evidence ownership and preparation dependencies in this browser session. Relationships and document acceptance are not legally verified.&#10;  - text: This is one local workspace, not separate member accounts. Only associate another person's evidence after confirming permission. Household labels and graph data stay in memory and reset on reload. Vault files have separate opt-in saving controls; saved files with unavailable owners are not reassigned automatically. No cross-account authorization is provided.&#10;  - heading &quot;Add a household member&quot; [level=2]&#10;  - text: Member name or label&#10;  - textbox &quot;New member name&quot;&#10;  - text: Claimed relationship to applicant&#10;  - combobox &quot;New member relationship&quot;:&#10;    - option &quot;parent&quot; [selected]&#10;    - option &quot;guardian&quot;&#10;    - option &quot;spouse&quot;&#10;    - option &quot;child&quot;&#10;    - option &quot;sibling&quot;&#10;    - option &quot;other&quot;&#10;  - button &quot;Add member&quot;&#10;  - region &quot;Associate household evidence&quot;:&#10;    - heading &quot;Confirm evidence ownership&quot; [level=2]&#10;    - paragraph: Ownership labels only organize evidence. Selecting a person does not verify a legal relationship or authorize access to any external account.&#10;    - text: Evidence document&#10;    - combobox &quot;Evidence document&quot;:&#10;      - option &quot;Choose a Vault document&quot;&#10;      - option &quot;fictional_aadhaar.png&quot; [selected]&#10;    - text: Evidence owner&#10;    - combobox &quot;Evidence owner&quot;:&#10;      - option &quot;Choose a member&quot;&#10;      - option &quot;Applicant (this workspace)&quot;&#10;      - option &quot;Fictional Parent&quot; [selected]&#10;    - checkbox &quot;I confirm the owner and have permission to associate this evidence in this local workspace.&quot;&#10;    - text: I confirm the owner and have permission to associate this evidence in this local workspace.&#10;    - button &quot;Associate evidence&quot; [disabled]&#10;    - list:&#10;      - listitem:&#10;        - text: fictional_aadhaar.png — Fictional Parent · Self-reviewed&#10;        - button &quot;Unassign fictional_aadhaar.png&quot;: Unassign ownership&#10;  - region &quot;Household members&quot;:&#10;    - heading &quot;Members and prerequisites&quot; [level=2]&#10;    - article &quot;Household member Applicant (this workspace)&quot;:&#10;      - text: Member label&#10;      - textbox &quot;Label for applicant&quot;: Applicant (this workspace)&#10;      - text: Relationship label&#10;      - combobox &quot;Relationship for applicant&quot; [disabled]:&#10;        - option &quot;self&quot; [selected]&#10;      - group &quot;Member prerequisites&quot;:&#10;        - text: Member prerequisites&#10;        - checkbox &quot;Applicant (this workspace) depends on Applicant (this workspace)&quot;&#10;        - text: Applicant (this workspace) (creates a cycle)&#10;        - checkbox &quot;Applicant (this workspace) depends on Fictional Parent&quot;&#10;        - text: Fictional Parent&#10;      - group &quot;Required document prerequisites&quot;:&#10;        - text: Required document prerequisites&#10;        - checkbox &quot;Applicant (this workspace) requires fictional_aadhaar.png&quot;&#10;        - text: fictional_aadhaar.png&#10;    - article &quot;Household member Fictional Parent&quot;:&#10;      - text: Member label&#10;      - textbox &quot;Label for 4dfd065b-5116-4367-a0e8-f58c55ac1646&quot;: Fictional Parent&#10;      - text: Relationship label&#10;      - combobox &quot;Relationship for 4dfd065b-5116-4367-a0e8-f58c55ac1646&quot;:&#10;        - option &quot;parent&quot; [selected]&#10;        - option &quot;guardian&quot;&#10;        - option &quot;spouse&quot;&#10;        - option &quot;child&quot;&#10;        - option &quot;sibling&quot;&#10;        - option &quot;other&quot;&#10;      - group &quot;Member prerequisites&quot;:&#10;        - text: Member prerequisites&#10;        - checkbox &quot;Fictional Parent depends on Applicant (this workspace)&quot;&#10;        - text: Applicant (this workspace)&#10;        - checkbox &quot;Fictional Parent depends on Fictional Parent&quot;&#10;        - text: Fictional Parent (creates a cycle)&#10;      - group &quot;Required document prerequisites&quot;:&#10;        - text: Required document prerequisites&#10;        - checkbox &quot;Fictional Parent requires fictional_aadhaar.png&quot;&#10;        - text: fictional_aadhaar.png&#10;      - group &quot;Evidence supporting this relationship (optional)&quot;:&#10;        - text: Evidence supporting this relationship (optional)&#10;        - checkbox &quot;Fictional Parent relationship evidence fictional_aadhaar.png&quot;&#10;        - text: fictional_aadhaar.png&#10;      - button &quot;Remove member Fictional Parent&quot;: Remove member&#10;  - button &quot;Analyze household dependencies&quot;&#10;  - alert: Unexpected household analysis response.&#10;  - status: Evidence ownership associated with your explicit confirmation. Review status was preserved.&#10;- button &quot;Open Maadhyam AI&quot;: Ask Maadhyam AI">qa/test_completion.py:228: in test_cross_milestone_household_assistant
+    spa(page,'/household');add_member(page,'Fictional Parent');associate(page,'fictional_aadhaar.png','Fictional Parent');household_result(page)
+                                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^
+qa/test_completion.py:163: in household_result
+    expect(page.get_by_label('Household dependency graph',exact=True)).to_be_visible()
+E   AssertionError: Locator expected to be visible
+E   Actual value: None
+E   Error: element(s) not found 
+E   Call log:
+E     - Expect "to_be_visible" get_by_label("Household dependency graph", exact=True) with timeout 5000ms
+E     - waiting for get_by_label("Household dependency graph", exact=True)
+E   
+E   Aria snapshot:
+E   - complementary:
+E     - link "Maadhyam home":
+E       - /url: /
+E       - text: Maadhyam माध्यम
+E     - paragraph: Workspace
+E     - navigation "Main navigation":
+E       - link "Dashboard":
+E         - /url: /
+E       - link "Find Services":
+E         - /url: /services
+E       - link "My Documents":
+E         - /url: /documents
+E       - link "My Applications":
+E         - /url: /applications
+E       - link "Resolution Planner":
+E         - /url: /planner
+E       - link "Household Intelligence":
+E         - /url: /household
+E       - link "Citizen Workflows":
+E         - /url: /workflows
+E     - paragraph: Guidance you can verify
+E     - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E   - banner:
+E     - button "Collapse sidebar" [expanded]
+E     - paragraph: Citizen Workspace
+E     - paragraph: Understand. Prepare. Resolve.
+E     - button "Switch to dark mode"
+E     - text: Preview
+E   - main:
+E     - paragraph: Local household preparation
+E     - heading "Household Intelligence" [level=1]
+E     - paragraph: Organize member labels, evidence ownership and preparation dependencies in this browser session. Relationships and document acceptance are not legally verified.
+E     - text: This is one local workspace, not separate member accounts. Only associate another person's evidence after confirming permission. Household labels and graph data stay in memory and reset on reload. Vault files have separate opt-in saving controls; saved files with unavailable owners are not reassigned automatically. No cross-account authorization is provided.
+E     - heading "Add a household member" [level=2]
+E     - text: Member name or label
+E     - textbox "New member name"
+E     - text: Claimed relationship to applicant
+E     - combobox "New member relationship":
+E       - option "parent" [selected]
+E       - option "guardian"
+E       - option "spouse"
+E       - option "child"
+E       - option "sibling"
+E       - option "other"
+E     - button "Add member"
+E     - region "Associate household evidence":
+E       - heading "Confirm evidence ownership" [level=2]
+E       - paragraph: Ownership labels only organize evidence. Selecting a person does not verify a legal relationship or authorize access to any external account.
+E       - text: Evidence document
+E       - combobox "Evidence document":
+E         - option "Choose a Vault document"
+E         - option "fictional_aadhaar.png" [selected]
+E       - text: Evidence owner
+E       - combobox "Evidence owner":
+E         - option "Choose a member"
+E         - option "Applicant (this workspace)"
+E         - option "Fictional Parent" [selected]
+E       - checkbox "I confirm the owner and have permission to associate this evidence in this local workspace."
+E       - text: I confirm the owner and have permission to associate this evidence in this local workspace.
+E       - button "Associate evidence" [disabled]
+E       - list:
+E         - listitem:
+E           - text: fictional_aadhaar.png — Fictional Parent · Self-reviewed
+E           - button "Unassign fictional_aadhaar.png": Unassign ownership
+E     - region "Household members":
+E       - heading "Members and prerequisites" [level=2]
+E       - article "Household member Applicant (this workspace)":
+E         - text: Member label
+E         - textbox "Label for applicant": Applicant (this workspace)
+E         - text: Relationship label
+E         - combobox "Relationship for applicant" [disabled]:
+E           - option "self" [selected]
+E         - group "Member prerequisites":
+E           - text: Member prerequisites
+E           - checkbox "Applicant (this workspace) depends on Applicant (this workspace)"
+E           - text: Applicant (this workspace) (creates a cycle)
+E           - checkbox "Applicant (this workspace) depends on Fictional Parent"
+E           - text: Fictional Parent
+E         - group "Required document prerequisites":
+E           - text: Required document prerequisites
+E           - checkbox "Applicant (this workspace) requires fictional_aadhaar.png"
+E           - text: fictional_aadhaar.png
+E       - article "Household member Fictional Parent":
+E         - text: Member label
+E         - textbox "Label for 4dfd065b-5116-4367-a0e8-f58c55ac1646": Fictional Parent
+E         - text: Relationship label
+E         - combobox "Relationship for 4dfd065b-5116-4367-a0e8-f58c55ac1646":
+E           - option "parent" [selected]
+E           - option "guardian"
+E           - option "spouse"
+E           - option "child"
+E           - option "sibling"
+E           - option "other"
+E         - group "Member prerequisites":
+E           - text: Member prerequisites
+E           - checkbox "Fictional Parent depends on Applicant (this workspace)"
+E           - text: Applicant (this workspace)
+E           - checkbox "Fictional Parent depends on Fictional Parent"
+E           - text: Fictional Parent (creates a cycle)
+E         - group "Required document prerequisites":
+E           - text: Required document prerequisites
+E           - checkbox "Fictional Parent requires fictional_aadhaar.png"
+E           - text: fictional_aadhaar.png
+E         - group "Evidence supporting this relationship (optional)":
+E           - text: Evidence supporting this relationship (optional)
+E           - checkbox "Fictional Parent relationship evidence fictional_aadhaar.png"
+E           - text: fictional_aadhaar.png
+E         - button "Remove member Fictional Parent": Remove member
+E     - button "Analyze household dependencies"
+E     - alert: Unexpected household analysis response.
+E     - status: Evidence ownership associated with your explicit confirmation. Review status was preserved.
+E   - button "Open Maadhyam AI": Ask Maadhyam AI</failure></testcase></testsuite></testsuites>

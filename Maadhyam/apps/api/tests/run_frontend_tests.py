@@ -89,7 +89,7 @@ def no_errors(page, base):
     page.on('pageerror', lambda exc: errors.append(str(exc)))
     for path in ('/', '/documents', '/services/passport/journey', '/planner'):
         page.goto(base + path, wait_until='domcontentloaded')
-        page.wait_for_timeout(350)
+        page.locator("h1").wait_for()
     check(not errors, 'Uncaught browser errors: ' + '; '.join(errors))
 
 def main():

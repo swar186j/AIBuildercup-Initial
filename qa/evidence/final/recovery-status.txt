@@ -1,0 +1,43 @@
+ M .DS_Store
+ D Maadhyam.zip
+ M Maadhyam/.DS_Store
+ M Maadhyam/apps/.DS_Store
+ M Maadhyam/apps/api/.DS_Store
+ M Maadhyam/apps/api/src/maadhyam_api/main.py
+ M Maadhyam/apps/api/src/maadhyam_api/routes/advanced_planning.py
+ M Maadhyam/apps/api/src/maadhyam_api/routes/intelligence.py
+ M Maadhyam/apps/api/src/maadhyam_api/routes/passport_rules.py
+ M Maadhyam/apps/api/src/maadhyam_api/routes/rule_change_impact.py
+ M Maadhyam/apps/api/tests/run_frontend_functional.py
+ M Maadhyam/apps/api/tests/run_reasoning_e2e.py
+ M Maadhyam/apps/api/tests/run_vault_e2e.py
+ M Maadhyam/apps/web/src/App.tsx
+ M Maadhyam/apps/web/src/components/AppLayout.tsx
+ M Maadhyam/apps/web/src/context/DocumentContext.tsx
+ M Maadhyam/apps/web/src/context/WorkspaceContext.tsx
+ M Maadhyam/apps/web/src/pages/DocumentVault.tsx
+ M Maadhyam/apps/web/src/pages/GuidedJourney.tsx
+ M Maadhyam/apps/web/src/pages/MyApplications.tsx
+ M Maadhyam/apps/web/src/pages/ResolutionPlanner.tsx
+ M Maadhyam/apps/web/src/pages/Services.tsx
+ M Maadhyam/apps/web/src/services/citizenIntelligence.ts
+ M Maadhyam/apps/web/src/services/passportAssessment.ts
+ M Maadhyam/apps/web/src/utils/documentComparison.ts
+?? "Maadhyam/apps 2.zip"
+?? Maadhyam/apps/api/src/maadhyam_api/routes/household.py
+?? Maadhyam/apps/api/tests/.DS_Store
+?? Maadhyam/apps/api/tests/test_completion_contracts.py
+?? Maadhyam/apps/api/tests/test_m4_m9_acceptance.py
+?? Maadhyam/apps/web/src/components/PageHero.tsx
+?? Maadhyam/apps/web/src/components/PreparationStorageControls.tsx
+?? Maadhyam/apps/web/src/components/RuleImpactAnalyzer.tsx
+?? Maadhyam/apps/web/src/components/WeightedOptimizer.tsx
+?? Maadhyam/apps/web/src/context/HouseholdContext.tsx
+?? Maadhyam/apps/web/src/context/preparationStorage.ts
+?? Maadhyam/apps/web/src/pages/CitizenWorkflows.tsx
+?? Maadhyam/apps/web/src/pages/HouseholdIntelligence.tsx
+?? Maadhyam/apps/web/src/services/responseValidation.ts
+?? qa.zip
+?? qa/
+?? reasoning-e2e-results.json
+?? zip/

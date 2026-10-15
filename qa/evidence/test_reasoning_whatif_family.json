@@ -1,0 +1,1452 @@
+{
+  "runtimeErrors": [],
+  "console": [
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    }
+  ],
+  "network": [
+    {
+      "url": "http://127.0.0.1:5173/documents",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/main.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@vite/client",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@react-refresh",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/App.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/rolldown-runtime-DC62tzP2.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/index.css?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/vite/dist/client/env.mjs",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AppLayout.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/Dashboard.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/Services.tsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/ServiceDetail.tsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/GuidedJourney.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/MyApplications.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-router-dom.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/ResolutionPlanner.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/CitizenWorkflows.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AIAssistant.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/context/DocumentContext.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/context/WorkspaceContext.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/DocumentVault.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/utils/documentComparison.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/PageHero.tsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/data/journeyData.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/passportAssessment.ts?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/responseValidation.ts?t=1792050588208",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/api.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/citizenIntelligence.ts?t=1792050588208",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ReasoningWorkspace.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/documentExtraction.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/lucide-react.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/intelligence/passport-plan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/intelligence/passport-plan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/intelligence/reasoning",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/intelligence/reasoning",
+      "request": {
+        "documents": [
+          {
+            "id": "310ec843-71f1-40e6-b95e-19456ce2c81a",
+            "documentType": "Aadhaar card",
+            "holder": "self",
+            "reviewed": true,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "Rahul Kumar Sharma",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra"
+          },
+          {
+            "id": "63143b9f-1dc5-45aa-a943-890db6f2b1b6",
+            "documentType": "PAN card",
+            "holder": "self",
+            "reviewed": true,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "Rahul K Sharma",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra"
+          },
+          {
+            "id": "742d0efe-cd15-462f-b47a-d973c5d7dbc0",
+            "documentType": "Aadhaar card",
+            "holder": "parent-guardian",
+            "reviewed": true,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "Fictional Parent",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra"
+          }
+        ],
+        "familyLinks": [],
+        "simulations": [
+          {
+            "id": "citizen-what-if",
+            "label": "What if name were corrected?",
+            "replaceFields": {
+              "63143b9f-1dc5-45aa-a943-890db6f2b1b6": {
+                "printedName": "Rahul Kumar Sharma"
+              }
+            }
+          }
+        ],
+        "assistanceType": "fresh"
+      },
+      "response": {
+        "identityEvolution": {
+          "variationDetected": true,
+          "observedNameVariants": [
+            {
+              "name": "Rahul Kumar Sharma",
+              "documentIds": [
+                "310ec843-71f1-40e6-b95e-19456ce2c81a"
+              ]
+            },
+            {
+              "name": "Rahul K Sharma",
+              "documentIds": [
+                "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+              ]
+            }
+          ],
+          "legalNameChangeVerified": false,
+          "requiresOfficialReview": true,
+          "note": "Different printed names were observed. This does not establish a legal name change or identity mismatch."
+        },
+        "addressContinuity": {
+          "differentAddressesDetected": false,
+          "observedAddresses": [
+            {
+              "address": "12 MG Road, Pune, Maharashtra",
+              "documentIds": [
+                "310ec843-71f1-40e6-b95e-19456ce2c81a",
+                "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+              ]
+            }
+          ],
+          "currentAddressVerified": false,
+          "migrationHistoryVerified": false,
+          "requiresReview": false,
+          "note": "Different document addresses do not establish which address is current or whether the applicant migrated."
+        },
+        "visitPreparation": {
+          "governmentVisitEliminated": false,
+          "digitalSubmissionVerified": false,
+          "reviewedDocumentCount": 2,
+          "actions": [
+            "Verify current requirements and appointment instructions through the official Passport Seva portal.",
+            "Confirm which documents require original verification or physical attendance.",
+            "Compare reviewed document details and resolve discrepancies before the appointment."
+          ],
+          "note": "Digital preparation may reduce avoidable follow-ups, but no government visit elimination is verified."
+        },
+        "mode": "local-deterministic",
+        "baseline": {
+          "assessment": {
+            "mode": "local-explainable",
+            "sourceUrl": "https://www.passportindia.gov.in/",
+            "documentCount": 3,
+            "reviewedSelfDocuments": 2,
+            "findings": [
+              {
+                "id": "printedName-conflict",
+                "type": "conflict",
+                "field": "printedName",
+                "severity": "review",
+                "message": "Potential name variants detected (initials or name order); confirm against originals.",
+                "evidence": [
+                  {
+                    "value": "rahul kumar sharma",
+                    "documentIds": [
+                      "310ec843-71f1-40e6-b95e-19456ce2c81a"
+                    ]
+                  },
+                  {
+                    "value": "rahul k sharma",
+                    "documentIds": [
+                      "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+                    ]
+                  }
+                ],
+                "disclaimer": "A difference does not prove that either document is invalid.",
+                "nameComparisons": [
+                  {
+                    "left": "rahul kumar sharma",
+                    "right": "rahul k sharma",
+                    "classification": "possible-initial-expansion"
+                  }
+                ],
+                "officialGuidance": [
+                  {
+                    "title": "Passport Seva: Alias Name FAQ",
+                    "url": "https://services1.passportindia.gov.in/psp/FaqAliasName",
+                    "relevance": "Distinguishes an alias from the real/official name printed on a passport; does not decide whether initials are acceptable.",
+                    "publisher": "Ministry of External Affairs, Passport Seva",
+                    "sourceType": "official-guidance",
+                    "applicabilityVerified": false,
+                    "violationDetermined": false
+                  }
+                ]
+              }
+            ],
+            "tasks": [
+              {
+                "id": "resolve-printedName",
+                "title": "Review name discrepancy",
+                "reason": "Check originals and applicable official correction guidance; do not assume which value is correct.",
+                "dependsOn": [],
+                "priority": 1,
+                "status": "pending"
+              },
+              {
+                "id": "family-proof",
+                "title": "Review family-linked documents",
+                "reason": "Confirm relationships and whether the particular family document is accepted for this scenario.",
+                "dependsOn": [],
+                "priority": 2,
+                "status": "pending"
+              },
+              {
+                "id": "official-review",
+                "title": "Verify current Passport Seva requirements",
+                "reason": "Document categories are not official proof-acceptance decisions.",
+                "dependsOn": [
+                  "resolve-printedName"
+                ],
+                "priority": 2,
+                "status": "pending"
+              },
+              {
+                "id": "prepare-visit",
+                "title": "Prepare originals and copies",
+                "reason": "Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.",
+                "dependsOn": [
+                  "official-review"
+                ],
+                "priority": 2,
+                "status": "pending"
+              }
+            ],
+            "minimumReviewSet": [
+              "resolve-printedName"
+            ],
+            "executionOrder": [
+              "resolve-printedName",
+              "family-proof",
+              "official-review",
+              "prepare-visit"
+            ],
+            "readyForOfficialSubmission": false,
+            "readinessNote": "Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.",
+            "familyHolders": [
+              "parent-guardian"
+            ],
+            "whatIf": {
+              "allConflictsResolved": {
+                "remainingReviewTasks": 3
+              }
+            },
+            "deadlocks": [],
+            "deadlineNote": "No official processing deadline has been inferred."
+          },
+          "passportPlan": {
+            "scenario": "fresh",
+            "scenarioTitle": "Fresh passport",
+            "checklist": [
+              {
+                "id": "identity-details",
+                "label": "Confirm applicant identity details",
+                "status": "evidence-to-review",
+                "candidateDocumentIds": [
+                  "310ec843-71f1-40e6-b95e-19456ce2c81a",
+                  "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+                ],
+                "officialAcceptanceVerified": false,
+                "note": "Vault categories indicate possible evidence, not acceptance by Passport Seva."
+              },
+              {
+                "id": "present-address",
+                "label": "Check present-address evidence options",
+                "status": "evidence-to-review",
+                "candidateDocumentIds": [
+                  "310ec843-71f1-40e6-b95e-19456ce2c81a",
+                  "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+                ],
+                "officialAcceptanceVerified": false,
+                "note": "Vault categories indicate possible evidence, not acceptance by Passport Seva."
+              },
+              {
+                "id": "birth-details",
+                "label": "Check date-of-birth evidence options",
+                "status": "evidence-to-review",
+                "candidateDocumentIds": [
+                  "310ec843-71f1-40e6-b95e-19456ce2c81a",
+                  "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+                ],
+                "officialAcceptanceVerified": false,
+                "note": "Vault categories indicate possible evidence, not acceptance by Passport Seva."
+              }
+            ],
+            "resolutionOptions": [
+              {
+                "findingId": "printedName-conflict",
+                "field": "printedName",
+                "strategy": "verify-before-correcting",
+                "alternatives": [
+                  {
+                    "id": "compare-originals",
+                    "label": "Compare the original records and establish the correct detail",
+                    "automaticallyApproved": false
+                  },
+                  {
+                    "id": "check-authority",
+                    "label": "Check correction procedure with the issuing authority if an error is confirmed",
+                    "automaticallyApproved": false
+                  },
+                  {
+                    "id": "ask-passport-seva",
+                    "label": "Confirm whether the discrepancy affects this application",
+                    "automaticallyApproved": false
+                  }
+                ],
+                "chosenCorrection": null,
+                "reason": "The system cannot determine which record is legally correct from conflicting metadata."
+              }
+            ],
+            "preparationBlockers": [
+              "Unresolved evidence discrepancies or extraction quality",
+              "Applicant age group not specified",
+              "Family relationship and evidence acceptance not verified"
+            ],
+            "orderedTaskIds": [
+              "resolve-printedName",
+              "family-proof",
+              "official-review",
+              "prepare-visit"
+            ],
+            "nextAction": "Review name discrepancy",
+            "officialEligibilityDetermined": false,
+            "officialAcceptanceDetermined": false,
+            "sourceUrl": "https://www.passportindia.gov.in/",
+            "disclaimer": "Preparation guidance only; verify current scenario-specific requirements and accepted proofs on Passport Seva."
+          },
+          "reviewFindings": [
+            "printedName-conflict"
+          ],
+          "blockers": [
+            "Unresolved evidence discrepancies or extraction quality",
+            "Applicant age group not specified",
+            "Family relationship and evidence acceptance not verified"
+          ]
+        },
+        "dependencyGraph": {
+          "nodes": [
+            {
+              "id": "resolve-printedName",
+              "title": "Review name discrepancy",
+              "priority": 1
+            },
+            {
+              "id": "family-proof",
+              "title": "Review family-linked documents",
+              "priority": 2
+            },
+            {
+              "id": "official-review",
+              "title": "Verify current Passport Seva requirements",
+              "priority": 2
+            },
+            {
+              "id": "prepare-visit",
+              "title": "Prepare originals and copies",
+              "priority": 2
+            }
+          ],
+          "edges": [
+            {
+              "before": "resolve-printedName",
+              "after": "official-review"
+            },
+            {
+              "before": "official-review",
+              "after": "prepare-visit"
+            }
+          ],
+          "executionOrder": [
+            "resolve-printedName",
+            "family-proof",
+            "official-review",
+            "prepare-visit"
+          ],
+          "cyclesDetected": false,
+          "diagnostics": {
+            "missingDependencyIds": [],
+            "cycles": [],
+            "cyclesDetected": false
+          },
+          "optimizationScope": "Deduplicated preparation tasks and dependency-safe ordering only; no legal or time-cost optimization."
+        },
+        "familyEvidence": {
+          "links": [],
+          "unlinkedFamilyDocumentIds": [
+            "742d0efe-cd15-462f-b47a-d973c5d7dbc0"
+          ],
+          "officialRelationshipVerified": false,
+          "note": "A claimed family relationship is not independently verified by the Vault."
+        },
+        "simulations": [
+          {
+            "id": "citizen-what-if",
+            "label": "What if name were corrected?",
+            "before": {
+              "reviewFindings": [
+                "printedName-conflict"
+              ],
+              "blockers": [
+                "Unresolved evidence discrepancies or extraction quality",
+                "Applicant age group not specified",
+                "Family relationship and evidence acceptance not verified"
+              ]
+            },
+            "after": {
+              "reviewFindings": [],
+              "blockers": [
+                "Applicant age group not specified",
+                "Family relationship and evidence acceptance not verified"
+              ]
+            },
+            "resolvedFindingIds": [
+              "printedName-conflict"
+            ],
+            "newFindingIds": [],
+            "remainingTaskIds": [
+              "family-proof",
+              "official-review",
+              "prepare-visit"
+            ],
+            "officialAcceptanceVerified": false,
+            "caution": "Simulation changes metadata only; it does not correct official records."
+          }
+        ],
+        "minimumCorrectionPath": {
+          "requiredReviewTaskIds": [
+            "resolve-printedName"
+          ],
+          "selectedTaskIds": [
+            "resolve-printedName"
+          ],
+          "selectedTaskCount": 1,
+          "totalTaskCount": 4,
+          "excludedOptionalTaskIds": [
+            "family-proof",
+            "official-review",
+            "prepare-visit"
+          ],
+          "method": "Exact dependency closure for priority-1 preparation tasks",
+          "optimizationScope": "Minimum number of prerequisite tasks for the specified critical review set; not minimum legal corrections, time, money or visits.",
+          "officialAcceptanceVerified": false
+        },
+        "deadlockAnalysis": {
+          "structuralDeadlockDetected": false,
+          "issues": [],
+          "bureaucraticDeadlockVerified": false,
+          "note": "This checks software task dependencies only. Government process deadlocks require verified authority-specific rules."
+        },
+        "proofSubstitution": {
+          "candidates": [
+            {
+              "category": "identity",
+              "candidateDocumentIds": [
+                "310ec843-71f1-40e6-b95e-19456ce2c81a",
+                "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+              ],
+              "hasMultipleCandidates": true,
+              "substitutionApproved": false,
+              "status": "scenario-specific-rule-required",
+              "ruleId": null,
+              "sourceId": null,
+              "sourceUrl": null,
+              "alternatives": [],
+              "note": "Listed proof types are candidates for official review, not interchangeable or approved proofs."
+            },
+            {
+              "category": "address",
+              "candidateDocumentIds": [
+                "310ec843-71f1-40e6-b95e-19456ce2c81a"
+              ],
+              "hasMultipleCandidates": false,
+              "substitutionApproved": false,
+              "status": "source-linked-options-for-review",
+              "ruleId": "address",
+              "sourceId": "official-documents",
+              "sourceUrl": "https://www.passportindia.gov.in/psp/ListDocuments",
+              "alternatives": [
+                {
+                  "documentType": "Aadhaar card",
+                  "matchingReviewedDocumentIds": [
+                    "310ec843-71f1-40e6-b95e-19456ce2c81a"
+                  ],
+                  "availability": "in-vault-for-review",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Voter ID",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Utility bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Rent Agreement",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Water Bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Electricity bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Telephone bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Gas connection bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Photo bank passbook",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Income Tax Assessment Order",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Spouse passport",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Parent passport",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                }
+              ],
+              "note": "Listed proof types are candidates for official review, not interchangeable or approved proofs."
+            },
+            {
+              "category": "birth",
+              "candidateDocumentIds": [
+                "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+              ],
+              "hasMultipleCandidates": false,
+              "substitutionApproved": false,
+              "status": "source-linked-options-for-review",
+              "ruleId": "dob-old",
+              "sourceId": "official-gazette",
+              "sourceUrl": "https://services2.passportindia.gov.in/AppOnlineProject/pdf/Gazette_Notification_DoB.pdf",
+              "alternatives": [
+                {
+                  "documentType": "Birth certificate",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "School leaving certificate",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Matriculation certificate",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "PAN card",
+                  "matchingReviewedDocumentIds": [
+                    "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+                  ],
+                  "availability": "in-vault-for-review",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Driving licence",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Voter ID",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Life insurance policy bond",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Government service record",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Pension order",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                }
+              ],
+              "note": "Listed proof types are candidates for official review, not interchangeable or approved proofs."
+            }
+          ],
+          "officialSubstitutionApproved": false
+        },
+        "deadlineRescue": {
+          "targetDate": null,
+          "daysRemaining": null,
+          "urgency": "not-assessed",
+          "officialDeadlineVerified": false,
+          "actions": [
+            "Confirm the actual deadline and processing requirements with the relevant authority."
+          ],
+          "note": "User-entered planning target only; expiry warnings do not establish official document rejection or processing times.",
+          "documentExpiryConflicts": [],
+          "expiryConflictDetected": false,
+          "resolutionOptions": [],
+          "officialDocumentValidityVerified": false
+        },
+        "officialEligibilityDetermined": false,
+        "disclaimer": "Scenario planning only. Verify real evidence and current Passport Seva rules independently."
+      }
+    },
+    {
+      "endpoint": "/api/intelligence/reasoning",
+      "request": {
+        "documents": [
+          {
+            "id": "310ec843-71f1-40e6-b95e-19456ce2c81a",
+            "documentType": "Aadhaar card",
+            "holder": "self",
+            "reviewed": true,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "Rahul Kumar Sharma",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra"
+          },
+          {
+            "id": "63143b9f-1dc5-45aa-a943-890db6f2b1b6",
+            "documentType": "PAN card",
+            "holder": "self",
+            "reviewed": true,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "Rahul K Sharma",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra"
+          },
+          {
+            "id": "742d0efe-cd15-462f-b47a-d973c5d7dbc0",
+            "documentType": "Aadhaar card",
+            "holder": "parent-guardian",
+            "reviewed": true,
+            "categories": [
+              "identity",
+              "address",
+              "birth"
+            ],
+            "printedName": "Fictional Parent",
+            "dateOfBirth": "1998-06-15",
+            "residentialAddress": "12 MG Road, Pune, Maharashtra"
+          }
+        ],
+        "familyLinks": [
+          {
+            "documentId": "742d0efe-cd15-462f-b47a-d973c5d7dbc0",
+            "relation": "parent",
+            "claimedByApplicant": true,
+            "relationshipEvidenceDocumentIds": []
+          }
+        ],
+        "simulations": [
+          {
+            "id": "citizen-what-if",
+            "label": "What if name were corrected?",
+            "replaceFields": {
+              "63143b9f-1dc5-45aa-a943-890db6f2b1b6": {
+                "printedName": "Rahul Kumar Sharma"
+              }
+            }
+          }
+        ],
+        "assistanceType": "fresh"
+      },
+      "response": {
+        "identityEvolution": {
+          "variationDetected": true,
+          "observedNameVariants": [
+            {
+              "name": "Rahul Kumar Sharma",
+              "documentIds": [
+                "310ec843-71f1-40e6-b95e-19456ce2c81a"
+              ]
+            },
+            {
+              "name": "Rahul K Sharma",
+              "documentIds": [
+                "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+              ]
+            }
+          ],
+          "legalNameChangeVerified": false,
+          "requiresOfficialReview": true,
+          "note": "Different printed names were observed. This does not establish a legal name change or identity mismatch."
+        },
+        "addressContinuity": {
+          "differentAddressesDetected": false,
+          "observedAddresses": [
+            {
+              "address": "12 MG Road, Pune, Maharashtra",
+              "documentIds": [
+                "310ec843-71f1-40e6-b95e-19456ce2c81a",
+                "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+              ]
+            }
+          ],
+          "currentAddressVerified": false,
+          "migrationHistoryVerified": false,
+          "requiresReview": false,
+          "note": "Different document addresses do not establish which address is current or whether the applicant migrated."
+        },
+        "visitPreparation": {
+          "governmentVisitEliminated": false,
+          "digitalSubmissionVerified": false,
+          "reviewedDocumentCount": 2,
+          "actions": [
+            "Verify current requirements and appointment instructions through the official Passport Seva portal.",
+            "Confirm which documents require original verification or physical attendance.",
+            "Compare reviewed document details and resolve discrepancies before the appointment."
+          ],
+          "note": "Digital preparation may reduce avoidable follow-ups, but no government visit elimination is verified."
+        },
+        "mode": "local-deterministic",
+        "baseline": {
+          "assessment": {
+            "mode": "local-explainable",
+            "sourceUrl": "https://www.passportindia.gov.in/",
+            "documentCount": 3,
+            "reviewedSelfDocuments": 2,
+            "findings": [
+              {
+                "id": "printedName-conflict",
+                "type": "conflict",
+                "field": "printedName",
+                "severity": "review",
+                "message": "Potential name variants detected (initials or name order); confirm against originals.",
+                "evidence": [
+                  {
+                    "value": "rahul kumar sharma",
+                    "documentIds": [
+                      "310ec843-71f1-40e6-b95e-19456ce2c81a"
+                    ]
+                  },
+                  {
+                    "value": "rahul k sharma",
+                    "documentIds": [
+                      "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+                    ]
+                  }
+                ],
+                "disclaimer": "A difference does not prove that either document is invalid.",
+                "nameComparisons": [
+                  {
+                    "left": "rahul kumar sharma",
+                    "right": "rahul k sharma",
+                    "classification": "possible-initial-expansion"
+                  }
+                ],
+                "officialGuidance": [
+                  {
+                    "title": "Passport Seva: Alias Name FAQ",
+                    "url": "https://services1.passportindia.gov.in/psp/FaqAliasName",
+                    "relevance": "Distinguishes an alias from the real/official name printed on a passport; does not decide whether initials are acceptable.",
+                    "publisher": "Ministry of External Affairs, Passport Seva",
+                    "sourceType": "official-guidance",
+                    "applicabilityVerified": false,
+                    "violationDetermined": false
+                  }
+                ]
+              }
+            ],
+            "tasks": [
+              {
+                "id": "resolve-printedName",
+                "title": "Review name discrepancy",
+                "reason": "Check originals and applicable official correction guidance; do not assume which value is correct.",
+                "dependsOn": [],
+                "priority": 1,
+                "status": "pending"
+              },
+              {
+                "id": "family-proof",
+                "title": "Review family-linked documents",
+                "reason": "Confirm relationships and whether the particular family document is accepted for this scenario.",
+                "dependsOn": [],
+                "priority": 2,
+                "status": "pending"
+              },
+              {
+                "id": "official-review",
+                "title": "Verify current Passport Seva requirements",
+                "reason": "Document categories are not official proof-acceptance decisions.",
+                "dependsOn": [
+                  "resolve-printedName"
+                ],
+                "priority": 2,
+                "status": "pending"
+              },
+              {
+                "id": "prepare-visit",
+                "title": "Prepare originals and copies",
+                "reason": "Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.",
+                "dependsOn": [
+                  "official-review"
+                ],
+                "priority": 2,
+                "status": "pending"
+              }
+            ],
+            "minimumReviewSet": [
+              "resolve-printedName"
+            ],
+            "executionOrder": [
+              "resolve-printedName",
+              "family-proof",
+              "official-review",
+              "prepare-visit"
+            ],
+            "readyForOfficialSubmission": false,
+            "readinessNote": "Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.",
+            "familyHolders": [
+              "parent-guardian"
+            ],
+            "whatIf": {
+              "allConflictsResolved": {
+                "remainingReviewTasks": 3
+              }
+            },
+            "deadlocks": [],
+            "deadlineNote": "No official processing deadline has been inferred."
+          },
+          "passportPlan": {
+            "scenario": "fresh",
+            "scenarioTitle": "Fresh passport",
+            "checklist": [
+              {
+                "id": "identity-details",
+                "label": "Confirm applicant identity details",
+                "status": "evidence-to-review",
+                "candidateDocumentIds": [
+                  "310ec843-71f1-40e6-b95e-19456ce2c81a",
+                  "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+                ],
+                "officialAcceptanceVerified": false,
+                "note": "Vault categories indicate possible evidence, not acceptance by Passport Seva."
+              },
+              {
+                "id": "present-address",
+                "label": "Check present-address evidence options",
+                "status": "evidence-to-review",
+                "candidateDocumentIds": [
+                  "310ec843-71f1-40e6-b95e-19456ce2c81a",
+                  "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+                ],
+                "officialAcceptanceVerified": false,
+                "note": "Vault categories indicate possible evidence, not acceptance by Passport Seva."
+              },
+              {
+                "id": "birth-details",
+                "label": "Check date-of-birth evidence options",
+                "status": "evidence-to-review",
+                "candidateDocumentIds": [
+                  "310ec843-71f1-40e6-b95e-19456ce2c81a",
+                  "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+                ],
+                "officialAcceptanceVerified": false,
+                "note": "Vault categories indicate possible evidence, not acceptance by Passport Seva."
+              }
+            ],
+            "resolutionOptions": [
+              {
+                "findingId": "printedName-conflict",
+                "field": "printedName",
+                "strategy": "verify-before-correcting",
+                "alternatives": [
+                  {
+                    "id": "compare-originals",
+                    "label": "Compare the original records and establish the correct detail",
+                    "automaticallyApproved": false
+                  },
+                  {
+                    "id": "check-authority",
+                    "label": "Check correction procedure with the issuing authority if an error is confirmed",
+                    "automaticallyApproved": false
+                  },
+                  {
+                    "id": "ask-passport-seva",
+                    "label": "Confirm whether the discrepancy affects this application",
+                    "automaticallyApproved": false
+                  }
+                ],
+                "chosenCorrection": null,
+                "reason": "The system cannot determine which record is legally correct from conflicting metadata."
+              }
+            ],
+            "preparationBlockers": [
+              "Unresolved evidence discrepancies or extraction quality",
+              "Applicant age group not specified",
+              "Family relationship and evidence acceptance not verified"
+            ],
+            "orderedTaskIds": [
+              "resolve-printedName",
+              "family-proof",
+              "official-review",
+              "prepare-visit"
+            ],
+            "nextAction": "Review name discrepancy",
+            "officialEligibilityDetermined": false,
+            "officialAcceptanceDetermined": false,
+            "sourceUrl": "https://www.passportindia.gov.in/",
+            "disclaimer": "Preparation guidance only; verify current scenario-specific requirements and accepted proofs on Passport Seva."
+          },
+          "reviewFindings": [
+            "printedName-conflict"
+          ],
+          "blockers": [
+            "Unresolved evidence discrepancies or extraction quality",
+            "Applicant age group not specified",
+            "Family relationship and evidence acceptance not verified"
+          ]
+        },
+        "dependencyGraph": {
+          "nodes": [
+            {
+              "id": "resolve-printedName",
+              "title": "Review name discrepancy",
+              "priority": 1
+            },
+            {
+              "id": "family-proof",
+              "title": "Review family-linked documents",
+              "priority": 2
+            },
+            {
+              "id": "official-review",
+              "title": "Verify current Passport Seva requirements",
+              "priority": 2
+            },
+            {
+              "id": "prepare-visit",
+              "title": "Prepare originals and copies",
+              "priority": 2
+            }
+          ],
+          "edges": [
+            {
+              "before": "resolve-printedName",
+              "after": "official-review"
+            },
+            {
+              "before": "official-review",
+              "after": "prepare-visit"
+            }
+          ],
+          "executionOrder": [
+            "resolve-printedName",
+            "family-proof",
+            "official-review",
+            "prepare-visit"
+          ],
+          "cyclesDetected": false,
+          "diagnostics": {
+            "missingDependencyIds": [],
+            "cycles": [],
+            "cyclesDetected": false
+          },
+          "optimizationScope": "Deduplicated preparation tasks and dependency-safe ordering only; no legal or time-cost optimization."
+        },
+        "familyEvidence": {
+          "links": [
+            {
+              "documentId": "742d0efe-cd15-462f-b47a-d973c5d7dbc0",
+              "relation": "parent",
+              "holder": "parent-guardian",
+              "claimedByApplicant": true,
+              "relationshipEvidenceIds": [],
+              "reviewedRelationshipEvidenceIds": [],
+              "requiresVerification": true,
+              "officialRelationshipVerified": false,
+              "warning": "Relationship and document acceptance require independent official verification."
+            }
+          ],
+          "unlinkedFamilyDocumentIds": [],
+          "officialRelationshipVerified": false,
+          "note": "A claimed family relationship is not independently verified by the Vault."
+        },
+        "simulations": [
+          {
+            "id": "citizen-what-if",
+            "label": "What if name were corrected?",
+            "before": {
+              "reviewFindings": [
+                "printedName-conflict"
+              ],
+              "blockers": [
+                "Unresolved evidence discrepancies or extraction quality",
+                "Applicant age group not specified",
+                "Family relationship and evidence acceptance not verified"
+              ]
+            },
+            "after": {
+              "reviewFindings": [],
+              "blockers": [
+                "Applicant age group not specified",
+                "Family relationship and evidence acceptance not verified"
+              ]
+            },
+            "resolvedFindingIds": [
+              "printedName-conflict"
+            ],
+            "newFindingIds": [],
+            "remainingTaskIds": [
+              "family-proof",
+              "official-review",
+              "prepare-visit"
+            ],
+            "officialAcceptanceVerified": false,
+            "caution": "Simulation changes metadata only; it does not correct official records."
+          }
+        ],
+        "minimumCorrectionPath": {
+          "requiredReviewTaskIds": [
+            "resolve-printedName"
+          ],
+          "selectedTaskIds": [
+            "resolve-printedName"
+          ],
+          "selectedTaskCount": 1,
+          "totalTaskCount": 4,
+          "excludedOptionalTaskIds": [
+            "family-proof",
+            "official-review",
+            "prepare-visit"
+          ],
+          "method": "Exact dependency closure for priority-1 preparation tasks",
+          "optimizationScope": "Minimum number of prerequisite tasks for the specified critical review set; not minimum legal corrections, time, money or visits.",
+          "officialAcceptanceVerified": false
+        },
+        "deadlockAnalysis": {
+          "structuralDeadlockDetected": false,
+          "issues": [],
+          "bureaucraticDeadlockVerified": false,
+          "note": "This checks software task dependencies only. Government process deadlocks require verified authority-specific rules."
+        },
+        "proofSubstitution": {
+          "candidates": [
+            {
+              "category": "identity",
+              "candidateDocumentIds": [
+                "310ec843-71f1-40e6-b95e-19456ce2c81a",
+                "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+              ],
+              "hasMultipleCandidates": true,
+              "substitutionApproved": false,
+              "status": "scenario-specific-rule-required",
+              "ruleId": null,
+              "sourceId": null,
+              "sourceUrl": null,
+              "alternatives": [],
+              "note": "Listed proof types are candidates for official review, not interchangeable or approved proofs."
+            },
+            {
+              "category": "address",
+              "candidateDocumentIds": [
+                "310ec843-71f1-40e6-b95e-19456ce2c81a"
+              ],
+              "hasMultipleCandidates": false,
+              "substitutionApproved": false,
+              "status": "source-linked-options-for-review",
+              "ruleId": "address",
+              "sourceId": "official-documents",
+              "sourceUrl": "https://www.passportindia.gov.in/psp/ListDocuments",
+              "alternatives": [
+                {
+                  "documentType": "Aadhaar card",
+                  "matchingReviewedDocumentIds": [
+                    "310ec843-71f1-40e6-b95e-19456ce2c81a"
+                  ],
+                  "availability": "in-vault-for-review",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Voter ID",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Utility bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Rent Agreement",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Water Bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Electricity bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Telephone bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Gas connection bill",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Photo bank passbook",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Income Tax Assessment Order",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Spouse passport",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Parent passport",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                }
+              ],
+              "note": "Listed proof types are candidates for official review, not interchangeable or approved proofs."
+            },
+            {
+              "category": "birth",
+              "candidateDocumentIds": [
+                "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+              ],
+              "hasMultipleCandidates": false,
+              "substitutionApproved": false,
+              "status": "source-linked-options-for-review",
+              "ruleId": "dob-old",
+              "sourceId": "official-gazette",
+              "sourceUrl": "https://services2.passportindia.gov.in/AppOnlineProject/pdf/Gazette_Notification_DoB.pdf",
+              "alternatives": [
+                {
+                  "documentType": "Birth certificate",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "School leaving certificate",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Matriculation certificate",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "PAN card",
+                  "matchingReviewedDocumentIds": [
+                    "63143b9f-1dc5-45aa-a943-890db6f2b1b6"
+                  ],
+                  "availability": "in-vault-for-review",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Driving licence",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Voter ID",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Life insurance policy bond",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Government service record",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                },
+                {
+                  "documentType": "Pension order",
+                  "matchingReviewedDocumentIds": [],
+                  "availability": "not-found-in-reviewed-vault",
+                  "officialAcceptanceVerified": false
+                }
+              ],
+              "note": "Listed proof types are candidates for official review, not interchangeable or approved proofs."
+            }
+          ],
+          "officialSubstitutionApproved": false
+        },
+        "deadlineRescue": {
+          "targetDate": null,
+          "daysRemaining": null,
+          "urgency": "not-assessed",
+          "officialDeadlineVerified": false,
+          "actions": [
+            "Confirm the actual deadline and processing requirements with the relevant authority."
+          ],
+          "note": "User-entered planning target only; expiry warnings do not establish official document rejection or processing times.",
+          "documentExpiryConflicts": [],
+          "expiryConflictDetected": false,
+          "resolutionOptions": [],
+          "officialDocumentValidityVerified": false
+        },
+        "officialEligibilityDetermined": false,
+        "disclaimer": "Scenario planning only. Verify real evidence and current Passport Seva rules independently."
+      }
+    }
+  ]
+}

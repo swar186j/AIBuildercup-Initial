@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="2.701" timestamp="2026-10-15T15:03:27.675923+05:30" hostname="Swar"><testcase classname="qa.test_final_journeys" name="test_journey_h_all_workflows_mobile" time="2.679" /></testsuite></testsuites>

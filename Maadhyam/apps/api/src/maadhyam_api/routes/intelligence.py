@@ -15,6 +15,8 @@ class Document(BaseModel):
     documentType: str = Field(default='', max_length=120)
     holder: Literal['self','parent-guardian','spouse','other'] = 'self'
     reviewed: bool = False
+    householdMemberId: str | None = Field(default=None, max_length=128)
+    associationConsent: bool = False
     categories: list[Literal['identity','address','birth','education','employment','other']] = Field(default_factory=list)
     printedName: str = Field(default='', max_length=200)
     dateOfBirth: str = Field(default='', max_length=30)
@@ -31,6 +33,15 @@ class Document(BaseModel):
         if not value.strip():
             raise ValueError('Document ID cannot be blank or whitespace')
         return value.strip()
+
+    @model_validator(mode='after')
+    def validate_household_ownership(self):
+        if self.householdMemberId:
+            if not self.associationConsent:
+                raise ValueError('Household evidence association requires confirmation')
+            if self.householdMemberId != 'applicant' and self.holder == 'self':
+                raise ValueError('Another household member cannot be applicant identity evidence')
+        return self
 
 class Request(BaseModel):
     documents: list[Document] = Field(default_factory=list, max_length=60)
@@ -52,6 +63,13 @@ class ChatRequest(Request):
     question: str = Field(min_length=1, max_length=1500)
     useGemini: bool = False
     fictionalDataConfirmed: bool = False
+
+    @field_validator('question')
+    @classmethod
+    def non_blank_question(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError('Question cannot be blank or whitespace')
+        return value.strip()
 
 SOURCE = 'https://www.passportindia.gov.in/'
 
@@ -442,5 +460,5 @@ def reasoning_endpoint(request: dict):
     try:
         validated = ReasoningRequest.model_validate(request)
     except ValidationError as exc:
-        raise HTTPException(status_code=422, detail=exc.errors(include_context=False)) from None
+        raise HTTPException(status_code=422, detail=exc.errors(include_context=False, include_input=False, include_url=False)) from None
     return reason(validated)

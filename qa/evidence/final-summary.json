@@ -1,0 +1,55 @@
+{
+  "finalTestCases": 478,
+  "counts": {
+    "passed": 478,
+    "failed": 0,
+    "skipped": 0,
+    "errors": 0
+  },
+  "suites": {
+    "Backend regression": {
+      "passed": 339,
+      "failed": 0,
+      "skipped": 0,
+      "errors": 0
+    },
+    "Browser and HTTP acceptance": {
+      "passed": 94,
+      "failed": 0,
+      "skipped": 0,
+      "errors": 0
+    },
+    "Existing functional browser": {
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "errors": 0
+    },
+    "Existing smoke browser": {
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "errors": 0
+    },
+    "Existing M9 browser": {
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "errors": 0
+    },
+    "Existing reasoning browser": {
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "errors": 0
+    },
+    "Existing Vault browser": {
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "errors": 0
+    }
+  },
+  "acceptanceGaps": 7,
+  "liveGemini": "NOT RUN"
+}

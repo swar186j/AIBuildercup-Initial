@@ -1,0 +1,89 @@
+{
+  "executionDate": "2026-10-15",
+  "timezone": "Asia/Kolkata",
+  "scope": "Fictional-data local advisory demonstration; deterministic providers only",
+  "tests": {
+    "executed": 627,
+    "passed": 627,
+    "failed": 0,
+    "skipped": 0
+  },
+  "suites": {
+    "backend": {
+      "executed": 392,
+      "passed": 392,
+      "failed": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "executed": 172,
+      "passed": 172,
+      "failed": 0,
+      "skipped": 0
+    },
+    "http": {
+      "executed": 18,
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0
+    },
+    "legacy-functional": {
+      "executed": 24,
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0
+    },
+    "legacy-m9": {
+      "executed": 5,
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0
+    },
+    "legacy-reasoning": {
+      "executed": 5,
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0
+    },
+    "legacy-smoke": {
+      "executed": 7,
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0
+    },
+    "legacy-vault": {
+      "executed": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "featureCounts": {
+    "COMPLETE": 23,
+    "PARTIAL": 0,
+    "NOT TESTED": 0
+  },
+  "build": "PASSED",
+  "defectsDiscovered": 13,
+  "defectsFixed": 13,
+  "liveGemini": "NOT TESTED",
+  "liveOCR": "NOT TESTED",
+  "governmentFreshness": "NOT TESTED",
+  "execution": {
+    "exitCodes": {
+      "backend": 0,
+      "frontend-build": 0,
+      "collection": 0,
+      "browser": 0,
+      "http": 0,
+      "legacy-functional": 0,
+      "legacy-reasoning": 0,
+      "legacy-m9": 0,
+      "legacy-vault": 0,
+      "legacy-smoke": 0
+    },
+    "serversOwnedAndStopped": true,
+    "liveProviders": false
+  },
+  "localDemoAcceptance": "COMPLETE"
+}

@@ -1,0 +1,47 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/documents",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/services",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/assess",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/assess",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/assess",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/services/passport/journey?type=fresh&preparation=LOCAL-6590c2be-cd77-4655-bcf6-edcb15c16200",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    }
+  ],
+  "apiAssertions": []
+}

@@ -1,0 +1,27 @@
+PASS FF01 Fresh journey uses real API and displays every returned checklist label
+PASS FF02 Reissue journey uses assessment API and existing-passport checklist
+PASS FF03 Correction journey sends correction scenario
+PASS FF04 Empty Vault produces follow-up guidance rendered in journey
+PASS FF05 Planner reflects real API task count and blockers
+PASS FF06 Planner must not claim official acceptance or verified completion
+PASS FF07 Unreviewed fictional upload cannot become accepted applicant evidence
+PASS FF08 API failure displays actionable planner error, not stale success
+PASS FF09 API failure displays visible journey error
+PASS FF10 Planner correction alternatives match backend response
+PASS FF11 Reviewed applicant document reaches Passport API with correct type and category
+PASS FF12 Reviewed family-held document is excluded from applicant evidence
+PASS FF13 Removing a reviewed document removes it from subsequent API payload
+PASS FF14 Unsupported executable upload is rejected and not sent to API
+PASS FF15 Empty file upload is rejected
+PASS FF16 File above 10 MB is rejected
+PASS FF17 Review toggle is reversible and reaches API as unreviewed
+PASS FF18 Vault search and review filter actually filter documents
+FAIL FF19 Assistant uses real API with Gemini disabled by default and user prompt
+  Locator expected to be enabled
+PASS FF20 Assistant shows failure when backend unavailable
+PASS FF21 Assistant Clear chat removes earlier user messages
+PASS FF22 Preview opens and closes for fictional image
+PASS GAP01 Vault exposes editable printed name and DOB
+PASS GAP02 Opt-in Vault persistence survives reload
+
+23 passed, 1 failed, 0 known gaps. Report: /Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/qa/evidence/final/legacy-functional.json

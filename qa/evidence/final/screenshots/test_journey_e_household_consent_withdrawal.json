@@ -1,0 +1,224 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/documents",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/household/assess",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/household/assess",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/passport-plan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/rules/versions",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/passport-plan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/rules/versions",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/household/assess",
+      "request": {
+        "members": [
+          {
+            "id": "applicant",
+            "label": "Applicant (this workspace)",
+            "relationship": "self",
+            "dependsOnMemberIds": [
+              "27a99546-8e21-40b6-a5fc-faba9ef6abd6"
+            ],
+            "dependsOnDocumentIds": [],
+            "relationshipEvidenceDocumentIds": []
+          },
+          {
+            "id": "27a99546-8e21-40b6-a5fc-faba9ef6abd6",
+            "label": "Fictional Parent",
+            "relationship": "parent",
+            "dependsOnMemberIds": [],
+            "dependsOnDocumentIds": [],
+            "relationshipEvidenceDocumentIds": []
+          }
+        ],
+        "documents": [
+          {
+            "id": "9b7e06ab-2986-4674-b738-491371e43ac6",
+            "memberId": "27a99546-8e21-40b6-a5fc-faba9ef6abd6",
+            "associationConfirmed": true,
+            "reviewed": true
+          }
+        ]
+      },
+      "response": {
+        "memberCount": 2,
+        "documentCount": 1,
+        "dependencyGraph": {
+          "nodes": [
+            {
+              "id": "member:applicant",
+              "label": "Applicant (this workspace)",
+              "kind": "member"
+            },
+            {
+              "id": "member:27a99546-8e21-40b6-a5fc-faba9ef6abd6",
+              "label": "Fictional Parent",
+              "kind": "member"
+            },
+            {
+              "id": "document:9b7e06ab-2986-4674-b738-491371e43ac6",
+              "label": "9b7e06ab-2986-4674-b738-491371e43ac6",
+              "kind": "document"
+            }
+          ],
+          "edges": [
+            {
+              "before": "member:27a99546-8e21-40b6-a5fc-faba9ef6abd6",
+              "after": "member:applicant",
+              "reason": "member prerequisite"
+            }
+          ],
+          "executionOrder": [
+            "document:9b7e06ab-2986-4674-b738-491371e43ac6",
+            "member:27a99546-8e21-40b6-a5fc-faba9ef6abd6",
+            "member:applicant"
+          ],
+          "cycleOrBlockedNodeIds": []
+        },
+        "missingRelationshipEvidenceMemberIds": [
+          "27a99546-8e21-40b6-a5fc-faba9ef6abd6"
+        ],
+        "reviewedEvidenceByMember": {
+          "applicant": [],
+          "27a99546-8e21-40b6-a5fc-faba9ef6abd6": [
+            "9b7e06ab-2986-4674-b738-491371e43ac6"
+          ]
+        },
+        "ownershipAssociations": [
+          {
+            "documentId": "9b7e06ab-2986-4674-b738-491371e43ac6",
+            "memberId": "27a99546-8e21-40b6-a5fc-faba9ef6abd6"
+          }
+        ],
+        "applicantLabelMissing": false,
+        "officialRelationshipVerified": false,
+        "crossAccountAuthorizationVerified": false,
+        "disclaimer": "Local preparation labels and user-confirmed associations only. Relationships and evidence acceptance require official verification. No authentication or cross-account authorization is provided."
+      }
+    },
+    {
+      "endpoint": "/api/household/assess",
+      "request": {
+        "members": [
+          {
+            "id": "applicant",
+            "label": "Applicant (this workspace)",
+            "relationship": "self",
+            "dependsOnMemberIds": [
+              "27a99546-8e21-40b6-a5fc-faba9ef6abd6"
+            ],
+            "dependsOnDocumentIds": [],
+            "relationshipEvidenceDocumentIds": []
+          },
+          {
+            "id": "27a99546-8e21-40b6-a5fc-faba9ef6abd6",
+            "label": "Fictional Parent",
+            "relationship": "parent",
+            "dependsOnMemberIds": [],
+            "dependsOnDocumentIds": [],
+            "relationshipEvidenceDocumentIds": []
+          }
+        ],
+        "documents": []
+      },
+      "response": {
+        "memberCount": 2,
+        "documentCount": 0,
+        "dependencyGraph": {
+          "nodes": [
+            {
+              "id": "member:applicant",
+              "label": "Applicant (this workspace)",
+              "kind": "member"
+            },
+            {
+              "id": "member:27a99546-8e21-40b6-a5fc-faba9ef6abd6",
+              "label": "Fictional Parent",
+              "kind": "member"
+            }
+          ],
+          "edges": [
+            {
+              "before": "member:27a99546-8e21-40b6-a5fc-faba9ef6abd6",
+              "after": "member:applicant",
+              "reason": "member prerequisite"
+            }
+          ],
+          "executionOrder": [
+            "member:27a99546-8e21-40b6-a5fc-faba9ef6abd6",
+            "member:applicant"
+          ],
+          "cycleOrBlockedNodeIds": []
+        },
+        "missingRelationshipEvidenceMemberIds": [
+          "27a99546-8e21-40b6-a5fc-faba9ef6abd6"
+        ],
+        "reviewedEvidenceByMember": {
+          "applicant": [],
+          "27a99546-8e21-40b6-a5fc-faba9ef6abd6": []
+        },
+        "ownershipAssociations": [],
+        "applicantLabelMissing": false,
+        "officialRelationshipVerified": false,
+        "crossAccountAuthorizationVerified": false,
+        "disclaimer": "Local preparation labels and user-confirmed associations only. Relationships and evidence acceptance require official verification. No authentication or cross-account authorization is provided."
+      }
+    }
+  ]
+}

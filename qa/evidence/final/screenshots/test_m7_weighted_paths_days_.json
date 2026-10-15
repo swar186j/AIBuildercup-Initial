@@ -1,0 +1,129 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/planner",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/passport-plan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/rules/versions",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/advanced-plan",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/intelligence/advanced-plan",
+      "request": {
+        "issues": [
+          {
+            "id": "issue-1",
+            "options": [
+              {
+                "id": "6341b6b8-7678-4841-b678-ea6e8b2c70ef",
+                "label": "Lower-cost evidence review",
+                "authority": "Issuing authority",
+                "costINR": 100,
+                "durationDays": 10,
+                "visits": 1,
+                "prerequisites": [],
+                "onlinePossible": false,
+                "officialEligibilityVerified": false
+              },
+              {
+                "id": "abd5fbba-685d-46e8-a51f-eff215f53d97",
+                "label": "Quicker review estimate",
+                "authority": "Issuing authority",
+                "costINR": 1000,
+                "durationDays": 2,
+                "visits": 2,
+                "prerequisites": [],
+                "onlinePossible": false,
+                "officialEligibilityVerified": false
+              }
+            ]
+          }
+        ],
+        "weights": {
+          "cost": 0,
+          "days": 100,
+          "visits": 0
+        },
+        "targetDate": null
+      },
+      "response": {
+        "status": "planned",
+        "candidatePathsEvaluated": 2,
+        "alternatives": [
+          {
+            "selectedOptions": [
+              {
+                "issueId": "issue-1",
+                "id": "6341b6b8-7678-4841-b678-ea6e8b2c70ef",
+                "label": "Lower-cost evidence review",
+                "costINR": 100,
+                "durationDays": 10,
+                "visits": 1,
+                "authority": "Issuing authority",
+                "prerequisites": [],
+                "onlinePossible": false,
+                "officialEligibilityVerified": false
+              }
+            ],
+            "totalCostINR": 100,
+            "estimatedSequentialDays": 10,
+            "estimatedVisits": 1
+          }
+        ],
+        "selectedOptions": [
+          {
+            "issueId": "issue-1",
+            "id": "abd5fbba-685d-46e8-a51f-eff215f53d97",
+            "label": "Quicker review estimate",
+            "costINR": 1000,
+            "durationDays": 2,
+            "visits": 2,
+            "authority": "Issuing authority",
+            "prerequisites": [],
+            "onlinePossible": false,
+            "officialEligibilityVerified": false
+          }
+        ],
+        "totalCostINR": 1000,
+        "estimatedSequentialDays": 2,
+        "estimatedVisits": 2,
+        "potentialOnlineSteps": [],
+        "targetDate": null,
+        "daysUntilTarget": null,
+        "targetFeasibleUnderAssumptions": null,
+        "officialAcceptanceVerified": false,
+        "officialProcessingTimesVerified": false,
+        "disclaimer": "Scenario-only optimization using user-supplied assumptions. Verify official eligibility, authority requirements, appointments, processing times and online availability."
+      }
+    }
+  ]
+}

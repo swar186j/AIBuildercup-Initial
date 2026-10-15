@@ -1,0 +1,191 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/documents",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/household/assess",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/household/assess",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/passport-plan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/passport/rules/versions",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/household/assess",
+      "request": {
+        "members": [
+          {
+            "id": "applicant",
+            "label": "Applicant (this workspace)",
+            "relationship": "self",
+            "dependsOnMemberIds": [
+              "cbd35a27-c7b5-44b8-8a9b-643b17d1cbf7"
+            ],
+            "dependsOnDocumentIds": [],
+            "relationshipEvidenceDocumentIds": []
+          },
+          {
+            "id": "cbd35a27-c7b5-44b8-8a9b-643b17d1cbf7",
+            "label": "Fictional Parent",
+            "relationship": "parent",
+            "dependsOnMemberIds": [
+              "applicant"
+            ],
+            "dependsOnDocumentIds": [],
+            "relationshipEvidenceDocumentIds": []
+          }
+        ],
+        "documents": [
+          {
+            "id": "1a906eae-d6ca-4a39-b353-d11eaedfa0c8",
+            "memberId": "cbd35a27-c7b5-44b8-8a9b-643b17d1cbf7",
+            "associationConfirmed": true,
+            "reviewed": true
+          }
+        ]
+      },
+      "response": {
+        "memberCount": 2,
+        "documentCount": 1,
+        "dependencyGraph": {
+          "nodes": [
+            {
+              "id": "member:applicant",
+              "label": "Applicant (this workspace)",
+              "kind": "member"
+            },
+            {
+              "id": "member:cbd35a27-c7b5-44b8-8a9b-643b17d1cbf7",
+              "label": "Fictional Parent",
+              "kind": "member"
+            },
+            {
+              "id": "document:1a906eae-d6ca-4a39-b353-d11eaedfa0c8",
+              "label": "1a906eae-d6ca-4a39-b353-d11eaedfa0c8",
+              "kind": "document"
+            }
+          ],
+          "edges": [
+            {
+              "before": "member:cbd35a27-c7b5-44b8-8a9b-643b17d1cbf7",
+              "after": "member:applicant",
+              "reason": "member prerequisite"
+            },
+            {
+              "before": "member:applicant",
+              "after": "member:cbd35a27-c7b5-44b8-8a9b-643b17d1cbf7",
+              "reason": "member prerequisite"
+            }
+          ],
+          "executionOrder": [
+            "document:1a906eae-d6ca-4a39-b353-d11eaedfa0c8"
+          ],
+          "cycleOrBlockedNodeIds": [
+            "member:applicant",
+            "member:cbd35a27-c7b5-44b8-8a9b-643b17d1cbf7"
+          ]
+        },
+        "missingRelationshipEvidenceMemberIds": [
+          "cbd35a27-c7b5-44b8-8a9b-643b17d1cbf7"
+        ],
+        "reviewedEvidenceByMember": {
+          "applicant": [],
+          "cbd35a27-c7b5-44b8-8a9b-643b17d1cbf7": [
+            "1a906eae-d6ca-4a39-b353-d11eaedfa0c8"
+          ]
+        },
+        "ownershipAssociations": [
+          {
+            "documentId": "1a906eae-d6ca-4a39-b353-d11eaedfa0c8",
+            "memberId": "cbd35a27-c7b5-44b8-8a9b-643b17d1cbf7"
+          }
+        ],
+        "applicantLabelMissing": false,
+        "officialRelationshipVerified": false,
+        "crossAccountAuthorizationVerified": false,
+        "disclaimer": "Local preparation labels and user-confirmed associations only. Relationships and evidence acceptance require official verification. No authentication or cross-account authorization is provided."
+      }
+    },
+    {
+      "endpoint": "/api/household/assess",
+      "request": {
+        "members": [
+          {
+            "id": "applicant",
+            "label": "Applicant (this workspace)",
+            "relationship": "self",
+            "dependsOnMemberIds": [],
+            "dependsOnDocumentIds": [],
+            "relationshipEvidenceDocumentIds": []
+          }
+        ],
+        "documents": []
+      },
+      "response": {
+        "memberCount": 1,
+        "documentCount": 0,
+        "dependencyGraph": {
+          "nodes": [
+            {
+              "id": "member:applicant",
+              "label": "Applicant (this workspace)",
+              "kind": "member"
+            }
+          ],
+          "edges": [],
+          "executionOrder": [
+            "member:applicant"
+          ],
+          "cycleOrBlockedNodeIds": []
+        },
+        "missingRelationshipEvidenceMemberIds": [],
+        "reviewedEvidenceByMember": {
+          "applicant": []
+        },
+        "ownershipAssociations": [],
+        "applicantLabelMissing": false,
+        "officialRelationshipVerified": false,
+        "crossAccountAuthorizationVerified": false,
+        "disclaimer": "Local preparation labels and user-confirmed associations only. Relationships and evidence acceptance require official verification. No authentication or cross-account authorization is provided."
+      }
+    }
+  ]
+}

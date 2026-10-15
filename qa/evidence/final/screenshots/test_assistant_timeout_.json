@@ -1,0 +1,24 @@
+{
+  "runtimeErrors": [],
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_TIMED_OUT"
+    }
+  ],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/documents",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    }
+  ],
+  "apiAssertions": []
+}

@@ -1,0 +1,203 @@
+PASS FE01 Dashboard renders
+PASS FE02 Document Vault route and upload control
+PASS FE03 Fictional document upload stays local and needs review
+PASS FE04 Passport Guided Journey renders
+PASS FE05 Planner displays API-generated steps
+PASS FE06 Assistant opens and accepts local prompt
+PASS FE07 No uncaught browser page errors across core routes
+Error occurred in event listener
+Traceback (most recent call last):
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 442, in handle
+    return await self._handle_internal(route)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 478, in _handle_internal
+    await handler_finished_future
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 469, in _handler
+    self.handler(route, route.request)  # type: ignore
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_impl_to_api_mapping.py", line 139, in wrapper_func
+    return handler(
+        *list(map(lambda a: self.from_maybe_impl(a), args))[:arg_count]
+    )
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/qa/run_legacy.py", line 17, in <lambda>
+    ctx.route('**/api/**',lambda route:route.fulfill(response=route.fetch(url=api+'/api'+route.request.url.split('/api',1)[1])))
+                                                              ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_generated.py", line 864, in fetch
+    self._sync(
+    ~~~~~~~~~~^
+        self._impl_obj.fetch(
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        )
+        ^
+    )
+    ^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_sync_base.py", line 115, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_network.py", line 496, in fetch
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+    )
+    ^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py", line 632, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Route.fetch: Target page, context or browser has been closed
+Browser logs:
+
+<launching> /Users/swar/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/b1/l0rn0l_n6554p9sq1fhqtgy40000gn/T/playwright_chromiumdev_profile-erpRSv --remote-debugging-pipe --no-startup-window
+<launched> pid=99998
+[pid=99998][err] [1015/150009.196003:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.206293:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.272118:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.304943:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.365026:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.397162:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.476372:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.508293:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.577889:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.609284:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.697967:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.730315:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.890006:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.925795:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.990809:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150010.031676:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150010.078503:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998] <gracefully close start>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_browser_context.py", line 267, in _on_route
+    handled = await route_handler.handle(route)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 451, in handle
+    raise rewrite_error(
+    ...<2 lines>...
+    )
+playwright._impl._errors.TargetClosedError: "Route.fetch: Target page, context or browser has been closed
+Browser logs:
+
+<launching> /Users/swar/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/b1/l0rn0l_n6554p9sq1fhqtgy40000gn/T/playwright_chromiumdev_profile-erpRSv --remote-debugging-pipe --no-startup-window
+<launched> pid=99998
+[pid=99998][err] [1015/150009.196003:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.206293:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.272118:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.304943:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.365026:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.397162:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.476372:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.508293:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.577889:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.609284:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.697967:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.730315:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.890006:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.925795:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.990809:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150010.031676:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150010.078503:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998] <gracefully close start>" while running route callback.
+Consider awaiting `page.unroute_all(behavior='ignoreErrors')`
+before the end of the test to ignore remaining routes in flight.
+Error occurred in event listener
+Traceback (most recent call last):
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 442, in handle
+    return await self._handle_internal(route)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 478, in _handle_internal
+    await handler_finished_future
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 469, in _handler
+    self.handler(route, route.request)  # type: ignore
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_impl_to_api_mapping.py", line 139, in wrapper_func
+    return handler(
+        *list(map(lambda a: self.from_maybe_impl(a), args))[:arg_count]
+    )
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/qa/run_legacy.py", line 17, in <lambda>
+    ctx.route('**/api/**',lambda route:route.fulfill(response=route.fetch(url=api+'/api'+route.request.url.split('/api',1)[1])))
+                                                              ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_generated.py", line 864, in fetch
+    self._sync(
+    ~~~~~~~~~~^
+        self._impl_obj.fetch(
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        )
+        ^
+    )
+    ^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_sync_base.py", line 115, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_network.py", line 496, in fetch
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+    )
+    ^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py", line 632, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Route.fetch: Target page, context or browser has been closed
+Browser logs:
+
+<launching> /Users/swar/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/b1/l0rn0l_n6554p9sq1fhqtgy40000gn/T/playwright_chromiumdev_profile-erpRSv --remote-debugging-pipe --no-startup-window
+<launched> pid=99998
+[pid=99998][err] [1015/150009.196003:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.206293:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.272118:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.304943:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.365026:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.397162:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.476372:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.508293:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.577889:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.609284:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.697967:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.730315:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.890006:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.925795:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.990809:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150010.031676:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150010.078503:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998] <gracefully close start>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_browser_context.py", line 267, in _on_route
+    handled = await route_handler.handle(route)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 451, in handle
+    raise rewrite_error(
+    ...<2 lines>...
+    )
+playwright._impl._errors.TargetClosedError: "Route.fetch: Target page, context or browser has been closed
+Browser logs:
+
+<launching> /Users/swar/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/b1/l0rn0l_n6554p9sq1fhqtgy40000gn/T/playwright_chromiumdev_profile-erpRSv --remote-debugging-pipe --no-startup-window
+<launched> pid=99998
+[pid=99998][err] [1015/150009.196003:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.206293:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.272118:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.304943:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.365026:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.397162:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.476372:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.508293:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.577889:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.609284:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.697967:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.730315:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.890006:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.925795:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150009.990809:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150010.031676:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998][err] [1015/150010.078503:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[pid=99998] <gracefully close start>" while running route callback.
+Consider awaiting `page.unroute_all(behavior='ignoreErrors')`
+before the end of the test to ignore remaining routes in flight.
+
+7 passed, 0 failed. Report: /Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/qa/evidence/final/legacy-smoke.json

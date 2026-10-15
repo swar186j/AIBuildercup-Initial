@@ -1,0 +1,210 @@
+{
+  "runtimeErrors": [],
+  "console": [
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    }
+  ],
+  "network": [
+    {
+      "url": "http://127.0.0.1:5173/workflows",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/main.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@vite/client",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@react-refresh",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/rolldown-runtime-DC62tzP2.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/vite/dist/client/env.mjs",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/App.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/index.css?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AppLayout.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/Services.tsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/Dashboard.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/ServiceDetail.tsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/GuidedJourney.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/MyApplications.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/ResolutionPlanner.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/DocumentVault.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AIAssistant.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/CitizenWorkflows.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-router-dom.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/api.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/context/DocumentContext.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/utils/documentComparison.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/context/WorkspaceContext.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/PageHero.tsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/data/journeyData.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/passportAssessment.ts?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/responseValidation.ts?t=1792050588208",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/citizenIntelligence.ts?t=1792050588208",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/documentExtraction.ts",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ReasoningWorkspace.tsx?t=1792050588211",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/lucide-react.js?v=10e1d3ec",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/citizen-workflows/multi-department-rules",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/citizen-workflows/multi-department-rules",
+      "request": {
+        "departments": [
+          "Local registrar"
+        ],
+        "service": "Marriage registration",
+        "rulePacks": [
+          {
+            "id": "marriage",
+            "department": "Local registrar",
+            "service": "Marriage registration",
+            "version": "illustrative-v1"
+          },
+          {
+            "id": "birth",
+            "department": "Local registrar",
+            "service": "Birth registration",
+            "version": "illustrative-v1"
+          },
+          {
+            "id": "address",
+            "department": "Identity services",
+            "service": "Address update",
+            "version": "illustrative-v1"
+          }
+        ]
+      },
+      "response": {
+        "matchingRulePacks": [
+          {
+            "id": "marriage",
+            "department": "Local registrar",
+            "service": "Marriage registration",
+            "version": "illustrative-v1",
+            "sourceUrl": "",
+            "requiredDocumentTypes": []
+          }
+        ],
+        "count": 1,
+        "sourceProvenanceRequired": true,
+        "officialRuleValidityVerified": false,
+        "disclaimer": "Advisory scenario only. Confirm requirements, timelines, availability and acceptance with the responsible authority."
+      }
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/household",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/household/assess",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/household/assess",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/intelligence/reasoning",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/household/assess",
+      "request": {
+        "members": [
+          {
+            "id": "applicant",
+            "label": "Applicant (this workspace)",
+            "relationship": "self",
+            "dependsOnMemberIds": [],
+            "dependsOnDocumentIds": [],
+            "relationshipEvidenceDocumentIds": []
+          },
+          {
+            "id": "57320bf9-7348-4de1-bcc0-f587ac4954cc",
+            "label": "Edited Fictional Member",
+            "relationship": "parent",
+            "dependsOnMemberIds": [],
+            "dependsOnDocumentIds": [],
+            "relationshipEvidenceDocumentIds": []
+          }
+        ],
+        "documents": []
+      },
+      "response": {
+        "memberCount": 2,
+        "documentCount": 0,
+        "dependencyGraph": {
+          "nodes": [
+            {
+              "id": "member:applicant",
+              "label": "Applicant (this workspace)",
+              "kind": "member"
+            },
+            {
+              "id": "member:57320bf9-7348-4de1-bcc0-f587ac4954cc",
+              "label": "Edited Fictional Member",
+              "kind": "member"
+            }
+          ],
+          "edges": [],
+          "executionOrder": [
+            "member:57320bf9-7348-4de1-bcc0-f587ac4954cc",
+            "member:applicant"
+          ],
+          "cycleOrBlockedNodeIds": []
+        },
+        "missingRelationshipEvidenceMemberIds": [
+          "57320bf9-7348-4de1-bcc0-f587ac4954cc"
+        ],
+        "reviewedEvidenceByMember": {
+          "applicant": [],
+          "57320bf9-7348-4de1-bcc0-f587ac4954cc": []
+        },
+        "ownershipAssociations": [],
+        "applicantLabelMissing": false,
+        "officialRelationshipVerified": false,
+        "crossAccountAuthorizationVerified": false,
+        "disclaimer": "Local preparation labels and user-confirmed associations only. Relationships and evidence acceptance require official verification. No authentication or cross-account authorization is provided."
+      }
+    }
+  ]
+}

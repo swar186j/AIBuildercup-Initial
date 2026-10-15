@@ -1,0 +1,12 @@
+........................................................................ [ 42%]
+........................................................................ [ 85%]
+...................F.....                                                [100%]
+=================================== FAILURES ===================================
+________________ test_m8_owned_payloads_passport_planner_family ________________
+qa/test_final_journeys.py:374: in test_m8_owned_payloads_passport_planner_family
+    assert all(parent['id'] not in c['matching_document_ids'] for c in data['checks'] if c['id'] in ['identity','address','dob-old'])
+E   assert False
+E    +  where False = all(<generator object test_m8_owned_payloads_passport_planner_family.<locals>.<genexpr> at 0x10bd12260>)
+=========================== short test summary info ============================
+FAILED qa/test_final_journeys.py::test_m8_owned_payloads_passport_planner_family
+1 failed, 168 passed in 77.59s (0:01:17)

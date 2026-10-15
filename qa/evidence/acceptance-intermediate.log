@@ -1,0 +1,391 @@
+.....................F..................FFE............................. [ 75%]
+.......................                                                  [100%]
+==================================== ERRORS ====================================
+_ ERROR at teardown of test_citizen_workflow[False-human-support-Human assistance] _
+qa/test_browser.py:40: in page
+    p.evaluate('window.scrollTo(0, 0)')
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_generated.py:9413: in evaluate
+    self._sync(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_page.py:474: in evaluate
+    return await self._main_frame.evaluate(expression, arg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_frame.py:346: in evaluate
+    await self._channel.send(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:76: in send
+    return await self._connection.wrap_api_call(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:632: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.Error: Page.evaluate: Route.fetch: connect ECONNREFUSED 127.0.0.1:8001
+E   Call log:
+E     - → POST http://127.0.0.1:8001/api/citizen-workflows/human-support
+E       - user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36
+E       - accept: */*
+E       - accept-encoding: gzip,deflate,br
+E       - content-type: application/json
+E       - origin: http://127.0.0.1:5173
+E       - referer: http://127.0.0.1:5173/workflows
+E       - sec-ch-ua: "HeadlessChrome";v="153", "Not_A Brand";v="8", "Chromium";v="153"
+E       - sec-ch-ua-mobile: ?0
+E       - sec-ch-ua-platform: "macOS"
+E       - content-length: 131
+----------------------------- Captured stderr call -----------------------------
+Error occurred in event listener
+Traceback (most recent call last):
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_browser_context.py", line 267, in _on_route
+    handled = await route_handler.handle(route)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 455, in handle
+    raise e
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 442, in handle
+    return await self._handle_internal(route)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 478, in _handle_internal
+    await handler_finished_future
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 469, in _handler
+    self.handler(route, route.request)  # type: ignore
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_impl_to_api_mapping.py", line 139, in wrapper_func
+    return handler(
+        *list(map(lambda a: self.from_maybe_impl(a), args))[:arg_count]
+    )
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/qa/test_browser.py", line 31, in <lambda>
+    ctx.route('**/api/**', lambda r: r.fulfill(response=r.fetch(url=API + '/api' + r.request.url.split('/api',1)[1])))
+                                                        ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_generated.py", line 864, in fetch
+    self._sync(
+    ~~~~~~~~~~^
+        self._impl_obj.fetch(
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        )
+        ^
+    )
+    ^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_sync_base.py", line 115, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_network.py", line 496, in fetch
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+    )
+    ^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py", line 632, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Route.fetch: connect ECONNREFUSED 127.0.0.1:8001
+Call log:
+  - → POST http://127.0.0.1:8001/api/citizen-workflows/human-support
+    - user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36
+    - accept: */*
+    - accept-encoding: gzip,deflate,br
+    - content-type: application/json
+    - origin: http://127.0.0.1:5173
+    - referer: http://127.0.0.1:5173/workflows
+    - sec-ch-ua: "HeadlessChrome";v="153", "Not_A Brand";v="8", "Chromium";v="153"
+    - sec-ch-ua-mobile: ?0
+    - sec-ch-ua-platform: "macOS"
+    - content-length: 131
+
+=================================== FAILURES ===================================
+____________________________ test_vault_optin_clear ____________________________
+qa/test_browser.py:117: in test_vault_optin_clear
+    expect(page.get_by_text('No documents yet',exact=True)).to_be_visible()
+E   AssertionError: Locator expected to be visible
+E   Actual value: None
+E   Error: element(s) not found 
+E   Call log:
+E     - Expect "to_be_visible" get_by_text("No documents yet", exact=True) with timeout 5000ms
+E     - waiting for get_by_text("No documents yet", exact=True)
+E   
+E   Aria snapshot:
+E   - complementary:
+E     - link "Maadhyam home":
+E       - /url: /
+E       - text: Maadhyam माध्यम
+E     - paragraph: Workspace
+E     - navigation "Main navigation":
+E       - link "Dashboard":
+E         - /url: /
+E       - link "Find Services":
+E         - /url: /services
+E       - link "My Documents":
+E         - /url: /documents
+E       - link "My Applications":
+E         - /url: /applications
+E       - link "Resolution Planner":
+E         - /url: /planner
+E       - link "Citizen Workflows":
+E         - /url: /workflows
+E     - paragraph: Guidance you can verify
+E     - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E   - banner:
+E     - button "Collapse sidebar" [expanded]
+E     - paragraph: Citizen Workspace
+E     - paragraph: Understand. Prepare. Resolve.
+E     - button "Switch to dark mode"
+E     - text: Preview
+E   - main:
+E     - paragraph: Document workspace
+E     - heading "Document Vault" [level=1]
+E     - paragraph: Organize and preview documents for government-service preparation. Files stay in this browser session unless you explicitly enable browser-local saving.
+E     - region "Local Vault storage controls":
+E       - paragraph: Browser-local Vault storage
+E       - paragraph: Off by default. When enabled, files and manually reviewed identity fields remain in this browser after refresh. Not encrypted; use fictional documents for demos. Nothing is uploaded by this storage feature.
+E       - button "Disable local saving"
+E       - button "Clear all Vault data"
+E     - text: Total documents
+E     - paragraph: "1"
+E     - text: Needs review
+E     - paragraph: "1"
+E     - text: Self-reviewed
+E     - paragraph: "0"
+E     - heading "Add documents for preview" [level=2]
+E     - paragraph: Drag files here or select PDFs, JPGs and PNGs (up to 10 MB each). This is a local prototype, not secure cloud storage.
+E     - button "Choose documents to add"
+E     - button "Choose files"
+E     - text: Files are not sent to the Maadhyam backend. Refreshing the page clears this list.
+E     - heading "Your documents" [level=2]
+E     - paragraph: Temporary files added during this session.
+E     - searchbox "Search documents"
+E     - group "Document status filter":
+E       - button "All documents" [pressed]
+E       - button "Needs review"
+E       - button "Self-reviewed"
+E     - text: Category
+E     - combobox "Category":
+E       - option "All categories" [selected]
+E       - option "Identity proof"
+E       - option "Address proof"
+E       - option "Date of birth"
+E       - option "Education"
+E       - option "Employment"
+E       - option "Other / Unclassified"
+E     - article:
+E       - heading "fictional_aadhaar.png" [level=3]
+E       - paragraph: Image · 0.1 KB · 10/15/2026, 1:17:23 PM
+E       - text: Needs review Identity proof Address proof Date of birth Aadhaar card · Self· Structured details added
+E       - button "Preview"
+E       - button "AI extraction"
+E       - button "Edit details"
+E       - button "Mark self-reviewed"
+E       - button "Remove fictional_aadhaar.png": Remove
+E     - region "Document discrepancy analysis":
+E       - heading "Document discrepancy analysis" [level=2]
+E       - paragraph: Compare name, date of birth and address across all uploaded documents belonging to the same holder category. Each pair shows matches, differences and missing details. Unreviewed metadata is provisional; this does not verify file contents.
+E       - button "Analyze documents" [disabled]
+E       - paragraph: Add at least two documents to enable comparison.
+E     - paragraph: Maadhyam is an independent assistance platform. “Self-reviewed” only means you marked a file as reviewed; it does not indicate authenticity, eligibility, document acceptance or government verification. For now, use dummy documents rather than sensitive personal records.
+E   - button "Open Maadhyam AI": Ask Maadhyam AI
+_________________________ test_reasoning_whatif_family _________________________
+qa/test_browser.py:222: in test_reasoning_whatif_family
+    expect(page.get_by_label('Minimum prerequisite review path')).to_be_visible()
+E   AssertionError: Locator expected to be visible
+E   Actual value: None
+E   Error: element(s) not found 
+E   Call log:
+E     - Expect "to_be_visible" get_by_label("Minimum prerequisite review path") with timeout 5000ms
+E     - waiting for get_by_label("Minimum prerequisite review path")
+E   
+E   Aria snapshot:
+E   - complementary:
+E     - link "Maadhyam home":
+E       - /url: /
+E       - text: Maadhyam माध्यम
+E     - paragraph: Workspace
+E     - navigation "Main navigation":
+E       - link "Dashboard":
+E         - /url: /
+E       - link "Find Services":
+E         - /url: /services
+E       - link "My Documents":
+E         - /url: /documents
+E       - link "My Applications":
+E         - /url: /applications
+E       - link "Resolution Planner":
+E         - /url: /planner
+E       - link "Citizen Workflows":
+E         - /url: /workflows
+E     - paragraph: Guidance you can verify
+E     - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E   - banner:
+E     - button "Collapse sidebar" [expanded]
+E     - paragraph: Citizen Workspace
+E     - paragraph: Understand. Prepare. Resolve.
+E     - button "Switch to dark mode"
+E     - text: Preview
+E   - main:
+E     - paragraph: Preparation workspace
+E     - heading "Resolution Planner" [level=1]
+E     - paragraph: Review potential document differences, understand dependencies and plan your next preparation steps. This is not an official eligibility decision.
+E     - link "Review Vault documents":
+E       - /url: /documents
+E     - link "Passport services":
+E       - /url: /services/passport
+E     - heading "Your document situation" [level=2]
+E     - paragraph: 3 uploaded · 2 reviewed self-held · 1 potential discrepancies
+E     - paragraph: Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.
+E     - paragraph: "Other document holders: parent-guardian. Their documents are not treated as the applicant's identity."
+E     - heading "Items to investigate" [level=2]
+E     - article:
+E       - strong: printedName
+E       - paragraph: Potential name variants detected (initials or name order); confirm against originals.
+E     - region "Passport correction alternatives":
+E       - heading "Passport correction alternatives" [level=2]
+E       - article:
+E         - heading "printedName — verify before correcting" [level=3]
+E         - paragraph: The system cannot determine which record is legally correct from conflicting metadata.
+E         - list:
+E           - listitem: Compare the original records and establish the correct detail
+E           - listitem: Check correction procedure with the issuing authority if an error is confirmed
+E           - listitem: Confirm whether the discrepancy affects this application
+E       - heading "Preparation blockers" [level=3]
+E       - list:
+E         - listitem: Unresolved evidence discrepancies or extraction quality
+E         - listitem: Applicant age group not specified
+E         - listitem: Family relationship and evidence acceptance not verified
+E       - paragraph:
+E         - strong: "Suggested next action:"
+E         - text: Review name discrepancy
+E       - paragraph: Preparation guidance only; verify current scenario-specific requirements and accepted proofs on Passport Seva.
+E     - heading "Your next steps" [level=2]
+E     - article:
+E       - text: "1"
+E       - heading "Review name discrepancy" [level=3]
+E       - paragraph: Check originals and applicable official correction guidance; do not assume which value is correct.
+E       - paragraph: Suggested preparation step · Completion is not automatically verified.
+E     - article:
+E       - text: "2"
+E       - heading "Review family-linked documents" [level=3]
+E       - paragraph: Confirm relationships and whether the particular family document is accepted for this scenario.
+E       - paragraph: Suggested preparation step · Completion is not automatically verified.
+E     - article:
+E       - text: "3"
+E       - heading "Verify current Passport Seva requirements" [level=3]
+E       - paragraph: Document categories are not official proof-acceptance decisions.
+E       - paragraph: "Prerequisites: resolve-printedName"
+E       - paragraph: Requires prerequisite review · Completion is not automatically verified.
+E     - article:
+E       - text: "4"
+E       - heading "Prepare originals and copies" [level=3]
+E       - paragraph: Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.
+E       - paragraph: "Prerequisites: official-review"
+E       - paragraph: Requires prerequisite review · Completion is not automatically verified.
+E     - region "Your deadline and action plan":
+E       - heading "Your deadline and action plan" [level=2]
+E       - text: When do you want your documents ready? (Your target, not a government deadline)
+E       - textbox "When do you want your documents ready? (Your target, not a government deadline)"
+E       - list:
+E         - listitem: Review the 0 unreviewed uploaded document(s) in Vault.
+E         - listitem: Fill missing name, DOB and address metadata where it appears on each document.
+E         - listitem: Compare the records; investigate differences using original documents and issuing authorities.
+E         - listitem: Confirm accepted proofs and appointment requirements on the official Passport Seva website.
+E         - listitem: Re-run this planner after reviewing evidence; unresolved blockers remain visible below.
+E     - region "Advanced preparation intelligence":
+E       - heading "Advanced preparation intelligence" [level=2]
+E       - paragraph: Deterministic planning from Vault metadata; no official document acceptance or government processing time is inferred.
+E       - alert: Advanced reasoning could not be loaded. Check the backend and retry.
+E     - region "Citizen document decision assistant":
+E       - paragraph: Explore your options
+E       - heading "Find a way forward with your documents" [level=2]
+E       - paragraph: Choose a situation below. Maadhyam uses your Vault details to explain what to check next—without changing any document.
+E       - group "Choose a document situation":
+E         - button "I need to correct a detail See what could change if a name, DOB or address is corrected." [pressed]
+E         - button "I have a family member's document Understand what relationship evidence may need checking."
+E       - text: "1"
+E       - heading "Try a correction before taking action" [level=3]
+E       - paragraph: This is a safe preview. Your original Vault document stays unchanged.
+E       - text: Which document would you like to check?
+E       - combobox "What-if document":
+E         - option "Select your document" [selected]
+E         - option "fictional_aadhaar.png"
+E         - option "fictional_pan.png"
+E       - text: What detail needs correction?
+E       - combobox "What-if field":
+E         - option "Name" [selected]
+E         - option "Date of birth"
+E         - option "Residential address"
+E       - text: What should the corrected value be?
+E       - textbox "Hypothetical value":
+E         - /placeholder: Enter a hypothetical corrected value
+E       - button "See the impact →" [disabled]
+E       - button "Start over"
+E       - alert: Could not analyze your documents. Please check the backend and try again.
+E     - link "Check official Passport Seva guidance ↗":
+E       - /url: https://www.passportindia.gov.in/
+E   - button "Open Maadhyam AI": Ask Maadhyam AI
+_________ test_citizen_workflow[False-human-support-Human assistance] __________
+qa/test_browser.py:258: in test_citizen_workflow
+    payload,data=response_for(page,'/api/citizen-workflows/'+key,lambda:page.get_by_role('button',name='Get my guidance').click())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+qa/test_browser.py:68: in response_for
+    with page.expect_response(lambda r: endpoint in r.url and r.request.method=='POST' and want(r.request.post_data_json)) as info:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_sync_base.py:85: in __exit__
+    self._event.value
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_sync_base.py:59: in value
+    raise exception
+E   playwright._impl._errors.TimeoutError: Timeout 6000ms exceeded while waiting for event "response"
+----------------------------- Captured stderr call -----------------------------
+Error occurred in event listener
+Traceback (most recent call last):
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_browser_context.py", line 267, in _on_route
+    handled = await route_handler.handle(route)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 455, in handle
+    raise e
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 442, in handle
+    return await self._handle_internal(route)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 478, in _handle_internal
+    await handler_finished_future
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_helper.py", line 469, in _handler
+    self.handler(route, route.request)  # type: ignore
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_impl_to_api_mapping.py", line 139, in wrapper_func
+    return handler(
+        *list(map(lambda a: self.from_maybe_impl(a), args))[:arg_count]
+    )
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/qa/test_browser.py", line 31, in <lambda>
+    ctx.route('**/api/**', lambda r: r.fulfill(response=r.fetch(url=API + '/api' + r.request.url.split('/api',1)[1])))
+                                                        ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_generated.py", line 864, in fetch
+    self._sync(
+    ~~~~~~~~~~^
+        self._impl_obj.fetch(
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        )
+        ^
+    )
+    ^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_sync_base.py", line 115, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_network.py", line 496, in fetch
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+    )
+    ^
+  File "/Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py", line 632, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Route.fetch: connect ECONNREFUSED 127.0.0.1:8001
+Call log:
+  - → POST http://127.0.0.1:8001/api/citizen-workflows/human-support
+    - user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36
+    - accept: */*
+    - accept-encoding: gzip,deflate,br
+    - content-type: application/json
+    - origin: http://127.0.0.1:5173
+    - referer: http://127.0.0.1:5173/workflows
+    - sec-ch-ua: "HeadlessChrome";v="153", "Not_A Brand";v="8", "Chromium";v="153"
+    - sec-ch-ua-mobile: ?0
+    - sec-ch-ua-platform: "macOS"
+    - content-length: 131
+
+=========================== short test summary info ============================
+FAILED qa/test_browser.py::test_vault_optin_clear - AssertionError: Locator e...
+FAILED qa/test_browser.py::test_reasoning_whatif_family - AssertionError: Loc...
+FAILED qa/test_browser.py::test_citizen_workflow[False-human-support-Human assistance]
+ERROR qa/test_browser.py::test_citizen_workflow[False-human-support-Human assistance]
+3 failed, 91 passed, 1 error in 65.45s (0:01:05)

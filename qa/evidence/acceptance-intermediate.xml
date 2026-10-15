@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="3" skipped="0" tests="95" time="65.393" timestamp="2026-10-15T13:17:05.941299+05:30" hostname="Swar"><testcase classname="qa.test_browser" name="test_navigation[1440-/-]" time="1.171" /><testcase classname="qa.test_browser" name="test_navigation[1440-/services-Find a government service]" time="0.903" /><testcase classname="qa.test_browser" name="test_navigation[1440-/documents-Document Vault]" time="1.009" /><testcase classname="qa.test_browser" name="test_navigation[1440-/applications-My Preparations]" time="0.923" /><testcase classname="qa.test_browser" name="test_navigation[1440-/planner-Resolution Planner]" time="0.962" /><testcase classname="qa.test_browser" name="test_navigation[1440-/workflows-Citizen workflow assistant]" time="0.930" /><testcase classname="qa.test_browser" name="test_navigation[1440-/services/passport-]" time="0.928" /><testcase classname="qa.test_browser" name="test_navigation[1440-/services/passport/journey?type=fresh-]" time="0.958" /><testcase classname="qa.test_browser" name="test_navigation[390-/-]" time="0.949" /><testcase classname="qa.test_browser" name="test_navigation[390-/services-Find a government service]" time="0.915" /><testcase classname="qa.test_browser" name="test_navigation[390-/documents-Document Vault]" time="0.949" /><testcase classname="qa.test_browser" name="test_navigation[390-/applications-My Preparations]" time="0.915" /><testcase classname="qa.test_browser" name="test_navigation[390-/planner-Resolution Planner]" time="0.935" /><testcase classname="qa.test_browser" name="test_navigation[390-/workflows-Citizen workflow assistant]" time="0.882" /><testcase classname="qa.test_browser" name="test_navigation[390-/services/passport-]" time="0.902" /><testcase classname="qa.test_browser" name="test_navigation[390-/services/passport/journey?type=fresh-]" time="0.913" /><testcase classname="qa.test_browser" name="test_hero[/services-Service Navigator-Find a government service]" time="0.231" /><testcase classname="qa.test_browser" name="test_hero[/documents-Document workspace-Document Vault]" time="0.269" /><testcase classname="qa.test_browser" name="test_hero[/applications-Your preparation workspace-My Preparations]" time="0.267" /><testcase classname="qa.test_browser" name="test_hero[/workflows-Maadhyam \xb7 Guided preparation-Citizen workflow assistant]" time="0.252" /><testcase classname="qa.test_browser" name="test_vault_review_session" time="0.856" /><testcase classname="qa.test_browser" name="test_vault_optin_clear" time="5.864"><failure message="AssertionError: Locator expected to be visible&#10;Actual value: None&#10;Error: element(s) not found &#10;Call log:&#10;  - Expect &quot;to_be_visible&quot; get_by_text(&quot;No documents yet&quot;, exact=True) with timeout 5000ms&#10;  - waiting for get_by_text(&quot;No documents yet&quot;, exact=True)&#10;&#10;Aria snapshot:&#10;- complementary:&#10;  - link &quot;Maadhyam home&quot;:&#10;    - /url: /&#10;    - text: Maadhyam माध्यम&#10;  - paragraph: Workspace&#10;  - navigation &quot;Main navigation&quot;:&#10;    - link &quot;Dashboard&quot;:&#10;      - /url: /&#10;    - link &quot;Find Services&quot;:&#10;      - /url: /services&#10;    - link &quot;My Documents&quot;:&#10;      - /url: /documents&#10;    - link &quot;My Applications&quot;:&#10;      - /url: /applications&#10;    - link &quot;Resolution Planner&quot;:&#10;      - /url: /planner&#10;    - link &quot;Citizen Workflows&quot;:&#10;      - /url: /workflows&#10;  - paragraph: Guidance you can verify&#10;  - paragraph: Maadhyam is an independent assistance platform, not an official government website.&#10;- banner:&#10;  - button &quot;Collapse sidebar&quot; [expanded]&#10;  - paragraph: Citizen Workspace&#10;  - paragraph: Understand. Prepare. Resolve.&#10;  - button &quot;Switch to dark mode&quot;&#10;  - text: Preview&#10;- main:&#10;  - paragraph: Document workspace&#10;  - heading &quot;Document Vault&quot; [level=1]&#10;  - paragraph: Organize and preview documents for government-service preparation. Files stay in this browser session unless you explicitly enable browser-local saving.&#10;  - region &quot;Local Vault storage controls&quot;:&#10;    - paragraph: Browser-local Vault storage&#10;    - paragraph: Off by default. When enabled, files and manually reviewed identity fields remain in this browser after refresh. Not encrypted; use fictional documents for demos. Nothing is uploaded by this storage feature.&#10;    - button &quot;Disable local saving&quot;&#10;    - button &quot;Clear all Vault data&quot;&#10;  - text: Total documents&#10;  - paragraph: &quot;1&quot;&#10;  - text: Needs review&#10;  - paragraph: &quot;1&quot;&#10;  - text: Self-reviewed&#10;  - paragraph: &quot;0&quot;&#10;  - heading &quot;Add documents for preview&quot; [level=2]&#10;  - paragraph: Drag files here or select PDFs, JPGs and PNGs (up to 10 MB each). This is a local prototype, not secure cloud storage.&#10;  - button &quot;Choose documents to add&quot;&#10;  - button &quot;Choose files&quot;&#10;  - text: Files are not sent to the Maadhyam backend. Refreshing the page clears this list.&#10;  - heading &quot;Your documents&quot; [level=2]&#10;  - paragraph: Temporary files added during this session.&#10;  - searchbox &quot;Search documents&quot;&#10;  - group &quot;Document status filter&quot;:&#10;    - button &quot;All documents&quot; [pressed]&#10;    - button &quot;Needs review&quot;&#10;    - button &quot;Self-reviewed&quot;&#10;  - text: Category&#10;  - combobox &quot;Category&quot;:&#10;    - option &quot;All categories&quot; [selected]&#10;    - option &quot;Identity proof&quot;&#10;    - option &quot;Address proof&quot;&#10;    - option &quot;Date of birth&quot;&#10;    - option &quot;Education&quot;&#10;    - option &quot;Employment&quot;&#10;    - option &quot;Other / Unclassified&quot;&#10;  - article:&#10;    - heading &quot;fictional_aadhaar.png&quot; [level=3]&#10;    - paragraph: Image · 0.1 KB · 10/15/2026, 1:17:23 PM&#10;    - text: Needs review Identity proof Address proof Date of birth Aadhaar card · Self· Structured details added&#10;    - button &quot;Preview&quot;&#10;    - button &quot;AI extraction&quot;&#10;    - button &quot;Edit details&quot;&#10;    - button &quot;Mark self-reviewed&quot;&#10;    - button &quot;Remove fictional_aadhaar.png&quot;: Remove&#10;  - region &quot;Document discrepancy analysis&quot;:&#10;    - heading &quot;Document discrepancy analysis&quot; [level=2]&#10;    - paragraph: Compare name, date of birth and address across all uploaded documents belonging to the same holder category. Each pair shows matches, differences and missing details. Unreviewed metadata is provisional; this does not verify file contents.&#10;    - button &quot;Analyze documents&quot; [disabled]&#10;    - paragraph: Add at least two documents to enable comparison.&#10;  - paragraph: Maadhyam is an independent assistance platform. “Self-reviewed” only means you marked a file as reviewed; it does not indicate authenticity, eligibility, document acceptance or government verification. For now, use dummy documents rather than sensitive personal records.&#10;- button &quot;Open Maadhyam AI&quot;: Ask Maadhyam AI">qa/test_browser.py:117: in test_vault_optin_clear
+    expect(page.get_by_text('No documents yet',exact=True)).to_be_visible()
+E   AssertionError: Locator expected to be visible
+E   Actual value: None
+E   Error: element(s) not found 
+E   Call log:
+E     - Expect "to_be_visible" get_by_text("No documents yet", exact=True) with timeout 5000ms
+E     - waiting for get_by_text("No documents yet", exact=True)
+E   
+E   Aria snapshot:
+E   - complementary:
+E     - link "Maadhyam home":
+E       - /url: /
+E       - text: Maadhyam माध्यम
+E     - paragraph: Workspace
+E     - navigation "Main navigation":
+E       - link "Dashboard":
+E         - /url: /
+E       - link "Find Services":
+E         - /url: /services
+E       - link "My Documents":
+E         - /url: /documents
+E       - link "My Applications":
+E         - /url: /applications
+E       - link "Resolution Planner":
+E         - /url: /planner
+E       - link "Citizen Workflows":
+E         - /url: /workflows
+E     - paragraph: Guidance you can verify
+E     - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E   - banner:
+E     - button "Collapse sidebar" [expanded]
+E     - paragraph: Citizen Workspace
+E     - paragraph: Understand. Prepare. Resolve.
+E     - button "Switch to dark mode"
+E     - text: Preview
+E   - main:
+E     - paragraph: Document workspace
+E     - heading "Document Vault" [level=1]
+E     - paragraph: Organize and preview documents for government-service preparation. Files stay in this browser session unless you explicitly enable browser-local saving.
+E     - region "Local Vault storage controls":
+E       - paragraph: Browser-local Vault storage
+E       - paragraph: Off by default. When enabled, files and manually reviewed identity fields remain in this browser after refresh. Not encrypted; use fictional documents for demos. Nothing is uploaded by this storage feature.
+E       - button "Disable local saving"
+E       - button "Clear all Vault data"
+E     - text: Total documents
+E     - paragraph: "1"
+E     - text: Needs review
+E     - paragraph: "1"
+E     - text: Self-reviewed
+E     - paragraph: "0"
+E     - heading "Add documents for preview" [level=2]
+E     - paragraph: Drag files here or select PDFs, JPGs and PNGs (up to 10 MB each). This is a local prototype, not secure cloud storage.
+E     - button "Choose documents to add"
+E     - button "Choose files"
+E     - text: Files are not sent to the Maadhyam backend. Refreshing the page clears this list.
+E     - heading "Your documents" [level=2]
+E     - paragraph: Temporary files added during this session.
+E     - searchbox "Search documents"
+E     - group "Document status filter":
+E       - button "All documents" [pressed]
+E       - button "Needs review"
+E       - button "Self-reviewed"
+E     - text: Category
+E     - combobox "Category":
+E       - option "All categories" [selected]
+E       - option "Identity proof"
+E       - option "Address proof"
+E       - option "Date of birth"
+E       - option "Education"
+E       - option "Employment"
+E       - option "Other / Unclassified"
+E     - article:
+E       - heading "fictional_aadhaar.png" [level=3]
+E       - paragraph: Image · 0.1 KB · 10/15/2026, 1:17:23 PM
+E       - text: Needs review Identity proof Address proof Date of birth Aadhaar card · Self· Structured details added
+E       - button "Preview"
+E       - button "AI extraction"
+E       - button "Edit details"
+E       - button "Mark self-reviewed"
+E       - button "Remove fictional_aadhaar.png": Remove
+E     - region "Document discrepancy analysis":
+E       - heading "Document discrepancy analysis" [level=2]
+E       - paragraph: Compare name, date of birth and address across all uploaded documents belonging to the same holder category. Each pair shows matches, differences and missing details. Unreviewed metadata is provisional; this does not verify file contents.
+E       - button "Analyze documents" [disabled]
+E       - paragraph: Add at least two documents to enable comparison.
+E     - paragraph: Maadhyam is an independent assistance platform. “Self-reviewed” only means you marked a file as reviewed; it does not indicate authenticity, eligibility, document acceptance or government verification. For now, use dummy documents rather than sensitive personal records.
+E   - button "Open Maadhyam AI": Ask Maadhyam AI</failure></testcase><testcase classname="qa.test_browser" name="test_vault_invalid[empty]" time="0.286" /><testcase classname="qa.test_browser" name="test_vault_invalid[unsupported]" time="0.309" /><testcase classname="qa.test_browser" name="test_vault_invalid[oversized]" time="1.033" /><testcase classname="qa.test_browser" name="test_vault_invalid[malformed]" time="0.357" /><testcase classname="qa.test_browser" name="test_ocr[missing]" time="0.461" /><testcase classname="qa.test_browser" name="test_ocr[success]" time="0.535" /><testcase classname="qa.test_browser" name="test_ocr[malformed]" time="0.467" /><testcase classname="qa.test_browser" name="test_passport_guided[True]" time="1.904" /><testcase classname="qa.test_browser" name="test_passport_guided[False]" time="1.381" /><testcase classname="qa.test_browser" name="test_planner_documents[0]" time="0.515" /><testcase classname="qa.test_browser" name="test_planner_documents[1]" time="0.881" /><testcase classname="qa.test_browser" name="test_planner_documents[3]" time="1.434" /><testcase classname="qa.test_browser" name="test_planner_unexpected[/api/intelligence/passport-plan-body0]" time="1.104" /><testcase classname="qa.test_browser" name="test_planner_unexpected[/api/intelligence/reasoning-body1]" time="1.205" /><testcase classname="qa.test_browser" name="test_planner_unexpected[/api/intelligence/reasoning-body2]" time="1.213" /><testcase classname="qa.test_browser" name="test_planner_unexpected[/api/intelligence/passport-plan-body3]" time="1.125" /><testcase classname="qa.test_browser" name="test_planner_api_failure[/api/intelligence/passport-plan]" time="0.254" /><testcase classname="qa.test_browser" name="test_planner_api_failure[/api/intelligence/reasoning]" time="0.317" /><testcase classname="qa.test_browser" name="test_reasoning_whatif_family" time="6.174"><failure message="AssertionError: Locator expected to be visible&#10;Actual value: None&#10;Error: element(s) not found &#10;Call log:&#10;  - Expect &quot;to_be_visible&quot; get_by_label(&quot;Minimum prerequisite review path&quot;) with timeout 5000ms&#10;  - waiting for get_by_label(&quot;Minimum prerequisite review path&quot;)&#10;&#10;Aria snapshot:&#10;- complementary:&#10;  - link &quot;Maadhyam home&quot;:&#10;    - /url: /&#10;    - text: Maadhyam माध्यम&#10;  - paragraph: Workspace&#10;  - navigation &quot;Main navigation&quot;:&#10;    - link &quot;Dashboard&quot;:&#10;      - /url: /&#10;    - link &quot;Find Services&quot;:&#10;      - /url: /services&#10;    - link &quot;My Documents&quot;:&#10;      - /url: /documents&#10;    - link &quot;My Applications&quot;:&#10;      - /url: /applications&#10;    - link &quot;Resolution Planner&quot;:&#10;      - /url: /planner&#10;    - link &quot;Citizen Workflows&quot;:&#10;      - /url: /workflows&#10;  - paragraph: Guidance you can verify&#10;  - paragraph: Maadhyam is an independent assistance platform, not an official government website.&#10;- banner:&#10;  - button &quot;Collapse sidebar&quot; [expanded]&#10;  - paragraph: Citizen Workspace&#10;  - paragraph: Understand. Prepare. Resolve.&#10;  - button &quot;Switch to dark mode&quot;&#10;  - text: Preview&#10;- main:&#10;  - paragraph: Preparation workspace&#10;  - heading &quot;Resolution Planner&quot; [level=1]&#10;  - paragraph: Review potential document differences, understand dependencies and plan your next preparation steps. This is not an official eligibility decision.&#10;  - link &quot;Review Vault documents&quot;:&#10;    - /url: /documents&#10;  - link &quot;Passport services&quot;:&#10;    - /url: /services/passport&#10;  - heading &quot;Your document situation&quot; [level=2]&#10;  - paragraph: 3 uploaded · 2 reviewed self-held · 1 potential discrepancies&#10;  - paragraph: Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.&#10;  - paragraph: &quot;Other document holders: parent-guardian. Their documents are not treated as the applicant's identity.&quot;&#10;  - heading &quot;Items to investigate&quot; [level=2]&#10;  - article:&#10;    - strong: printedName&#10;    - paragraph: Potential name variants detected (initials or name order); confirm against originals.&#10;  - region &quot;Passport correction alternatives&quot;:&#10;    - heading &quot;Passport correction alternatives&quot; [level=2]&#10;    - article:&#10;      - heading &quot;printedName — verify before correcting&quot; [level=3]&#10;      - paragraph: The system cannot determine which record is legally correct from conflicting metadata.&#10;      - list:&#10;        - listitem: Compare the original records and establish the correct detail&#10;        - listitem: Check correction procedure with the issuing authority if an error is confirmed&#10;        - listitem: Confirm whether the discrepancy affects this application&#10;    - heading &quot;Preparation blockers&quot; [level=3]&#10;    - list:&#10;      - listitem: Unresolved evidence discrepancies or extraction quality&#10;      - listitem: Applicant age group not specified&#10;      - listitem: Family relationship and evidence acceptance not verified&#10;    - paragraph:&#10;      - strong: &quot;Suggested next action:&quot;&#10;      - text: Review name discrepancy&#10;    - paragraph: Preparation guidance only; verify current scenario-specific requirements and accepted proofs on Passport Seva.&#10;  - heading &quot;Your next steps&quot; [level=2]&#10;  - article:&#10;    - text: &quot;1&quot;&#10;    - heading &quot;Review name discrepancy&quot; [level=3]&#10;    - paragraph: Check originals and applicable official correction guidance; do not assume which value is correct.&#10;    - paragraph: Suggested preparation step · Completion is not automatically verified.&#10;  - article:&#10;    - text: &quot;2&quot;&#10;    - heading &quot;Review family-linked documents&quot; [level=3]&#10;    - paragraph: Confirm relationships and whether the particular family document is accepted for this scenario.&#10;    - paragraph: Suggested preparation step · Completion is not automatically verified.&#10;  - article:&#10;    - text: &quot;3&quot;&#10;    - heading &quot;Verify current Passport Seva requirements&quot; [level=3]&#10;    - paragraph: Document categories are not official proof-acceptance decisions.&#10;    - paragraph: &quot;Prerequisites: resolve-printedName&quot;&#10;    - paragraph: Requires prerequisite review · Completion is not automatically verified.&#10;  - article:&#10;    - text: &quot;4&quot;&#10;    - heading &quot;Prepare originals and copies&quot; [level=3]&#10;    - paragraph: Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.&#10;    - paragraph: &quot;Prerequisites: official-review&quot;&#10;    - paragraph: Requires prerequisite review · Completion is not automatically verified.&#10;  - region &quot;Your deadline and action plan&quot;:&#10;    - heading &quot;Your deadline and action plan&quot; [level=2]&#10;    - text: When do you want your documents ready? (Your target, not a government deadline)&#10;    - textbox &quot;When do you want your documents ready? (Your target, not a government deadline)&quot;&#10;    - list:&#10;      - listitem: Review the 0 unreviewed uploaded document(s) in Vault.&#10;      - listitem: Fill missing name, DOB and address metadata where it appears on each document.&#10;      - listitem: Compare the records; investigate differences using original documents and issuing authorities.&#10;      - listitem: Confirm accepted proofs and appointment requirements on the official Passport Seva website.&#10;      - listitem: Re-run this planner after reviewing evidence; unresolved blockers remain visible below.&#10;  - region &quot;Advanced preparation intelligence&quot;:&#10;    - heading &quot;Advanced preparation intelligence&quot; [level=2]&#10;    - paragraph: Deterministic planning from Vault metadata; no official document acceptance or government processing time is inferred.&#10;    - alert: Advanced reasoning could not be loaded. Check the backend and retry.&#10;  - region &quot;Citizen document decision assistant&quot;:&#10;    - paragraph: Explore your options&#10;    - heading &quot;Find a way forward with your documents&quot; [level=2]&#10;    - paragraph: Choose a situation below. Maadhyam uses your Vault details to explain what to check next—without changing any document.&#10;    - group &quot;Choose a document situation&quot;:&#10;      - button &quot;I need to correct a detail See what could change if a name, DOB or address is corrected.&quot; [pressed]&#10;      - button &quot;I have a family member's document Understand what relationship evidence may need checking.&quot;&#10;    - text: &quot;1&quot;&#10;    - heading &quot;Try a correction before taking action&quot; [level=3]&#10;    - paragraph: This is a safe preview. Your original Vault document stays unchanged.&#10;    - text: Which document would you like to check?&#10;    - combobox &quot;What-if document&quot;:&#10;      - option &quot;Select your document&quot; [selected]&#10;      - option &quot;fictional_aadhaar.png&quot;&#10;      - option &quot;fictional_pan.png&quot;&#10;    - text: What detail needs correction?&#10;    - combobox &quot;What-if field&quot;:&#10;      - option &quot;Name&quot; [selected]&#10;      - option &quot;Date of birth&quot;&#10;      - option &quot;Residential address&quot;&#10;    - text: What should the corrected value be?&#10;    - textbox &quot;Hypothetical value&quot;:&#10;      - /placeholder: Enter a hypothetical corrected value&#10;    - button &quot;See the impact →&quot; [disabled]&#10;    - button &quot;Start over&quot;&#10;    - alert: Could not analyze your documents. Please check the backend and try again.&#10;  - link &quot;Check official Passport Seva guidance ↗&quot;:&#10;    - /url: https://www.passportindia.gov.in/&#10;- button &quot;Open Maadhyam AI&quot;: Ask Maadhyam AI">qa/test_browser.py:222: in test_reasoning_whatif_family
+    expect(page.get_by_label('Minimum prerequisite review path')).to_be_visible()
+E   AssertionError: Locator expected to be visible
+E   Actual value: None
+E   Error: element(s) not found 
+E   Call log:
+E     - Expect "to_be_visible" get_by_label("Minimum prerequisite review path") with timeout 5000ms
+E     - waiting for get_by_label("Minimum prerequisite review path")
+E   
+E   Aria snapshot:
+E   - complementary:
+E     - link "Maadhyam home":
+E       - /url: /
+E       - text: Maadhyam माध्यम
+E     - paragraph: Workspace
+E     - navigation "Main navigation":
+E       - link "Dashboard":
+E         - /url: /
+E       - link "Find Services":
+E         - /url: /services
+E       - link "My Documents":
+E         - /url: /documents
+E       - link "My Applications":
+E         - /url: /applications
+E       - link "Resolution Planner":
+E         - /url: /planner
+E       - link "Citizen Workflows":
+E         - /url: /workflows
+E     - paragraph: Guidance you can verify
+E     - paragraph: Maadhyam is an independent assistance platform, not an official government website.
+E   - banner:
+E     - button "Collapse sidebar" [expanded]
+E     - paragraph: Citizen Workspace
+E     - paragraph: Understand. Prepare. Resolve.
+E     - button "Switch to dark mode"
+E     - text: Preview
+E   - main:
+E     - paragraph: Preparation workspace
+E     - heading "Resolution Planner" [level=1]
+E     - paragraph: Review potential document differences, understand dependencies and plan your next preparation steps. This is not an official eligibility decision.
+E     - link "Review Vault documents":
+E       - /url: /documents
+E     - link "Passport services":
+E       - /url: /services/passport
+E     - heading "Your document situation" [level=2]
+E     - paragraph: 3 uploaded · 2 reviewed self-held · 1 potential discrepancies
+E     - paragraph: Preparation guidance only. Official eligibility and document acceptance must be checked on Passport Seva.
+E     - paragraph: "Other document holders: parent-guardian. Their documents are not treated as the applicant's identity."
+E     - heading "Items to investigate" [level=2]
+E     - article:
+E       - strong: printedName
+E       - paragraph: Potential name variants detected (initials or name order); confirm against originals.
+E     - region "Passport correction alternatives":
+E       - heading "Passport correction alternatives" [level=2]
+E       - article:
+E         - heading "printedName — verify before correcting" [level=3]
+E         - paragraph: The system cannot determine which record is legally correct from conflicting metadata.
+E         - list:
+E           - listitem: Compare the original records and establish the correct detail
+E           - listitem: Check correction procedure with the issuing authority if an error is confirmed
+E           - listitem: Confirm whether the discrepancy affects this application
+E       - heading "Preparation blockers" [level=3]
+E       - list:
+E         - listitem: Unresolved evidence discrepancies or extraction quality
+E         - listitem: Applicant age group not specified
+E         - listitem: Family relationship and evidence acceptance not verified
+E       - paragraph:
+E         - strong: "Suggested next action:"
+E         - text: Review name discrepancy
+E       - paragraph: Preparation guidance only; verify current scenario-specific requirements and accepted proofs on Passport Seva.
+E     - heading "Your next steps" [level=2]
+E     - article:
+E       - text: "1"
+E       - heading "Review name discrepancy" [level=3]
+E       - paragraph: Check originals and applicable official correction guidance; do not assume which value is correct.
+E       - paragraph: Suggested preparation step · Completion is not automatically verified.
+E     - article:
+E       - text: "2"
+E       - heading "Review family-linked documents" [level=3]
+E       - paragraph: Confirm relationships and whether the particular family document is accepted for this scenario.
+E       - paragraph: Suggested preparation step · Completion is not automatically verified.
+E     - article:
+E       - text: "3"
+E       - heading "Verify current Passport Seva requirements" [level=3]
+E       - paragraph: Document categories are not official proof-acceptance decisions.
+E       - paragraph: "Prerequisites: resolve-printedName"
+E       - paragraph: Requires prerequisite review · Completion is not automatically verified.
+E     - article:
+E       - text: "4"
+E       - heading "Prepare originals and copies" [level=3]
+E       - paragraph: Confirm the applicable appointment, original documents, and self-attested copies with Passport Seva.
+E       - paragraph: "Prerequisites: official-review"
+E       - paragraph: Requires prerequisite review · Completion is not automatically verified.
+E     - region "Your deadline and action plan":
+E       - heading "Your deadline and action plan" [level=2]
+E       - text: When do you want your documents ready? (Your target, not a government deadline)
+E       - textbox "When do you want your documents ready? (Your target, not a government deadline)"
+E       - list:
+E         - listitem: Review the 0 unreviewed uploaded document(s) in Vault.
+E         - listitem: Fill missing name, DOB and address metadata where it appears on each document.
+E         - listitem: Compare the records; investigate differences using original documents and issuing authorities.
+E         - listitem: Confirm accepted proofs and appointment requirements on the official Passport Seva website.
+E         - listitem: Re-run this planner after reviewing evidence; unresolved blockers remain visible below.
+E     - region "Advanced preparation intelligence":
+E       - heading "Advanced preparation intelligence" [level=2]
+E       - paragraph: Deterministic planning from Vault metadata; no official document acceptance or government processing time is inferred.
+E       - alert: Advanced reasoning could not be loaded. Check the backend and retry.
+E     - region "Citizen document decision assistant":
+E       - paragraph: Explore your options
+E       - heading "Find a way forward with your documents" [level=2]
+E       - paragraph: Choose a situation below. Maadhyam uses your Vault details to explain what to check next—without changing any document.
+E       - group "Choose a document situation":
+E         - button "I need to correct a detail See what could change if a name, DOB or address is corrected." [pressed]
+E         - button "I have a family member's document Understand what relationship evidence may need checking."
+E       - text: "1"
+E       - heading "Try a correction before taking action" [level=3]
+E       - paragraph: This is a safe preview. Your original Vault document stays unchanged.
+E       - text: Which document would you like to check?
+E       - combobox "What-if document":
+E         - option "Select your document" [selected]
+E         - option "fictional_aadhaar.png"
+E         - option "fictional_pan.png"
+E       - text: What detail needs correction?
+E       - combobox "What-if field":
+E         - option "Name" [selected]
+E         - option "Date of birth"
+E         - option "Residential address"
+E       - text: What should the corrected value be?
+E       - textbox "Hypothetical value":
+E         - /placeholder: Enter a hypothetical corrected value
+E       - button "See the impact →" [disabled]
+E       - button "Start over"
+E       - alert: Could not analyze your documents. Please check the backend and try again.
+E     - link "Check official Passport Seva guidance ↗":
+E       - /url: https://www.passportindia.gov.in/
+E   - button "Open Maadhyam AI": Ask Maadhyam AI</failure></testcase><testcase classname="qa.test_browser" name="test_citizen_workflow[False-human-support-Human assistance]" time="6.250"><failure message="playwright._impl._errors.TimeoutError: Timeout 6000ms exceeded while waiting for event &quot;response&quot;">qa/test_browser.py:258: in test_citizen_workflow
+    payload,data=response_for(page,'/api/citizen-workflows/'+key,lambda:page.get_by_role('button',name='Get my guidance').click())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+qa/test_browser.py:68: in response_for
+    with page.expect_response(lambda r: endpoint in r.url and r.request.method=='POST' and want(r.request.post_data_json)) as info:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_sync_base.py:85: in __exit__
+    self._event.value
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_sync_base.py:59: in value
+    raise exception
+E   playwright._impl._errors.TimeoutError: Timeout 6000ms exceeded while waiting for event "response"</failure></testcase><testcase classname="qa.test_browser" name="test_citizen_workflow[False-human-support-Human assistance]" time="0.000"><error message="failed on teardown with &quot;playwright._impl._errors.Error: Page.evaluate: Route.fetch: connect ECONNREFUSED 127.0.0.1:8001&#10;Call log:&#10;  - → POST http://127.0.0.1:8001/api/citizen-workflows/human-support&#10;    - user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36&#10;    - accept: */*&#10;    - accept-encoding: gzip,deflate,br&#10;    - content-type: application/json&#10;    - origin: http://127.0.0.1:5173&#10;    - referer: http://127.0.0.1:5173/workflows&#10;    - sec-ch-ua: &quot;HeadlessChrome&quot;;v=&quot;153&quot;, &quot;Not_A Brand&quot;;v=&quot;8&quot;, &quot;Chromium&quot;;v=&quot;153&quot;&#10;    - sec-ch-ua-mobile: ?0&#10;    - sec-ch-ua-platform: &quot;macOS&quot;&#10;    - content-length: 131&quot;">qa/test_browser.py:40: in page
+    p.evaluate('window.scrollTo(0, 0)')
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/sync_api/_generated.py:9413: in evaluate
+    self._sync(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_page.py:474: in evaluate
+    return await self._main_frame.evaluate(expression, arg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_frame.py:346: in evaluate
+    await self._channel.send(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:76: in send
+    return await self._connection.wrap_api_call(
+Maadhyam/apps/api/.venv/lib/python3.13/site-packages/playwright/_impl/_connection.py:632: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.Error: Page.evaluate: Route.fetch: connect ECONNREFUSED 127.0.0.1:8001
+E   Call log:
+E     - → POST http://127.0.0.1:8001/api/citizen-workflows/human-support
+E       - user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36
+E       - accept: */*
+E       - accept-encoding: gzip,deflate,br
+E       - content-type: application/json
+E       - origin: http://127.0.0.1:5173
+E       - referer: http://127.0.0.1:5173/workflows
+E       - sec-ch-ua: "HeadlessChrome";v="153", "Not_A Brand";v="8", "Chromium";v="153"
+E       - sec-ch-ua-mobile: ?0
+E       - sec-ch-ua-platform: "macOS"
+E       - content-length: 131</error></testcase><testcase classname="qa.test_browser" name="test_citizen_workflow[False-life-event-discovery-Life-event discovery]" time="0.365" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-multi-department-rules-Multi-department guidance]" time="0.374" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-rejection-diagnosis-Rejection diagnosis]" time="0.368" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-legacy-reconstruction-Legacy record recovery]" time="0.366" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-authority-bottlenecks-Authority bottlenecks]" time="0.371" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-deadline-rescue-Deadline rescue]" time="0.463" /><testcase classname="qa.test_browser" name="test_citizen_workflow[False-visit-eliminator-Visit reduction planner]" time="0.398" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-human-support-Human assistance]" time="0.304" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-life-event-discovery-Life-event discovery]" time="0.319" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-multi-department-rules-Multi-department guidance]" time="0.327" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-rejection-diagnosis-Rejection diagnosis]" time="0.326" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-legacy-reconstruction-Legacy record recovery]" time="0.323" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-authority-bottlenecks-Authority bottlenecks]" time="0.317" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-deadline-rescue-Deadline rescue]" time="0.368" /><testcase classname="qa.test_browser" name="test_citizen_workflow[True-visit-eliminator-Visit reduction planner]" time="0.335" /><testcase classname="qa.test_browser" name="test_assistant[local]" time="0.345" /><testcase classname="qa.test_browser" name="test_assistant[missing]" time="0.440" /><testcase classname="qa.test_browser" name="test_assistant[429]" time="0.359" /><testcase classname="qa.test_browser" name="test_assistant[timeout]" time="0.391" /><testcase classname="qa.test_browser" name="test_assistant[malformed]" time="0.398" /><testcase classname="qa.test_browser" name="test_preparations_session_and_layout" time="0.515" /><testcase classname="qa.test_browser" name="test_workflow_required_inputs[human-support-Human assistance-What problem are you facing?-Please describe the problem]" time="0.303" /><testcase classname="qa.test_browser" name="test_workflow_required_inputs[rejection-diagnosis-Rejection diagnosis-What reason was given for rejection?-Please describe the rejection]" time="0.293" /><testcase classname="qa.test_browser" name="test_workflow_required_inputs[legacy-reconstruction-Legacy record recovery-Which old document do you need?-Please enter the document type]" time="0.305" /><testcase classname="qa.test_browser" name="test_workflow_required_inputs[deadline-rescue-Deadline rescue-What is your target date?-Choose a target date]" time="0.345" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[pdf-aadhaar]" time="0.367" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[pdf-pan]" time="0.355" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[pdf-address]" time="0.352" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[png-aadhaar]" time="0.354" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[png-pan]" time="0.353" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[png-address]" time="0.351" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[jpg-aadhaar]" time="0.372" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[jpg-pan]" time="0.355" /><testcase classname="qa.test_browser" name="test_supported_fictional_documents[jpg-address]" time="0.363" /><testcase classname="qa.test_browser" name="test_assistant_reviewed_context" time="0.982" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[minimumCorrectionPath]" time="0.317" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[identityEvolution]" time="0.331" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[proofSubstitution]" time="0.331" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[deadlockAnalysis]" time="0.346" /><testcase classname="qa.test_browser" name="test_planner_malformed_advanced_fields[deadlineRescue]" time="0.317" /><testcase classname="qa.test_http" name="test_rule_change_impact[payload0-200]" time="0.033" /><testcase classname="qa.test_http" name="test_rule_change_impact[payload1-422]" time="0.011" /><testcase classname="qa.test_http" name="test_optimizer[False]" time="0.011" /><testcase classname="qa.test_http" name="test_optimizer[True]" time="0.011" /><testcase classname="qa.test_http" name="test_circular_workflow[authority-bottlenecks]" time="0.010" /><testcase classname="qa.test_http" name="test_circular_workflow[deadline-rescue]" time="0.011" /><testcase classname="qa.test_http" name="test_circular_workflow[visit-eliminator]" time="0.010" /><testcase classname="qa.test_http" name="test_chat_validation[payload0-422]" time="0.010" /><testcase classname="qa.test_http" name="test_chat_validation[payload1-403]" time="0.013" /><testcase classname="qa.test_http" name="test_chat_validation[payload2-503]" time="0.011" /><testcase classname="qa.test_http" name="test_expiry[2000-01-01-already-expired]" time="0.012" /><testcase classname="qa.test_http" name="test_expiry[wrong-invalid-expiry-date]" time="0.032" /></testsuite></testsuites>

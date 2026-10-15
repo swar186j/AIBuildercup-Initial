@@ -1,0 +1,140 @@
+{
+  "suite": "Maadhyam Real-API Frontend Functional Extended",
+  "passed": 13,
+  "failed": 11,
+  "known_gaps": 0,
+  "resolved_gaps": 0,
+  "results": [
+    {
+      "case": "FF01 Fresh journey uses real API and displays every returned checklist label",
+      "status": "FAIL",
+      "seconds": 15.17,
+      "error": "Page.wait_for_function: Timeout 15000ms exceeded."
+    },
+    {
+      "case": "FF02 Reissue journey changes backend scenario and checklist",
+      "status": "FAIL",
+      "seconds": 15.14,
+      "error": "Page.wait_for_function: Timeout 15000ms exceeded."
+    },
+    {
+      "case": "FF03 Correction journey sends correction scenario",
+      "status": "FAIL",
+      "seconds": 15.11,
+      "error": "Page.wait_for_function: Timeout 15000ms exceeded."
+    },
+    {
+      "case": "FF04 Empty Vault produces backend blockers rendered in journey",
+      "status": "FAIL",
+      "seconds": 15.12,
+      "error": "Page.wait_for_function: Timeout 15000ms exceeded."
+    },
+    {
+      "case": "FF05 Planner reflects real API task count and blockers",
+      "status": "PASS",
+      "seconds": 0.21
+    },
+    {
+      "case": "FF06 Planner must not claim official acceptance or verified completion",
+      "status": "FAIL",
+      "seconds": 0.18,
+      "error": "Missing user-facing official disclaimer"
+    },
+    {
+      "case": "FF07 Unreviewed fictional upload cannot become accepted applicant evidence",
+      "status": "FAIL",
+      "seconds": 15.31,
+      "error": "Page.wait_for_function: Timeout 15000ms exceeded."
+    },
+    {
+      "case": "FF08 API failure displays actionable planner error, not stale success",
+      "status": "PASS",
+      "seconds": 0.18
+    },
+    {
+      "case": "FF09 API failure displays visible journey error",
+      "status": "FAIL",
+      "seconds": 12.11,
+      "error": "Locator.wait_for: Timeout 12000ms exceeded.\nCall log:\n  - waiting for get_by_role(\"alert\").filter(has_text=\"Citizen intelligence is unavailable\") to be visible\n"
+    },
+    {
+      "case": "FF10 Planner correction alternatives match backend response",
+      "status": "PASS",
+      "seconds": 0.18
+    },
+    {
+      "case": "FF11 Reviewed applicant document reaches Passport API with correct type and category",
+      "status": "FAIL",
+      "seconds": 15.53,
+      "error": "Page.wait_for_function: Timeout 15000ms exceeded."
+    },
+    {
+      "case": "FF12 Reviewed family-held document is excluded from applicant evidence",
+      "status": "FAIL",
+      "seconds": 15.53,
+      "error": "Page.wait_for_function: Timeout 15000ms exceeded."
+    },
+    {
+      "case": "FF13 Removing a reviewed document removes it from subsequent API payload",
+      "status": "FAIL",
+      "seconds": 15.42,
+      "error": "Page.wait_for_function: Timeout 15000ms exceeded."
+    },
+    {
+      "case": "FF14 Unsupported executable upload is rejected and not sent to API",
+      "status": "PASS",
+      "seconds": 0.16
+    },
+    {
+      "case": "FF15 Empty file upload is rejected",
+      "status": "PASS",
+      "seconds": 0.15
+    },
+    {
+      "case": "FF16 File above 10 MB is rejected",
+      "status": "PASS",
+      "seconds": 1.0
+    },
+    {
+      "case": "FF17 Review toggle is reversible and reaches API as unreviewed",
+      "status": "FAIL",
+      "seconds": 15.43,
+      "error": "Page.wait_for_function: Timeout 15000ms exceeded."
+    },
+    {
+      "case": "FF18 Vault search and review filter actually filter documents",
+      "status": "PASS",
+      "seconds": 0.3
+    },
+    {
+      "case": "FF19 Assistant uses real API with Gemini disabled by default and user prompt",
+      "status": "PASS",
+      "seconds": 0.52
+    },
+    {
+      "case": "FF20 Assistant shows failure when backend unavailable",
+      "status": "PASS",
+      "seconds": 0.25
+    },
+    {
+      "case": "FF21 Assistant Clear chat removes earlier user messages",
+      "status": "PASS",
+      "seconds": 0.25
+    },
+    {
+      "case": "FF22 Preview opens and closes for fictional image",
+      "status": "PASS",
+      "seconds": 0.27
+    },
+    {
+      "case": "GAP01 Vault exposes editable printed name and DOB",
+      "status": "PASS",
+      "seconds": 0.28
+    },
+    {
+      "case": "GAP02 Opt-in Vault persistence survives reload",
+      "status": "PASS",
+      "seconds": 0.32
+    }
+  ]
+}

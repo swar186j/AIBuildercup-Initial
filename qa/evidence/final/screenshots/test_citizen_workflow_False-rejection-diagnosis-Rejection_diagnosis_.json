@@ -1,0 +1,45 @@
+{
+  "runtimeErrors": [],
+  "console": [],
+  "network": [
+    {
+      "url": "http://127.0.0.1:54147/workflows",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index--5yjxRdK.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/assets/index-B0YWNNaX.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54147/api/citizen-workflows/rejection-diagnosis",
+      "status": 200
+    }
+  ],
+  "apiAssertions": [
+    {
+      "endpoint": "/api/citizen-workflows/rejection-diagnosis",
+      "request": {
+        "reason": "Name mismatch in identity proof",
+        "authority": "Passport",
+        "applicationStage": ""
+      },
+      "response": {
+        "possibleCauses": [
+          {
+            "category": "identity_mismatch",
+            "explanation": "Compare the exact printed fields and request the authority-specific correction process."
+          }
+        ],
+        "authority": "Passport",
+        "applicationStage": "",
+        "referencedDocumentIds": [],
+        "officialRootCauseConfirmed": false,
+        "disclaimer": "Advisory scenario only. Confirm requirements, timelines, availability and acceptance with the responsible authority."
+      }
+    }
+  ]
+}

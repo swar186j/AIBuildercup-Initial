@@ -1,0 +1,459 @@
+[
+  {
+    "id": 1,
+    "feature": "Document OCR & Intelligent Extraction",
+    "milestone": "M4",
+    "backendImplementation": "routes/extraction.py",
+    "frontendImplementation": "/documents \u2192 AI extraction",
+    "endpoint": "/api/ai/extract-document",
+    "positiveScenario": "test_ocr[success]",
+    "negativeScenario": "test_ocr[malformed]",
+    "knownLimitations": "Provider success is deterministic; live extraction accuracy is NOT TESTED. Manual review is mandatory.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_browser::test_ocr[success]",
+      "qa.test_browser::test_ocr[malformed]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 2,
+    "feature": "Indian Name Matching",
+    "milestone": "M4/M7",
+    "backendImplementation": "routes/intelligence.py \u2192 classify_name_variation",
+    "frontendImplementation": "/documents comparison; /planner names",
+    "endpoint": "/api/intelligence/analyze; /api/intelligence/reasoning",
+    "positiveScenario": "test_reasoning_whatif_family",
+    "negativeScenario": "test_unrelated_names_not_accepted",
+    "knownLimitations": "Heuristics flag spelling, order and initials; they do not prove that two records identify the same person.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_browser::test_reasoning_whatif_family",
+      "tests.test_name_matching_patch::test_unrelated_names_not_accepted"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/backend.xml",
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 3,
+    "feature": "Government Service Document Checklist",
+    "milestone": "M3/M5",
+    "backendImplementation": "routes/passport_rules.py",
+    "frontendImplementation": "/services/passport/journey",
+    "endpoint": "/api/passport/assess",
+    "positiveScenario": "test_passport_guided[True]",
+    "negativeScenario": "test_passport_guided[False]",
+    "knownLimitations": "Passport has the implemented source-linked checklist. Other service catalog cards are not equivalent application journeys; rule freshness is external.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_browser::test_passport_guided[True]",
+      "qa.test_browser::test_passport_guided[False]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 4,
+    "feature": "Human-Assisted Application Support",
+    "milestone": "M7",
+    "backendImplementation": "routes/citizen_workflows.py \u2192 human_support",
+    "frontendImplementation": "/workflows \u2192 Human assistance",
+    "endpoint": "/api/citizen-workflows/human-support",
+    "positiveScenario": "test_citizen_workflow[False-human-support",
+    "negativeScenario": "test_citizen_workflow[True-human-support",
+    "knownLimitations": "Maps to helpdesk conversation preparation. No live agent is connected and no helpdesk message is sent.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_browser::test_citizen_workflow[False-human-support-Human assistance]",
+      "qa.test_browser::test_citizen_workflow[True-human-support-Human assistance]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 5,
+    "feature": "Life-Event Based Service Discovery",
+    "milestone": "M2/M7",
+    "backendImplementation": "routes/citizen_workflows.py \u2192 life_event_discovery",
+    "frontendImplementation": "/workflows \u2192 Life-event discovery",
+    "endpoint": "/api/citizen-workflows/life-event-discovery",
+    "positiveScenario": "test_citizen_workflow[False-life-event",
+    "negativeScenario": "test_citizen_workflow[True-life-event",
+    "knownLimitations": "A small caller-supplied illustrative catalog, not a complete official directory.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_browser::test_citizen_workflow[False-life-event-discovery-Life-event discovery]",
+      "qa.test_browser::test_citizen_workflow[True-life-event-discovery-Life-event discovery]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 6,
+    "feature": "Rules-as-Code Engine",
+    "milestone": "M3",
+    "backendImplementation": "routes/passport_rules.py; passport_rules_pack.json",
+    "frontendImplementation": "Passport source-linked requirements",
+    "endpoint": "/api/passport/assess",
+    "positiveScenario": "test_passport_guided[True]",
+    "negativeScenario": "test_invalid_category_rejected",
+    "knownLimitations": "Deterministic stored rules and cited sources; no official eligibility or current-rule certification.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_browser::test_passport_guided[True]",
+      "tests.test_passport_rules::test_invalid_category_rejected"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/backend.xml",
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 7,
+    "feature": "Cross-Document Discrepancy Detection & Rule Citations",
+    "milestone": "M4/M6",
+    "backendImplementation": "routes/intelligence.py; routes/passport_rules.py",
+    "frontendImplementation": "/documents comparison; /planner; Passport citations",
+    "endpoint": "/api/intelligence/analyze; /api/passport/assess",
+    "positiveScenario": "test_journey_b_identity_whatif",
+    "negativeScenario": "test_planner_unexpected",
+    "knownLimitations": "Reviewed metadata only; a discrepancy is a review flag, not fraud, legal correction or automatic rejection.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_final_journeys::test_journey_b_identity_whatif",
+      "qa.test_browser::test_planner_unexpected[/api/intelligence/passport-plan-body0]",
+      "qa.test_browser::test_planner_unexpected[/api/intelligence/reasoning-body1]",
+      "qa.test_browser::test_planner_unexpected[/api/intelligence/reasoning-body2]",
+      "qa.test_browser::test_planner_unexpected[/api/intelligence/passport-plan-body3]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 8,
+    "feature": "Dependency-Aware Correction Planner",
+    "milestone": "M6",
+    "backendImplementation": "routes/intelligence.py; routes/reasoning_engine.py",
+    "frontendImplementation": "/planner \u2192 Your next steps",
+    "endpoint": "/api/intelligence/passport-plan; /api/intelligence/reasoning",
+    "positiveScenario": "test_reasoning_whatif_family",
+    "negativeScenario": "test_planner_api_failure",
+    "knownLimitations": "Dependency order covers preparation tasks, not a verified interdepartmental government process.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_browser::test_reasoning_whatif_family",
+      "qa.test_browser::test_planner_api_failure[/api/intelligence/passport-plan]",
+      "qa.test_browser::test_planner_api_failure[/api/intelligence/reasoning]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 9,
+    "feature": "Migrant Address Continuity Builder",
+    "milestone": "M7",
+    "backendImplementation": "routes/reasoning_engine.py \u2192 addressContinuity",
+    "frontendImplementation": "/planner \u2192 Address consistency",
+    "endpoint": "/api/intelligence/reasoning",
+    "positiveScenario": "test_journey_c_address_continuity",
+    "negativeScenario": "test_address_continuity_is_not_inferred_from_two_addresses",
+    "knownLimitations": "Maps to address-variant evidence review and continuity follow-up guidance. No dated migration history or legal residency continuity is inferred.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_final_journeys::test_journey_c_address_continuity",
+      "tests.test_m1_m9_completion::test_address_continuity_is_not_inferred_from_two_addresses"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/backend.xml",
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 10,
+    "feature": "Multi-Department Rule Packs",
+    "milestone": "M7",
+    "backendImplementation": "routes/citizen_workflows.py \u2192 multi_department_rules",
+    "frontendImplementation": "/workflows \u2192 Multi-department guidance",
+    "endpoint": "/api/citizen-workflows/multi-department-rules",
+    "positiveScenario": "test_citizen_workflow[False-multi-department",
+    "negativeScenario": "test_citizen_workflow[True-multi-department",
+    "knownLimitations": "The supplied department packs are explicitly illustrative and unverified, not current official rules for all authorities.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_browser::test_citizen_workflow[False-multi-department-rules-Multi-department guidance]",
+      "qa.test_browser::test_citizen_workflow[True-multi-department-rules-Multi-department guidance]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 11,
+    "feature": "Minimum-Correction Path Optimizer",
+    "milestone": "M7",
+    "backendImplementation": "routes/advanced_planning.py; routes/reasoning_engine.py",
+    "frontendImplementation": "/planner \u2192 Compare correction paths",
+    "endpoint": "/api/intelligence/advanced-plan",
+    "positiveScenario": "test_m7_weighted_paths",
+    "negativeScenario": "test_m7_optimizer_cycle_invalid",
+    "knownLimitations": "Bounded exhaustive combinations with user estimates, sequential durations and explicit unit scaling. No guaranteed official route or fee.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_completion::test_m7_weighted_paths[cost]",
+      "qa.test_completion::test_m7_weighted_paths[days]",
+      "qa.test_completion::test_m7_optimizer_cycle_invalid"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 12,
+    "feature": "Identity Evolution Engine",
+    "milestone": "M7",
+    "backendImplementation": "routes/reasoning_engine.py \u2192 identityEvolution",
+    "frontendImplementation": "/planner \u2192 Identity name variations",
+    "endpoint": "/api/intelligence/reasoning",
+    "positiveScenario": "test_journey_b_identity_whatif",
+    "negativeScenario": "test_identity_variants_are_not_officially_verified",
+    "knownLimitations": "Maps to observed name variants; legal name-change history is not established.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_final_journeys::test_journey_b_identity_whatif",
+      "tests.test_m1_m9_completion::test_identity_variants_are_not_officially_verified"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/backend.xml",
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 13,
+    "feature": "Proof Substitution Engine",
+    "milestone": "M7",
+    "backendImplementation": "routes/reasoning_engine.py \u2192 proofSubstitution",
+    "frontendImplementation": "/planner \u2192 Alternative evidence candidates",
+    "endpoint": "/api/intelligence/reasoning",
+    "positiveScenario": "test_reasoning_whatif_family",
+    "negativeScenario": "test_reasoning_capability_contract[True-proofSubstitution",
+    "knownLimitations": "Candidates by reviewed category are not officially interchangeable proofs.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_browser::test_reasoning_whatif_family",
+      "tests.test_m4_m9_acceptance::test_reasoning_capability_contract[True-proofSubstitution]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/backend.xml",
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 14,
+    "feature": "Deadline & Document Expiry Conflict Solver",
+    "milestone": "M7",
+    "backendImplementation": "routes/reasoning_engine.py \u2192 deadlineRescue",
+    "frontendImplementation": "/documents expiry; /planner target/conflicts",
+    "endpoint": "/api/intelligence/reasoning",
+    "positiveScenario": "test_journey_d_deadline_dependencies_expiry",
+    "negativeScenario": "test_m7_malformed_expiry_conflict",
+    "knownLimitations": "Printed dates and target dates drive preparation risks; missing expiry remains unknown and official document validity stays unverified.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_final_journeys::test_journey_d_deadline_dependencies_expiry",
+      "qa.test_final_journeys::test_m7_malformed_expiry_conflict"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 15,
+    "feature": "Government Rule Change Impact Analyzer",
+    "milestone": "M7",
+    "backendImplementation": "routes/rule_change_impact.py; routes/passport_rules.py",
+    "frontendImplementation": "/planner \u2192 Review rule changes",
+    "endpoint": "/api/passport/rules/versions; /api/passport/rules/compare",
+    "positiveScenario": "test_journey_f_rule_saved_preparation",
+    "negativeScenario": "test_m7_rule_errors",
+    "knownLimitations": "One stored complete pack is available. Added/removed/modified scenarios are hypothetical and never change active rules. Source hashes are not historical packs.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_final_journeys::test_journey_f_rule_saved_preparation",
+      "qa.test_completion::test_m7_rule_errors[missing-baseline]",
+      "qa.test_completion::test_m7_rule_errors[malformed-result]",
+      "qa.test_completion::test_m7_rule_errors[invalid-version]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 16,
+    "feature": "Rejection Root-Cause Intelligence",
+    "milestone": "M7",
+    "backendImplementation": "routes/citizen_workflows.py \u2192 rejection_diagnosis",
+    "frontendImplementation": "/workflows \u2192 Rejection diagnosis",
+    "endpoint": "/api/citizen-workflows/rejection-diagnosis",
+    "positiveScenario": "test_citizen_workflow[False-rejection",
+    "negativeScenario": "test_citizen_workflow[True-rejection",
+    "knownLimitations": "Text categories suggest possible causes; only the authority can confirm the rejection reason.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_browser::test_citizen_workflow[False-rejection-diagnosis-Rejection diagnosis]",
+      "qa.test_browser::test_citizen_workflow[True-rejection-diagnosis-Rejection diagnosis]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 17,
+    "feature": "What-if Application Simulator",
+    "milestone": "M7",
+    "backendImplementation": "routes/reasoning_engine.py \u2192 simulations",
+    "frontendImplementation": "/planner \u2192 Try a correction",
+    "endpoint": "/api/intelligence/reasoning",
+    "positiveScenario": "test_journey_b_identity_whatif",
+    "negativeScenario": "test_simulation_family_invalid_references",
+    "knownLimitations": "Hypothetical metadata changes do not mutate source documents or establish official acceptance.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_final_journeys::test_journey_b_identity_whatif",
+      "tests.test_m4_m9_acceptance::test_simulation_family_invalid_references[payload0-200]",
+      "tests.test_m4_m9_acceptance::test_simulation_family_invalid_references[payload1-422]",
+      "tests.test_m4_m9_acceptance::test_simulation_family_invalid_references[payload2-422]",
+      "tests.test_m4_m9_acceptance::test_simulation_family_invalid_references[payload3-422]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/backend.xml",
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 18,
+    "feature": "Bureaucratic Deadlock Detector",
+    "milestone": "M7",
+    "backendImplementation": "routes/reasoning_engine.py; routes/advanced_planning.py",
+    "frontendImplementation": "/planner \u2192 Dependency diagnostics; optimizer",
+    "endpoint": "/api/intelligence/reasoning; /api/intelligence/advanced-plan",
+    "positiveScenario": "test_m7_optimizer_cycle_invalid",
+    "negativeScenario": "test_optimizer_invalid_weights",
+    "knownLimitations": "Detects software dependency cycles and infeasible supplied paths; not a certification of real bureaucratic deadlock.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_completion::test_m7_optimizer_cycle_invalid",
+      "tests.test_completion_contracts::test_optimizer_invalid_weights[-1]",
+      "tests.test_completion_contracts::test_optimizer_invalid_weights[101]",
+      "tests.test_completion_contracts::test_optimizer_invalid_weights[inf]",
+      "tests.test_completion_contracts::test_optimizer_invalid_weights[nan]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/backend.xml",
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 19,
+    "feature": "Family & Household Dependency Graph",
+    "milestone": "M8",
+    "backendImplementation": "routes/household.py; routes/reasoning_engine.py",
+    "frontendImplementation": "/household \u2192 Members, ownership, accessible graph",
+    "endpoint": "/api/household/assess; /api/intelligence/reasoning",
+    "positiveScenario": "test_journey_e_household_consent_withdrawal",
+    "negativeScenario": "test_household_stale_response_after_edit",
+    "knownLimitations": "One session workspace; labels/relationships are user claims. No legal verification, household persistence or cross-account authorization.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_final_journeys::test_journey_e_household_consent_withdrawal",
+      "qa.test_final_journeys::test_household_stale_response_after_edit"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 20,
+    "feature": "Multi-Authority Bottleneck Navigator",
+    "milestone": "M7",
+    "backendImplementation": "routes/citizen_workflows.py \u2192 authority_bottlenecks",
+    "frontendImplementation": "/workflows \u2192 Authority bottlenecks",
+    "endpoint": "/api/citizen-workflows/authority-bottlenecks",
+    "positiveScenario": "test_citizen_workflow[False-authority",
+    "negativeScenario": "test_citizen_workflow[True-authority",
+    "knownLimitations": "Critical-path estimates use user inputs, not verified official processing times.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_browser::test_citizen_workflow[False-authority-bottlenecks-Authority bottlenecks]",
+      "qa.test_browser::test_citizen_workflow[True-authority-bottlenecks-Authority bottlenecks]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 21,
+    "feature": "Deadline Rescue Engine",
+    "milestone": "M7",
+    "backendImplementation": "routes/citizen_workflows.py \u2192 deadline_rescue",
+    "frontendImplementation": "/workflows \u2192 Deadline rescue; /planner target",
+    "endpoint": "/api/citizen-workflows/deadline-rescue",
+    "positiveScenario": "test_citizen_workflow[False-deadline",
+    "negativeScenario": "test_citizen_workflow[True-deadline",
+    "knownLimitations": "Advisory risk and next steps, no official expedited service or actual deadline guarantee.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_browser::test_citizen_workflow[False-deadline-rescue-Deadline rescue]",
+      "qa.test_browser::test_citizen_workflow[True-deadline-rescue-Deadline rescue]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 22,
+    "feature": "Government Visit Eliminator",
+    "milestone": "M7",
+    "backendImplementation": "routes/citizen_workflows.py \u2192 visit_eliminator",
+    "frontendImplementation": "/workflows \u2192 Visit reduction planner",
+    "endpoint": "/api/citizen-workflows/visit-eliminator",
+    "positiveScenario": "test_citizen_workflow[False-visit",
+    "negativeScenario": "test_citizen_workflow[True-visit",
+    "knownLimitations": "Maps to estimated visit reduction with online-availability caveats. No real government visit is claimed eliminated.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_browser::test_citizen_workflow[False-visit-eliminator-Visit reduction planner]",
+      "qa.test_browser::test_citizen_workflow[True-visit-eliminator-Visit reduction planner]"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  },
+  {
+    "id": 23,
+    "feature": "AI-Assisted Preparation and Guidance",
+    "milestone": "M9",
+    "backendImplementation": "routes/intelligence.py \u2192 chat; extraction/gemini adapters",
+    "frontendImplementation": "Global Ask Maadhyam AI dialog",
+    "endpoint": "/api/intelligence/chat",
+    "positiveScenario": "test_journey_g_assistant_grounding_provider_failure",
+    "negativeScenario": "test_assistant_focus_escape_and_stale_reset",
+    "knownLimitations": "Reviewed applicant grounding and deterministic/local stubs pass. Live Gemini and production prompt-injection resistance are not certified.",
+    "acceptanceStatus": "COMPLETE",
+    "testCoverage": [
+      "qa.test_final_journeys::test_journey_g_assistant_grounding_provider_failure",
+      "qa.test_final_journeys::test_assistant_focus_escape_and_stale_reset"
+    ],
+    "evidencePaths": [
+      "qa/evidence/final/browser.xml"
+    ]
+  }
+]

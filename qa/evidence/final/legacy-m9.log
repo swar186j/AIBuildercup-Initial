@@ -1,0 +1,7 @@
+PASS M9B01 Gemini consent required before sending
+PASS M9B02 Consent reset when Gemini mode toggled
+PASS M9B03 Reviewed Vault context reaches real local assistant
+PASS M9B04 Real UI name mismatch flows into grounded assistant
+PASS M9B05 Clear chat resets history and Gemini mode
+
+5 passed, 0 failed. Report: /Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/qa/evidence/final/legacy-m9.json

@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Literal
 from urllib.request import Request, urlopen
 from fastapi import APIRouter
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator, field_validator
 
 router = APIRouter(prefix='/passport', tags=['Passport Preparation'])
 ROOT = Path(__file__).resolve().parent
@@ -20,10 +20,21 @@ class VaultDocument(BaseModel):
     categories: list[Literal['identity','address','birth','education','employment','other']] = Field(default_factory=list)
     holder: Literal['self','parent-guardian','spouse','other'] = 'self'
     reviewed: bool = False
+    householdMemberId: str | None = Field(default=None, max_length=128)
+    associationConsent: bool = False
     documentType: str = ''
     printedName: str = ''
     dateOfBirth: str = ''
     residentialAddress: str = ''
+
+    @model_validator(mode='after')
+    def validate_household_ownership(self):
+        if self.householdMemberId:
+            if not self.associationConsent:
+                raise ValueError('Household evidence association requires confirmation')
+            if self.householdMemberId != 'applicant' and self.holder == 'self':
+                raise ValueError('Another household member cannot be applicant identity evidence')
+        return self
 
 class PassportAssessmentRequest(BaseModel):
     assistanceType: Literal['fresh','reissue','correction','documents','police'] = 'fresh'
@@ -40,6 +51,18 @@ class PassportAssessmentRequest(BaseModel):
     nonEcrEligible: Literal['yes','no','unsure',''] = ''
     tatkaal: bool = False
     documents: list[VaultDocument] = Field(default_factory=list, max_length=100)
+
+    @field_validator('applicantDateOfBirth')
+    @classmethod
+    def valid_applicant_dob(cls,value):
+        if value=='':return value
+        try:
+            parsed=date.fromisoformat(value)
+        except ValueError:
+            raise ValueError('Applicant birth date must be a valid YYYY-MM-DD date') from None
+        if parsed.isoformat()!=value or parsed>date.today():
+            raise ValueError('Applicant birth date must be a valid date, not in the future')
+        return value
 
 class Check(BaseModel):
     id: str
@@ -99,6 +122,8 @@ def make_check(rule, docs, answer='', allowed=None):
         status, reason = 'available-for-review', 'Matching self-reviewed vault document found; authenticity, details and acceptance still need confirmation.'
     else:
         status, reason = 'needs-confirmation', 'No self-reviewed vault document matches the listed proof types; confirm actual evidence and document details.'
+    if any(d.holder!='self' for d in matches):
+        reason += ' Family-held address evidence is only a candidate: confirm permission, current address and category-specific conditions with the official advisor. It is not applicant identity evidence.'
     return Check(id=rule['id'], title=rule['title'], status=status, reason=reason,
                  next_action=rule['action'], matching_document_ids=[d.id for d in matches],
                  alternatives=allowed, source_url=rule['source_url'], source_id=rule['source_id'])
