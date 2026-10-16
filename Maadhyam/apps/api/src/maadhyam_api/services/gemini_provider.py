@@ -2,6 +2,7 @@
 from google.genai import types
 from google.auth.exceptions import DefaultCredentialsError
 from fastapi import HTTPException
+import httpx
 from maadhyam_api.config import get_settings
 
 
@@ -32,3 +33,20 @@ def generation_config(**kwargs):
     return types.GenerateContentConfig(max_output_tokens=2048,
                                       thinking_config=types.ThinkingConfig(thinking_budget=0),
                                       **kwargs)
+
+
+def provider_http_error(error: Exception, default_status: int = 502) -> HTTPException:
+    """Translate upstream failures without exposing provider messages or document data."""
+    code = getattr(error, "code", None)
+    if code == 429:
+        return HTTPException(429, "Gemini quota exhausted; retry later or use local guidance.",
+                             headers={"Retry-After": "60"})
+    if code in (401, 403):
+        return HTTPException(503, "Vertex AI access unavailable; check API enablement and runtime IAM.")
+    if code == 404:
+        return HTTPException(503, "Configured Gemini model is unavailable.")
+    if isinstance(error, (TimeoutError, httpx.TimeoutException)):
+        return HTTPException(504, "Gemini request timed out; retry later or use local guidance.")
+    if isinstance(error, httpx.TransportError) or code in (500, 502, 503, 504):
+        return HTTPException(503, "Gemini is temporarily unavailable; retry later or use local guidance.")
+    return HTTPException(default_status, "Gemini provider request failed.")

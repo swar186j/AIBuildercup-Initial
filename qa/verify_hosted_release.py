@@ -37,8 +37,12 @@ def main(base):
             assert response.status == 200
             expect(page.locator("h1")).to_be_visible()
             page.reload()
-            expect(page.locator("h1")).to_be_visible()
-            record("deep-link:" + path, "Loads and refreshes with visible heading")
+            if path.endswith("/journey"):
+                expect(page.get_by_role("alert")).to_contain_text("could not be restored")
+                record("deep-link:" + path, "Loads; refreshing unsaved ID safely prevents replacement")
+            else:
+                expect(page.locator("h1")).to_be_visible()
+                record("deep-link:" + path, "Loads and refreshes with visible heading")
 
         # Create the record through the actual UI and consent dialog.
         page.goto(base + "/applications")

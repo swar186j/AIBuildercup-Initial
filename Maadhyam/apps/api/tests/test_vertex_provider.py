@@ -1,5 +1,6 @@
 """No network or paid inference: provider configuration and production admission."""
 from unittest.mock import MagicMock
+import pytest
 from fastapi.testclient import TestClient
 from maadhyam_api.config import get_settings
 from maadhyam_api.main import create_app
@@ -78,3 +79,19 @@ def test_missing_adc_is_service_unavailable(monkeypatch):
         assert "private path" not in error.value.detail
     finally:
         get_settings.cache_clear()
+
+
+@pytest.mark.parametrize("code,status", [(429, 429), (403, 503), (401, 503), (404, 503), (500, 503)])
+def test_provider_errors_are_safe_and_actionable(code, status):
+    error = RuntimeError("PRIVATE_PROVIDER_DETAILS")
+    error.code = code
+    response = gemini_provider.provider_http_error(error)
+    assert response.status_code == status
+    assert "PRIVATE_PROVIDER_DETAILS" not in response.detail
+
+
+def test_provider_timeout_is_bounded_failure():
+    import httpx
+    response = gemini_provider.provider_http_error(httpx.ReadTimeout("PRIVATE_PROVIDER_DETAILS"))
+    assert response.status_code == 504
+    assert "PRIVATE_PROVIDER_DETAILS" not in response.detail

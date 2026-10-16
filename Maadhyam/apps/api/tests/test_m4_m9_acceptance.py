@@ -85,7 +85,7 @@ def test_extraction_provider_failure(client,monkeypatch,failure):
     def fail(*a): raise failure
     monkeypatch.setattr(extraction,'extract_with_gemini',fail)
     r=client.post('/api/ai/extract-document',files={'file':('test.pdf',b'%PDF-1.4 fictional','application/pdf')},data={'fictional_document_confirmed':'true'})
-    assert r.status_code==502 and 'SECRET_PROVIDER_DETAILS' not in r.text
+    assert r.status_code==(504 if isinstance(failure, TimeoutError) else 502) and 'SECRET_PROVIDER_DETAILS' not in r.text
 
 @pytest.mark.parametrize('mode',['success','timeout','rate-limit','empty','unsafe'])
 def test_assistant_provider_stub(client,monkeypatch,mode):
@@ -99,7 +99,8 @@ def test_assistant_provider_stub(client,monkeypatch,mode):
     monkeypatch.setattr(genai,'Client',lambda **kw:provider)
     try:
         r=client.post('/api/intelligence/chat',json={'documents':DOCS,'question':'What evidence is missing?','useGemini':True,'fictionalDataConfirmed':True})
-        assert r.status_code==(503 if mode in ['timeout','rate-limit','empty'] else 200),r.text
+        assert r.status_code=={'timeout':504,'rate-limit':429,'empty':503}.get(mode,200),r.text
+        if mode=='rate-limit': assert r.headers['retry-after']=='60'
         assert 'SECRET_PROVIDER_DETAILS' not in r.text and 'fake-qa-key' not in r.text
         if r.status_code==200:
             assert not r.json()['grounding']['officiallyVerified']

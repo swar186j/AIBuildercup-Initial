@@ -2,7 +2,7 @@
 import logging
 from fastapi import APIRouter, HTTPException
 from maadhyam_api.config import get_settings
-from maadhyam_api.services.gemini_provider import create_client, configured, generation_config
+from maadhyam_api.services.gemini_provider import create_client, configured, generation_config, provider_http_error
 
 router = APIRouter(tags=["ai"])
 logger = logging.getLogger(__name__)
@@ -30,9 +30,9 @@ def gemini_connection_test():
         answer = check_gemini_connection(settings.gemini_api_key, settings.gemini_model)
     except HTTPException:
         raise
-    except Exception:
+    except Exception as exc:
         logger.warning("Gemini connection test failed")
-        raise HTTPException(status_code=502, detail="Gemini provider request failed") from None
+        raise provider_http_error(exc) from None
     if not answer:
         raise HTTPException(status_code=502, detail="Gemini returned an empty response")
     return {"status": "connected", "model": settings.gemini_model, "reply": answer, "provider": "vertex-ai" if getattr(settings, "gemini_vertexai", False) else "gemini-api"}

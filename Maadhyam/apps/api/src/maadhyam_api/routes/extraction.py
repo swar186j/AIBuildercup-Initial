@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field, ValidationError, field_validator
 from starlette.concurrency import run_in_threadpool
 
 from maadhyam_api.config import get_settings
-from maadhyam_api.services.gemini_provider import create_client, configured, generation_config
+from maadhyam_api.services.gemini_provider import create_client, configured, generation_config, provider_http_error
 
 router = APIRouter(tags=["ai"])
 logger = logging.getLogger(__name__)
@@ -104,12 +104,5 @@ async def extract_document(file: UploadFile = File(...), fictional_document_conf
         logger.warning("Gemini returned invalid extraction data")
         raise HTTPException(502, "AI returned an invalid extraction result") from None
     except Exception as exc:
-        from google.genai import errors
-        if isinstance(exc, errors.ServerError) and exc.code in (429, 500, 502, 503, 504):
-            logger.warning("Gemini temporarily unavailable (HTTP %s)", exc.code)
-            raise HTTPException(503, "Gemini is temporarily busy. Please retry later or enter details manually.") from None
-        if isinstance(exc, errors.ClientError):
-            logger.warning("Gemini rejected extraction request (HTTP %s)", exc.code)
-            raise HTTPException(502, "Gemini could not process this document. Try a different fictional file or enter details manually.") from None
         logger.warning("Gemini document extraction request failed (%s)", type(exc).__name__)
-        raise HTTPException(502, "Document extraction provider request failed") from None
+        raise provider_http_error(exc) from None

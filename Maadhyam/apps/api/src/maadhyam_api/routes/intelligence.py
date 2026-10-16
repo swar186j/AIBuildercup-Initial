@@ -407,7 +407,7 @@ def chat(request: ChatRequest):
             raise HTTPException(403, 'Gemini requires explicit confirmation that all supplied metadata is fictional.')
         from maadhyam_api.config import get_settings
         settings = get_settings()
-        from maadhyam_api.services.gemini_provider import create_client, configured, generation_config
+        from maadhyam_api.services.gemini_provider import create_client, configured, generation_config, provider_http_error
         if not configured(settings):
             raise HTTPException(503, 'Gemini provider is not configured')
         import json
@@ -449,8 +449,8 @@ def chat(request: ChatRequest):
                     [d['id'] for d in context['reviewedApplicantDocuments']],
                     'officiallyVerified': False, 'sourceType': 'official-portal-reference-not-live-verified'},
                     'disclaimer': 'Preparation guidance only; verify current requirements with Passport Seva.'}
-        except Exception:
-            raise HTTPException(503, 'AI assistant temporarily unavailable; use local guidance.') from None
+        except Exception as exc:
+            raise provider_http_error(exc, default_status=503) from None
         finally:
             client.close()
     return {'answer': local_answer, 'mode': 'local-explainable', 'sourceUrl': SOURCE,
