@@ -2,6 +2,8 @@
 from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+google_cloud_project: str = ""
+firestore_database_id: str = "maadhyam"
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="MAADHYAM_", env_file=".env", extra="ignore")
