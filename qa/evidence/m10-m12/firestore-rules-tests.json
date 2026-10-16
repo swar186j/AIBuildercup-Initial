@@ -1,0 +1,447 @@
+{
+  "testResults": [
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 6,
+            "column": 30,
+            "currentOffset": 245,
+            "endOffset": 249
+          },
+          "value": true
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 6,
+            "column": 30,
+            "currentOffset": 245,
+            "endOffset": 249
+          },
+          "value": false
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "debugMessages": [
+        "Error: firestore.rules line [4], column [34]. Property auth is undefined on object."
+      ],
+      "errorPosition": {
+        "fileName": "firestore.rules",
+        "line": 4,
+        "column": 34,
+        "currentOffset": 122,
+        "endOffset": 128
+      }
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 7,
+            "column": 32,
+            "currentOffset": 288,
+            "endOffset": 292
+          },
+          "value": true
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 7,
+            "column": 32,
+            "currentOffset": 288,
+            "endOffset": 292
+          },
+          "value": false
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 12,
+            "column": 30,
+            "currentOffset": 547,
+            "endOffset": 551
+          },
+          "value": true
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 12,
+            "column": 30,
+            "currentOffset": 547,
+            "endOffset": 551
+          },
+          "value": false
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "debugMessages": [
+        "Error: firestore.rules line [4], column [34]. Property auth is undefined on object."
+      ],
+      "errorPosition": {
+        "fileName": "firestore.rules",
+        "line": 4,
+        "column": 34,
+        "currentOffset": 122,
+        "endOffset": 128
+      }
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 13,
+            "column": 32,
+            "currentOffset": 590,
+            "endOffset": 594
+          },
+          "value": true
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 13,
+            "column": 32,
+            "currentOffset": 590,
+            "endOffset": 594
+          },
+          "value": false
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 17,
+            "column": 30,
+            "currentOffset": 798,
+            "endOffset": 802
+          },
+          "value": true
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 17,
+            "column": 30,
+            "currentOffset": 798,
+            "endOffset": 802
+          },
+          "value": false
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "debugMessages": [
+        "Error: firestore.rules line [4], column [34]. Property auth is undefined on object."
+      ],
+      "errorPosition": {
+        "fileName": "firestore.rules",
+        "line": 4,
+        "column": 34,
+        "currentOffset": 122,
+        "endOffset": 128
+      }
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 18,
+            "column": 32,
+            "currentOffset": 875,
+            "endOffset": 879
+          },
+          "value": true
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 18,
+            "column": 32,
+            "currentOffset": 875,
+            "endOffset": 879
+          },
+          "value": false
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 17,
+            "column": 30,
+            "currentOffset": 798,
+            "endOffset": 802
+          },
+          "value": true
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 17,
+            "column": 30,
+            "currentOffset": 798,
+            "endOffset": 802
+          },
+          "value": false
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "debugMessages": [
+        "Error: firestore.rules line [4], column [34]. Property auth is undefined on object."
+      ],
+      "errorPosition": {
+        "fileName": "firestore.rules",
+        "line": 4,
+        "column": 34,
+        "currentOffset": 122,
+        "endOffset": 128
+      }
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 18,
+            "column": 32,
+            "currentOffset": 875,
+            "endOffset": 879
+          },
+          "value": true
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 18,
+            "column": 32,
+            "currentOffset": 875,
+            "endOffset": 879
+          },
+          "value": false
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "state": "SUCCESS",
+      "visitedExpressions": [
+        {
+          "sourcePosition": {
+            "line": 17,
+            "column": 30,
+            "currentOffset": 798,
+            "endOffset": 802
+          },
+          "value": false
+        },
+        {
+          "sourcePosition": {
+            "line": 21,
+            "column": 50,
+            "currentOffset": 1064,
+            "endOffset": 1068
+          },
+          "value": false
+        }
+      ]
+    }
+  ]
+}

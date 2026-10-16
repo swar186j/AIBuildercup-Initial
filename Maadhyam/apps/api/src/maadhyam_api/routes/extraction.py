@@ -5,6 +5,7 @@ from datetime import date
 from typing import Literal
 
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
+from starlette.concurrency import run_in_threadpool
 from pydantic import BaseModel, Field, ValidationError, field_validator
 
 from maadhyam_api.config import get_settings
@@ -52,15 +53,15 @@ Do not include ID numbers, Aadhaar numbers, PAN numbers or other sensitive ident
 
 
 def extract_with_gemini(data: bytes, mime: str, api_key: str, model: str) -> ExtractedDocument:
-    from google import genai
+    from maadhyam_api.provider import gemini_client
     from google.genai import types
 
-    client = genai.Client(api_key=api_key)
+    client = gemini_client(api_key)
     try:
         response = client.models.generate_content(
             model=model,
             contents=[types.Part.from_bytes(data=data, mime_type=mime), PROMPT],
-            config=types.GenerateContentConfig(response_mime_type="application/json", temperature=0),
+            config=types.GenerateContentConfig(response_mime_type="application/json", temperature=0, max_output_tokens=2048),
         )
         if not response.text:
             raise ValueError("Empty model response")
@@ -96,7 +97,7 @@ async def extract_document(file: UploadFile = File(...), fictional_document_conf
         raise HTTPException(415, "File contents do not match the declared file type")
     try:
         # AI provider receives the document only after explicit user initiation.
-        return extract_with_gemini(data, mime, settings.gemini_api_key, settings.gemini_model)
+        return await run_in_threadpool(extract_with_gemini, data, mime, settings.gemini_api_key, settings.gemini_model)
     except (ValidationError, ValueError, json.JSONDecodeError):
         logger.warning("Gemini returned invalid extraction data")
         raise HTTPException(502, "AI returned an invalid extraction result") from None
@@ -108,5 +109,5 @@ async def extract_document(file: UploadFile = File(...), fictional_document_conf
         if isinstance(exc, errors.ClientError):
             logger.warning("Gemini rejected extraction request (HTTP %s)", exc.code)
             raise HTTPException(502, "Gemini could not process this document. Try a different fictional file or enter details manually.") from None
-        logger.exception("Gemini document extraction request failed")
+        logger.warning("Gemini document extraction request failed")
         raise HTTPException(502, "Document extraction provider request failed") from None

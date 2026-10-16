@@ -1,3 +1,4 @@
+import { authenticatedFetch } from './authenticatedApi';
 export type ExtractionResult = {
   documentType: string | null;
   printedName: string | null;
@@ -11,12 +12,15 @@ export async function extractDocument(file: File, signal?: AbortSignal): Promise
   const form = new FormData();
   form.append("file", file, file.name);
   form.append("fictional_document_confirmed", "true");
+  const deadline = AbortSignal.timeout(50000);
+  const requestSignal = signal ? AbortSignal.any([signal, deadline]) : deadline;
   let response: Response;
   try {
-    response = await fetch("/api/ai/extract-document", { method: "POST", body: form, signal });
+    response = await authenticatedFetch("/api/ai/extract-document", { method: "POST", body: form, signal: requestSignal });
   } catch (error) {
     if (signal?.aborted) throw error;
-    throw new Error("Could not connect to the extraction service. Check that FastAPI is running.");
+    if (deadline.aborted) throw new Error("Extraction timed out. Retry or enter the fictional details manually.", { cause: error });
+    throw new Error("Could not connect to the extraction service. Check that FastAPI is running.", { cause: error });
   }
   const body: unknown = await response.json().catch(() => null);
   if (!response.ok) {

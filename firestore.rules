@@ -1,0 +1,7 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // All browser access is denied; the authenticated API enforces ownership.
+    match /{document=**} { allow read, write: if false; }
+  }
+}

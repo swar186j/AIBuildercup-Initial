@@ -1,11 +1,17 @@
+/* eslint react-refresh/only-export-components: ["error", { "allowExportNames": ["useDocuments", "getDocumentCategories"] }] */
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useRef,
   useState,
   type ReactNode,
 } from "react";
+
+import { useAuth } from './AuthContext';
+import { auth } from '../services/firebase';
+import { listDocuments, restoreDocument, uploadDocument, patchDocument, deleteDocument } from '../services/cloudWorkspace';
 
 export type ReviewStatus = "needs-review" | "reviewed";
 export type DocumentCategory =
@@ -22,12 +28,16 @@ export type DocumentMetadata = {
   categories?: DocumentCategory[]; // Additional manually assigned purposes; legacy category stays primary
   documentType: string;
   holder: DocumentHolder;
+  householdMemberId?: string;
+  associationConsent?: boolean;
   printedName?: string;
   dateOfBirth?: string; // YYYY-MM-DD when entered manually
+  expiryDate?: string; // Optional printed expiry, ISO YYYY-MM-DD
   residentialAddress?: string;
 };
 
 export type LocalDocument = {
+  pendingDeletion?: boolean;
   id: string;
   file: File;
   url: string;
@@ -36,199 +46,152 @@ export type LocalDocument = {
   metadata: DocumentMetadata;
 };
 
-// Browser-local IndexedDB; never transmitted to a server by this persistence layer.
-// Opt-in only. Use fictional data for demos; IndexedDB is NOT encrypted at rest.
-const DB_NAME = "maadhyam-local-vault-v1";
-const STORE = "documents";
-const PREF = "maadhyam-vault-persist-opt-in";
-type StoredDocument = Omit<LocalDocument, "url" | "addedAt"> & { addedAt: number };
-function openVaultDB(): Promise<IDBDatabase> {
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_NAME, 1);
-    req.onupgradeneeded = () => { if (!req.result.objectStoreNames.contains(STORE)) req.result.createObjectStore(STORE, { keyPath: "id" }); };
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
-async function readVault(): Promise<StoredDocument[]> {
-  const db = await openVaultDB();
-  try {
-    return await new Promise((resolve, reject) => {
-      const req = db.transaction(STORE, "readonly").objectStore(STORE).getAll();
-      req.onsuccess = () => resolve(req.result as StoredDocument[]);
-      req.onerror = () => reject(req.error);
-    });
-  } finally { db.close(); }
-}
-async function saveVault(docs: LocalDocument[]): Promise<void> {
-  const db = await openVaultDB();
-  try {
-    await new Promise<void>((resolve, reject) => {
-      const tx = db.transaction(STORE, "readwrite");
-      const store = tx.objectStore(STORE);
-      store.clear();
-      docs.forEach(({url: _url, addedAt, ...rest}) => store.put({...rest, addedAt: addedAt.getTime()}));
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
-      tx.onabort = () => reject(tx.error);
-    });
-  } finally { db.close(); }
-}
-async function deleteVault(): Promise<void> {
-  const db = await openVaultDB();
-  try {
-    await new Promise<void>((resolve, reject) => {
-      const tx = db.transaction(STORE, "readwrite");
-      tx.objectStore(STORE).clear();
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
-      tx.onabort = () => reject(tx.error);
-    });
-  } finally { db.close(); }
-}
 
 type DocumentContextValue = {
   documents: LocalDocument[];
-  addDocuments: (documents: LocalDocument[]) => void;
+  addDocuments: (documents: LocalDocument[]) => Promise<void>;
   removeDocument: (id: string) => void;
   toggleReviewed: (id: string) => void;
   updateMetadata: (id: string, metadata: DocumentMetadata) => void;
-  persistenceEnabled: boolean;
   persistenceReady: boolean;
   persistenceError: string;
-  setLocalPersistence: (enabled: boolean) => Promise<void>;
+  cloudBusy: boolean;
+  storageNotice: string;
+  retryCloud: () => void;
   clearAllDocuments: () => Promise<void>;
 };
-
 const DocumentContext = createContext<DocumentContextValue | null>(null);
 
-export function DocumentProvider({ children }: { children: ReactNode }) {
+export function DocumentProvider({ children, accountId }: { children: ReactNode; accountId?: string }) {
+  const { registerLogoutGuard } = useAuth();
   const [documents, setDocuments] = useState<LocalDocument[]>([]);
-  const documentsRef = useRef<LocalDocument[]>([]);
-  const [persistenceEnabled, setPersistenceEnabled] = useState(() => localStorage.getItem(PREF) === "yes");
-  const [persistenceReady, setPersistenceReady] = useState(false);
-  const [persistenceError, setPersistenceError] = useState("");
-  const persistQueue = useRef<Promise<void>>(Promise.resolve());
-  const persistenceEnabledRef = useRef(persistenceEnabled);
-  persistenceEnabledRef.current = persistenceEnabled;
-  const hydrated = useRef(false);
+  const current = useRef<LocalDocument[]>([]);
+  const revisions = useRef(new Map<string, number>());
+  const queues = useRef(new Map<string, Promise<void>>());
+  const failed = useRef(new Map<string, () => Promise<void>>());
+  const [failureCount, setFailureCount] = useState(0);
+  const session = useRef(0);
+  const [persistenceReady, setReady] = useState(false);
+  const [persistenceError, setError] = useState('');
+  const [storageNotice, setNotice] = useState('Loading your cloud documents…');
+  const [busy, setBusy] = useState(0);
+  const [reload, setReload] = useState(0);
+  const assign = useCallback((next: LocalDocument[]) => { current.current = next; setDocuments(next); }, []);
+
+  useEffect(() => registerLogoutGuard(() => busy === 0 && failureCount === 0), [registerLogoutGuard, busy, failureCount]);
+  useEffect(() => {
+    if (!busy && !failureCount) return;
+    const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ''; };
+    window.addEventListener('beforeunload', warn);
+    return () => window.removeEventListener('beforeunload', warn);
+  }, [busy, failureCount]);
 
   useEffect(() => {
-    let cancelled = false;
-    async function hydrate() {
+    const generation = ++session.current;
+    const restored: LocalDocument[] = [];
+    void (async () => {
+      setReady(false); setError('');
       try {
-        if (persistenceEnabledRef.current) {
-          const stored = await readVault();
-          if (cancelled || !persistenceEnabledRef.current) return;
-          setDocuments(stored.filter(d => d.file instanceof Blob).map(d => ({
-            ...d, file: d.file as File, addedAt: new Date(d.addedAt), url: URL.createObjectURL(d.file),
-          })));
+        const records = await listDocuments();
+        for (const record of records) {
+          if (generation !== session.current) return;
+          const document = await restoreDocument(record);
+          restored.push(document);
+          if (generation !== session.current) { URL.revokeObjectURL(document.url); return; }
+          revisions.current.set(record.id, record.revision);
         }
-      } catch (err) { if (!cancelled) setPersistenceError(`Local Vault could not be restored: ${String(err)}`); }
-      finally { if (!cancelled) { hydrated.current = true; setPersistenceReady(true); } }
-    }
-    void hydrate();
-    return () => { cancelled = true; };
-  }, []);
-
-  useEffect(() => {
-    if (!hydrated.current || !persistenceEnabled) return;
-    const snapshot = documents;
-    persistQueue.current = persistQueue.current.catch(() => {}).then(async () => {
-      if (persistenceEnabledRef.current) await saveVault(snapshot);
-    }).catch(err => setPersistenceError(`Local Vault save failed: ${String(err)}`));
-  }, [documents, persistenceEnabled]);
-
-  async function setLocalPersistence(enabled: boolean) {
-    setPersistenceError("");
-    if (!persistenceReady) return;
-    if (enabled) {
-      localStorage.setItem(PREF, "yes");
-      persistenceEnabledRef.current = true;
-      setPersistenceEnabled(true);
-      // Save the current session immediately; no upload to a server.
-      persistQueue.current = persistQueue.current.catch(() => {}).then(() => saveVault(documentsRef.current));
-      try { await persistQueue.current; } catch (err) { setPersistenceError(`Local Vault save failed: ${String(err)}`); }
-    } else {
-      persistenceEnabledRef.current = false;
-      localStorage.removeItem(PREF);
-      setPersistenceEnabled(false);
-      try { await persistQueue.current.catch(() => {}); await deleteVault(); }
-      catch (err) { setPersistenceError(`Local Vault deletion failed: ${String(err)}`); }
-    }
-  }
-
-  async function clearAllDocuments() {
-    const existing = documentsRef.current;
-    documentsRef.current = [];
-    setDocuments([]);
-    existing.forEach(d => URL.revokeObjectURL(d.url));
-    try { await persistQueue.current.catch(() => {}); await deleteVault(); }
-    catch (err) { setPersistenceError(`Local Vault deletion failed: ${String(err)}`); }
-  }
-
-
-  useEffect(() => {
-    documentsRef.current = documents;
-  }, [documents]);
-
-  useEffect(() => {
+        if (generation !== session.current) return;
+        assign(restored);
+        setReady(true); setNotice('Documents saved privately to your account.');
+      } catch (error) {
+        restored.forEach(document => URL.revokeObjectURL(document.url));
+        if (generation === session.current) setError(error instanceof Error ? error.message : 'Cloud documents could not load.');
+      }
+    })();
     return () => {
-      documentsRef.current.forEach((document) => URL.revokeObjectURL(document.url));
+      session.current += 1;
+      current.current.forEach(document => URL.revokeObjectURL(document.url));
     };
-  }, []);
+  }, [accountId, assign, reload]);
 
-  function addDocuments(incoming: LocalDocument[]) {
-    setDocuments((previous) => [...previous, ...incoming]);
+  function enqueue(id: string, operation: () => Promise<void>): Promise<void> {
+    const generation = session.current;
+    setBusy(count => count + 1); setError('');
+    const next = (queues.current.get(id) || Promise.resolve()).catch(() => {}).then(async () => {
+      if (generation !== session.current || auth?.currentUser?.uid !== accountId) return;
+      await operation();
+      if (generation !== session.current) return;
+      failed.current.delete(id); setFailureCount(failed.current.size);
+      setNotice('Cloud changes saved.');
+    }).catch(error => {
+      if (generation !== session.current) return;
+      failed.current.set(id, operation); setFailureCount(failed.current.size);
+      setError(error instanceof Error ? error.message : 'Cloud save failed.');
+      throw error;
+    }).finally(() => {
+      if (generation === session.current) setBusy(count => Math.max(0, count - 1));
+      if (queues.current.get(id) === next) queues.current.delete(id);
+    });
+    queues.current.set(id, next);
+    return next;
   }
-
+  async function addDocuments(incoming: LocalDocument[]) {
+    if (!persistenceReady) throw new Error('Wait for cloud documents to load.');
+    const uploads = incoming.map(document => {
+      const generation = session.current;
+      return enqueue(document.id, async () => {
+        const saved = await uploadDocument(document);
+        if (generation !== session.current) return;
+        revisions.current.set(document.id, saved.revision);
+        if (!current.current.some(item => item.id === document.id)) assign([...current.current, document]);
+      });
+    });
+    const results = await Promise.allSettled(uploads);
+    const rejected = results.find(result => result.status === 'rejected');
+    if (rejected?.status === 'rejected') throw rejected.reason;
+  }
+  function updateDocument(id: string, transform: (document: LocalDocument) => LocalDocument) {
+    const generation = session.current;
+    void enqueue(id, async () => {
+      const previous = current.current.find(document => document.id === id);
+      if (!previous) return;
+      const next = transform(previous);
+      const result = await patchDocument(next, revisions.current.get(id)!);
+      if (generation !== session.current) return;
+      revisions.current.set(id, result.revision);
+      assign(current.current.map(document => document.id === id ? { ...next, metadata: result.metadata, status: result.status } : document));
+    }).catch(() => {});
+  }
   function removeDocument(id: string) {
-    const found = documentsRef.current.find((document) => document.id === id);
-    if (!found) return;
-    setDocuments((previous) => previous.filter((document) => document.id !== id));
-    URL.revokeObjectURL(found.url);
+    const generation = session.current;
+    return enqueue(id, async () => {
+      const previous = current.current.find(document => document.id === id);
+      if (!previous) return;
+      await deleteDocument(id, revisions.current.get(id)!);
+      if (generation !== session.current) return;
+      assign(current.current.filter(document => document.id !== id));
+      revisions.current.delete(id); URL.revokeObjectURL(previous.url);
+    });
   }
-
-  function toggleReviewed(id: string) {
-    setDocuments((previous) =>
-      previous.map((document) =>
-        document.id === id
-          ? {
-              ...document,
-              status: document.status === "reviewed" ? "needs-review" : "reviewed",
-            }
-          : document,
-      ),
-    );
+  async function clearAllDocuments() {
+    for (const document of [...current.current]) await removeDocument(document.id);
   }
-
-  function updateMetadata(id: string, metadata: DocumentMetadata) {
-    setDocuments((previous) =>
-      previous.map((document) =>
-        document.id === id ? { ...document, metadata: { ...metadata } } : document,
-      ),
-    );
+  function retryCloud() {
+    if (!persistenceReady) { setReload(value => value + 1); return; }
+    for (const [id, operation] of failed.current) void enqueue(id, operation).catch(() => {});
   }
-
-  return (
-    <DocumentContext.Provider
-      value={{ documents, addDocuments, removeDocument, toggleReviewed, updateMetadata,
-        persistenceEnabled, persistenceReady, persistenceError, setLocalPersistence, clearAllDocuments }}
-    >
-      {children}
-    </DocumentContext.Provider>
-  );
+  return <DocumentContext.Provider value={{ documents, addDocuments,
+    removeDocument: id => { void removeDocument(id).catch(() => {}); },
+    toggleReviewed: id => updateDocument(id, document => ({ ...document, status: document.status === 'reviewed' ? 'needs-review' : 'reviewed' })),
+    updateMetadata: (id, metadata) => updateDocument(id, document => ({ ...document, metadata })),
+    persistenceReady, persistenceError, cloudBusy: busy > 0, storageNotice, retryCloud, clearAllDocuments,
+  }}>{children}</DocumentContext.Provider>;
 }
-
 export function useDocuments(): DocumentContextValue {
   const context = useContext(DocumentContext);
-  if (!context) {
-    throw new Error("useDocuments must be used inside DocumentProvider");
-  }
+  if (!context) throw new Error('Document workspace unavailable');
   return context;
 }
-
-// Read both legacy single-category metadata and new multi-category assignments.
 export function getDocumentCategories(metadata: DocumentMetadata): DocumentCategory[] {
   const selected = metadata.categories?.length ? metadata.categories : [metadata.category];
   return [...new Set(selected)];

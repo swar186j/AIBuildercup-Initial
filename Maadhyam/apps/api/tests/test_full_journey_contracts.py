@@ -12,7 +12,7 @@ import types
 from unittest.mock import MagicMock
 
 import pytest
-from fastapi.testclient import TestClient
+from starlette.testclient import TestClient
 from maadhyam_api.main import app
 
 API = '/api/intelligence'

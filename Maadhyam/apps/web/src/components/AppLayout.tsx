@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { HouseholdProvider } from '../context/HouseholdContext';
+import { useEffect, useRef, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import {
   LayoutDashboard,
   Landmark,
   Files,
   GitBranch,
+  Workflow,
+  Users,
   ClipboardList,
   Menu,
   X,
@@ -13,8 +16,12 @@ import {
   PanelLeftOpen,
   Moon,
   Sun,
+  LogOut,
+  ChevronDown,
+  UserRound,
 } from "lucide-react";
 import AIAssistant from "./AIAssistant";
+import { useAuth } from "../context/AuthContext";
 import { DocumentProvider } from "../context/DocumentContext";
 import { WorkspaceProvider } from "../context/WorkspaceContext";
 
@@ -24,23 +31,69 @@ const navigation = [
   { label: "My Documents", path: "/documents", icon: Files },
   { label: "My Applications", path: "/applications", icon: ClipboardList },
   { label: "Resolution Planner", path: "/planner", icon: GitBranch },
+  { label: "Household Intelligence", path: "/household", icon: Users },
+  { label: "Citizen Workflows", path: "/workflows", icon: Workflow },
 ];
 
 export default function AppLayout() {
+  const { user, logout } = useAuth();
+  const [signOutError, setSignOutError] = useState("");
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
+  const accountMenuRef = useRef<HTMLDivElement>(null);
+  const accountButtonRef = useRef<HTMLButtonElement>(null);
+  const accountName = user?.displayName?.trim() || user?.email?.split("@")[0] || "My account";
+  const accountInitial = accountName.charAt(0).toUpperCase();
+
+  useEffect(() => {
+    if (!accountMenuOpen) return;
+    const closeOnOutsideClick = (event: PointerEvent) => {
+      if (!accountMenuRef.current?.contains(event.target as Node)) {
+        setAccountMenuOpen(false);
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setAccountMenuOpen(false);
+        accountButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("pointerdown", closeOnOutsideClick);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsideClick);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [accountMenuOpen]);
+
+  const handleSignOut = async () => {
+    setSignOutError("");
+    setSigningOut(true);
+    try {
+      await logout();
+      setAccountMenuOpen(false);
+    } catch (error) {
+      setSignOutError(error instanceof Error ? error.message : 'Sign out failed. Please try again.');
+    } finally {
+      setSigningOut(false);
+    }
+  };
   const [mobileOpen, setMobileOpen] = useState(false);
   const [appearance, setAppearance] = useState<"light" | "dark">(() => {
-    const saved = localStorage.getItem("maadhyam-appearance");
+    let saved:string|null=null;
+    try {saved=localStorage.getItem("maadhyam-appearance");}catch { /* Private mode may deny storage. */ }
     return saved === "dark" ? "dark" : "light";
   });
   useEffect(() => {
     document.documentElement.classList.toggle("dark", appearance === "dark");
-    localStorage.setItem("maadhyam-appearance", appearance);
+    try {localStorage.setItem("maadhyam-appearance", appearance);}catch { /* Appearance remains usable in memory. */ }
   }, [appearance]);
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <DocumentProvider>
+    <DocumentProvider key={user?.uid} accountId={user?.uid}>
       <WorkspaceProvider>
+      <HouseholdProvider>
       <div className="min-h-screen bg-[#f5f7fa]">
         {mobileOpen && (
           <button
@@ -191,9 +244,59 @@ export default function AppLayout() {
               >
                 {appearance === "dark" ? <Sun size={19} aria-hidden="true" /> : <Moon size={19} aria-hidden="true" />}
               </button>
-              <span className="inline-flex h-9 shrink-0 items-center rounded-full bg-[#edf5f4] px-3 text-xs font-semibold text-[#126a70]">
+              <span className="hidden h-9 shrink-0 items-center rounded-full bg-[#edf5f4] px-3 text-xs font-semibold text-[#126a70] min-[420px]:inline-flex dark:bg-[#203440] dark:text-[#2fe9c2]">
                 Preview
               </span>
+              <div className="relative shrink-0" ref={accountMenuRef}>
+                <button
+                  ref={accountButtonRef}
+                  type="button"
+                  aria-label="Account menu"
+                  aria-haspopup="true"
+                  aria-expanded={accountMenuOpen}
+                  aria-controls="maadhyam-account-menu"
+                  onClick={() => {
+                    setAccountMenuOpen(open => !open);
+                    setSignOutError("");
+                  }}
+                  title="My account"
+                  className={`group inline-flex h-9 items-center gap-1.5 rounded-full border bg-white py-0.5 pl-0.5 pr-2 transition-all duration-150 hover:border-[#9dcacb] hover:bg-[#f3faf9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#147d83] dark:bg-[#203440] dark:hover:bg-[#294751] ${accountMenuOpen ? "border-[#9dcacb] shadow-sm dark:border-[#2fe9c2]" : "border-slate-200 dark:border-slate-600"}`}
+                >
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#173f68] text-[13px] font-semibold leading-none text-white dark:bg-[#167e75]">
+                    {accountInitial || <UserRound size={15} aria-hidden="true" />}
+                  </span>
+                  <ChevronDown size={14} strokeWidth={2} aria-hidden="true" className={`text-slate-500 transition-transform duration-150 group-hover:text-[#126a70] dark:text-slate-300 ${accountMenuOpen ? "rotate-180" : ""}`} />
+                </button>
+
+                {accountMenuOpen && (
+                  <div
+                    id="maadhyam-account-menu"
+                    className="absolute right-0 top-full z-50 mt-3 w-[min(18rem,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_14px_44px_rgba(23,63,104,0.15)] dark:border-slate-700 dark:bg-[#162430]"
+                  >
+                    <div className="border-b border-slate-100 px-3 pb-3 pt-2 dark:border-slate-700">
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edf5f4] text-base font-bold text-[#126a70] dark:bg-[#203f42] dark:text-[#2fe9c2]">
+                          {accountInitial || <UserRound size={18} aria-hidden="true" />}
+                        </span>
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-semibold leading-5 text-[#173f68] dark:text-white">{accountName}</p>
+                          <p className="truncate text-xs leading-5 text-slate-500 dark:text-slate-300" title={user?.email || ""}>{user?.email || "Signed in"}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      disabled={signingOut}
+                      onClick={() => { void handleSignOut(); }}
+                      className="mt-1 flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium leading-5 text-slate-700 transition-colors hover:bg-[#edf5f4] hover:text-[#126a70] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#147d83] disabled:cursor-wait disabled:opacity-60 dark:text-slate-200 dark:hover:bg-[#203f42] dark:hover:text-[#2fe9c2]"
+                    >
+                      <LogOut size={17} strokeWidth={1.9} aria-hidden="true" />
+                      <span>{signingOut ? "Signing out…" : "Sign out"}</span>
+                    </button>
+                    {signOutError && <p role="alert" className="px-3 pb-1 pt-2 text-xs text-red-700 dark:text-red-300">{signOutError}</p>}
+                  </div>
+                )}
+              </div>
             </div>
           </header>
 
@@ -203,7 +306,8 @@ export default function AppLayout() {
         </div>
         <AIAssistant />
       </div>
-          </WorkspaceProvider>
+          </HouseholdProvider>
+      </WorkspaceProvider>
     </DocumentProvider>
   );
 }

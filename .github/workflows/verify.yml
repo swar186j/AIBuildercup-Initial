@@ -1,0 +1,49 @@
+name: Verify
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.13.0'
+      - run: uv sync --frozen
+        working-directory: Maadhyam/apps/api
+      - run: uv run pytest -q --junitxml=../../../qa/evidence/m10-m12/backend.xml
+        working-directory: Maadhyam/apps/api
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: Maadhyam/apps/web/package-lock.json
+      - run: npm ci
+        working-directory: Maadhyam/apps/web
+      - run: npm run lint && npm run build
+        working-directory: Maadhyam/apps/web
+      - run: uv run playwright install --with-deps chromium
+        working-directory: Maadhyam/apps/api
+      - name: Authenticated synthetic browser acceptance
+        env:
+          VITE_FIREBASE_API_KEY: synthetic-public-config
+          VITE_FIREBASE_AUTH_DOMAIN: fictional.example.invalid
+          VITE_FIREBASE_PROJECT_ID: maadhyam-1610
+          VITE_FIREBASE_APP_ID: synthetic-app
+        run: |
+          (cd Maadhyam/apps/web && npm run dev -- --host 127.0.0.1 > /tmp/vite.log 2>&1) &
+          for i in $(seq 1 20); do curl --fail http://127.0.0.1:5173 && break; sleep 2; done
+          Maadhyam/apps/api/.venv/bin/python qa/m10/run_browser.py --m12
+      - run: node qa/m10/test_client.cjs && node qa/m10/test_preparation_list.cjs && node qa/m10/test_api_origin.cjs
+      - run: python scripts/validate_deployment.py
+      - run: docker build -t maadhyam-api Maadhyam/apps/api
+      - run: |
+          docker run -d --name api -p 8080:8080 maadhyam-api
+          for i in $(seq 1 20); do curl --fail http://localhost:8080/api/health && break; sleep 2; done
+          python scripts/hosted_smoke.py --url http://localhost:8080 --api-only
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-evidence
+          path: qa/evidence/m10-m12/

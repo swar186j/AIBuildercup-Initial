@@ -2,7 +2,7 @@
 """Real FastAPI + Chromium functional tests for Maadhyam M4-M6. No API mocks."""
 import argparse, json, sys, time
 from pathlib import Path
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
 
 PNG=bytes.fromhex('89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000b49444154789c636000020000050001a5f645400000000049454e44ae426082')
 CASES=[]
@@ -16,17 +16,16 @@ def require(ok, why):
 def plan_responses(page):
     out=[]
     def capture(response):
-        if '/api/intelligence/passport-plan' in response.url and response.request.method=='POST':
-            try: out.append({'request':response.request.post_data_json,'status':response.status,'response':response.json()})
-            except Exception: pass
+        if any(path in response.url for path in ['/api/intelligence/passport-plan','/api/passport/assess']) and response.request.method=='POST':
+            out.append({'request':response.request.post_data_json,'status':response.status,'response':response.json()})
     page.on('response',capture)
     return out
 
 def wait_plan(page,out):
-    page.wait_for_function('() => !!document.querySelector("[aria-label=\'Personalized Passport checklist\'], [aria-label=\'Passport correction alternatives\']")',timeout=15000)
-    page.wait_for_timeout(400)
-    require(bool(out),'No real passport-plan API response captured')
-    require(out[-1]['status']==200,f"passport-plan returned {out[-1]['status']}")
+    page.wait_for_function("() => !!document.querySelector('[aria-label=\"Passport document requirements\"] article, [aria-label=\"Passport correction alternatives\"]')",timeout=15000)
+    page.get_by_text('Guided Preparation',exact=True).wait_for() if '/journey' in page.url else page.get_by_text('Your next steps',exact=True).wait_for()
+    require(bool(out),'No real planning API response captured')
+    require(out[-1]['status']==200,f"planning API returned {out[-1]['status']}")
     return out[-1]
 
 def upload(page,name):
@@ -59,36 +58,37 @@ def mark_reviewed(page,name):
 @case('FF01 Fresh journey uses real API and displays every returned checklist label')
 def fresh(page):
     out=plan_responses(page); page.goto('/services/passport/journey?type=fresh')
-    result=wait_plan(page,out); data=result['response']['passportPlan']
+    result=wait_plan(page,out); data=result['response']
     require(result['request']['assistanceType']=='fresh','Wrong scenario sent to backend')
-    area=page.get_by_label('Personalized Passport checklist')
-    for item in data['checklist']:
-        require(area.get_by_text(item['label'],exact=True).count()>0,f"Missing checklist item: {item['id']}")
-    require(data['officialEligibilityDetermined'] is False,'Backend incorrectly claims official eligibility')
+    area=page.get_by_label('Passport document requirements')
+    for item in data['checks']:
+        require(area.get_by_text(item['title'],exact=True).count()>0,f"Missing checklist item: {item['id']}")
+    require(data['disclaimer'] and all(c['source_url'].startswith('https://') for c in data['checks']),'Missing source provenance')
 
-@case('FF02 Reissue journey changes backend scenario and checklist')
+@case('FF02 Reissue journey uses assessment API and existing-passport checklist')
 def reissue(page):
     out=plan_responses(page); page.goto('/services/passport/journey?type=reissue')
-    result=wait_plan(page,out); plan=result['response']['passportPlan']
+    result=wait_plan(page,out)
     require(result['request']['assistanceType']=='reissue','Reissue request not sent')
-    require(any(i['id']=='existing-passport' for i in plan['checklist']),'Reissue proof missing from API')
-    require(page.get_by_label('Personalized Passport checklist').get_by_text(plan['scenarioTitle'],exact=False).count()>0,'Scenario title not rendered')
+    item=next(i for i in result['response']['checks'] if i['id']=='old-passport')
+    require(page.get_by_label('Passport document requirements').get_by_text(item['title'],exact=True).count()==1,'Existing passport requirement not rendered')
 
 @case('FF03 Correction journey sends correction scenario')
 def correction(page):
     out=plan_responses(page); page.goto('/services/passport/journey?type=correction')
     result=wait_plan(page,out)
     require(result['request']['assistanceType']=='correction','Correction request not sent')
-    require(any(i['id']=='change-evidence' for i in result['response']['passportPlan']['checklist']),'Correction checklist missing')
+    require(result['response']['checks'],'Correction checklist missing')
+    require(any(i['id']=='old-passport' for i in result['response']['checks']),'Existing passport evidence missing for correction')
 
-@case('FF04 Empty Vault produces backend blockers rendered in journey')
+@case('FF04 Empty Vault produces follow-up guidance rendered in journey')
 def empty_vault(page):
     out=plan_responses(page); page.goto('/services/passport/journey?type=fresh')
     result=wait_plan(page,out)
-    blockers=result['response']['passportPlan']['preparationBlockers']
-    require('No reviewed applicant-held evidence' in blockers,'Backend missing empty-Vault blocker')
-    section=page.get_by_label('Preparation blockers')
-    for b in blockers: require(section.get_by_text(b,exact=True).count()>0,f'Blocker missing in UI: {b}')
+    checks=result['response']['checks']
+    require(checks and all(c['status']!='available-for-review' for c in checks),'Empty Vault incorrectly treated as ready')
+    for item in checks:
+        require(page.get_by_label('Passport document requirements').get_by_text(item['next_action'],exact=False).count()>0,'Missing follow-up guidance')
 
 @case('FF05 Planner reflects real API task count and blockers')
 def planner(page):
@@ -111,24 +111,16 @@ def no_false_claims(page):
     plan=out[-1]['response']['passportPlan']
     require(plan['officialEligibilityDetermined'] is False and plan['officialAcceptanceDetermined'] is False,'Unsafe official determination')
     require(all(not x['officialAcceptanceVerified'] for x in plan['checklist']),'Unsafe acceptance flag')
-    require('not an official checklist' in page.locator('body').inner_text().lower(),'Missing user-facing official disclaimer')
+    require('does not establish official acceptance' in page.locator('body').inner_text().lower(),'Missing user-facing official disclaimer')
 
 @case('FF07 Unreviewed fictional upload cannot become accepted applicant evidence')
 def unreviewed(page):
     upload(page,'fictional_pending_qa.png')
-    # React Router navigation preserves the in-memory DocumentProvider.
-    # page.goto() triggers a full reload and wipes the temporary Vault.
-    out=plan_responses(page)
-    page.get_by_role('link', name='Find Services').click()
-    page.get_by_role('link', name='Explore Passport Seva').click()
-    page.locator('a[href="/services/passport/journey?type=fresh"]').click()
+    out=plan_responses(page); spa_to_journey(page)
     result=wait_plan(page,out)
-    req=result['request']; require(len(req['documents'])==1,'Vault upload not sent to API after SPA navigation')
-    require(req['documents'][0]['reviewed'] is False,'Unreviewed upload incorrectly marked reviewed')
-    plan=result['response']['passportPlan']
-    require(all(not x['candidateDocumentIds'] for x in plan['checklist']),'Unreviewed document matched as applicant evidence')
-    require('Unreviewed applicant documents' in plan['preparationBlockers'],'Unreviewed blocker missing')
-    require(page.get_by_label('Preparation blockers').get_by_text('Unreviewed applicant documents').count()>0,'Unreviewed blocker not visible')
+    docs=result['request']['documents']
+    require(len(docs)==1 and docs[0]['reviewed'] is False,'Unreviewed upload state lost')
+    require(all(c['status']!='available-for-review' for c in result['response']['checks']),'Unreviewed proof promoted to reviewed evidence')
 
 @case('FF08 API failure displays actionable planner error, not stale success')
 def failure_planner(page):
@@ -141,10 +133,10 @@ def failure_planner(page):
 
 @case('FF09 API failure displays visible journey error')
 def failure_journey(page):
-    page.route('**/api/intelligence/passport-plan',lambda route: route.abort('failed'))
+    page.route('**/api/passport/assess',lambda route: route.abort('failed'))
     page.goto('/services/passport/journey?type=fresh')
-    page.get_by_role('alert').filter(has_text='Citizen intelligence is unavailable').wait_for(timeout=12000)
-    require(page.get_by_label('Personalized Passport checklist').count()==0,'Journey displayed fake checklist on API failure')
+    page.get_by_role('alert').filter(has_text='Unable to load the checklist').wait_for(timeout=12000)
+    require(page.get_by_label('Passport document requirements').locator('article').count()==0,'Journey displayed fake checklist on API failure')
 
 @case('FF10 Planner correction alternatives match backend response')
 def alternatives(page):
@@ -197,37 +189,28 @@ def set_metadata(page, name, category='identity', document_type='Aadhaar card', 
 
 @case('FF11 Reviewed applicant document reaches Passport API with correct type and category')
 def reviewed_metadata(page):
-    upload(page,'fictional_aadhaar.png')
-    set_metadata(page,'fictional_aadhaar.png')
-    mark_reviewed(page,'fictional_aadhaar.png')
-    out=plan_responses(page); spa_to_journey(page)
-    result=wait_plan(page,out)
+    upload(page,'fictional_aadhaar.png');set_metadata(page,'fictional_aadhaar.png');mark_reviewed(page,'fictional_aadhaar.png')
+    out=plan_responses(page); spa_to_journey(page); result=wait_plan(page,out)
     doc=result['request']['documents'][0]
-    require(doc['reviewed'] is True,'Review status lost across SPA navigation')
-    require(doc['holder']=='self' and doc['documentType']=='Aadhaar card','Wrong applicant document metadata')
+    require(doc['reviewed'] is True and doc['holder']=='self' and doc['documentType']=='Aadhaar card','Reviewed metadata lost')
     require('identity' in doc['categories'],'Identity category lost')
-    require(result['response']['assessment']['reviewedSelfDocuments']==1,'Backend did not count reviewed applicant evidence')
 
 @case('FF12 Reviewed family-held document is excluded from applicant evidence')
 def family_exclusion(page):
-    upload(page,'fictional_guardian.png')
-    set_metadata(page,'fictional_guardian.png',holder='parent-guardian')
-    mark_reviewed(page,'fictional_guardian.png')
-    out=plan_responses(page); spa_to_journey(page)
-    result=wait_plan(page,out)
+    upload(page,'fictional_guardian.png');set_metadata(page,'fictional_guardian.png',holder='parent-guardian');mark_reviewed(page,'fictional_guardian.png')
+    out=plan_responses(page); spa_to_journey(page);result=wait_plan(page,out)
     require(result['request']['documents'][0]['holder']=='parent-guardian','Family holder lost')
-    require(result['response']['assessment']['reviewedSelfDocuments']==0,'Family proof counted as self evidence')
-    require(all(not item['candidateDocumentIds'] for item in result['response']['passportPlan']['checklist']),'Family document accepted as applicant evidence')
+    # The source-backed address rule can list parent proof conditionally. It must
+    # never establish the applicant identity or independently verify acceptance.
+    require(all(c['status']!='available-for-review' for c in result['response']['checks'] if c['id']!='address'),'Family document treated as applicant identity')
 
 @case('FF13 Removing a reviewed document removes it from subsequent API payload')
 def removal_propagates(page):
-    upload(page,'fictional_remove.png')
-    mark_reviewed(page,'fictional_remove.png')
+    upload(page,'fictional_remove.png');mark_reviewed(page,'fictional_remove.png')
     page.get_by_role('button',name='Remove fictional_remove.png').click()
     require(page.get_by_text('fictional_remove.png',exact=True).count()==0,'Removed document still listed')
-    out=plan_responses(page); spa_to_journey(page)
-    result=wait_plan(page,out)
-    require(len(result['request']['documents'])==0,'Removed document leaked into Passport API')
+    out=plan_responses(page);spa_to_journey(page);result=wait_plan(page,out)
+    require(not result['request']['documents'],'Removed document leaked into assessment API')
 
 @case('FF14 Unsupported executable upload is rejected and not sent to API')
 def reject_executable(page):
@@ -252,13 +235,11 @@ def reject_large(page):
 
 @case('FF17 Review toggle is reversible and reaches API as unreviewed')
 def review_toggle(page):
-    upload(page,'fictional_toggle.png')
-    mark_reviewed(page,'fictional_toggle.png')
+    upload(page,'fictional_toggle.png');mark_reviewed(page,'fictional_toggle.png')
     page.get_by_role('button',name='Mark for review').click()
-    out=plan_responses(page); spa_to_journey(page)
-    result=wait_plan(page,out)
+    out=plan_responses(page);spa_to_journey(page);result=wait_plan(page,out)
     require(result['request']['documents'][0]['reviewed'] is False,'Review toggle did not revoke trust')
-    require(result['response']['assessment']['reviewedSelfDocuments']==0,'Revoked review still counted')
+    require(all(c['status']!='available-for-review' for c in result['response']['checks']),'Revoked review still counted')
 
 @case('FF18 Vault search and review filter actually filter documents')
 def vault_filter(page):
@@ -287,13 +268,13 @@ def assistant_local(page):
     dialog.get_by_label('Message to Maadhyam AI').fill('How many documents do I have?')
     with page.expect_response(lambda response: '/api/intelligence/chat' in response.url and response.request.method == 'POST', timeout=15000):
         dialog.get_by_role('button',name='Send message').click()
-    page.wait_for_timeout(250)
     require(bool(calls),'Assistant never sent request to real backend')
     status,req,response=calls[-1]
     require(status==200,'Local assistant backend failed')
     require(req['useGemini'] is False and req['fictionalDataConfirmed'] is False,'Gemini/consent enabled without user selection')
     require(req['question']=='How many documents do I have?','Prompt mutated in transit')
     require(bool(response.get('answer')),'Assistant returned empty answer')
+    expect(dialog.get_by_text(response['answer'],exact=True)).to_be_visible()
     require(response['answer'] in dialog.inner_text(),'Assistant response not rendered')
 
 @case('FF20 Assistant shows failure when backend unavailable')
@@ -328,25 +309,35 @@ def preview(page):
     dialog.get_by_role('button',name='Close preview').click()
     dialog.wait_for(state='hidden')
 
-# Known gaps are expected to fail until implemented; tracked separately from passing tests.
-KNOWN_GAPS=[]
-def gap(name):
-    def decorate(fn): KNOWN_GAPS.append((name,fn)); return fn
-    return decorate
+# Previously tracked gaps are now regular regression tests.
+def resolved_identity_fields(page):
+    page.goto("/documents")
+    upload(page, "fictional_identity.png")
+    page.get_by_role("button", name="Edit details").click()
+    dialog = page.get_by_role("dialog", name="Edit document details")
+    dialog.wait_for(timeout=10000)
+    require(dialog.locator("#metadata-printed-name").count() == 1,
+            "Printed name field missing")
+    require(dialog.locator("#metadata-dob").count() == 1,
+            "DOB field missing")
 
-@gap('GAP01 Vault has editable printed name and DOB for real mismatch detection')
-def missing_identity_fields(page):
-    upload(page,'fictional_identity.png')
-    page.get_by_role('button',name='Edit details').click()
-    dialog=page.get_by_role('dialog',name='Edit document details')
-    require(dialog.locator('#metadata-printed-name').count()==1,'Missing printed name field: cannot create UI-level Aadhaar/PAN mismatch')
-    require(dialog.locator('#metadata-date-of-birth').count()==1,'Missing DOB field: cannot test DOB conflict from UI')
-
-@gap('GAP02 Vault metadata survives browser reload')
-def missing_persistence(page):
-    upload(page,'fictional_persistence.png')
+def resolved_persistence(page):
+    page.goto("/documents")
+    page.get_by_role("button", name="Enable local saving").click()
+    upload(page, "fictional_persistence.png")
+    page.get_by_text("fictional_persistence.png").first.wait_for(timeout=10000)
     page.reload()
-    require(page.get_by_text('fictional_persistence.png',exact=True).count()>0,'In-memory Vault lost on refresh')
+    page.get_by_text("fictional_persistence.png").first.wait_for(timeout=10000)
+    require(
+        page.get_by_role("button", name="Disable local saving").count() == 1,
+        "Local persistence preference was not restored"
+    )
+
+CASES.extend([
+    ("GAP01 Vault exposes editable printed name and DOB", resolved_identity_fields),
+    ("GAP02 Opt-in Vault persistence survives reload", resolved_persistence),
+])
+KNOWN_GAPS = []
 
 def main():
     ap=argparse.ArgumentParser()

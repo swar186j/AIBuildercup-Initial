@@ -1,5 +1,7 @@
+import { apiFetch } from './apiFetch';
 import type { LocalDocument } from '../context/DocumentContext';
-import { getDocumentCategories } from '../context/DocumentContext';
+import { validatePassportAssessment } from './responseValidation';
+import { documentPayload } from './citizenIntelligence';
 
 export type PassportCheck = {
   id: string; title: string;
@@ -11,17 +13,13 @@ export type PassportAssessment = {
   ruleset_version: string; official_requirements_verified: boolean;
   source_health: string; checks: PassportCheck[]; disclaimer: string;
 };
-const API = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
 export async function assessPassport(answers: Record<string, unknown>, documents: LocalDocument[], applicantDateOfBirth: string, signal?: AbortSignal): Promise<PassportAssessment> {
-  const response = await fetch(`${API}/api/passport/assess`, {
+  const response = await apiFetch('/api/passport/assess', {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, signal,
-    body: JSON.stringify({ ...answers, applicantDateOfBirth, documents: documents.map(d => ({
-      id: d.id, categories: getDocumentCategories(d.metadata), holder: d.metadata.holder,
-      reviewed: d.status === 'reviewed', documentType: d.metadata.documentType,
-      printedName: d.metadata.printedName || '', dateOfBirth: d.metadata.dateOfBirth || '',
-      residentialAddress: d.metadata.residentialAddress || '',
-    })) }),
+    body: JSON.stringify({ ...answers, applicantDateOfBirth, documents: documentPayload(documents) }),
   });
   if (!response.ok) throw new Error(`Passport assessment unavailable (${response.status}).`);
-  return response.json() as Promise<PassportAssessment>;
+  const data:unknown=await response.json();
+  validatePassportAssessment(data);
+  return data as PassportAssessment;
 }

@@ -11,3 +11,9 @@ __pycache__/
 .pytest_cache/
 dist/
 *.pyc
+.maadhyam-m10-backup-*/
+Maadhyam.zip
+Maadhyam.zip
+
+.tools/
+.demo/

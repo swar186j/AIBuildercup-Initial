@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: maadhyam-api
+    runtime: docker
+    plan: free
+    region: singapore
+    rootDir: Maadhyam/apps/api
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeployTrigger: off
+    envVars:
+      - key: MAADHYAM_ENVIRONMENT
+        value: production
+      - key: MAADHYAM_FIRESTORE_TRANSPORT
+        value: user-rest
+      - key: GOOGLE_CLOUD_PROJECT
+        value: maadhyam-1610
+      - key: MAADHYAM_CORS_ORIGINS
+        value: '["https://maadhyam-1610.web.app","https://maadhyam-1610.firebaseapp.com"]'
+      - key: MAADHYAM_SUPABASE_URL
+        sync: false
+      - key: MAADHYAM_SUPABASE_BUCKET
+        value: maadhyam-documents
+      - key: MAADHYAM_SUPABASE_SECRET_KEY
+        sync: false
+      - key: MAADHYAM_GEMINI_API_KEY
+        sync: false
+      - key: MAADHYAM_GEMINI_MODEL
+        sync: false

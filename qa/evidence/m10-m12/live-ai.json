@@ -1,0 +1,35 @@
+{
+  "provider": "real Gemini",
+  "model": "gemini-3.8-flash",
+  "syntheticOnly": true,
+  "checks": [
+    {
+      "check": "assistant",
+      "status": "COMPLETE",
+      "result": {
+        "mode": "gemini-demo",
+        "answer": "Based on the provided data, the applicant should next address the pending Priority 1 tasks:\n\n1. **Add fictional sample documents** (the Vault currently has no documents).\n2. **Verify at least one self-held document** (required to inform comparisons before other checks can proceed).\n\nSubsequent tasks\u2014such as checking identity, address, and birth evidence, as well as preparing originals and copies\u2014are pending and depend on these initial steps. Additionally, preparation is currently blocked because no applicant-held evidence has been reviewed and the applicant's age group is unspecified.\n\nNo official eligibility or document acceptance has been determined, and candidate documents are not officially accepted. Please consult the official Passport Seva portal (https://www.passportindia.gov.in/) for official requirements and verification."
+      },
+      "elapsedSeconds": 7.24
+    },
+    {
+      "check": "extraction",
+      "status": "COMPLETE",
+      "result": {
+        "documentType": "Aadhaar",
+        "printedName": "Rahul Kumar Sharma",
+        "dateOfBirth": "1998-06-15",
+        "residentialAddress": "12 MG Road, Pune, Maharashtra",
+        "categories": [
+          "identity",
+          "birth",
+          "address"
+        ],
+        "warnings": [
+          "The document is explicitly marked as a fictional test document / synthetic QA fixture with no official validity."
+        ]
+      },
+      "elapsedSeconds": 9.34
+    }
+  ]
+}

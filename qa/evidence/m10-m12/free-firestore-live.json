@@ -1,0 +1,18 @@
+{
+  "status": "COMPLETE",
+  "project": "maadhyam-1610",
+  "runtimeAuth": "real Firebase tokens, public signing keys, no service-account key",
+  "ruleset": "projects/maadhyam-1610/rulesets/f5c69721-a3bf-4ef1-b7ef-e963f2c4effa",
+  "checks": [
+    "21 inline owner/cross-user/anonymous rules cases passed; owner-scoped rules published",
+    "two disposable Firebase QA users signed in with real ID tokens",
+    "real owner application create/update/restore; other-user isolation; stale revision rejected",
+    "real planner and household first-save, restore and isolation",
+    "real Supabase private bytes round-trip and owner-only deletion via keyless API",
+    "deployed Firestore rules reject direct cross-owner user-token access"
+  ],
+  "cleanup": [
+    "all disposable QA records and users removed"
+  ],
+  "hostedRender": "NOT TESTED"
+}

@@ -1,3 +1,4 @@
+import PageHero from "../components/PageHero";
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -35,7 +36,9 @@ export default function Services() {
   }
 
   useEffect(() => {
-    void loadServices();
+    let active = true;
+    queueMicrotask(() => { if (active) void loadServices(); });
+    return () => { active = false; };
   }, []);
 
   const filtered = services.filter((service) =>
@@ -46,19 +49,7 @@ export default function Services() {
 
   return (
     <div>
-      <p className="text-xs font-bold uppercase tracking-widest text-[#147d83]">
-        Service Navigator
-      </p>
-
-      <h1 className="mt-2 text-3xl font-bold text-[#173f68]">
-        Find a government service
-      </h1>
-
-      <p className="mt-3 max-w-2xl leading-7 text-slate-600">
-        Explore guided preparation journeys for government
-        services. Passport Seva has an interactive preview;
-        additional services are being developed.
-      </p>
+      <PageHero eyebrow="Service Navigator" title="Find a government service" description="Explore guided preparation journeys for government services. Passport Seva has an interactive preview; additional services are being developed." />
 
       {/* Search */}
       <div className="relative mt-8 max-w-xl">

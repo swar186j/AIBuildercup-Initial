@@ -1,3 +1,5 @@
+import { authenticatedFetch } from './authenticatedApi';
+import { validateChat, validatePassportPlan, validateReasoning } from './responseValidation';
 import type { LocalDocument } from '../context/DocumentContext';
 
 export type IntelligenceTask = { id: string; title: string; reason: string; dependsOn: string[]; priority: number; status: string };
@@ -10,17 +12,22 @@ export type IntelligenceAssessment = {
 };
 export function documentPayload(documents: LocalDocument[]) {
   return documents.map(d => ({
-    id: d.id, documentType: d.metadata.documentType || '', holder: d.metadata.holder,
+    id: d.id, documentType: d.metadata.documentType || '', holder: d.metadata.householdMemberId && d.metadata.householdMemberId !== 'applicant' && d.metadata.holder === 'self' ? 'other' : d.metadata.holder,
+    householdMemberId: d.metadata.householdMemberId, associationConsent: d.metadata.associationConsent===true,
     reviewed: d.status === 'reviewed',
     categories: d.metadata.categories?.length ? d.metadata.categories : [d.metadata.category],
     printedName: d.metadata.printedName || '', dateOfBirth: d.metadata.dateOfBirth || '',
-    residentialAddress: d.metadata.residentialAddress || '',
+    residentialAddress: d.metadata.residentialAddress || '', expiryDate: d.metadata.expiryDate || '',
   }));
 }
 async function post<T>(url: string, body: unknown): Promise<T> {
-  const response = await fetch(url, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  const response = await authenticatedFetch(url, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body), signal: AbortSignal.timeout(url.endsWith('/chat') ? 50000 : 15000) });
   if (!response.ok) throw new Error(`Intelligence service returned ${response.status}`);
-  return response.json() as Promise<T>;
+  const result: unknown = await response.json();
+  if (url.endsWith('/passport-plan')) validatePassportPlan(result);
+  if (url.endsWith('/reasoning')) validateReasoning(result);
+  if (url.endsWith('/chat')) validateChat(result);
+  return result as T;
 }
 export function analyzeCitizen(documents: LocalDocument[], assistanceType = 'fresh') {
   return post<IntelligenceAssessment>('/api/intelligence/analyze', {documents:documentPayload(documents), assistanceType});

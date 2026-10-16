@@ -1,3 +1,4 @@
+import { apiFetch } from './apiFetch';
 export type GovernmentService = {
   id: string;
   name: string;
@@ -10,7 +11,7 @@ export type ServiceListResponse = {
 };
 
 export async function fetchServices(): Promise<GovernmentService[]> {
-  const response = await fetch("/api/services");
+  const response = await apiFetch("/api/services");
 
   if (!response.ok) {
     throw new Error(`Services API returned ${response.status}`);

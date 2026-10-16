@@ -1,3 +1,5 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
+import PageHero from "../components/PageHero";
 import { useEffect, useRef, useState, type ChangeEvent, type DragEvent } from "react";
 import { extractDocument } from "../services/documentExtraction";
 import {
@@ -91,7 +93,7 @@ function isSupportedFile(file: File): boolean {
 }
 
 export default function DocumentVault() {
-  const { documents, addDocuments, removeDocument: removeStoredDocument, toggleReviewed, updateMetadata, persistenceEnabled, persistenceReady, persistenceError, setLocalPersistence, clearAllDocuments } = useDocuments();
+  const { documents, addDocuments, removeDocument: removeStoredDocument, toggleReviewed, updateMetadata, persistenceReady, persistenceError, cloudBusy, storageNotice, retryCloud, clearAllDocuments } = useDocuments();
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<DocumentFilter>("all");
   const [dragging, setDragging] = useState(false);
@@ -180,10 +182,11 @@ export default function DocumentVault() {
       residentialAddress: demoDraft.residentialAddress?.trim() ?? "",
     });
     closeDemo();
-    setMessage("AI-extracted details saved after your review. Verify them against the original document.");
+    setMessage("Reviewed AI details queued for cloud saving. Verify them against the original document.");
   }
 
-  function addFiles(fileList: FileList | File[]) {
+  async function addFiles(fileList: FileList | File[]) {
+    if (!persistenceReady || cloudBusy) { setMessage('Wait for your saved Vault to finish loading before adding files.'); return; }
     const accepted: LocalDocument[] = [];
     const errors: string[] = [];
 
@@ -195,6 +198,14 @@ export default function DocumentVault() {
       } else if (file.size === 0) {
         errors.push(`${file.name}: empty files cannot be added.`);
       } else {
+        const header = new Uint8Array(await file.slice(0, 8).arrayBuffer());
+        const extension = file.name.split('.').pop()?.toLowerCase();
+        const signature = extension === 'pdf' ? [37, 80, 68, 70, 45]
+          : extension === 'png' ? [137, 80, 78, 71, 13, 10, 26, 10] : [255, 216, 255];
+        if (!signature.every((byte, index) => header[index] === byte)) {
+          errors.push(`${file.name}: file contents do not match its PDF or image type.`);
+          continue;
+        }
         accepted.push({
           id: crypto.randomUUID(),
           file,
@@ -206,10 +217,13 @@ export default function DocumentVault() {
       }
     }
 
-    if (accepted.length) addDocuments(accepted);
+    if (accepted.length) {
+      try { await addDocuments(accepted); }
+      catch (error) { setMessage(error instanceof Error ? error.message : 'Upload failed. Use Retry cloud sync.'); return; }
+    }
     setMessage(
       [
-        accepted.length ? `${accepted.length} file${accepted.length === 1 ? "" : "s"} added to this browser session.` : "",
+        accepted.length ? `${accepted.length} file${accepted.length === 1 ? "" : "s"} saved to your cloud account.` : "",
         ...errors,
       ]
         .filter(Boolean)
@@ -235,13 +249,15 @@ export default function DocumentVault() {
     if (editId === id) setEditId(null);
     if (extractId === id) closeDemo();
     removeStoredDocument(id);
-    setMessage(`${document.file.name} removed from this browser session.`);
+    setMessage(`${document.file.name} deletion requested. Wait for cloud confirmation.`);
   }
 
   function openEdit(document: LocalDocument) {
     setDraftMetadata({ ...document.metadata, categories: getDocumentCategories(document.metadata) });
     setEditId(document.id);
   }
+
+  useDialogFocus(!!(previewId||editId||extractId),'[aria-labelledby="metadata-dialog-title"], [aria-labelledby="demo-extraction-title"], [role="dialog"][aria-label^="Preview "]',()=>{setPreviewId(null);setEditId(null);closeDemo();});
 
   function saveMetadata() {
     if (!editId) return;
@@ -252,7 +268,7 @@ export default function DocumentVault() {
       residentialAddress: draftMetadata.residentialAddress?.trim() ?? "",
     });
     setEditId(null);
-    setMessage("Document details updated in this browser session.");
+    setMessage("Document details queued for cloud saving. Wait for confirmation.");
   }
 
   // Analysis results are derived from the current metadata, so edits and removals
@@ -272,30 +288,16 @@ export default function DocumentVault() {
 
   return (
     <div className="mx-auto w-full max-w-[1560px] space-y-7 pb-24">
-      <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-[#147d83]">Document workspace</p>
-        <h1 className="mt-2 text-3xl font-bold text-[#173f68]">Document Vault</h1>
-        <p className="mt-3 max-w-2xl leading-7 text-slate-600">
-          Organize and preview documents for government-service preparation. Files stay in this browser session unless you explicitly enable browser-local saving.
-        </p>
-      </div>
+      <PageHero eyebrow="Document workspace" title="Document Vault" description="Organize and preview documents for government-service preparation. Files are stored privately in your account and restored when you sign in." />
 
-      <section aria-label="Local Vault storage controls" className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="font-semibold text-[#173f68]">Browser-local Vault storage</p>
-            <p className="mt-1 text-sm text-slate-600">Off by default. When enabled, files and manually reviewed identity fields remain in this browser after refresh. Not encrypted; use fictional documents for demos. Nothing is uploaded by this storage feature.</p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button type="button" disabled={!persistenceReady} onClick={() => void setLocalPersistence(!persistenceEnabled)}
-              className="rounded-lg border border-[#147d83] px-4 py-2 text-sm font-semibold text-[#147d83] disabled:opacity-50">
-              {persistenceEnabled ? "Disable local saving" : "Enable local saving"}
-            </button>
-            <button type="button" onClick={() => { if (window.confirm("Delete all Vault documents and saved browser copies?")) void clearAllDocuments(); }}
-              className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Clear all Vault data</button>
-          </div>
-        </div>
-        {persistenceError && <p role="alert" className="mt-2 text-sm text-red-700">{persistenceError}</p>}
+      <section aria-label="Cloud Vault storage controls" className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:bg-slate-900">
+        <p className="font-semibold">Private cloud document storage</p>
+        <p className="mt-1 text-sm">Files and reviewed details are saved to your account. Upload only documents you have permission to store.</p>
+        <p role="status" className="mt-2 text-sm">{cloudBusy ? 'Saving cloud changes…' : storageNotice}</p>
+        {persistenceError && <><p role="alert" className="mt-2 text-sm text-red-700">{persistenceError}</p><button type="button" onClick={retryCloud} className="mt-2 rounded-lg bg-teal-700 px-4 py-2 text-white">Retry cloud sync</button></>}
+        <button type="button" disabled={!persistenceReady || cloudBusy || documents.length === 0} onClick={() => {
+          if (window.confirm('Permanently delete all documents from your cloud account?')) void clearAllDocuments().catch(() => {});
+        }} className="mt-3 rounded-lg border border-red-300 px-4 py-2 text-sm text-red-700 disabled:opacity-50">Delete all cloud documents</button>
       </section>
 
       <div className="grid gap-4 sm:grid-cols-3">
@@ -322,22 +324,22 @@ export default function DocumentVault() {
           if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDragging(false);
         }}
         onDrop={onDrop}
-        className={`rounded-2xl border-2 border-dashed px-6 py-10 text-center transition sm:px-10 ${
-          dragging ? "border-[#147d83] bg-[#e4f3f1]" : "border-[#9dcacb] bg-[#f2f8f8]"
-        }`}
+        className={`rounded-2xl border-2 border-dashed px-6 py-10 text-center transition sm:px-10 ${dragging ? "border-[#147d83] bg-[#e4f3f1]" : "border-[#9dcacb] bg-[#f2f8f8]"
+          }`}
       >
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-[#147d83] shadow-sm">
           <UploadCloud size={27} aria-hidden="true" />
         </div>
         <h2 className="mt-4 text-xl font-bold text-[#173f68]">Add documents for preview</h2>
         <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-600">
-          Drag files here or select PDFs, JPGs and PNGs (up to 10 MB each). This is a local prototype, not secure cloud storage.
+          Drag files here or select PDFs, JPGs and PNGs (up to 10 MB each). Files are uploaded to your private cloud account.
         </p>
         <input
           ref={inputRef}
           type="file"
           accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
           multiple
+          disabled={!persistenceReady || cloudBusy}
           onChange={onFileChange}
           className="sr-only"
           aria-label="Choose documents to add"
@@ -345,13 +347,14 @@ export default function DocumentVault() {
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
+          disabled={!persistenceReady || cloudBusy}
           className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#126a70] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#147d83]"
         >
           <UploadCloud size={18} /> Choose files
         </button>
         <div className="mt-5 flex items-center justify-center gap-2 text-xs text-slate-500">
           <LockKeyhole size={15} aria-hidden="true" />
-          Files are not sent to the Maadhyam backend. Refreshing the page clears this list.
+          Files are sent through the authenticated API to private cloud storage.
         </div>
         {message && <p role="status" className="mx-auto mt-4 max-w-xl text-sm text-[#173f68]">{message}</p>}
       </section>
@@ -360,7 +363,7 @@ export default function DocumentVault() {
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="text-lg font-bold text-[#173f68]">Your documents</h2>
-            <p className="mt-1 text-sm text-slate-500">Temporary files added during this session.</p>
+            <p className="mt-1 text-sm text-slate-500">Documents saved in your account.</p>
           </div>
           <div className="relative w-full lg:max-w-xs">
             <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true" />
@@ -382,9 +385,8 @@ export default function DocumentVault() {
               type="button"
               aria-pressed={filter === item.id}
               onClick={() => setFilter(item.id)}
-              className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
-                filter === item.id ? "bg-[#147d83] text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
+              className={`rounded-full px-4 py-2 text-xs font-semibold transition ${filter === item.id ? "bg-[#147d83] text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                }`}
             >
               {item.label}
             </button>
@@ -432,9 +434,8 @@ export default function DocumentVault() {
                         {isPdf ? "PDF" : "Image"} · {formatSize(document.file.size)} · {document.addedAt.toLocaleString()}
                       </p>
                       <div className="mt-2 flex flex-wrap items-center gap-2">
-                        <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
-                          document.status === "reviewed" ? "bg-emerald-50 text-emerald-800" : "bg-amber-50 text-amber-800"
-                        }`}>
+                        <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${document.status === "reviewed" ? "bg-emerald-50 text-emerald-800" : "bg-amber-50 text-amber-800"
+                          }`}>
                           {document.status === "reviewed" ? "Self-reviewed" : "Needs review"}
                         </span>
                         {getDocumentCategories(document.metadata).map((category) => (
@@ -487,8 +488,7 @@ export default function DocumentVault() {
               <h2 id="comparison-heading" className="text-lg font-bold text-[#173f68]">Document discrepancy analysis</h2>
             </div>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-              Compare manually entered name, date of birth and address across files in the same holder category.
-              This does not read file contents or verify documents.
+              Compare name, date of birth and address across all uploaded documents assigned to the same household member. Unassigned documents use their holder category; confirm that they belong to the same person. Each pair shows matches, differences and missing details. Unreviewed metadata is provisional; this does not verify file contents.
             </p>
           </div>
           <button
@@ -512,7 +512,7 @@ export default function DocumentVault() {
             <div className="grid gap-3 sm:grid-cols-3">
               {[
                 { label: "Possible differences", value: currentAnalysis.findings.length },
-                { label: "Fields compared", value: currentAnalysis.comparableFieldPairs },
+                { label: "Matching field pairs", value: currentAnalysis.matchedFieldPairs },
                 { label: "Fields skipped (missing data)", value: currentAnalysis.skippedFieldPairs },
               ].map((stat) => (
                 <div key={stat.label} className="rounded-xl bg-[#f2f8f8] p-4">
@@ -522,6 +522,17 @@ export default function DocumentVault() {
               ))}
             </div>
 
+            <div className="rounded-xl border border-slate-200 bg-white p-4 text-slate-900" aria-label="Document-by-document field comparison">
+              <h3 className="font-bold text-slate-900">Exactly what matches and what needs checking</h3>
+              <p className="mt-1 text-sm text-slate-700">{documents.length} uploaded documents · {currentAnalysis.comparedPairs} same-holder document pairs · {currentAnalysis.comparableFieldPairs} populated field comparisons. Every field pair is listed below.</p>
+              <div className="mt-3 space-y-2">{currentAnalysis.comparisons.map((c, index) => (
+                <article key={`${c.firstId}-${c.secondId}-${c.field}-${index}`} className={`rounded-lg border p-3 text-sm ${c.status === "difference" ? "border-amber-400 bg-amber-50" : c.status === "match" ? "border-teal-300 bg-teal-50" : "border-slate-300 bg-slate-50"}`}>
+                  <div className="flex flex-wrap items-center justify-between gap-2"><strong className="capitalize text-slate-950">{c.field === "dateOfBirth" ? "Date of birth" : c.field}</strong><span className={`font-semibold ${c.status === "difference" ? "text-amber-900" : "text-slate-900"}`}>{c.status === "match" ? "MATCH" : c.status === "difference" ? "DIFFERENCE — REVIEW" : "MISSING DATA"}{c.needsReview ? " · unreviewed document" : ""}</span></div>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2"><p className="break-words text-slate-900"><strong>{c.firstName}</strong><span className="block">{c.firstValue || "Not provided"}</span></p><p className="break-words text-slate-900"><strong>{c.secondName}</strong><span className="block">{c.secondValue || "Not provided"}</span></p></div>
+                </article>
+              ))}</div>
+              {currentAnalysis.comparisons.length === 0 && <p className="mt-3 text-sm text-slate-700">No comparable holder pairs. Assign documents to the correct holder and review each file.</p>}
+            </div>
             {currentAnalysis.comparedPairs === 0 ? (
               <p className="rounded-xl border border-slate-200 p-4 text-sm text-slate-600">
                 No documents share a holder category. Set matching holders in Edit details before comparing.
@@ -533,8 +544,8 @@ export default function DocumentVault() {
             ) : currentAnalysis.findings.length === 0 ? (
               <div className="flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
                 <CheckCircle2 size={20} className="shrink-0 text-emerald-700" />
-                <p className="text-sm leading-6 text-emerald-900">
-                  No differences found in the populated fields compared. This does not confirm document validity or completeness.
+                <p className="text-sm leading-6 !text-white-950">
+                  No mismatches among the {currentAnalysis.comparableFieldPairs} populated field pairs. {currentAnalysis.skippedFieldPairs} field pairs remain unassessed because values are missing. Check unreviewed files before relying on these results.
                 </p>
               </div>
             ) : (
@@ -703,8 +714,8 @@ export default function DocumentVault() {
                 </div>
               </fieldset>
               <div>
-                <label htmlFor="metadata-holder" className="mb-2 block text-sm font-semibold text-[#173f68]">Document holder</label>
-                <select id="metadata-holder" value={draftMetadata.holder} onChange={(event) => setDraftMetadata((previous) => ({ ...previous, holder: event.target.value as DocumentHolder }))} className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#147d83]">
+                <label htmlFor="metadata-holder" className="mb-2 block text-sm font-semibold text-[#173f68]">Document holder</label>{draftMetadata.householdMemberId&&<p className="mb-2 text-xs text-teal-700">Ownership is assigned in Household Intelligence. Change it there with explicit confirmation.</p>}
+                <select id="metadata-holder" disabled={!!draftMetadata.householdMemberId} value={draftMetadata.holder} onChange={(event) => setDraftMetadata((previous) => ({ ...previous, holder: event.target.value as DocumentHolder }))} className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#147d83]">
                   {holders.map((holder) => <option key={holder.value} value={holder.value}>{holder.label}</option>)}
                 </select>
               </div>
@@ -737,6 +748,11 @@ export default function DocumentVault() {
                     onChange={(event) => setDraftMetadata((previous) => ({ ...previous, dateOfBirth: event.target.value }))}
                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#147d83]"
                   />
+                </div>
+                <div>
+                  <label htmlFor="metadata-expiry" className="mb-2 block text-sm font-semibold text-[#173f68]">Document expiry date (optional)</label>
+                  <input id="metadata-expiry" type="date" value={draftMetadata.expiryDate??''} onChange={e=>setDraftMetadata(previous=>({...previous,expiryDate:e.target.value}))} className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm"/>
+                  <p className="mt-1 text-xs text-slate-500">Copy the printed date only. Leave blank if absent. This does not determine official validity.</p>
                 </div>
                 <div>
                   <label htmlFor="metadata-address" className="mb-2 block text-sm font-semibold text-[#173f68]">Residential address as printed</label>

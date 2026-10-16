@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useWorkspace } from '../context/WorkspaceContext';
+import { isEmptyPreparation } from '../context/preparationList';
+import { newJourney, validDate } from '../context/preparationStorage';
+import { useEffect, useMemo, useRef, useState } from "react";
 import { assessPassport, type PassportAssessment } from "../services/passportAssessment";
-import { preparePassport, type PassportPlanResponse } from "../services/citizenIntelligence";
 import {
   Link,
   useSearchParams,
+  useNavigate,
 } from "react-router-dom";
 import {
   ArrowLeft,
@@ -16,7 +19,6 @@ import {
   FolderOpen,
 } from "lucide-react";
 import {
-  initialPassportAnswers,
   passportAssistanceOptions,
   passportJourneyDisclaimer,
   passportJourneySteps,
@@ -415,47 +417,79 @@ function QuestionField({
 }
 export default function GuidedJourney() {
   const [searchParams] = useSearchParams();
-  const requestedType = searchParams.get("type");
-  const validType = passportAssistanceOptions.find(
-    (option) => option.id === requestedType,
-  );
-  const assistanceType: PassportAssistanceType =
-    validType?.id ?? "fresh";
-  return (
-    <PassportWizard
-      key={assistanceType}
-      assistanceType={assistanceType}
-    />
-  );
+  const navigate=useNavigate();
+  const {applications,createDraft,cloudReady,cloudLoading,storageNotice,retryCloud}=useWorkspace();
+  const requestedType=searchParams.get('type');
+  const requestedId=searchParams.get('preparation');
+  const record=applications.find(a=>a.id===requestedId&&a.journey);
+  const assistanceType=passportAssistanceOptions.find(o=>o.id===requestedType)?.id??record?.journey?.assistanceType??'fresh';
+  const existingEmpty = !requestedId ? applications.find(app => app.journey?.assistanceType === assistanceType && isEmptyPreparation(app)) : undefined;
+  const creating=useRef<{ key: string; promise: Promise<string> } | null>(null);
+  const [creationError, setCreationError] = useState('');
+  const [recovery,setRecovery]=useState(false);
+  useEffect(()=>{
+    if(record || !cloudReady || requestedId || creationError)return;
+    if (existingEmpty) {
+      navigate(`/services/passport/journey?type=${assistanceType}&preparation=${encodeURIComponent(existingEmpty.id)}`, { replace: true });
+      return;
+    }
+    const key=`${requestedId ?? 'new'}:${assistanceType}`;
+    if (creating.current?.key !== key) {
+      creating.current = { key, promise: createDraft(assistanceType) };
+    }
+    const pending = creating.current;
+    let active = true;
+    // An effect replay must subscribe to the existing request again. Returning
+    // early here would leave the only navigation callback cancelled forever.
+    void pending.promise.then(id => {
+      if (!active) return;
+      if (requestedId) setRecovery(true);
+      navigate(`/services/passport/journey?type=${assistanceType}&preparation=${encodeURIComponent(id)}`,{replace:true});
+    }).catch(error => {
+      if (!active) return;
+      if (creating.current === pending) creating.current = null;
+      setCreationError(error instanceof Error ? error.message : 'Could not create preparation.');
+    });
+    return () => { active = false; };
+  },[record,requestedId,assistanceType,createDraft,navigate,cloudReady,existingEmpty,creationError]);
+  if (!record && requestedId && cloudReady) return <section className="max-w-xl rounded-2xl border border-slate-300 p-6">
+    <h1 className="text-xl font-semibold">Preparation unavailable</h1>
+    <p className="mt-3">This preparation was deleted or is not available in your account.</p>
+    <Link to="/applications" className="mt-4 inline-block text-teal-700 underline">Back to My Preparations</Link>
+  </section>;
+  if(!record) return !creationError && (cloudLoading || cloudReady)
+    ? <p role="status">{cloudReady ? 'Opening your preparation…' : 'Loading preparations from Firestore…'}</p>
+    : <section className="max-w-xl rounded-2xl border border-amber-300 bg-amber-50 p-6 text-slate-900 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
+        <h1 className="text-xl font-semibold">Unable to open your preparation</h1>
+        <p role="alert" className="mt-3 text-sm leading-6">{creationError || storageNotice}</p>
+        <button type="button" onClick={() => { setCreationError(''); creating.current = null; retryCloud(); }} className="mt-5 rounded-lg bg-teal-700 px-5 py-2.5 font-semibold text-white">Retry connection</button>
+      </section>;
+  return <>{recovery&&<p role="status" className="mb-4 rounded-xl bg-amber-50 p-4 text-amber-900">The previous preparation is unavailable in this session. A new independent preparation has been opened. New records are saved to your Firebase account when connected.</p>}<PassportWizard key={record.id+assistanceType} preparationId={record.id} assistanceType={assistanceType}/></>;
 }
-function PassportWizard({
-  assistanceType,
-}: {
-  assistanceType: PassportAssistanceType;
-}) {
-  const { documents } = useDocuments();
-  const [stepIndex, setStepIndex] = useState(0);
-  const [answers, setAnswers] = useState<PassportJourneyAnswers>({
-    ...initialPassportAnswers,
-    assistanceType,
-  });
+function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportAssistanceType;preparationId:string}) {
+  const { documents: vaultDocuments } = useDocuments();
+  const {applications,updatePreparation,preparationSaving,cloudSaving,storageNotice,hasUnsavedChanges,retryCloud}=useWorkspace();
+  const saved=applications.find(a=>a.id===preparationId)?.journey??newJourney(assistanceType);
+  const [stepIndex, setStepIndex] = useState(saved.stepIndex);
+  const [answers, setAnswers] = useState<PassportJourneyAnswers>({...saved.answers,assistanceType});
   const [showValidation, setShowValidation] = useState(false);
   const [assessment, setAssessment] = useState<PassportAssessment | null>(null);
   const [assessmentError, setAssessmentError] = useState('');
-  const [applicantDob, setApplicantDob] = useState('');
-  const [citizenIntelligence, setCitizenIntelligence] = useState<PassportPlanResponse | null>(null);
-  const [citizenIntelligenceError, setCitizenIntelligenceError] = useState('');
-  useEffect(() => {
-    let active = true;
-    preparePassport(documents, assistanceType, answers.applicantAgeGroup)
-      .then((result) => { if (active) { setCitizenIntelligence(result); setCitizenIntelligenceError(''); } })
-      .catch(() => { if (active) { setCitizenIntelligence(null); setCitizenIntelligenceError('Citizen intelligence is unavailable. Start the backend.'); } });
-    return () => { active = false; };
-  }, [documents, assistanceType, answers.applicantAgeGroup]);
-
+  const [applicantDob, setApplicantDob] = useState(saved.applicantDob);
+  const [applicantName,setApplicantName]=useState(saved.applicantName);
+  const today=new Date().toISOString().slice(0,10);
+  const dobValid=applicantDob===''||(validDate(applicantDob)&&applicantDob<=today);
+  const [saveNotice,setSaveNotice]=useState('');
+  const [documentIds,setDocumentIds]=useState(saved.documentIds);
+  const documents=useMemo(()=>vaultDocuments.filter(d=>documentIds.includes(d.id)),[vaultDocuments,documentIds]);
+  const missingDocumentIds=documentIds.filter(id=>!vaultDocuments.some(d=>d.id===id));
+  useEffect(()=>{
+    if(dobValid)updatePreparation(preparationId,{answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds});
+  },[preparationId,answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds,dobValid,updatePreparation]);
   useEffect(() => {
     const controller = new AbortController();
     const handle = window.setTimeout(() => {
+      setAssessment(null);
       assessPassport(answers as unknown as Record<string, unknown>, documents, applicantDob, controller.signal)
         .then(result => { if (!controller.signal.aborted) { setAssessment(result); setAssessmentError(''); } })
         .catch(error => { if (!controller.signal.aborted) setAssessmentError(error instanceof Error ? error.message : 'Assessment unavailable'); });
@@ -562,46 +596,6 @@ function PassportWizard({
         <ArrowLeft size={17} />
         Back to Passport Seva
       </Link>
-      <section className="rounded-2xl border border-slate-200 bg-white p-5 text-slate-900 dark:border-[#293956] dark:bg-[#18243B] dark:text-slate-100 shadow-sm md:p-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-teal-700 dark:text-[#96B1FF]">Passport preparation</p>
-            <h2 className="mt-1 text-lg font-bold">Tell us about your application</h2>
-            <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Answer the questions below. Your official-source checklist is shown after the questionnaire.</p>
-          </div>
-          <a className="text-xs font-semibold text-teal-700 dark:text-[#96B1FF] underline underline-offset-4" href="https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp" target="_blank" rel="noreferrer">Passport Seva Document Advisor ↗</a>
-        </div>
-        <label className="mt-4 block text-sm font-semibold" htmlFor="applicant-dob">Applicant date of birth</label>
-        <input id="applicant-dob" type="date" value={applicantDob} onChange={event => setApplicantDob(event.target.value)} className="mt-2 w-full max-w-xs rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-900 [color-scheme:light] dark:border-slate-600 dark:bg-[#101A30] dark:text-white dark:[color-scheme:dark]" />
-        <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Required to select the official date-of-birth evidence rule (1 October 2023 cutoff).</p>
-      </section>
-      <section className="rounded-2xl border border-[#253947] bg-[#162430] p-5 text-[#EAF4F7]" aria-label="Vault intelligence">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div><h3 className="font-bold text-[#2FE9C2]">Your Vault → Passport preparation</h3>
-            <p className="mt-1 text-xs text-[#A7BBC8]">Only manually reviewed self-held metadata informs comparisons. This is not an official eligibility decision.</p></div>
-          <Link to="/documents" className="text-sm font-semibold text-[#2FE9C2] underline">Review documents</Link>
-        </div>
-        {citizenIntelligenceError && <p role="alert" className="mt-3 text-sm text-amber-300">{citizenIntelligenceError}</p>}
-        {citizenIntelligence && <div className="mt-3 space-y-2 text-sm">
-          <p>{citizenIntelligence.assessment.documentCount} uploaded · {citizenIntelligence.assessment.reviewedSelfDocuments} reviewed self-held · {citizenIntelligence.assessment.findings.length} potential discrepancies</p>
-          {citizenIntelligence.assessment.findings.slice(0, 3).map((finding) => <p key={finding.id} className="rounded-lg bg-[#203440] p-3"><strong>{finding.field}:</strong> {finding.message}</p>)}
-          {citizenIntelligence.assessment.reviewedSelfDocuments === 0 && <p className="text-amber-200">Review your own document metadata in the Vault before relying on comparisons.</p>}
-          <div className="mt-4 space-y-3" aria-label="Personalized Passport checklist">
-            <h4 className="font-bold text-[#2FE9C2]">Personalized Passport checklist — {citizenIntelligence.passportPlan.scenarioTitle}</h4>
-            {citizenIntelligence.passportPlan.checklist.map(item => <div key={item.id} className="rounded-lg border border-[#345061] p-3">
-              <p className="font-semibold">{item.label}</p>
-              <p className="mt-1 text-xs text-[#A7BBC8]">{item.candidateDocumentIds.length ? `Possible Vault evidence: ${item.candidateDocumentIds.join(', ')}` : 'No reviewed applicant evidence matched this preparation category.'}</p>
-              <p className="mt-1 text-xs text-amber-200">{item.note}</p>
-            </div>)}
-            {citizenIntelligence.passportPlan.preparationBlockers.length > 0 && <div aria-label="Preparation blockers" className="rounded-lg border border-amber-500/30 p-3">
-              <p className="font-semibold text-amber-200">Preparation blockers to review</p>
-              <ul className="mt-2 list-disc space-y-1 pl-5">{citizenIntelligence.passportPlan.preparationBlockers.map(blocker => <li key={blocker}>{blocker}</li>)}</ul>
-            </div>}
-            <p className="text-xs text-[#A7BBC8]">{citizenIntelligence.passportPlan.disclaimer}</p>
-          </div>
-          <Link to="/planner" className="inline-block pt-1 font-semibold text-[#2FE9C2] underline">Open personalized resolution plan →</Link>
-        </div>}
-      </section>
       <section className="rounded-3xl bg-gradient-to-r from-[#124b50] to-[#173f68] p-7 text-white md:p-9">
         <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold">
           <ShieldCheck size={15} />
@@ -614,6 +608,17 @@ function PassportWizard({
           Answer a few questions to organize your preparation.
           This is not an official eligibility assessment.
         </p>
+      </section>
+      <section aria-label="Preparation save controls" className="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
+        <p>Preparation record: <strong>{preparationId}</strong></p>
+        <p role="status">{cloudSaving ? 'Saving your preparation…' : preparationSaving ? storageNotice : 'Cloud connection is unavailable; these changes are not yet confirmed.'}</p>
+        <label className="mt-3 block">Applicant name (optional, fictional while testing)<input aria-label="Applicant name" maxLength={200} value={applicantName} onChange={e=>setApplicantName(e.target.value)} className="mt-1 w-full rounded-lg border p-2"/></label>
+        <button type="button" disabled={!dobValid} onClick={()=>{updatePreparation(preparationId,{answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds});setSaveNotice('Save requested. Wait for the Firestore confirmation in My Preparations before closing this tab.');}} className="mt-3 rounded-lg bg-teal-700 px-4 py-2 text-white">Save preparation</button>
+        <Link to="/applications" className="ml-3 text-teal-700 underline">My Preparations and saving options</Link>
+        {hasUnsavedChanges && !cloudSaving && <button type="button" onClick={() => {
+          if (window.confirm('Discard unsaved changes and reload the version saved to your account?')) retryCloud();
+        }} className="ml-3 text-amber-800 underline">Reload saved version</button>}
+        {saveNotice&&<p role="status" className="mt-2">{saveNotice}</p>}
       </section>
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
         <div className="mb-4 flex items-center justify-between gap-4">
@@ -655,7 +660,7 @@ function PassportWizard({
               {passportAssistanceOptions.map((item) => (
                 <Link
                   key={item.id}
-                  to={`/services/passport/journey?type=${item.id}`}
+                  to={`/services/passport/journey?type=${item.id}&preparation=${encodeURIComponent(preparationId)}`}
                   className={`flex items-center justify-between gap-4 rounded-xl border p-4 transition ${assistanceType === item.id
                       ? "border-[#147d83] bg-[#eaf3f5]"
                       : "border-slate-200 hover:border-slate-300"
@@ -985,6 +990,14 @@ function PassportWizard({
           )}
         </div>
       </section>
+      <section aria-label="Preparation document references" className="space-y-3 rounded-xl border border-slate-200 bg-white p-5 text-sm text-slate-800">
+        <h2 className="text-xl font-bold">Documents for this preparation</h2>
+        <p>Select the Vault records belonging to this applicant. These references are saved with this preparation; files use separate Vault saving consent. Review status and ownership still apply.</p>
+        {vaultDocuments.map(d=><label key={d.id} className="flex items-start gap-2"><input type="checkbox" checked={documentIds.includes(d.id)} onChange={e=>setDocumentIds(old=>e.target.checked?[...old,d.id]:old.filter(id=>id!==d.id))}/>{d.file.name}</label>)}
+        {!vaultDocuments.length&&<p>No Vault evidence available. Add documents in Document Vault, then return here to select them.</p>}
+        {missingDocumentIds.length>0&&<p role="status">{missingDocumentIds.length} saved document reference(s) are unavailable. Restore the files with Vault consent or remove the unavailable references.</p>}
+        {missingDocumentIds.length>0&&<button type="button" className="underline" onClick={()=>setDocumentIds(ids=>ids.filter(id=>vaultDocuments.some(d=>d.id===id)))}>Remove unavailable references</button>}
+      </section>
       <section aria-label="Passport document requirements" className="rounded-2xl border border-slate-200 bg-white p-5 text-slate-900 dark:border-[#293956] dark:bg-[#18243B] dark:text-slate-100 shadow-sm md:p-7">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -994,6 +1007,12 @@ function PassportWizard({
           </div>
           <a href="https://www.passportindia.gov.in/psp/docAdvisor/attachmentAdvFreshInp" target="_blank" rel="noreferrer" className="text-xs font-semibold text-teal-700 dark:text-[#96B1FF] underline underline-offset-4">Verify with Passport Seva ↗</a>
         </div>
+        <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-[#101A30]">
+          <label className="block text-sm font-semibold" htmlFor="applicant-dob">Applicant date of birth (for document guidance)</label>
+          <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">Enter the date to select the applicable date-of-birth evidence guidance. This does not establish eligibility.</p>
+          <input id="applicant-dob" type="date" max={today} value={applicantDob} onChange={event => setApplicantDob(event.target.value)} className="mt-3 w-full max-w-xs rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-900 dark:border-slate-600 dark:bg-[#18243B] dark:text-white" />
+        </div>
+        {!dobValid&&<p role="alert" className="mt-3 text-red-700">Enter a valid birth date that is not in the future before saving.</p>}
         {assessmentError && <p role="alert" className="mt-4 rounded-lg bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-500/10 dark:text-amber-200">Unable to load the checklist: {assessmentError}. Check that the API is running.</p>}
         {!assessment && !assessmentError && <p className="mt-4 text-sm text-slate-600 dark:text-slate-400">Updating your checklist…</p>}
         {assessment && <>

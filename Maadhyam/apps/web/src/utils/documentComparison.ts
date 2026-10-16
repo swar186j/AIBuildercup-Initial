@@ -20,6 +20,8 @@ export type ComparisonResult = {
   comparedPairs: number;
   comparableFieldPairs: number;
   skippedFieldPairs: number;
+  matchedFieldPairs: number;
+  comparisons: { field: ComparedField; firstId: string; secondId: string; firstName: string; secondName: string; firstValue: string; secondValue: string; status: "match" | "difference" | "missing"; needsReview: boolean }[];
 };
 
 const FIELD_LABELS: Record<ComparedField, string> = {
@@ -88,26 +90,32 @@ export function compareDocuments(documents: LocalDocument[]): ComparisonResult {
   let comparedPairs = 0;
   let comparableFieldPairs = 0;
   let skippedFieldPairs = 0;
+  let matchedFieldPairs = 0;
+  const comparisons: ComparisonResult["comparisons"] = [];
 
   for (let i = 0; i < documents.length; i += 1) {
     for (let j = i + 1; j < documents.length; j += 1) {
       const first = documents[i];
       const second = documents[j];
 
-      if (first.metadata.holder !== second.metadata.holder) continue;
+      const ownerKey = (d:LocalDocument) => d.metadata.householdMemberId ? `member:${d.metadata.householdMemberId}` : d.metadata.holder==='self' ? 'member:applicant' : `unassigned:${d.metadata.holder}`;
+      if (ownerKey(first) !== ownerKey(second)) continue;
       comparedPairs += 1;
 
       for (const field of FIELDS) {
         const firstValue = getField(first, field);
         const secondValue = getField(second, field);
 
+        const status = !firstValue || !secondValue ? "missing" : normalizeField(field, firstValue) === normalizeField(field, secondValue) ? "match" : "difference";
+        comparisons.push({ field, firstId: first.id, secondId: second.id, firstName: first.file.name, secondName: second.file.name, firstValue, secondValue, status, needsReview: first.status !== "reviewed" || second.status !== "reviewed" });
         if (!firstValue || !secondValue) {
           skippedFieldPairs += 1;
           continue;
         }
 
         comparableFieldPairs += 1;
-        if (normalizeField(field, firstValue) === normalizeField(field, secondValue)) {
+        if (status === "match") {
+          matchedFieldPairs += 1;
           continue;
         }
 
@@ -132,5 +140,5 @@ export function compareDocuments(documents: LocalDocument[]): ComparisonResult {
     }
   }
 
-  return { findings, comparedPairs, comparableFieldPairs, skippedFieldPairs };
+  return { findings, comparedPairs, comparableFieldPairs, skippedFieldPairs, matchedFieldPairs, comparisons };
 }

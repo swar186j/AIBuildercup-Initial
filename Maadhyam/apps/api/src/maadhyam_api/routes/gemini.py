@@ -8,13 +8,14 @@ logger = logging.getLogger(__name__)
 
 
 def check_gemini_connection(api_key: str, model: str) -> str:
-    from google import genai
+    from maadhyam_api.provider import gemini_client
 
-    client = genai.Client(api_key=api_key)
+    client = gemini_client(api_key)
     try:
         result = client.models.generate_content(
             model=model,
             contents="Reply with only the word READY.",
+            config={"max_output_tokens": 128, "temperature": 0},
         )
         return (result.text or "").strip()
     finally:
@@ -29,7 +30,7 @@ def gemini_connection_test():
     try:
         answer = check_gemini_connection(settings.gemini_api_key, settings.gemini_model)
     except Exception:
-        logger.exception("Gemini connection test failed")
+        logger.warning("Gemini connection test failed")
         raise HTTPException(status_code=502, detail="Gemini provider request failed") from None
     if not answer:
         raise HTTPException(status_code=502, detail="Gemini returned an empty response")

@@ -35,24 +35,37 @@ export default function AIAssistant() {
   const [fictionalConsent, setFictionalConsent] = useState(false);
   const nextId = useRef(2);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const generation=useRef(0);
+  const panelRef=useRef<HTMLElement>(null);
+  const openerRef=useRef<HTMLButtonElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => { if (open) bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }); }, [messages, thinking, open]);
   useEffect(() => () => { if (timerRef.current) clearTimeout(timerRef.current); }, []);
 
+  useEffect(()=>{const current=++generation.current;queueMicrotask(()=>{if(generation.current===current)setThinking(false);});},[documents]);
+  useEffect(()=>{
+    if(!open)return;
+    panelRef.current?.querySelector<HTMLInputElement>('input[aria-label="Message to Maadhyam AI"]')?.focus();
+    const escape=(event:KeyboardEvent)=>{if(event.key==='Escape'){setOpen(false);openerRef.current?.focus();}};
+    document.addEventListener('keydown',escape);
+    return()=>document.removeEventListener('keydown',escape);
+  },[open]);
   function submit(content: string) {
     const clean = content.trim();
     if (!clean || thinking || (useGemini && !fictionalConsent)) return;
     setMessages(prev => [...prev, { id: nextId.current++, role: "user", text: clean }]);
     setInput("");
+    const current=++generation.current;
     setThinking(true);
     askCitizen(documents, clean, useGemini, useGemini && fictionalConsent)
-      .then(result => setMessages(prev => [...prev, { id: nextId.current++, role: "assistant", text: result.answer }]))
-      .catch(() => setMessages(prev => [...prev, { id: nextId.current++, role: "assistant", text: "Assistant unavailable. Check backend connection or turn off Gemini mode for local guidance." }]))
-      .finally(() => setThinking(false));
+      .then(result => {if(current===generation.current)setMessages(prev => [...prev, { id: nextId.current++, role: "assistant", text: result.answer }]);})
+      .catch(() => {if(current===generation.current)setMessages(prev => [...prev, { id: nextId.current++, role: "assistant", text: "Assistant unavailable. Check backend connection or turn off Gemini mode for local guidance." }]);})
+      .finally(() => {if(current===generation.current)setThinking(false);});
   }
   function sendMessage(event: FormEvent<HTMLFormElement>) { event.preventDefault(); submit(input); }
   function resetChat() {
+    generation.current+=1;
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = null;
     setThinking(false);
@@ -65,7 +78,7 @@ export default function AIAssistant() {
   return (
     <div className="fixed bottom-4 right-4 z-50 sm:bottom-7 sm:right-7">
       {open && (
-        <section role="dialog" aria-label="Maadhyam AI assistant" className="mb-3 flex h-[min(660px,78dvh)] w-[min(430px,calc(100vw-32px))] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:!border-[#253947] dark:!bg-[#162430]">
+        <section ref={panelRef} role="dialog" aria-label="Maadhyam AI assistant" className="mb-3 flex h-[min(660px,78dvh)] w-[min(430px,calc(100vw-32px))] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:!border-[#253947] dark:!bg-[#162430]">
           <div className="flex items-center justify-between gap-2 bg-[#173f68] px-4 py-4 text-white dark:!bg-[#163b42]">
             <div className="flex min-w-0 items-center gap-3"><div className="rounded-xl bg-white/15 p-2"><Bot size={22}/></div><div><h2 className="font-semibold">Maadhyam AI</h2><p className="text-xs text-slate-200">Context-aware · local by default</p></div></div>
             <div className="flex items-center gap-1"><button type="button" onClick={resetChat} aria-label="Clear chat" title="Clear chat" className="rounded-lg p-2 hover:bg-white/10"><RotateCcw size={17}/></button><button type="button" onClick={() => setOpen(false)} aria-label="Close AI assistant" className="rounded-lg p-2 hover:bg-white/10"><X size={20}/></button></div>
@@ -82,7 +95,7 @@ export default function AIAssistant() {
           <form onSubmit={sendMessage} className="flex gap-2 border-t border-slate-100 bg-white p-3 dark:!border-[#253947] dark:!bg-[#162430]"><input value={input} onChange={event => setInput(event.target.value)} placeholder="Ask Maadhyam…" aria-label="Message to Maadhyam AI" maxLength={500} className="min-w-0 flex-1 rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-[#147d83] dark:!border-[#34545a] dark:!bg-[#0c1720] dark:!text-[#eaf4f7] dark:focus:!border-[#2fe9c2]"/><button type="submit" disabled={!input.trim() || thinking || (useGemini && !fictionalConsent)} aria-label="Send message" className="rounded-xl bg-[#147d83] px-4 text-white dark:!bg-[#16665d] dark:!text-white disabled:cursor-not-allowed disabled:opacity-40"><Send size={18}/></button></form>
         </section>
       )}
-      <button type="button" onClick={() => setOpen(prev => !prev)} aria-label={open ? "Close Maadhyam AI" : "Open Maadhyam AI"} aria-expanded={open} className="flex items-center gap-3 rounded-full bg-[#173f68] px-5 py-4 text-white shadow-xl transition hover:bg-[#245782] dark:!bg-[#16665d] dark:hover:!bg-[#1b8174]">{open ? <X size={22}/> : <Sparkles size={22}/>}<span className="text-sm font-semibold">{open ? "Close" : "Ask Maadhyam AI"}</span></button>
+      <button ref={openerRef} type="button" onClick={() => setOpen(prev => !prev)} aria-label={open ? "Close Maadhyam AI" : "Open Maadhyam AI"} aria-expanded={open} className="flex items-center gap-3 rounded-full bg-[#173f68] px-5 py-4 text-white shadow-xl transition hover:bg-[#245782] dark:!bg-[#16665d] dark:hover:!bg-[#1b8174]">{open ? <X size={22}/> : <Sparkles size={22}/>}<span className="text-sm font-semibold">{open ? "Close" : "Ask Maadhyam AI"}</span></button>
     </div>
   );
 }

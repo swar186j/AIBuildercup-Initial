@@ -1,0 +1,30 @@
+{
+  "passed": [
+    "Cloud Vault hydration during pending creation still opens the journey",
+    "create, save and refresh persistence",
+    "planner first save, prerequisites, refresh and cascade",
+    "failed cloud upload retains the file for explicit retry",
+    "private cloud file and metadata survive refresh without local saving",
+    "sign-out, account isolation and original-account restore",
+    "household members save and restore from cloud",
+    "household data is isolated between accounts",
+    "failed create has no phantom draft; retry creates one record",
+    "failed save preserves edits, blocks sign-out and can be retried",
+    "failed delete retains the record; confirmed retry removes it",
+    "deleted preparation URL does not create a replacement draft",
+    "lost creation response retries with the same idempotency key",
+    "empty drafts group safely; search finds them; revisiting journey reuses a blank",
+    "deleting last filled record leaves list empty and creates no new records",
+    "all eight workflows success and provider failure at 1440px",
+    "five workspace routes and no horizontal overflow at 1440px",
+    "all eight workflows success and provider failure at 390px",
+    "five workspace routes and no horizontal overflow at 390px",
+    "assistant local guidance, consent and four failure states",
+    "assistant keyboard Escape dismissal",
+    "external API origin and cold-start retry gate avoid premature workspace requests",
+    "no uncaught browser runtime errors"
+  ],
+  "liveFirebaseWrites": false,
+  "auth": "synthetic SDK fixture",
+  "repository": "production logic with in-memory Firestore adapter"
+}

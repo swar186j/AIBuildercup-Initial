@@ -1,0 +1,14 @@
+# Security and privacy review
+
+Status: PARTIAL; scoped engineering verification, not certification.
+
+Verified locally: Firebase token-bound owner paths, cross-user application/document/household isolation, stale revisions, idempotent creation, blocked sign-out during unsaved changes, protected downloads, private Supabase bucket, MIME/signature/size checks, deletion retry, explicit fictional AI consent, reviewed-evidence grounding, structured extraction validation, no-cache API responses, production AI login/quota and metadata-only request logging. Secrets remain backend-only; container build uses a strict allow-list and Secret Manager bindings. The user-rest deployment uses owner-only Firestore rules, verified with 21 inline cases and a real two-account lifecycle; legacy Admin SDK mode still requires API ownership enforcement. File paths are recomputed from verified UID rather than trusting metadata object_key. No browser document/preparation persistence was reintroduced.
+
+The provider receives a fictional document only after explicit initiation and assistant context only after fictional-data confirmation. Prompts treat submitted documents/context as untrusted data, exclude sensitive identifiers from extraction and reject obvious official-outcome claims. Prompt boundaries are mitigations, not a guarantee against model error. Review every extraction against the fictional source.
+
+Limits: Firebase token verification does not perform a revocation lookup on every request; expired/invalid tokens are rejected but immediate revoked-session enforcement is not claimed. Quotas are process-local, not a distributed durable budget. An 11 MiB ASGI body cap precedes multipart parsing; file-specific cap remains 10 MiB. The reverse proxy should also limit slow uploads and ingress rate. PDF signature checking is not antivirus/malware sanitization. No third-party penetration test, screen-reader audit, production IAM audit or complete account-erasure workflow was executed. Supabase DNS fallback is opt-in and retains original-host TLS certificate verification.
+
+Reports omit actual user names, tokens and document contents. Live AI evidence uses generated fictional data. Owner rules and real cloud API isolation are verified; public hosted browser ownership/access remains BLOCKED until deployment. Monitoring and backups are documented but not provisioned.
+
+
+Current storage selection (2026-10-16): user explicitly chose private Google Cloud Storage to replace Supabase. GCS adapter, private-policy enforcement, generation preconditions and owner-scoped verified migration/finalization endpoints are implemented. Supabase is retained only as a migration source; source files are not automatically purged. Cloud Run deployment now selects gcs and only includes legacy credentials when ENABLE_SUPABASE_MIGRATION=true. No GCS bucket or live GCS migration is claimed: project billing/trial verification remains outstanding. See docs/GCS_MIGRATION.md.
