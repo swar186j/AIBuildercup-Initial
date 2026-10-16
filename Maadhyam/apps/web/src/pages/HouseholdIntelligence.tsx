@@ -12,18 +12,23 @@ const relations:Relation[]=['parent','guardian','spouse','child','sibling','othe
 function validAnalysis(value:unknown):value is Analysis {if(!value||typeof value!=='object')return false;const d=value as Analysis;const g=d.dependencyGraph;return d.officialRelationshipVerified===false&&d.crossAccountAuthorizationVerified===false&&typeof d.disclaimer==='string'&&Number.isInteger(d.memberCount)&&g&&Array.isArray(g.nodes)&&g.nodes.every(n=>n&&typeof n.id==='string'&&typeof n.label==='string')&&Array.isArray(g.edges)&&g.edges.every(e=>e&&typeof e.before==='string'&&typeof e.after==='string'&&typeof e.reason==='string')&&Array.isArray(g.executionOrder)&&g.executionOrder.every(x=>typeof x==='string')&&Array.isArray(g.cycleOrBlockedNodeIds)&&g.cycleOrBlockedNodeIds.every(x=>typeof x==='string')&&Array.isArray(d.missingRelationshipEvidenceMemberIds)&&d.missingRelationshipEvidenceMemberIds.every(x=>typeof x==='string')&&!!d.reviewedEvidenceByMember&&Object.values(d.reviewedEvidenceByMember).every(Array.isArray);}
 export default function HouseholdIntelligence(){
  const {members,addMember,editMember,removeMember,associate,unassign}=useHousehold();const {documents}=useDocuments();
- const [name,setName]=useState('');const [relation,setRelation]=useState<Relation>('spouse');const [selectedMember,setSelectedMember]=useState('');const [selectedDocument,setSelectedDocument]=useState('');const [consent,setConsent]=useState(false);const [error,setError]=useState('');const [notice,setNotice]=useState('');const [busy,setBusy]=useState(false);const [result,setResult]=useState<Analysis|null>(null);const [familyCount,setFamilyCount]=useState<number|null>(null);
+ const [name,setName]=useState('');const [relation,setRelation]=useState<Relation>('spouse');const [selectedMember,setSelectedMember]=useState('');const [selectedDocument,setSelectedDocument]=useState('');const [consent,setConsent]=useState(false);const [error,setError]=useState('');const [noticeValue,setNotice]=useState('');const [busy,setBusy]=useState(false);const [resultValue,setResult]=useState<Analysis|null>(null);const [familyCountValue,setFamilyCount]=useState<number|null>(null);
  const {saveHouseholdToCloud,activeCloudPreparationId}=useWorkspace();
  const [cloudSaveNotice,setCloudSaveNotice]=useState('');
+ const [analyzedInputs,setAnalyzedInputs]=useState<{members:typeof members;documents:typeof documents}|null>(null);
+ const currentAnalysis=analyzedInputs?.members===members && analyzedInputs.documents===documents;
+ const result=currentAnalysis?resultValue:null;
+ const familyCount=currentAnalysis?familyCountValue:null;
+ const notice=currentAnalysis?noticeValue:'';
  const revision=useRef(0);
- useEffect(()=>{revision.current+=1;setResult(null);setFamilyCount(null);setNotice('');},[members,documents]);
+ useEffect(()=>{revision.current+=1;},[members,documents]);
  useEffect(()=>()=>{revision.current+=1;},[]);
  const docName=(id:string)=>documents.find(d=>d.id===id)?.file.name??`Unavailable document ${id}`;
  const memberName=(id:string)=>members.find(m=>m.id===id)?.label??'Unavailable member';
  const nodeName=(id:string)=>id.startsWith('member:')?memberName(id.slice(7)):docName(id.slice(9));
  const owned=documents.filter(d=>d.metadata.householdMemberId&&members.some(m=>m.id===d.metadata.householdMemberId)&&d.metadata.associationConsent);
  const change=(id:string,patch:Partial<HouseholdMember>)=>{setError('');editMember(id,patch);};
- async function analyze(){const requestRevision=++revision.current;setNotice('');setError('');setResult(null);setBusy(true);try{
+ async function analyze(){setAnalyzedInputs({members,documents});const requestRevision=++revision.current;setNotice('');setError('');setResult(null);setBusy(true);try{
  const response=await fetch('/api/household/assess',{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(15000),body:JSON.stringify({members,documents:owned.map(d=>({id:d.id,memberId:d.metadata.householdMemberId,associationConfirmed:d.metadata.associationConsent===true,reviewed:d.status==='reviewed'}))})});if(!response.ok)throw new Error(response.status===422?'Review member names, evidence ownership and dependency references. Each referenced document must have a confirmed household owner.':'Household analysis is unavailable. Please retry.');const data:unknown=await response.json();if(!validAnalysis(data))throw new Error('Unexpected household analysis response.');if(requestRevision!==revision.current)return;setResult(data);
  const links:FamilyEvidenceLink[]=owned.flatMap(d=>{const m=members.find(m=>m.id===d.metadata.householdMemberId);return m&&m.relationship!=='self'?[{documentId:d.id,relation:m.relationship,claimedByApplicant:true,relationshipEvidenceDocumentIds:m.relationshipEvidenceDocumentIds.filter(id=>id!==d.id)}]:[];});
  try {const reasoning=await reasonCitizen(documents,links,[]);if(requestRevision===revision.current)setFamilyCount(reasoning.familyEvidence.links.length);}catch {if(requestRevision===revision.current)setNotice('Household graph is available, but additional Passport family guidance could not be loaded.');}

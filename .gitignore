@@ -29,3 +29,18 @@ qa/evidence/m11-cloud-run.json
 qa/evidence/m11-cloud-run-final.json
 qa/evidence/m11-lint.json
 qa/evidence/m11-quota-readiness.json
+
+# Remediation diagnostics stay local; retain portable acceptance evidence
+qa/evidence/m11-remediation-*/
+!qa/evidence/m11-remediation-green/
+qa/evidence/m11-remediation-green/*
+!qa/evidence/m11-remediation-green/tests.xml
+!qa/evidence/m11-remediation-hosted/
+qa/evidence/m11-remediation-hosted/*
+!qa/evidence/m11-remediation-hosted/results.json
+qa/evidence/m11-remediation-lint-before.json
+qa/evidence/m11-remediation-lint-after.json
+qa/evidence/m11-remediation-lint-progress.json
+qa/evidence/m11-remediation-cloud-run-before.json
+qa/evidence/m11-remediation-cloud-run-after.json
+qa/evidence/m11-remediation-registry.json

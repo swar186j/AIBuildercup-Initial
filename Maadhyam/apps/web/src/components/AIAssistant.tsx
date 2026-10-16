@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Bot, X, Send, Sparkles, ShieldAlert, ArrowRight, RotateCcw, FileSearch, LoaderCircle } from "lucide-react";
 import { useDocuments } from "../context/DocumentContext";
@@ -30,7 +30,8 @@ export default function AIAssistant() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([greeting]);
-  const [thinking, setThinking] = useState(false);
+  const [thinkingFor, setThinkingFor] = useState<typeof documents | null>(null);
+  const thinking = thinkingFor === documents;
   const [useGemini, setUseGemini] = useState(false);
   const [fictionalConsent, setFictionalConsent] = useState(false);
   const nextId = useRef(2);
@@ -43,7 +44,7 @@ export default function AIAssistant() {
   useEffect(() => { if (open) bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }); }, [messages, thinking, open]);
   useEffect(() => () => { if (timerRef.current) clearTimeout(timerRef.current); }, []);
 
-  useEffect(()=>{generation.current+=1;setThinking(false);},[documents]);
+  useLayoutEffect(()=>{generation.current+=1;},[documents]);
   useEffect(()=>{
     if(!open)return;
     panelRef.current?.querySelector<HTMLInputElement>('input[aria-label="Message to Maadhyam AI"]')?.focus();
@@ -57,18 +58,18 @@ export default function AIAssistant() {
     setMessages(prev => [...prev, { id: nextId.current++, role: "user", text: clean }]);
     setInput("");
     const current=++generation.current;
-    setThinking(true);
+    setThinkingFor(documents);
     askCitizen(documents, clean, useGemini, useGemini && fictionalConsent)
       .then(result => {if(current===generation.current)setMessages(prev => [...prev, { id: nextId.current++, role: "assistant", text: result.answer }]);})
       .catch(() => {if(current===generation.current)setMessages(prev => [...prev, { id: nextId.current++, role: "assistant", text: "Assistant unavailable. Check backend connection or turn off Gemini mode for local guidance." }]);})
-      .finally(() => {if(current===generation.current)setThinking(false);});
+      .finally(() => {if(current===generation.current)setThinkingFor(null);});
   }
   function sendMessage(event: FormEvent<HTMLFormElement>) { event.preventDefault(); submit(input); }
   function resetChat() {
     generation.current+=1;
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = null;
-    setThinking(false);
+    setThinkingFor(null);
     setMessages([greeting]);
     setInput("");
     setFictionalConsent(false);

@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useAsyncResource } from "../hooks/useAsyncResource";
+import { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDocuments } from '../context/DocumentContext';
 import { compareDocuments } from '../utils/documentComparison';
@@ -17,9 +18,6 @@ const muted = 'text-sm text-slate-600 dark:text-[#A7BBC8]';
 export default function ReasoningWorkspace() {
   const { documents } = useDocuments();
   const [journey, setJourney] = useState<Journey>('correction');
-  const [result, setResult] = useState<ReasoningResponse | null>(null);
-  const [error, setError] = useState('');
-  const [busy, setBusy] = useState(false);
   const [target, setTarget] = useState('');
   const [field, setField] = useState<EditableField>('printedName');
   const [replacement, setReplacement] = useState('');
@@ -39,22 +37,16 @@ export default function ReasoningWorkspace() {
   const familyDocs = documents.filter(d => d.metadata.holder !== 'self');
   const selectedDoc = documents.find(d => d.id === target);
   const currentValue = selectedDoc ? String(selectedDoc.metadata[field] || '') : '';
+  const loadReasoning = useCallback(() => reasonCitizen(documents, validLinks, validSimulations), [documents, validLinks, validSimulations]);
+  const { data: result, error: loadError, loading: busy } = useAsyncResource<ReasoningResponse>(loadReasoning);
+  const error = loadError ? 'Could not analyze your documents. Please check the backend and try again.' : '';
+
   const sim = result?.simulations.find(s => s.id === 'citizen-what-if');
   const beforeComparison = useMemo(() => compareDocuments(documents), [documents]);
   const afterComparison = useMemo(() => compareDocuments(documents.map(d => d.id === target && simulations.length ? { ...d, metadata: { ...d.metadata, [field]: replacement.trim() } } : d)), [documents, target, field, replacement, simulations]);
   const relatedPairs = afterComparison.comparisons.filter(c => (c.firstId === target || c.secondId === target) && c.field === (field === 'printedName' ? 'name' : field === 'residentialAddress' ? 'address' : 'dateOfBirth'));
 
   const selectedFamilyDoc = documents.find(d => d.id === familyDoc);
-
-  useEffect(() => {
-    let active = true;
-    setBusy(true);
-    reasonCitizen(documents, validLinks, validSimulations)
-      .then(data => { if (active) { setResult(data); setError(''); } })
-      .catch(() => { if (active) { setResult(null); setError('Could not analyze your documents. Please check the backend and try again.'); } })
-      .finally(() => { if (active) setBusy(false); });
-    return () => { active = false; };
-  }, [documents, validLinks, validSimulations]);
 
   function runSimulation() {
     if (!target || !replacement.trim()) return;

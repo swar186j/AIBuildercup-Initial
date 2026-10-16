@@ -1,8 +1,9 @@
+import { useAsyncResource } from "../hooks/useAsyncResource";
 import WeightedOptimizer from '../components/WeightedOptimizer';
 import RuleImpactAnalyzer from '../components/RuleImpactAnalyzer';
 import { validateReasoning } from '../services/responseValidation';
 import PageHero from "../components/PageHero";
-import { useEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import ReasoningWorkspace from "../components/ReasoningWorkspace";
 import { Link } from "react-router-dom";
 import { useDocuments } from "../context/DocumentContext";
@@ -55,49 +56,31 @@ const muted = "text-sm text-slate-600 dark:text-[#A7BBC8]";
 
 export default function ResolutionPlanner() {
   const { documents } = useDocuments();
-  const [assessment, setAssessment] = useState<PassportPlanResponse | null>(null);
-  const [error, setError] = useState("");
-  const [advanced, setAdvanced] = useState<AdvancedReasoning | null>(null);
-  const [advancedError, setAdvancedError] = useState("");
   const {plannerTargetDate:targetDate,setPlannerTargetDate:setTargetDate,recordPlannerAnalysis}=useWorkspace();
-
-  useEffect(() => {
-    let active = true;
-    setAssessment(null);
-    setError('');
-    preparePassport(documents)
-      .then((result) => { if (active) { setAssessment(result); setError("");
-        const tasks=result.assessment?.tasks;
-        const findings=result.assessment?.findings;
-        if(Array.isArray(tasks))recordPlannerAnalysis(tasks.map(t=>t.id),Array.isArray(findings)?findings.length:0,result.assessment.sourceUrl,documents.map(d=>d.id));
-      } })
-      .catch(() => { if (active) { setAssessment(null); setError("Cannot reach the intelligence API. Start the backend and retry."); } });
-    return () => { active = false; };
-  // Existing API outcome is derived from Vault metadata; do not persist raw documents.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [documents]);
-
-  useEffect(() => {
-    let active = true;
-    setAdvanced(null);
-    setAdvancedError("");
-    // Send only reviewed metadata and document descriptors, never document bytes.
-    const payload = documentPayload(documents);
-    fetch("/api/intelligence/reasoning", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ documents: payload, targetDate: targetDate || null }),
-    })
-      .then(async response => {
-        if (!response.ok) throw new Error(`Reasoning API returned ${response.status}`);
-        const result: unknown = await response.json();
-        validateReasoning(result);
-        return result as AdvancedReasoning;
-      })
-      .then(result => { if (active) setAdvanced(result); })
-      .catch(() => { if (active) setAdvancedError("Advanced reasoning could not be loaded. Check the backend and retry."); });
-    return () => { active = false; };
+  const [now] = useState(() => Date.now());
+  const committedDocuments = useRef(documents);
+  useLayoutEffect(() => { committedDocuments.current=documents; }, [documents]);
+  const loadAssessment = useCallback(async (signal: AbortSignal) => {
+    const result = await preparePassport(documents);
+    const tasks = result.assessment?.tasks;
+    const findings = result.assessment?.findings;
+    if (!signal.aborted && committedDocuments.current === documents && Array.isArray(tasks)) recordPlannerAnalysis(tasks.map(t=>t.id),Array.isArray(findings)?findings.length:0,result.assessment.sourceUrl,documents.map(d=>d.id));
+    return result;
+  }, [documents, recordPlannerAnalysis]);
+  const { data: assessment, error: assessmentError } = useAsyncResource<PassportPlanResponse>(loadAssessment);
+  const error = assessmentError ? "Cannot reach the intelligence API. Start the backend and retry." : "";
+  const loadAdvanced = useCallback(async (signal: AbortSignal) => {
+    const response = await fetch("/api/intelligence/reasoning", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ documents: documentPayload(documents), targetDate: targetDate || null }), signal,
+    });
+    if (!response.ok) throw new Error(`Reasoning API returned ${response.status}`);
+    const result: unknown = await response.json();
+    validateReasoning(result);
+    return result as AdvancedReasoning;
   }, [documents, targetDate]);
+  const { data: advanced, error: advancedLoadError } = useAsyncResource(loadAdvanced);
+  const advancedError = advancedLoadError ? "Advanced reasoning could not be loaded. Check the backend and retry." : "";
 
   const completed = new Set<string>(); // No inferred completion from upload or category.
   // A successful HTTP response can still have missing/partial fields. Never crash the entire planner.
@@ -190,7 +173,7 @@ export default function ResolutionPlanner() {
         <h2 className="text-xl font-bold">Your deadline and action plan</h2>
         <label htmlFor="planning-date" className="mt-3 block text-sm">When do you want your documents ready? (Your target, not a government deadline)</label>
         <input id="planning-date" type="date" value={targetDate} onChange={e => setTargetDate(e.target.value)} className="mt-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900" />
-        {targetDate && <p className="mt-3 text-sm">{Math.ceil((new Date(`${targetDate}T23:59:59`).getTime()-Date.now())/86400000)} day(s) until your personal target. This does not predict official processing time.</p>}
+        {targetDate && <p className="mt-3 text-sm">{Math.ceil((new Date(`${targetDate}T23:59:59`).getTime()-now)/86400000)} day(s) until your personal target. This does not predict official processing time.</p>}
         <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm">
           {uniqueDeadlineActions.map((action,index)=>
             <li key={`${index}-${action}`}>{action}</li>

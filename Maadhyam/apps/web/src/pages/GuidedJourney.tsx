@@ -1,7 +1,8 @@
+import { useAsyncResource, requestDelay } from "../hooks/useAsyncResource";
 import { useWorkspace } from '../context/WorkspaceContext';
 import { useHousehold } from '../context/HouseholdContext';
 import { newJourney, validDate } from '../context/preparationStorage';
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { assessPassport, type PassportAssessment } from "../services/passportAssessment";
 import {
   Link,
@@ -453,21 +454,17 @@ export default function GuidedJourney() {
 function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportAssistanceType;preparationId:string}) {
   const { documents: vaultDocuments } = useDocuments();
   const { members } = useHousehold();
-  const {applications,updatePreparation,savePreparationToCloud,preparationSaving,activateSavedPreparation,cloudRestoring}=useWorkspace();
+  const {applications,updatePreparation,savePreparationToCloud,preparationSaving,activateSavedPreparation,cloudRestoring,activeCloudPreparationId}=useWorkspace();
   useEffect(()=>{
     if(!cloudRestoring) void activateSavedPreparation(preparationId);
-  // Activation is based on the ID/initial cloud-load transition, not transient context rerenders.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[preparationId,cloudRestoring]);
+  },[preparationId,cloudRestoring,activateSavedPreparation]);
   const selectedApplication=applications.find(a=>a.id===preparationId);
   const saved=selectedApplication?.journey??newJourney(assistanceType);
   const [stepIndex, setStepIndex] = useState(saved.stepIndex);
   const [answers, setAnswers] = useState<PassportJourneyAnswers>({...saved.answers,assistanceType});
   const [showValidation, setShowValidation] = useState(false);
-  const [assessment, setAssessment] = useState<PassportAssessment | null>(null);
-  const [assessmentError, setAssessmentError] = useState('');
   const [applicantDob, setApplicantDob] = useState(saved.applicantDob);
-  const [applicantName,setApplicantName]=useState(saved.applicantName);
+  const [enteredApplicantName,setApplicantName]=useState(saved.applicantName);
 
   const availableApplicants = members.filter(m =>
     m.label.trim() &&
@@ -483,64 +480,37 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
     return matching?.id ?? "__other__";
   });
 
-  useEffect(() => {
-    if (applicantChoice === "__other__") return;
-
-    const selected = members.find(m => m.id === applicantChoice);
-    if (selected && selected.label !== applicantName) {
-      setApplicantName(selected.label);
-    }
-  }, [applicantChoice, members, applicantName]);
+  const selectedMember = members.find(member => member.id === applicantChoice);
+  const applicantName = applicantChoice !== '__other__' && selectedMember ? selectedMember.label : enteredApplicantName;
   const today=new Date().toISOString().slice(0,10);
   const dobValid=applicantDob===''||(validDate(applicantDob)&&applicantDob<=today);
   const [saveNotice,setSaveNotice]=useState('');
   const [documentIds,setDocumentIds]=useState(saved.documentIds);
-  const cloudHydrationApplied=useRef(false);
-  const skipHydrationWrite=useRef(false);
-
-  useEffect(()=>{
-    if (
-      cloudHydrationApplied.current ||
-      selectedApplication?.updated !== 'Cloud-saved preparation' ||
-      !selectedApplication.journey
-    ) return;
-
-    const restored=selectedApplication.journey;
-    cloudHydrationApplied.current=true;
-    skipHydrationWrite.current=true;
-
+  const [cloudHydrated,setCloudHydrated] = useState(selectedApplication?.updated === 'Cloud-saved preparation');
+  // Adjust once when an existing browser record receives its cloud version. React
+  // retries this render before committing, so no effect can write the old blanks.
+  if (!cloudHydrated && selectedApplication?.updated === 'Cloud-saved preparation' && selectedApplication.journey) {
+    const restored = selectedApplication.journey;
+    setCloudHydrated(true);
     setStepIndex(restored.stepIndex);
     setAnswers({...restored.answers,assistanceType:restored.assistanceType});
     setApplicantName(restored.applicantName);
-    const restoredMember = members.find(
-      m => restored.applicantName.trim() &&
-      m.label.trim() === restored.applicantName.trim()
-    );
-    setApplicantChoice(restoredMember?.id ?? "__other__");
+    setApplicantChoice(members.find(member => restored.applicantName.trim() && member.label.trim() === restored.applicantName.trim())?.id ?? '__other__');
     setApplicantDob(restored.applicantDob);
     setDocumentIds([...restored.documentIds]);
-  },[selectedApplication]);
-
-  const documents=vaultDocuments.filter(d=>documentIds.includes(d.id));
+  }
+  const documents=useMemo(() => vaultDocuments.filter(d=>documentIds.includes(d.id)), [vaultDocuments, documentIds]);
   const missingDocumentIds=documentIds.filter(id=>!vaultDocuments.some(d=>d.id===id));
   useEffect(()=>{
-    if (skipHydrationWrite.current) {
-      skipHydrationWrite.current=false;
-      return;
-    }
     if(!cloudRestoring && dobValid)
       updatePreparation(preparationId,{answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds});
-  },[preparationId,answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds]);
-  useEffect(() => {
-    const controller = new AbortController();
-    setAssessment(null);
-    const handle = window.setTimeout(() => {
-      assessPassport(answers as unknown as Record<string, unknown>, documents, applicantDob, controller.signal)
-        .then(result => { if (!controller.signal.aborted) { setAssessment(result); setAssessmentError(''); } })
-        .catch(error => { if (!controller.signal.aborted) setAssessmentError(error instanceof Error ? error.message : 'Assessment unavailable'); });
-    }, 300);
-    return () => { window.clearTimeout(handle); controller.abort(); };
-  }, [answers, vaultDocuments, documentIds, applicantDob]);
+  },[preparationId,answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds,cloudRestoring,dobValid,updatePreparation]);
+  const loadAssessment = useCallback(async (signal: AbortSignal) => {
+    await requestDelay(300, signal);
+    return assessPassport(answers as unknown as Record<string, unknown>, documents, applicantDob, signal);
+  }, [answers, documents, applicantDob]);
+  const { data: assessment, error: loadAssessmentError } = useAsyncResource<PassportAssessment>(loadAssessment);
+  const assessmentError = loadAssessmentError ? (loadAssessmentError instanceof Error ? loadAssessmentError.message : 'Assessment unavailable') : '';
   const option = passportAssistanceOptions.find(
     (item) => item.id === assistanceType,
   );
@@ -656,7 +626,7 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
       </section>
       <section aria-label="Preparation save controls" className="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
         <p>Preparation record: <strong>{preparationId}</strong></p>
-        <p role="status">{preparationSaving?'Saved to this browser with your consent.':'Saved in this workspace session. Reload clears it unless you enable preparation saving.'}</p>
+        <p role="status">{activeCloudPreparationId===preparationId || selectedApplication?.updated==='Cloud-saved preparation' ? 'Cloud preparation available under this anonymous identity. Use Save preparation to save current answers. Document files stay browser-local.' : preparationSaving?'Saved to this browser with your consent.':'Saved in this workspace session. Reload clears it unless you enable preparation saving.'}</p>
         <label className="mt-3 block">
           Choose applicant from Household Intelligence
           <select

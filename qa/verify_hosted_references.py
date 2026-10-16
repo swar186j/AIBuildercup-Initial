@@ -1,5 +1,6 @@
 """Real cloud reference/type restoration without any AI inference."""
 import json
+import os
 from pathlib import Path
 from playwright.sync_api import sync_playwright, expect
 
@@ -40,7 +41,7 @@ with sync_playwright() as playwright:
     result = {"status": "PASS", "recordId": record["id"], "selectedIds": record["selected_document_ids"],
               "assistanceTypeRestored": "reissue", "optionalEmptyDobAccepted": True,
               "anonymousUidStableOnRefresh": True, "vaultFilesRestoredWithConsent": True}
-    (ROOT / "qa/evidence/m11-hosted-references.json").write_text(json.dumps(result, indent=2))
+    (ROOT / os.environ.get("MAADHYAM_HOSTED_REFERENCES_OUTPUT", "qa/evidence/m11-hosted-references.json")).write_text(json.dumps(result, indent=2))
     print(json.dumps(result, indent=2))
     context.close()
     browser.close()

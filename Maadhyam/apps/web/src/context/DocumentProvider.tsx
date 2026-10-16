@@ -1,43 +1,5 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
-
-export type ReviewStatus = "needs-review" | "reviewed";
-export type DocumentCategory =
-  | "identity"
-  | "address"
-  | "birth"
-  | "education"
-  | "employment"
-  | "other";
-export type DocumentHolder = "self" | "parent-guardian" | "spouse" | "other";
-
-export type DocumentMetadata = {
-  category: DocumentCategory;
-  categories?: DocumentCategory[]; // Additional manually assigned purposes; legacy category stays primary
-  documentType: string;
-  holder: DocumentHolder;
-  householdMemberId?: string;
-  associationConsent?: boolean;
-  printedName?: string;
-  dateOfBirth?: string; // YYYY-MM-DD when entered manually
-  expiryDate?: string; // Optional printed expiry, ISO YYYY-MM-DD
-  residentialAddress?: string;
-};
-
-export type LocalDocument = {
-  id: string;
-  file: File;
-  url: string;
-  status: ReviewStatus;
-  addedAt: Date;
-  metadata: DocumentMetadata;
-};
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { DocumentContext, type LocalDocument, type DocumentMetadata } from "./DocumentContext";
 
 // Browser-local IndexedDB; never transmitted to a server by this persistence layer.
 // Opt-in only. Use fictional data for demos; IndexedDB is NOT encrypted at rest.
@@ -70,7 +32,7 @@ async function saveVault(docs: LocalDocument[]): Promise<void> {
       const tx = db.transaction(STORE, "readwrite");
       const store = tx.objectStore(STORE);
       store.clear();
-      docs.forEach(({ url: _url, addedAt, ...rest }) => store.put({ ...rest, addedAt: addedAt.getTime() }));
+      docs.forEach(({ id, file, status, metadata, addedAt }) => store.put({ id, file, status, metadata, addedAt: addedAt.getTime() }));
       tx.oncomplete = () => resolve();
       tx.onerror = () => reject(tx.error);
       tx.onabort = () => reject(tx.error);
@@ -90,21 +52,6 @@ async function deleteVault(): Promise<void> {
   } finally { db.close(); }
 }
 
-type DocumentContextValue = {
-  documents: LocalDocument[];
-  addDocuments: (documents: LocalDocument[]) => void;
-  removeDocument: (id: string) => void;
-  toggleReviewed: (id: string) => void;
-  updateMetadata: (id: string, metadata: DocumentMetadata) => void;
-  persistenceEnabled: boolean;
-  persistenceReady: boolean;
-  persistenceError: string;
-  setLocalPersistence: (enabled: boolean) => Promise<void>;
-  clearAllDocuments: () => Promise<void>;
-};
-
-const DocumentContext = createContext<DocumentContextValue | null>(null);
-
 export function DocumentProvider({ children }: { children: ReactNode }) {
   const [documents, setDocuments] = useState<LocalDocument[]>([]);
   const documentsRef = useRef<LocalDocument[]>([]);
@@ -117,7 +64,7 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
   const [persistenceError, setPersistenceError] = useState(storagePreference.error);
   const persistQueue = useRef<Promise<void>>(Promise.resolve());
   const persistenceEnabledRef = useRef(persistenceEnabled);
-  persistenceEnabledRef.current = persistenceEnabled;
+  useLayoutEffect(() => { persistenceEnabledRef.current = persistenceEnabled; }, [persistenceEnabled]);
   const hydrated = useRef(false);
 
   useEffect(() => {
@@ -262,18 +209,4 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
       {children}
     </DocumentContext.Provider>
   );
-}
-
-export function useDocuments(): DocumentContextValue {
-  const context = useContext(DocumentContext);
-  if (!context) {
-    throw new Error("useDocuments must be used inside DocumentProvider");
-  }
-  return context;
-}
-
-// Read both legacy single-category metadata and new multi-category assignments.
-export function getDocumentCategories(metadata: DocumentMetadata): DocumentCategory[] {
-  const selected = metadata.categories?.length ? metadata.categories : [metadata.category];
-  return [...new Set(selected)];
 }

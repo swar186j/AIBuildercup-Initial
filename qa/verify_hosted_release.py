@@ -1,6 +1,7 @@
 """Small real hosted acceptance run. Fictional data only; never store auth tokens."""
 import argparse
 import json
+import os
 from pathlib import Path
 import time
 from urllib.parse import urlparse
@@ -8,7 +9,7 @@ from uuid import uuid4
 from playwright.sync_api import sync_playwright, expect
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "qa/evidence/m11-hosted"
+OUT = ROOT / os.environ.get("MAADHYAM_HOSTED_QA_OUTPUT", "qa/evidence/m11-hosted")
 OUT.mkdir(parents=True, exist_ok=True)
 CASES = []
 
@@ -19,10 +20,21 @@ def record(name, observed):
     print(f"PASS {name}: {observed}", flush=True)
 
 
-def main(base):
+def main(base, mock_ai=False):
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch()
         context = browser.new_context(base_url=base, viewport={"width": 1440, "height": 1000})
+        if mock_ai:
+            # Explicit frontend transport mocks; these do not demonstrate real inference.
+            context.route("**/api/intelligence/chat", lambda route: route.fulfill(json={
+                "answer": "Mocked provider: review your fictional records and verify official instructions.",
+                "mode": "mocked-ui-provider", "sourceUrl": "https://www.passportindia.gov.in/",
+            }))
+            context.route("**/api/ai/extract-document", lambda route: route.fulfill(json={
+                "documentType": "PAN card", "printedName": "Fictional Extraction Applicant",
+                "dateOfBirth": "1998-06-15", "residentialAddress": None, "categories": ["identity"],
+                "warnings": ["Mocked provider output; review before applying."],
+            }))
         page = context.new_page()
         page.set_default_timeout(15000)
         runtime_errors, local_requests = [], []
@@ -145,9 +157,10 @@ def main(base):
         chat = chat_response.value
         assert chat.status == 200, chat.text()
         answer = chat.json()
-        assert answer["mode"] == "gemini-vertex" and answer["answer"]
+        assert answer["mode"] == ("mocked-ui-provider" if mock_ai else "gemini-vertex") and answer["answer"]
         expect(assistant.get_by_text(answer["answer"], exact=True)).to_be_visible()
-        record("live-gemini-chat", "Real Vertex answer returned and rendered in floating assistant")
+        record("assistant-ui-mocked" if mock_ai else "live-gemini-chat",
+               "Mocked provider answer rendered; no inference" if mock_ai else "Real Vertex answer returned and rendered in floating assistant")
         page.screenshot(path=str(OUT / "gemini-chat.png"), full_page=True)
         assistant.get_by_role("button", name="Close AI assistant").click()
 
@@ -167,7 +180,8 @@ def main(base):
         expect(preview.get_by_role("button", name="Review & apply extracted details")).to_be_visible()
         preview.get_by_role("button", name="Review & apply extracted details").click()
         expect(page.get_by_role("button", name="Mark self-reviewed")).to_be_visible()
-        record("live-gemini-ocr", "Fictional PNG extracted; user reviewed/applied; remains unverified")
+        record("extraction-ui-mocked" if mock_ai else "live-gemini-ocr",
+               "Mocked extraction reviewed/applied; no inference; remains unverified" if mock_ai else "Fictional PNG extracted; user reviewed/applied; remains unverified")
         page.screenshot(path=str(OUT / "ocr-reviewed.png"), full_page=True)
         page.get_by_role("button", name="Mark self-reviewed", exact=True).click()
         page.locator('a[href="/household"]').first.click()
@@ -227,9 +241,10 @@ def main(base):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--base", required=True)
+    parser.add_argument("--mock-ai", action="store_true", help="Test frontend AI flows without real provider requests")
     args = parser.parse_args()
     try:
-        main(args.base.rstrip("/"))
+        main(args.base.rstrip("/"), mock_ai=args.mock_ai)
     except Exception as exc:
         CASES.append({"status": "FAIL", "observed": str(exc)[:2000]})
         (OUT / "results.json").write_text(json.dumps(CASES, indent=2), encoding="utf-8")

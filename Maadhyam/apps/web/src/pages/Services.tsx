@@ -1,6 +1,7 @@
+import { useAsyncResource } from "../hooks/useAsyncResource";
 import PageHero from "../components/PageHero";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -15,29 +16,12 @@ import {
 } from "../services/api";
 
 export default function Services() {
-  const [services, setServices] = useState<GovernmentService[]>([]);
   const [query, setQuery] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  async function loadServices() {
-    setLoading(true);
-    setError("");
-
-    try {
-      setServices(await fetchServices());
-    } catch {
-      setError(
-        "Unable to load services. Please check the backend connection.",
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    void loadServices();
-  }, []);
+  const [reload, setReload] = useState(0);
+  const { data, error: loadError, loading } = useAsyncResource<GovernmentService[]>(fetchServices, reload);
+  const services = data ?? [];
+  const error = loadError ? "Unable to load services. Please check the backend connection." : "";
+  function loadServices() { setReload(value => value + 1); }
 
   const filtered = services.filter((service) =>
     `${service.name} ${service.description}`

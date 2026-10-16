@@ -1,4 +1,4 @@
-import { HouseholdProvider } from '../context/HouseholdContext';
+import { HouseholdProvider } from '../context/HouseholdProvider';
 import { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import {
@@ -18,8 +18,8 @@ import {
   Sun,
 } from "lucide-react";
 import AIAssistant from "./AIAssistant";
-import { DocumentProvider } from "../context/DocumentContext";
-import { WorkspaceProvider } from "../context/WorkspaceContext";
+import { DocumentProvider } from "../context/DocumentProvider";
+import { WorkspaceProvider } from "../context/WorkspaceProvider";
 
 const navigation = [
   { label: "Dashboard", path: "/", icon: LayoutDashboard },

@@ -699,10 +699,10 @@ export default function DocumentVault() {
             {extractionError && <p role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{extractionError}</p>}
             {extractionWarnings.length > 0 && <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900"><strong>Extraction notes:</strong><ul className="mt-2 list-disc pl-5">{extractionWarnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></div>}
             <div className="mt-4 rounded-xl border border-[#9dcacb] bg-[#f2f8f8] p-3 text-sm text-slate-700">
-              <strong>Fictional test documents only.</strong> Never upload real Aadhaar, PAN, passport or other confidential documents to this free-tier Gemini demo.
+              <strong>Fictional test documents only.</strong> Never upload real Aadhaar, PAN, passport or other confidential documents to this public Gemini demo.
               To enter details without AI, close this dialog and use Edit Details.
             </div>
-            <label className="mt-4 flex items-start gap-2 text-sm text-slate-700"><input type="checkbox" className="mt-1" checked={fictionalConfirmed} onChange={(event) => setFictionalConfirmed(event.target.checked)} /> I confirm this is a fictional test document and consent to sending it to Google Gemini. Free-tier provider data-use policies may apply.</label>
+            <label className="mt-4 flex items-start gap-2 text-sm text-slate-700"><input type="checkbox" className="mt-1" checked={fictionalConfirmed} onChange={(event) => setFictionalConfirmed(event.target.checked)} /> I confirm this is a fictional test document and consent to sending it to Google Gemini. Only the selected fictional file is transmitted for this request.</label>
             {demoPhase === "idle" && (
               <div className="mt-6 space-y-4">
                 <p className="text-sm text-slate-600">The document will be transmitted to Google Gemini only when you select Extract with Gemini.</p>

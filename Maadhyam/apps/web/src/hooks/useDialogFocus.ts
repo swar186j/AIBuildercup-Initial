@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 
 /** Keep keyboard focus inside a displayed modal and return it to the opener. */
 export function useDialogFocus(active:boolean, selector:string, close:()=>void) {
   const closeRef=useRef(close);
-  closeRef.current=close;
+  useLayoutEffect(() => { closeRef.current=close; }, [close]);
   useEffect(()=>{
     if(!active)return;
     const previous=document.activeElement instanceof HTMLElement?document.activeElement:null;
