@@ -1,0 +1,19 @@
+{
+  "createTime": "2026-10-16T17:42:34.720426270Z",
+  "finishTime": "2026-10-16T17:43:31.071831Z",
+  "id": "3a760fe1-67ee-4ee0-816d-1ee8263d01c7",
+  "results": {
+    "images": [
+      {
+        "artifactRegistryPackage": "projects/maadhyam-1610/locations/asia-south1/repositories/maadhyam-api/packages/maadhyam-api/versions/sha256:22997ae55fff8471d0a518b9e598d61d563487dfbd580ffbd6c9fe2342a06aac",
+        "digest": "sha256:22997ae55fff8471d0a518b9e598d61d563487dfbd580ffbd6c9fe2342a06aac",
+        "name": "asia-south1-docker.pkg.dev/maadhyam-1610/maadhyam-api/maadhyam-api:m11-06c59cb1c944",
+        "pushTiming": {
+          "endTime": "2026-10-16T17:43:30.793854986Z",
+          "startTime": "2026-10-16T17:43:11.863732857Z"
+        }
+      }
+    ]
+  },
+  "status": "SUCCESS"
+}

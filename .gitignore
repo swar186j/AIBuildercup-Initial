@@ -14,3 +14,18 @@ dist/
 *.pyc
 Maadhyam.zip
 Maadhyam.zip
+
+# Local deployment caches and non-portable M11 browser evidence
+.firebase/
+qa/evidence/m11-diagnostic/
+qa/evidence/m11-local/
+qa/evidence/m11-local-followup/
+qa/evidence/m11-local-final/
+qa/evidence/m11-final-regression/*
+!qa/evidence/m11-final-regression/tests.xml
+qa/evidence/m11-hosted/*
+!qa/evidence/m11-hosted/results.json
+qa/evidence/m11-cloud-run.json
+qa/evidence/m11-cloud-run-final.json
+qa/evidence/m11-lint.json
+qa/evidence/m11-quota-readiness.json

@@ -1,0 +1,24 @@
+[
+  {
+    "case": "https://maadhyam-api-767722654590.asia-south1.run.app health",
+    "status": 200
+  },
+  {
+    "case": "https://maadhyam-api-767722654590.asia-south1.run.app unauthenticated",
+    "status": 401
+  },
+  {
+    "case": "https://maadhyam-1610.web.app health",
+    "status": 200
+  },
+  {
+    "case": "https://maadhyam-1610.web.app unauthenticated",
+    "status": 401
+  },
+  {
+    "case": "final revision real Vertex chat",
+    "status": 200,
+    "mode": "gemini-vertex",
+    "answer": "Verify current Passport Seva requirements."
+  }
+]

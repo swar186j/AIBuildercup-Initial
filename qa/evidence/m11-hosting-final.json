@@ -1,0 +1,47 @@
+{
+  "releases": [
+    {
+      "name": "sites/maadhyam-1610/releases/1792172321125000",
+      "version": {
+        "name": "sites/maadhyam-1610/versions/e354c084966d0cdd",
+        "status": "FINALIZED",
+        "config": {
+          "rewrites": [
+            {
+              "glob": "/api/**",
+              "run": {
+                "serviceId": "maadhyam-api",
+                "region": "asia-south1"
+              }
+            },
+            {
+              "glob": "**",
+              "path": "/index.html"
+            }
+          ]
+        },
+        "labels": {
+          "deployment-tool": "cli-firebase"
+        },
+        "createTime": "2026-10-16T17:38:35.436247Z",
+        "createUser": {
+          "email": "chaudharishreyas21@gmail.com",
+          "imageUrl": "https://lh3.googleusercontent.com/a/ACg8ocJCzPjTXei0tTLlERfMlAjJYBxmI103QEwuTAlYMAVcS-LmPk0_"
+        },
+        "finalizeTime": "2026-10-16T17:38:40.960119Z",
+        "finalizeUser": {
+          "email": "chaudharishreyas21@gmail.com",
+          "imageUrl": "https://lh3.googleusercontent.com/a/ACg8ocJCzPjTXei0tTLlERfMlAjJYBxmI103QEwuTAlYMAVcS-LmPk0_"
+        },
+        "fileCount": "7",
+        "versionBytes": "187803"
+      },
+      "type": "DEPLOY",
+      "releaseTime": "2026-10-16T17:38:41.125Z",
+      "releaseUser": {
+        "email": "chaudharishreyas21@gmail.com",
+        "imageUrl": "https://lh3.googleusercontent.com/a/ACg8ocJCzPjTXei0tTLlERfMlAjJYBxmI103QEwuTAlYMAVcS-LmPk0_"
+      }
+    }
+  ]
+}

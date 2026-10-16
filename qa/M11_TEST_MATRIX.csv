@@ -1,0 +1,634 @@
+Test ID,Feature,Method,Expected,Observed,Status,Evidence
+backend:test_chooses_lower_cost_option,tests.test_advanced_planning,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_cycle_detected,tests.test_advanced_planning,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_default_settings,tests.test_api_foundation,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_existing_routes_remain_compatible,tests.test_api_foundation,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_cors_preflight,tests.test_api_foundation,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_http_error_shape,tests.test_api_foundation,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_validation_error_shape,tests.test_api_foundation,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unexpected_error_does_not_leak_details,tests.test_api_foundation,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_rejection_reason,tests.test_citizen_workflows,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unknown_rejection,tests.test_citizen_workflows,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_legacy,tests.test_citizen_workflows,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_discovery,tests.test_citizen_workflows,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_multi_rules,tests.test_citizen_workflows,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_human_support_no_real_assignment,tests.test_citizen_workflows,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_bottleneck_critical_path,tests.test_citizen_workflows,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_cycle,tests.test_citizen_workflows,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_deadline,tests.test_citizen_workflows,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_visits,tests.test_citizen_workflows,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_dependency,tests.test_citizen_workflows,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unknown_fields_rejected,tests.test_citizen_workflows,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_missing_authentication,tests.test_cloud_applications,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_application_lifecycle,tests.test_cloud_applications,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_cross_user_isolation,tests.test_cloud_applications,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_payload,tests.test_cloud_applications,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_workspace_snapshots_and_revision,tests.test_cloud_applications,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reject_malformed_workspace_fields,tests.test_cloud_applications,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_owner_graph_and_evidence[False],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_owner_graph_and_evidence[True],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_cycle,tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_rejects_invalid_references_and_ownership[unknown-owner],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_rejects_invalid_references_and_ownership[no-consent],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_rejects_invalid_references_and_ownership[unknown-member-dependency],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_rejects_invalid_references_and_ownership[unknown-document-dependency],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_rejects_invalid_references_and_ownership[unknown-evidence],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_rejects_invalid_references_and_ownership[duplicate-owner],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_rejects_invalid_references_and_ownership[duplicate-member],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_rejects_invalid_references_and_ownership[two-applicants],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_rejects_invalid_references_and_ownership[blank-label],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_incomplete[data0],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_incomplete[data1],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_available_versions_are_real_stored_packs,tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_baseline_version,tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_optimizer_tradeoffs_and_alternatives[cost-slow],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_optimizer_tradeoffs_and_alternatives[days-fast],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_optimizer_tradeoffs_and_alternatives[visits-slow],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_optimizer_invalid_weights[-1],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_optimizer_invalid_weights[101],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_optimizer_invalid_weights[inf],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_optimizer_invalid_weights[nan],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_optimizer_limits_candidate_explosion,tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_cannot_be_relabelled_as_applicant[wrong-applicant-/api/passport/assess],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_cannot_be_relabelled_as_applicant[wrong-applicant-/api/intelligence/passport-plan],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_cannot_be_relabelled_as_applicant[wrong-applicant-/api/intelligence/chat],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_cannot_be_relabelled_as_applicant[missing-consent-/api/passport/assess],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_cannot_be_relabelled_as_applicant[missing-consent-/api/intelligence/passport-plan],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_cannot_be_relabelled_as_applicant[missing-consent-/api/intelligence/chat],tests.test_completion_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_extraction_rejects_without_demo_confirmation,tests.test_extraction_privacy,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_expired_document_is_review_only,tests.test_feature14_deadline_expiry,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_expiry_before_target,tests.test_feature14_deadline_expiry,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_expiry_on_target,tests.test_feature14_deadline_expiry,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_expiry_and_invalid_target_do_not_crash,tests.test_feature14_deadline_expiry,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_missing_expiry_is_not_assumed_expired,tests.test_feature14_deadline_expiry,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_expiring_soon_without_target,tests.test_feature14_deadline_expiry,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_far_future_expiry_no_conflict,tests.test_feature14_deadline_expiry,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m5_each_scenario_is_conservative[fresh],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m5_each_scenario_is_conservative[reissue],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m5_each_scenario_is_conservative[correction],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m5_each_scenario_is_conservative[documents],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m5_each_scenario_is_conservative[police],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m5_no_document_cannot_be_assumed_ready[fresh],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m5_no_document_cannot_be_assumed_ready[reissue],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m5_no_document_cannot_be_assumed_ready[correction],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m5_no_document_cannot_be_assumed_ready[documents],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m5_no_document_cannot_be_assumed_ready[police],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m8_family_holder_never_counts_as_self[parent-guardian],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m8_family_holder_never_counts_as_self[spouse],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m8_family_holder_never_counts_as_self[other],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_review_gate_for_candidate_evidence[False],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_review_gate_for_candidate_evidence[True],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_equivalent_dob_formats_no_conflict[2000-05-12],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_equivalent_dob_formats_no_conflict[12/05/2000],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_invalid_or_ambiguous_dob_flagged[31/02/2000],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_invalid_or_ambiguous_dob_flagged[2000-13-01],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_invalid_or_ambiguous_dob_flagged[05-12-2000],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_invalid_or_ambiguous_dob_flagged[12/31/2000],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_invalid_or_ambiguous_dob_flagged[2000-02-30],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_real_dob_conflict_and_name_conflict_both_detected,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_unreviewed_conflict_does_not_count_as_verified_comparison,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_duplicate_document_ids_rejected[ids0],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_duplicate_document_ids_rejected[ids1],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_duplicate_document_ids_rejected[ids2],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_blank_document_id_rejected[],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_blank_document_id_rejected[   ],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_extraction_confidence_review_threshold[0.2-True],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_extraction_confidence_review_threshold[0.84-True],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_extraction_confidence_review_threshold[0.85-False],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_extraction_confidence_review_threshold[1.0-False],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m4_manual_metadata_not_falsely_flagged_low_confidence,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m6_alternatives_do_not_choose_a_legally_correct_document,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m6_dependency_order_is_topological_and_unique,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m5_minor_requires_guardian_check_without_approval,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m7_what_if_resolves_conflict_but_not_official_acceptance,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m7_invalid_what_if_references_rejected[bad_sim0],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m7_invalid_what_if_references_rejected[bad_sim1],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m7_invalid_what_if_references_rejected[bad_sim2],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m7_invalid_what_if_references_rejected[bad_sim3],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m7_simulation_does_not_mutate_baseline,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m8_family_link_is_claim_only,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m8_invalid_family_references_rejected[link0],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m8_invalid_family_references_rejected[link1],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m8_unlinked_family_document_reported,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_local_chat_reports_total_and_reviewed_counts,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_local_chat_family_holder_named_without_verification,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_local_chat_never_confirms_official_eligibility[Is my passport approved?],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_local_chat_never_confirms_official_eligibility[Am I eligible?],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_local_chat_never_confirms_official_eligibility[Can I apply?],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_gemini_without_fictional_consent_denied,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_gemini_empty_key_returns_controlled_error,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_gemini_mocked_provider_receives_only_reviewed_self_metadata,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_mocked_gemini_unsafe_claim_triggers_fallback[You are definitely eligible.],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_mocked_gemini_unsafe_claim_triggers_fallback[Guaranteed approval!],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_mocked_gemini_unsafe_claim_triggers_fallback[Government approved.],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_mocked_gemini_failure_is_controlled,tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_invalid_requests_rejected[invalid0],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_invalid_requests_rejected[invalid1],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_invalid_requests_rejected[invalid2],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_m9_invalid_requests_rejected[invalid3],tests.test_full_journey_contracts,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_missing_key,tests.test_gemini,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_connection_success,tests.test_gemini,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_provider_failure_hides_internal_details,tests.test_gemini,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_local_mode_no_external_ai,tests.test_grounded_chat,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_gemini_requires_explicit_fictional_consent,tests.test_grounded_chat,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_only_reviewed_self_documents_in_grounding,tests.test_grounded_chat,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_conflicts_are_not_declared_officially_wrong,tests.test_grounded_chat,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unreviewed_conflict_not_treated_as_confirmed,tests.test_grounded_chat,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_family_claim_never_verified,tests.test_grounded_chat,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_empty_question_is_invalid,tests.test_grounded_chat,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_no_eligibility_approval,tests.test_grounded_chat,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_context_has_no_unreviewed_metadata,tests.test_grounded_chat,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_health_check,tests.test_health,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_empty,tests.test_intelligence,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_conflicts_self_only,tests.test_intelligence,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unreviewed_excluded,tests.test_intelligence,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_ai_requires_consent,tests.test_intelligence,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_local_chat,tests.test_intelligence,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_empty_vault_requires_documents,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unreviewed_documents_not_trusted,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reviewed_self_document_count,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_conflicts_are_detected[printedName-Rahul Sharma-Rahul Kumar Sharma],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_conflicts_are_detected[dateOfBirth-2000-05-12-2000-12-05],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_conflicts_are_detected[residentialAddress-10 Main Road-20 Main Road],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_cosmetic_normalization_does_not_trigger_conflict[printedName-Rahul  Sharma-rahul sharma],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_cosmetic_normalization_does_not_trigger_conflict[printedName-Rahul K. Sharma-rahul k sharma],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+"backend:test_cosmetic_normalization_does_not_trigger_conflict[residentialAddress-10, Main Road-10 Main Road]",tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_family_documents_do_not_contaminate_self_comparison[parent-guardian],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_family_documents_do_not_contaminate_self_comparison[spouse],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_family_documents_do_not_contaminate_self_comparison[other],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_family_only_does_not_verify_applicant,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_missing_categories_get_check_tasks[identity],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_missing_categories_get_check_tasks[address],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_missing_categories_get_check_tasks[birth],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reviewed_category_satisfies_organizational_check_only,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reissue_requires_specific_review,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_minor_requires_guardian_review,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_tasks_have_valid_dependency_references,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_visit_depends_on_official_review,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_conflict_never_asserts_invalid_document,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_no_automatic_submission_readiness,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_no_fabricated_deadline,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_local_chat_works_without_gemini,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_local_chat_family_context,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_gemini_requires_explicit_fictional_data_consent,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_inputs_rejected[invalid_payload0],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_inputs_rejected[invalid_payload1],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_inputs_rejected[invalid_payload2],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_inputs_rejected[invalid_payload3],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_inputs_rejected[invalid_payload4],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_inputs_rejected[invalid_payload5],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_inputs_rejected[invalid_payload6],tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_empty_chat_question_rejected,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_oversized_chat_question_rejected,tests.test_intelligence_deep,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_duplicate_ids_rejected[ids0],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_duplicate_ids_rejected[ids1],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_duplicate_ids_rejected[ids2],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_distinct_ids_allowed,tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_whitespace_id_rejected[ ],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_whitespace_id_rejected[\t],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_whitespace_id_rejected[\n],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_equivalent_dob_formats_do_not_conflict[2000-05-12-12/05/2000],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_equivalent_dob_formats_do_not_conflict[2000-12-05-05/12/2000],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_or_ambiguous_dob_flagged[2000-02-30],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_or_ambiguous_dob_flagged[31/02/2000],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_or_ambiguous_dob_flagged[05-12-2000],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_or_ambiguous_dob_flagged[12/13/2000],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_valid_dob_conflict_still_detected,tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_low_confidence_ocr_review_requires_recheck[None],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_low_confidence_ocr_review_requires_recheck[0.2],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_low_confidence_ocr_review_requires_recheck[0.84],tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_high_confidence_ocr_not_flagged_for_quality,tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unreviewed_ocr_excluded_from_conflicts,tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_execution_order_respects_dependencies,tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_extraction_confidence_rejected,tests.test_intelligence_hardening,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_identity_variants_are_not_officially_verified,tests.test_m1_m9_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_address_continuity_is_not_inferred_from_two_addresses,tests.test_m1_m9_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_visit_guidance_never_claims_government_visit_eliminated,tests.test_m1_m9_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reasoning_capability_contract[False-minimumCorrectionPath],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reasoning_capability_contract[False-identityEvolution],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reasoning_capability_contract[False-proofSubstitution],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reasoning_capability_contract[False-deadlineRescue],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reasoning_capability_contract[False-deadlockAnalysis],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reasoning_capability_contract[False-visitPreparation],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reasoning_capability_contract[True-minimumCorrectionPath],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reasoning_capability_contract[True-identityEvolution],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reasoning_capability_contract[True-proofSubstitution],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reasoning_capability_contract[True-deadlineRescue],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reasoning_capability_contract[True-deadlockAnalysis],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reasoning_capability_contract[True-visitPreparation],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_simulation_family_invalid_references[payload0-200],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_simulation_family_invalid_references[payload1-422],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_simulation_family_invalid_references[payload2-422],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_simulation_family_invalid_references[payload3-422],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_evidence[False],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_evidence[True],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_deadline_expiry_http[2000-01-02-2000-01-01-already-expired],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_deadline_expiry_http[2099-02-02-2099-02-01-expires-before-target],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_deadline_expiry_http[2099-02-01-2099-02-01-expires-on-target],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_deadline_expiry_http[invalid-invalid-invalid-expiry-date],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_rule_impact_http[proposed0-200],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_rule_impact_http[proposed1-422],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_rule_impact_http[proposed2-422],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_advanced_optimizer_http[False],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_advanced_optimizer_http[True],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_extraction_invalid[unsupported],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_extraction_invalid[empty],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_extraction_invalid[signature-mismatch],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_extraction_invalid[oversized],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_extraction_provider_failure[failure0],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_extraction_provider_failure[failure1],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_assistant_provider_stub[success],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_assistant_provider_stub[timeout],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_assistant_provider_stub[rate-limit],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_assistant_provider_stub[empty],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_assistant_provider_stub[unsafe],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_assistant_invalid_question[empty],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_assistant_invalid_question[whitespace],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_assistant_invalid_question[newline],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_assistant_invalid_question[too-long],tests.test_m4_m9_acceptance,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_initial_expansion,tests.test_name_matching_patch,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_order_variation,tests.test_name_matching_patch,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unrelated_names_not_accepted,tests.test_name_matching_patch,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_conflict_still_blocks_submission,tests.test_name_matching_patch,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_clock_and_chrome_do_not_change_guidance_hash,tests.test_passport_content_scope,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_substantive_guidance_change_is_detected,tests.test_passport_content_scope,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_portal_shell_only_is_rejected,tests.test_passport_content_scope,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_pdf_cannot_be_approved,tests.test_passport_content_scope,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_01_fictional_three_documents_detect_two_conflicts,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_02_review_gate_removes_unverified_conflict,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_03_reviewing_records_updates_analysis,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_04_fixing_name_clears_only_name_conflict,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_05_fixing_dob_clears_only_dob_conflict,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_06_all_metadata_aligned_still_not_officially_approved,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_07_family_name_does_not_create_self_conflict,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_08_family_only_documents_not_applicant_proof,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_09_scenario_branching[reissue-adult-review-reissue],tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_09_scenario_branching[fresh-minor-review-minor],tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_09_scenario_branching[correction-adult-official-review],tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_10_planner_official_review_precedes_visit,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_11_what_if_is_conservative_not_submission_approval,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_12_local_assistant_uses_current_conflict_assessment,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_13_local_assistant_document_counts_match_analysis,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_14_gemini_consent_denied_even_with_documents,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_15_no_automatic_correction_or_submission,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_16_no_official_deadline_fabrication,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_17_duplicate_document_ids_are_rejected,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_e2e_18_payload_rejects_nonfictional_holder_enum,tests.test_passport_integration,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_migration_history_preserves_prior_approval,tests.test_passport_m3_final,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_compare_rejects_incompatible_method,tests.test_passport_m3_final,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_gazette_relevance_requires_specific_context,tests.test_passport_m3_final,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_gemini_failure_does_not_discard_human_proposal,tests.test_passport_m3_final,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unavailable_booklet_never_falls_back_to_unrelated_page,tests.test_passport_m3_final,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_approved_observed_snapshot_becomes_rollback_eligible,tests.test_passport_m3_final,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_missing_approval_never_current,tests.test_passport_monitor,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_approved_same_content_is_current,tests.test_passport_monitor,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_approved_changed_content_is_flagged,tests.test_passport_monitor,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_duplicate_portal_shell_is_not_verified,tests.test_passport_monitor,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_empty_or_tiny_html_is_rejected,tests.test_passport_monitor,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_untrusted_source_rejected_even_with_mock_fetcher,tests.test_passport_monitor_extended,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_redirect_to_untrusted_domain_fails,tests.test_passport_monitor_extended,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_approval_requires_confirmation,tests.test_passport_monitor_extended,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_approved_baseline_written_separately,tests.test_passport_monitor_extended,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_old_monitoring_state_fails_closed,tests.test_passport_monitor_extended,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_recent_monitoring_state_keeps_health,tests.test_passport_monitor_extended,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_no_monitoring_file_is_not_verified,tests.test_passport_monitor_extended,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_spa_shell_cannot_be_approved,tests.test_passport_monitor_extended,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_birth_cutoff_birth_certificate_only,tests.test_passport_official,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_before_cutoff_pan_possible,tests.test_passport_official,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unknown_birth_date_fails_closed,tests.test_passport_official,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reissue_old_passport,tests.test_passport_official,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_tatkaal_no_unverified_auto_approval,tests.test_passport_official,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_scenario_specific_checklist[fresh-identity-details],tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_scenario_specific_checklist[reissue-existing-passport],tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_scenario_specific_checklist[correction-change-evidence],tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_scenario_specific_checklist[documents-present-address],tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_scenario_specific_checklist[police-verification-process],tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reviewed_self_category_is_only_candidate_not_accepted,tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unreviewed_document_is_not_a_candidate,tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_family_held_document_is_not_applicant_evidence,tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_minor_has_extra_guardian_check,tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_adult_does_not_get_minor_check,tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_conflict_yields_non_prescriptive_correction_options,tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_matching_dob_formats_do_not_create_correction_option,tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_dob_is_a_blocker,tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_no_evidence_and_age_unknown_are_blockers,tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_ordered_tasks_are_exposed_and_preserved,tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_never_claims_official_acceptance_or_eligibility,tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_duplicate_ids_still_rejected,tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_existing_analyze_endpoint_still_available,tests.test_passport_plan,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_empty_requires_confirmation,tests.test_passport_rules,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_document_type_not_category_only,tests.test_passport_rules,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_minor_and_adverse,tests.test_passport_rules,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_category_rejected,tests.test_passport_rules,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_approve_saves_full_text,tests.test_passport_snapshots,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_compare_uses_real_old_and_new,tests.test_passport_snapshots,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unchanged_does_not_create_proposal,tests.test_passport_snapshots,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_pdf_is_not_approvable,tests.test_passport_snapshots,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_shell_detected,tests.test_passport_spa_fallback,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_browser_used_only_for_shell,tests.test_passport_spa_fallback,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_shell_still_empty_is_rejected,tests.test_passport_spa_fallback,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_offsite_redirect_is_rejected,tests.test_passport_spa_fallback,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_rendered_content_must_still_pass_source_validation,tests.test_passport_spa_fallback,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_fallback_success,tests.test_passport_sync_m3,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_wrong_page_rejected,tests.test_passport_sync_m3,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_versions_recorded_only_on_change,tests.test_passport_sync_m3,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_review_proposal_requires_explicit_approval,tests.test_passport_sync_m3,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_rollback_requires_known_history,tests.test_passport_sync_m3,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_no_ai_key,tests.test_passport_sync_m3,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_pre_cutoff_dob_has_conditional_options,tests.test_proof_substitution_patch,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_post_cutoff_birth_certificate_only,tests.test_proof_substitution_patch,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_conflicting_dob_does_not_pick_rule,tests.test_proof_substitution_patch,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unknown_dob_does_not_pick_rule,tests.test_proof_substitution_patch,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unreviewed_and_family_docs_are_not_matches,tests.test_proof_substitution_patch,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_address_options_are_source_linked_and_deduplicated,tests.test_proof_substitution_patch,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reissue_does_not_assume_fresh_address_requirement,tests.test_proof_substitution_patch,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_conflict_what_if_resolves_without_legal_claim,tests.test_reasoning_engine,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_what_if_never_mutates_baseline,tests.test_reasoning_engine,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_dependency_graph_is_valid,tests.test_reasoning_engine,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_family_document_not_applicant_evidence,tests.test_reasoning_engine,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unlinked_family_documents_flagged,tests.test_reasoning_engine,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_references_rejected[payload0],tests.test_reasoning_engine,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_references_rejected[payload1],tests.test_reasoning_engine,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_references_rejected[payload2],tests.test_reasoning_engine,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_references_rejected[payload3],tests.test_reasoning_engine,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_references_rejected[payload4],tests.test_reasoning_engine,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_simulation_reveals_new_conflict,tests.test_reasoning_engine,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_review_simulation_changes_review_gate,tests.test_reasoning_engine,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_cycle_detection,tests.test_reasoning_extensions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_missing_dependency_detection,tests.test_reasoning_extensions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_minimum_dependency_closure,tests.test_reasoning_extensions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_reasoning_response_backward_compatible,tests.test_reasoning_extensions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_empty_optimizer_has_no_feasible_candidate,tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_owner_mismatch_rejected_every_intelligence_entry[analyze],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_owner_mismatch_rejected_every_intelligence_entry[reasoning],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_owner_mismatch_rejected_every_intelligence_entry[passport-plan],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_owner_mismatch_rejected_every_intelligence_entry[chat],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_external_ai_context_excludes_family_and_unreviewed_metadata,tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unknown_cors_origin_not_allowed,tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_repeated_dependency_edges_deduplicated[dependsOnMemberIds],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_repeated_dependency_edges_deduplicated[dependsOnDocumentIds],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_household_repeated_dependency_edges_deduplicated[relationshipEvidenceDocumentIds],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_citizen_workflows_invalid_shape_rejected[human-support],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_citizen_workflows_invalid_shape_rejected[life-event-discovery],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_citizen_workflows_invalid_shape_rejected[multi-department-rules],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_citizen_workflows_invalid_shape_rejected[rejection-diagnosis],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_citizen_workflows_invalid_shape_rejected[legacy-reconstruction],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_citizen_workflows_invalid_shape_rejected[authority-bottlenecks],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_citizen_workflows_invalid_shape_rejected[deadline-rescue],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_citizen_workflows_invalid_shape_rejected[visit-eliminator],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_passport_invalid_applicant_birth_dates_rejected[not-a-date],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_passport_invalid_applicant_birth_dates_rejected[2026-02-30],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_passport_invalid_applicant_birth_dates_rejected[2099-01-01],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_passport_invalid_applicant_birth_dates_rejected[20261015],tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_family_address_candidate_keeps_ownership_caveat,tests.test_release_regressions,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_removed_proof_is_directly_impacted,tests.test_rule_change_classification,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_removed_rule_impacts_matching_document,tests.test_rule_change_classification,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_added_proof_requires_review_not_direct_impact,tests.test_rule_change_classification,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_metadata_only_change_requires_review,tests.test_rule_change_classification,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_unchanged_rules_have_no_impact,tests.test_rule_change_classification,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_hypothetical_changes_never_claim_official_verification,tests.test_rule_change_classification,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_no_change,tests.test_rule_change_impact,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_added_and_removed_proofs,tests.test_rule_change_impact,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_added_rule,tests.test_rule_change_impact,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_removed_rule,tests.test_rule_change_impact,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_metadata_change_detected,tests.test_rule_change_impact,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_invalid_duplicate_ids,tests.test_rule_change_impact,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_official_guidance_attached_without_acceptance_claims,tests.test_rule_citations_patch,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_no_invented_citation_for_extraction_quality,tests.test_rule_citations_patch,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_existing_name_comparisons_preserved,tests.test_rule_citations_patch,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_services_list,tests.test_services,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_vertex_client_uses_adc_and_bounds,tests.test_vertex_provider,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_production_ai_requires_auth_and_local_chat_does_not,tests.test_vertex_provider,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_ai_limit_does_not_invoke_provider,tests.test_vertex_provider,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_generation_has_finite_output,tests.test_vertex_provider,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_missing_adc_is_service_unavailable,tests.test_vertex_provider,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_provider_errors_are_safe_and_actionable[429-429],tests.test_vertex_provider,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_provider_errors_are_safe_and_actionable[403-503],tests.test_vertex_provider,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_provider_errors_are_safe_and_actionable[401-503],tests.test_vertex_provider,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_provider_errors_are_safe_and_actionable[404-503],tests.test_vertex_provider,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_provider_errors_are_safe_and_actionable[500-503],tests.test_vertex_provider,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+backend:test_provider_timeout_is_bounded_failure,tests.test_vertex_provider,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-backend.xml
+local-http-browser:test_rule_change_impact[payload0-200],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_rule_change_impact[payload1-422],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_optimizer[False],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_optimizer[True],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_circular_workflow[authority-bottlenecks],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_circular_workflow[deadline-rescue],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_circular_workflow[visit-eliminator],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_chat_validation[payload0-422],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_chat_validation[payload1-403],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_chat_validation[payload2-503],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_expiry[2000-01-01-already-expired],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_expiry[wrong-invalid-expiry-date],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_completion_available_versions_and_baseline_validation,qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_completion_household_http_validation[consent],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_completion_household_http_validation[owner],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_completion_household_http_validation[member-reference],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_completion_household_http_validation[evidence-reference],qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_completion_household_http_owner_isolation,qa.test_http,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[1440-/-],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[1440-/services-Find a government service],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[1440-/documents-Document Vault],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[1440-/applications-My Preparations],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[1440-/planner-Resolution Planner],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[1440-/workflows-Citizen workflow assistant],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[1440-/services/passport-],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[1440-/services/passport/journey?type=fresh-],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[390-/-],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[390-/services-Find a government service],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[390-/documents-Document Vault],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[390-/applications-My Preparations],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[390-/planner-Resolution Planner],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[390-/workflows-Citizen workflow assistant],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[390-/services/passport-],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_navigation[390-/services/passport/journey?type=fresh-],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_hero[/services-Service Navigator-Find a government service],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_hero[/documents-Document workspace-Document Vault],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_hero[/applications-Your preparation workspace-My Preparations],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_hero[/workflows-Maadhyam \xb7 Guided preparation-Citizen workflow assistant],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_vault_review_session,qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_vault_optin_clear,qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_vault_invalid[empty],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_vault_invalid[unsupported],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_vault_invalid[oversized],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_vault_invalid[malformed],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_ocr[missing],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_ocr[success],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_ocr[malformed],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_passport_guided[True],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_passport_guided[False],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_planner_documents[0],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_planner_documents[1],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_planner_documents[3],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_planner_unexpected[/api/intelligence/passport-plan-body0],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_planner_unexpected[/api/intelligence/reasoning-body1],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_planner_unexpected[/api/intelligence/reasoning-body2],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_planner_unexpected[/api/intelligence/passport-plan-body3],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_planner_api_failure[/api/intelligence/passport-plan],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_planner_api_failure[/api/intelligence/reasoning],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_reasoning_whatif_family,qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[False-human-support-Human assistance],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[False-life-event-discovery-Life-event discovery],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[False-multi-department-rules-Multi-department guidance],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[False-rejection-diagnosis-Rejection diagnosis],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[False-legacy-reconstruction-Legacy record recovery],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[False-authority-bottlenecks-Authority bottlenecks],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[False-deadline-rescue-Deadline rescue],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[False-visit-eliminator-Visit reduction planner],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[True-human-support-Human assistance],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[True-life-event-discovery-Life-event discovery],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[True-multi-department-rules-Multi-department guidance],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[True-rejection-diagnosis-Rejection diagnosis],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[True-legacy-reconstruction-Legacy record recovery],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[True-authority-bottlenecks-Authority bottlenecks],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[True-deadline-rescue-Deadline rescue],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_citizen_workflow[True-visit-eliminator-Visit reduction planner],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_assistant[local],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_assistant[missing],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_assistant[429],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_assistant[timeout],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_assistant[malformed],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_preparations_session_and_layout,qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_required_inputs[human-support-Human assistance-What problem are you facing?-Please describe the problem],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_required_inputs[rejection-diagnosis-Rejection diagnosis-What reason was given for rejection?-Please describe the rejection],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_required_inputs[legacy-reconstruction-Legacy record recovery-Which old document do you need?-Please enter the document type],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_required_inputs[deadline-rescue-Deadline rescue-What is your target date?-Choose a target date],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_supported_fictional_documents[pdf-aadhaar],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_supported_fictional_documents[pdf-pan],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_supported_fictional_documents[pdf-address],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_supported_fictional_documents[png-aadhaar],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_supported_fictional_documents[png-pan],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_supported_fictional_documents[png-address],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_supported_fictional_documents[jpg-aadhaar],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_supported_fictional_documents[jpg-pan],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_supported_fictional_documents[jpg-address],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_assistant_reviewed_context,qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_planner_malformed_advanced_fields[minimumCorrectionPath],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_planner_malformed_advanced_fields[identityEvolution],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_planner_malformed_advanced_fields[proofSubstitution],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_planner_malformed_advanced_fields[deadlockAnalysis],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_planner_malformed_advanced_fields[deadlineRescue],qa.test_browser,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m5_resume_edit_multiple,qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m5_reload_consent[False],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m5_reload_consent[True],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m5_malformed_saved[not-json],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+"local-http-browser:test_m5_malformed_saved[{""schemaVersion"":0,""records"":[]}]",qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+"local-http-browser:test_m5_malformed_saved[{""schemaVersion"":1,""records"":[{""id"":""LOCAL-broken"",""journey"":{}}]}]",qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m7_expiry_ui[2000-01-01-2099-02-01-already expired],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m7_expiry_ui[2099-01-01-2099-02-01-expires before target],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m7_expiry_ui[-2099-02-01-No expiry conflicts detected],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m7_rule_comparison[False],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m7_rule_comparison[True],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m7_rule_errors[missing-baseline],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m7_rule_errors[malformed-result],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m7_rule_errors[invalid-version],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m7_weighted_paths[cost],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m7_weighted_paths[days],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m7_optimizer_cycle_invalid,qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m8_members_ownership_dependencies,qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m8_cycle_edit_delete,qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m8_session_isolation,qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_cross_milestone_household_assistant,qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m5_selected_type_and_delete,qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_completion_mobile[/planner],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_completion_mobile[/household],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_completion_mobile[/applications],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_completion_unexpected_results[/api/intelligence/advanced-plan-Find recommended path-Weighted correction optimizer],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_completion_unexpected_results[/api/passport/rules/compare-Compare preparation impact-Government rule change impact analyzer],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_completion_unexpected_results[/api/household/assess-Analyze household dependencies-Household members],qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m8_distinct_parents_do_not_compare_as_one_person,qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m8_remove_owned_dependency_safely,qa.test_completion,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_journey_a_passport_full,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m5_document_references_isolated_and_missing,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m5_invalid_deleted_id[missing],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m5_invalid_deleted_id[deleted],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m5_repeated_create_click,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_storage_failure_usable_workspace[read-denied],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_storage_failure_usable_workspace[write-denied],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_storage_failure_usable_workspace[indexeddb],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_passport_malformed_response[body0],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_passport_malformed_response[body1],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_passport_malformed_response[body2],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_journey_b_identity_whatif,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_journey_c_address_continuity,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_journey_d_deadline_dependencies_expiry,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_journey_e_household_consent_withdrawal,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_journey_f_rule_saved_preparation,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_journey_g_assistant_grounding_provider_failure,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_journey_h_all_workflows_mobile,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[malformed-human-support-Human assistance],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[malformed-life-event-discovery-Life-event discovery],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[malformed-multi-department-rules-Multi-department guidance],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[malformed-rejection-diagnosis-Rejection diagnosis],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[malformed-legacy-reconstruction-Legacy record recovery],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[malformed-authority-bottlenecks-Authority bottlenecks],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[malformed-deadline-rescue-Deadline rescue],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[malformed-visit-eliminator-Visit reduction planner],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[invalid-input-human-support-Human assistance],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[invalid-input-life-event-discovery-Life-event discovery],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[invalid-input-multi-department-rules-Multi-department guidance],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[invalid-input-rejection-diagnosis-Rejection diagnosis],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[invalid-input-legacy-reconstruction-Legacy record recovery],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[invalid-input-authority-bottlenecks-Authority bottlenecks],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[invalid-input-deadline-rescue-Deadline rescue],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[invalid-input-visit-eliminator-Visit reduction planner],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[loading-retry-human-support-Human assistance],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[loading-retry-life-event-discovery-Life-event discovery],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[loading-retry-multi-department-rules-Multi-department guidance],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[loading-retry-rejection-diagnosis-Rejection diagnosis],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[loading-retry-legacy-reconstruction-Legacy record recovery],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[loading-retry-authority-bottlenecks-Authority bottlenecks],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[loading-retry-deadline-rescue-Deadline rescue],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_contract_error_retry[loading-retry-visit-eliminator-Visit reduction planner],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_household_stale_response_after_edit,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_workflow_stale_response_after_switch,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m7_malformed_expiry_conflict,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_keyboard_modal_focus_escape[preparations],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_keyboard_modal_focus_escape[vault-edit],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_keyboard_modal_focus_escape[vault-preview],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_keyboard_modal_focus_escape[vault-ocr],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_assistant_focus_escape_and_stale_reset,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m5_both_persistence_consents_and_delete_reload,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m8_owned_payloads_passport_planner_family,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m7_expiry_on_after_target[2099-01-01-expires on target],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m7_expiry_on_after_target[2098-01-01-No expiry conflicts detected],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_nested_invalid_results_recover[/api/intelligence/advanced-plan-body0-Find recommended path],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_nested_invalid_results_recover[/api/household/assess-body1-Analyze household dependencies],qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_session_clear_when_indexeddb_denied,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m5_saved_service_not_overwritten_by_missing_url_type,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m6_old_plan_hidden_while_evidence_changes,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+local-http-browser:test_m5_future_birth_date_not_saved,qa.test_final_journeys,pytest assertions,All assertions in named test pass,Assertions passed,PASS,qa/evidence/m11-final-regression/tests.xml
+hosting-api-rewrite,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,"HTTP 200 JSON health, not SPA HTML",PASS,qa/evidence/m11-hosted/results.json
+deep-link:/,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Loads and refreshes with visible heading,PASS,qa/evidence/m11-hosted/results.json
+deep-link:/services,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Loads and refreshes with visible heading,PASS,qa/evidence/m11-hosted/results.json
+deep-link:/applications,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Loads and refreshes with visible heading,PASS,qa/evidence/m11-hosted/results.json
+deep-link:/documents,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Loads and refreshes with visible heading,PASS,qa/evidence/m11-hosted/results.json
+deep-link:/planner,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Loads and refreshes with visible heading,PASS,qa/evidence/m11-hosted/results.json
+deep-link:/household,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Loads and refreshes with visible heading,PASS,qa/evidence/m11-hosted/results.json
+deep-link:/workflows,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Loads and refreshes with visible heading,PASS,qa/evidence/m11-hosted/results.json
+deep-link:/services/passport/journey,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Loads; refreshing unsaved ID safely prevents replacement,PASS,qa/evidence/m11-hosted/results.json
+passport-cloud-create,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Actual UI save returned HTTP 201 with verified owner and name,PASS,qa/evidence/m11-hosted/results.json
+passport-refresh-resume,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,"Exact record, name, DOB, adult answer and step restored",PASS,qa/evidence/m11-hosted/results.json
+cross-user:get,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Other verified anonymous identity receives HTTP 404,PASS,qa/evidence/m11-hosted/results.json
+cross-user:patch,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Other verified anonymous identity receives HTTP 404,PASS,qa/evidence/m11-hosted/results.json
+cross-user:delete,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Other verified anonymous identity receives HTTP 404,PASS,qa/evidence/m11-hosted/results.json
+auth:missing,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,HTTP 401,PASS,qa/evidence/m11-hosted/results.json
+auth:malformed,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,HTTP 401,PASS,qa/evidence/m11-hosted/results.json
+firestore-direct-isolation,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Cross-user direct named-database REST read denied with HTTP 403,PASS,qa/evidence/m11-hosted/results.json
+revision-conflict,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Stale/incorrect revision rejected with HTTP 409,PASS,qa/evidence/m11-hosted/results.json
+passport-completed,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Same cloud ID completed; View preparation action visible,PASS,qa/evidence/m11-hosted/results.json
+live-gemini-chat,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Real Vertex answer returned and rendered in floating assistant,PASS,qa/evidence/m11-hosted/results.json
+live-gemini-ocr,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Fictional PNG extracted; user reviewed/applied; remains unverified,PASS,qa/evidence/m11-hosted/results.json
+household-cloud,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,"Two distinct parent identities, self-dependency disabled, consented cloud save",PASS,qa/evidence/m11-hosted/results.json
+vault-owner-identity,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Exact member ID and distinct same-relationship options survive local reload,PASS,qa/evidence/m11-hosted/results.json
+passport-household-options,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Both saved named household members and Other appear,PASS,qa/evidence/m11-hosted/results.json
+planner-dynamic-persistence,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,Target-dependent plan text changes; cloud target restores after refresh,PASS,qa/evidence/m11-hosted/results.json
+browser-runtime,Hosted application,"Real Chromium / HTTPS, fictional data",Hosted acceptance assertions hold,No uncaught JS errors or localhost requests,PASS,qa/evidence/m11-hosted/results.json
+https://maadhyam-api-767722654590.asia-south1.run.app health,Final revision,Real HTTPS,200 health / Vertex answer or 401 protected access,"{'case': 'https://maadhyam-api-767722654590.asia-south1.run.app health', 'status': 200}",PASS,qa/evidence/m11-final-live.json
+https://maadhyam-api-767722654590.asia-south1.run.app unauthenticated,Final revision,Real HTTPS,200 health / Vertex answer or 401 protected access,"{'case': 'https://maadhyam-api-767722654590.asia-south1.run.app unauthenticated', 'status': 401}",PASS,qa/evidence/m11-final-live.json
+https://maadhyam-1610.web.app health,Final revision,Real HTTPS,200 health / Vertex answer or 401 protected access,"{'case': 'https://maadhyam-1610.web.app health', 'status': 200}",PASS,qa/evidence/m11-final-live.json
+https://maadhyam-1610.web.app unauthenticated,Final revision,Real HTTPS,200 health / Vertex answer or 401 protected access,"{'case': 'https://maadhyam-1610.web.app unauthenticated', 'status': 401}",PASS,qa/evidence/m11-final-live.json
+final revision real Vertex chat,Final revision,Real HTTPS,200 health / Vertex answer or 401 protected access,"{'case': 'final revision real Vertex chat', 'status': 200, 'mode': 'gemini-vertex', 'answer': 'Verify current Passport Seva requirements.'}",PASS,qa/evidence/m11-final-live.json
+hosted-reference-restoration,Passport selected IDs / reissue / optional DOB / anonymous identity,"Real Chromium, fictional PNG and cloud record","Exact references, type, name and UID survive refresh",All five restoration assertions passed,PASS,qa/evidence/m11-hosted-references.json
+frontend-lint,Frontend static analysis,npm run lint,No lint errors,"27 errors, 5 warnings; initial baseline had 28 errors, 5 warnings",FAIL,qa/evidence/m11-lint.json
+billing-budget-credit-visibility,Cost visibility,gcloud billing budgets list with project quota header,Budget configuration readable,PERMISSION_DENIED on billing account; owner reports INR 28K credits,BLOCKED,M11_KNOWN_LIMITATIONS.md

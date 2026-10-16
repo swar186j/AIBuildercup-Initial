@@ -1,0 +1,19 @@
+{
+  "entriesReviewed": 131,
+  "severityCounts": {
+    "DEFAULT": 65,
+    "WARNING": 14,
+    "INFO": 51,
+    "NOTICE": 1
+  },
+  "httpStatusCounts": {
+    "404": 10,
+    "200": 46,
+    "409": 1,
+    "401": 3,
+    "201": 1
+  },
+  "fictionalApplicantNameLogged": false,
+  "privateKeyMarkerLogged": false,
+  "errorEntries": []
+}

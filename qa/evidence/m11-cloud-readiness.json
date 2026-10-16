@@ -1,0 +1,26 @@
+{
+  "auth": {
+    "anonymousEnabled": true
+  },
+  "firebase": {
+    "projectId": "maadhyam-1610",
+    "projectNumber": "767722654590",
+    "displayName": "Maadhyam",
+    "name": "projects/maadhyam-1610",
+    "resources": {
+      "hostingSite": "maadhyam-1610"
+    },
+    "state": "ACTIVE",
+    "etag": "1_b3c5ba0d-d83a-4e7f-96c5-3630ca97e461"
+  },
+  "hosting": {
+    "sites": [
+      {
+        "name": "projects/maadhyam-1610/sites/maadhyam-1610",
+        "defaultUrl": "https://maadhyam-1610.web.app",
+        "appId": "1:767722654590:web:0b2b07642d3e174b7dc12f",
+        "type": "DEFAULT_SITE"
+      }
+    ]
+  }
+}
