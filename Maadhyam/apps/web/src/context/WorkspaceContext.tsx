@@ -1,7 +1,9 @@
 import { newJourney, readJourney, PREPARATION_KEY, PREPARATION_CONSENT, type JourneyData } from './preparationStorage';
 import type { PassportAssistanceType } from '../data/journeyData';
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useDocuments } from "./DocumentContext";
+import { cloudApplications } from '../services/cloudApplications';
+import { cloudToPreparation, preparationToCloud, sameCloudPreparation } from '../services/cloudPreparation';
 
 export type Status = "draft" | "in-progress" | "completed";
 export type Application = {
@@ -51,6 +53,10 @@ type WorkspaceValue = {
   storageNotice:string;
   setPreparationSaving:(enabled:boolean) => void;
   deletePreparation:(id:string) => void;
+  /** Explicit cloud save; never runs on ordinary edits or on browser-local opt-in. */
+  savePreparationToCloud:(id:string,patch:Partial<JourneyData>) => Promise<string>;
+  cloudRestoring:boolean;
+  cloudRestoreFailed:boolean;
   plannerCompleted: string[];
   togglePlannerTask: (id: string) => void;
   resetPlanner: () => void;
@@ -59,6 +65,14 @@ function applicationFor(id:string,journey:JourneyData):Application {
  const names:Record<PassportAssistanceType,string>={fresh:'New passport preparation',reissue:'Passport reissue preparation',correction:'Passport correction preparation',documents:'Passport document preparation',police:'Police verification preparation'};
  return {id,service:'Passport',type:names[journey.assistanceType],status:journey.stepIndex===3?'completed':journey.stepIndex===0?'draft':'in-progress',completedSteps:journey.stepIndex===3?4:journey.stepIndex,totalSteps:4,nextAction:journey.stepIndex===3?'Review your saved preparation summary':'Resume your guided questionnaire',updated:'Saved in this workspace',steps:['Select assistance type','Answer guided questions','Review document readiness','Prepare next steps'],journey};
 }
+const CLOUD_CONSENT_KEY = 'maadhyam-cloud-preparations-consent-v1';
+const cloudFeatureEnabled = import.meta.env.VITE_MAADHYAM_ENABLE_CLOUD_SAVE === 'true';
+function previousCloudConsent():boolean {
+  if (!cloudFeatureEnabled) return false;
+  try { return localStorage.getItem(CLOUD_CONSENT_KEY) === 'yes'; }
+  catch { return false; }
+}
+
 const WorkspaceContext = createContext<WorkspaceValue | null>(null);
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const [loaded] = useState(() => {
@@ -79,8 +93,52 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     } catch { return {enabled:false,records:[] as Application[],notice:'Saved preparations could not be restored (missing, malformed or outdated format). Local saving is off. Start a new preparation; existing Vault data is unchanged.'}; }
   });
   const [applications, setApplications] = useState<Application[]>([...loaded.records,...initialApplications]);
+  const applicationsRef = useRef(applications);
+  applicationsRef.current = applications;
+  const cloudConsent = useRef(previousCloudConsent());
+  const cloudRevisions = useRef(new Map<string,number>());
+  const activeCloudSaves = useRef(new Set<string>());
+  const localEditGeneration = useRef(0);
+  const [cloudRestoring, setCloudRestoring] = useState(cloudConsent.current);
+  const [cloudRestoreFailed,setCloudRestoreFailed] = useState(false);
   const [preparationSaving,setSaving]=useState(loaded.enabled);
   const [storageNotice,setStorageNotice]=useState(loaded.notice);
+
+  // Cloud records are fetched only after previous, explicit remote-storage consent.
+  // An incoming response cannot overwrite edits made locally while it was loading.
+  useEffect(() => {
+    if (!cloudConsent.current) return;
+    let canceled = false;
+    const generationAtStart = localEditGeneration.current;
+    cloudApplications.list().then(records => {
+      if (canceled) return;
+      const restored: Application[] = [];
+      for (const item of records) {
+        const journey = cloudToPreparation(item);
+        if (!journey) continue;
+        cloudRevisions.current.set(item.id,item.revision);
+        restored.push({ ...applicationFor(item.id,journey), updated:'Cloud-saved preparation' });
+      }
+      setApplications(previous => {
+        const changedDuringLoad = localEditGeneration.current !== generationAtStart;
+        const localById = new Map(previous.map(item => [item.id,item]));
+        for (const remote of restored) {
+          const local = localById.get(remote.id);
+          if (!local || !changedDuringLoad) localById.set(remote.id,remote);
+        }
+        return [...localById.values()];
+      });
+      setStorageNotice(`Cloud preparations restored (${restored.length}). Document files remain browser-local.`);
+    }).catch(() => {
+      if (!canceled) {
+        setCloudRestoreFailed(true);
+        setStorageNotice('Cloud restore is temporarily unavailable. Existing browser/session preparations were not deleted.');
+      }
+    }).finally(() => {
+      if (!canceled) setCloudRestoring(false);
+    });
+    return () => { canceled = true; };
+  }, []);
   useEffect(()=>{
     if(!preparationSaving)return;
     try {localStorage.setItem(PREPARATION_KEY,JSON.stringify({schemaVersion:1,records:applications.filter(a=>a.journey)}));}
@@ -94,9 +152,70 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     } catch {setStorageNotice('Could not change local storage. Check browser permissions.');}
   }
   function updatePreparation(id:string,patch:Partial<JourneyData>){
+    localEditGeneration.current += 1;
     setApplications(old=>old.map(a=>{if(a.id!==id||!a.journey)return a;const data=readJourney({...a.journey,...patch});return data?applicationFor(id,data):a;}));
   }
-  function deletePreparation(id:string){setApplications(old=>old.filter(a=>a.id!==id||!a.journey));}
+  function deletePreparation(id:string){
+    const revision = cloudRevisions.current.get(id);
+    const deleteLocal = () => {
+      localEditGeneration.current += 1;
+      cloudRevisions.current.delete(id);
+      setApplications(old=>old.filter(a=>a.id!==id||!a.journey));
+    };
+    if (revision === undefined) { deleteLocal(); return; }
+    if (activeCloudSaves.current.has(id)) {
+      setStorageNotice('Cloud save is in progress. Please retry deleting after it completes.');
+      return;
+    }
+    cloudApplications.remove(id,revision)
+      .then(() => { deleteLocal(); setStorageNotice('Cloud preparation deleted. Browser-local files remain controlled separately.'); })
+      .catch(() => setStorageNotice('Could not delete the cloud preparation; record retained. Please retry.'));
+  }
+
+  async function savePreparationToCloud(id:string,patch:Partial<JourneyData>):Promise<string> {
+    const application = applicationsRef.current.find(a=>a.id===id && a.journey);
+    const journey = application?.journey && readJourney({...application.journey,...patch});
+    if (!journey || !application) return 'This preparation could not be validated. Cloud save was not attempted.';
+    updatePreparation(id,patch); // local session state always works, independent of cloud availability
+    if (!cloudFeatureEnabled) return 'Preparation saved. Reopen this record from My Preparations.';
+    if (cloudRestoring) return 'Cloud restoration is still running; retry saving in a moment.';
+    if (activeCloudSaves.current.has(id)) return 'Cloud save is already running. Wait and retry.';
+    if (!cloudConsent.current) {
+      const approved = window.confirm(
+        'Save this preparation to Google Cloud Firestore? Your applicant name, birth date, questionnaire answers and selected document IDs will be stored under an anonymous Firebase identity. Document files stay in this browser. Use fictional information in the public demo. This is not a government submission. Continue?'
+      );
+      if (!approved) return 'Cloud saving declined. Preparation remains in this browser session (and locally if enabled).';
+    }
+    activeCloudSaves.current.add(id);
+    try {
+      const payload = preparationToCloud(id,journey);
+      const knownRevision = cloudRevisions.current.get(id);
+      let stored;
+      if (knownRevision !== undefined) {
+        const {client_id: _clientId,service_type: _serviceType,...changes} = payload;
+        void _clientId; void _serviceType;
+        stored = await cloudApplications.update(id,{...changes,revision:knownRevision});
+      } else {
+        stored = await cloudApplications.create(payload);
+        if (!sameCloudPreparation(stored,payload)) {
+          return 'A different cloud version already exists. Cloud changes were not overwritten; reload and review it before saving.';
+        }
+      }
+      cloudRevisions.current.set(id,stored.revision);
+      cloudConsent.current = true;
+      try {localStorage.setItem(CLOUD_CONSENT_KEY,'yes');}
+      catch {setStorageNotice('Cloud save succeeded, but browser storage is blocked. Cloud preparations may not automatically restore after reload.');}
+      setStorageNotice('Cloud preparation saved successfully. Actual document files are still browser-local.');
+      return 'Saved to Maadhyam cloud (Firestore). Reopen through My Preparations after a refresh.';
+    } catch (error) {
+      const conflict = error instanceof Error && 'status' in error && error.status === 409;
+      const message = conflict
+        ? 'Cloud revision conflict; reload the saved preparation before retrying. Local state was preserved.'
+        : 'Cloud save failed. Your browser/session preparation remains available; retry when connected.';
+      setStorageNotice(message);
+      return message;
+    } finally { activeCloudSaves.current.delete(id); }
+  }
   const { documents } = useDocuments();
   const [manuallyCompleted, setManuallyCompleted] = useState<string[]>([]);
   // Only objective Vault actions are inferred; reviewing a discrepancy or official
@@ -126,6 +245,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const visibleApplications = [livePreparation, ...applications];
   function createDraft(type:PassportAssistanceType='fresh') {
     const id = `LOCAL-${crypto.randomUUID()}`;
+    localEditGeneration.current += 1;
     setApplications(previous=>[applicationFor(id,{...newJourney(type),documentIds:documents.map(d=>d.id)}),...previous]);
     return id;
   }
@@ -150,7 +270,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       return [...previous, id];
     });
   }
-  return <WorkspaceContext.Provider value={{ applications: visibleApplications, createDraft, updatePreparation, preparationSaving, storageNotice, setPreparationSaving, deletePreparation, plannerCompleted, togglePlannerTask, resetPlanner: () => setManuallyCompleted([]) }}>{children}</WorkspaceContext.Provider>;
+  return <WorkspaceContext.Provider value={{ applications: visibleApplications, createDraft, updatePreparation, preparationSaving, storageNotice, setPreparationSaving, deletePreparation, savePreparationToCloud, cloudRestoring, cloudRestoreFailed, plannerCompleted, togglePlannerTask, resetPlanner: () => setManuallyCompleted([]) }}>{children}</WorkspaceContext.Provider>;
 }
 export function useWorkspace() {
   const context = useContext(WorkspaceContext);

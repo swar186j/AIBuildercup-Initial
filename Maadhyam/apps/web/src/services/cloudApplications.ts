@@ -46,12 +46,12 @@ export type UpdateCloudApplication = Partial<
 };
 
 export class CloudApplicationError extends Error {
-  constructor(
-    public readonly status: number,
-    message: string,
-  ) {
+  public readonly status: number;
+
+  constructor(status: number, message: string) {
     super(message);
     this.name = "CloudApplicationError";
+    this.status = status;
   }
 }
 

@@ -417,7 +417,7 @@ function QuestionField({
 export default function GuidedJourney() {
   const [searchParams] = useSearchParams();
   const navigate=useNavigate();
-  const {applications,createDraft}=useWorkspace();
+  const {applications,createDraft,cloudRestoring,cloudRestoreFailed}=useWorkspace();
   const requestedType=searchParams.get('type');
   const requestedId=searchParams.get('preparation');
   const record=applications.find(a=>a.id===requestedId&&a.journey);
@@ -425,20 +425,21 @@ export default function GuidedJourney() {
   const creating=useRef('');
   const [recovery,setRecovery]=useState(false);
   useEffect(()=>{
-    if(record)return;
+    if(record || cloudRestoring || (cloudRestoreFailed && requestedId))return;
     const key=requestedId??'new';
     if(creating.current===key)return;
     creating.current=key;
     if(requestedId)setRecovery(true);
     const id=createDraft(assistanceType);
     navigate(`/services/passport/journey?type=${assistanceType}&preparation=${encodeURIComponent(id)}`,{replace:true});
-  },[record,requestedId,assistanceType,createDraft,navigate]);
+  },[record,requestedId,assistanceType,createDraft,navigate,cloudRestoring,cloudRestoreFailed]);
+  if(!record && cloudRestoreFailed && requestedId)return <p role="alert">Cloud preparation could not be restored. Your saved record has not been replaced; check your connection and refresh to retry.</p>;
   if(!record)return <p role="status">Opening your preparation…</p>;
   return <>{recovery&&<p role="status" className="mb-4 rounded-xl bg-amber-50 p-4 text-amber-900">The previous preparation is unavailable in this session. A new independent preparation has been opened. Enable preparation saving in My Preparations to keep future records after reload.</p>}<PassportWizard key={record.id+assistanceType} preparationId={record.id} assistanceType={assistanceType}/></>;
 }
 function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportAssistanceType;preparationId:string}) {
   const { documents: vaultDocuments } = useDocuments();
-  const {applications,updatePreparation,preparationSaving}=useWorkspace();
+  const {applications,updatePreparation,savePreparationToCloud,preparationSaving}=useWorkspace();
   const saved=applications.find(a=>a.id===preparationId)?.journey??newJourney(assistanceType);
   const [stepIndex, setStepIndex] = useState(saved.stepIndex);
   const [answers, setAnswers] = useState<PassportJourneyAnswers>({...saved.answers,assistanceType});
@@ -583,7 +584,7 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
         <p>Preparation record: <strong>{preparationId}</strong></p>
         <p role="status">{preparationSaving?'Saved to this browser with your consent.':'Saved in this workspace session. Reload clears it unless you enable preparation saving.'}</p>
         <label className="mt-3 block">Applicant name (optional, fictional while testing)<input aria-label="Applicant name" maxLength={200} value={applicantName} onChange={e=>setApplicantName(e.target.value)} className="mt-1 w-full rounded-lg border p-2"/></label>
-        <button type="button" disabled={!dobValid} onClick={()=>{updatePreparation(preparationId,{answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds});setSaveNotice('Preparation saved. Reopen this record from My Preparations.');}} className="mt-3 rounded-lg bg-teal-700 px-4 py-2 text-white">Save preparation</button>
+        <button type="button" disabled={!dobValid} onClick={async()=>{setSaveNotice('Saving preparation…');setSaveNotice(await savePreparationToCloud(preparationId,{answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds}));}} className="mt-3 rounded-lg bg-teal-700 px-4 py-2 text-white">Save preparation</button>
         <Link to="/applications" className="ml-3 text-teal-700 underline">My Preparations and saving options</Link>
         {saveNotice&&<p role="status" className="mt-2">{saveNotice}</p>}
       </section>

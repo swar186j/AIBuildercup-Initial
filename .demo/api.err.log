@@ -1,0 +1,23 @@
+INFO:     Started server process [22764]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:60576 (Press CTRL+C to quit)
+{"event": "request", "request_id": "195b7339fe2640bf85800f66a00c0f13", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 56}
+{"event": "request", "request_id": "74f25c21d10f42cfbb15c44c7b5e7a8e", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 260}
+{"event": "request", "request_id": "99402dcf8f6a408b950de73e49bcde6e", "method": "GET", "status": 404, "ai": false, "elapsed_ms": 1}
+{"event": "request", "request_id": "26054a8cc5a145a382ff16dea7885e56", "method": "GET", "status": 401, "ai": false, "elapsed_ms": 2}
+{"event": "request", "request_id": "677cbb2716974d16a81204c6201f06f3", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 3}
+{"event": "request", "request_id": "4bf6730d995a463ab3825586e238b57c", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 14}
+{"event": "request", "request_id": "52975b3f5b7d4f7a8095958b3aa64b7f", "method": "GET", "status": 401, "ai": false, "elapsed_ms": 2}
+{"event": "request", "request_id": "cc4d6dcadbd94f18af0c946ab967762c", "method": "GET", "status": 404, "ai": false, "elapsed_ms": 1}
+{"event": "request", "request_id": "22047c7a9db54eb9be971ec27edc9c7b", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 11}
+{"event": "request", "request_id": "309876f1709f426c913001be7e139385", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 33}
+{"event": "request", "request_id": "967271d793854d1087087ecefcbe8b16", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 77}
+{"event": "request", "request_id": "22d65771249c4cb399a08f66406a047f", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 10}
+{"event": "request", "request_id": "b9c6869f543d4d1c9361b5d11764fcbc", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 12}
+{"event": "request", "request_id": "8fd0b3c842e74834b3e9a84b7b7b375f", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 5}
+{"event": "request", "request_id": "5a281e00e8de4f5ea82234bf0177ba55", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 6}
+{"event": "request", "request_id": "ff61398e20e4477d8a7386e1d824462d", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 8}
+{"event": "request", "request_id": "25f76876652049f28fe46d37ca343804", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 25}
+{"event": "request", "request_id": "0449acf559684a419c88d5b712606ca4", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 7}
+{"event": "request", "request_id": "475f3e9c5b0244a58669a3ecf53d8d23", "method": "GET", "status": 200, "ai": false, "elapsed_ms": 9}
