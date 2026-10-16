@@ -9,14 +9,15 @@ from fastapi.testclient import TestClient
 
 from maadhyam_api.main import create_app
 from maadhyam_api.routes.applications import get_store, require_uid
-
+from copy import deepcopy
+from uuid import uuid4
 
 class MemoryStore:
     def __init__(self):
         self.records = {}
 
     def create(self, uid, fields, client_id=None):
-        key = client_id or "generated000000000000000000000001"
+        key = client_id or uuid4().hex
         record = {
             **deepcopy(fields),
             "id": key,
@@ -154,3 +155,34 @@ def test_invalid_payload(client):
         json={"current_step": -10},
     )
     assert response.status_code == 422
+
+
+def test_workspace_snapshots_and_revision(client):
+    payload = {
+        "service_type": "passport",
+        "planner_state": {"manual_task_ids": ["journey"], "target_date": "2026-11-15", "generated_plan": {"task_ids": ["resolve-name"]}},
+        "household_state": {"members": [{"id": "applicant", "label": "Demo", "relationship": "self", "dependsOnMemberIds": [], "dependsOnDocumentIds": [], "relationshipEvidenceDocumentIds": []}]},
+        "assessment_history": [{"captured_at": "2026-10-16T15:00:00Z", "task_count": 1, "finding_count": 1, "task_ids": ["resolve-name"]}],
+    }
+    response=client.post("/api/applications",json=payload)
+    assert response.status_code==201,response.text
+    created=response.json();id=created["id"]
+    assert created["planner_state"]["generated_plan"]["task_ids"]==["resolve-name"]
+    updated=client.patch(f"/api/applications/{id}",json={"revision":1,"planner_state":{"manual_task_ids":["journey","vault"],"target_date":None,"generated_plan":{}}})
+    assert updated.status_code==200,updated.text
+    assert updated.json()["revision"]==2
+    assert client.get(f"/api/applications/{id}").json()["household_state"]["members"][0]["label"]=="Demo"
+    assert client.patch(f"/api/applications/{id}",json={"revision":1,"household_state":{"members":[]}}).status_code==409
+    assert client.get(f"/api/applications/{id}",headers={"X-Test-UID":"user-b"}).status_code==404
+
+
+def test_reject_malformed_workspace_fields(client):
+    invalid=[
+        {"planner_state":{"manual_task_ids":list(map(str,range(101))) }},
+        {"planner_state":{"target_date":"tomorrow"}},
+        {"household_state":{"members":[{"id":"child","label":"A","relationship":"invalid"}]}},
+        {"assessment_history":[{"captured_at":"x","task_count":-1,"finding_count":0,"task_ids":[]}]},
+        {"applicant_details":{"long":"x"*110_000}},
+    ]
+    for payload in invalid:
+        assert client.post("/api/applications",json=payload).status_code==422

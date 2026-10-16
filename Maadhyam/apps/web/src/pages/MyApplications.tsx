@@ -47,7 +47,7 @@ export default function MyApplications() {
       applications.filter(
         app =>
           (filter === "all" || app.status === filter) &&
-          `${app.service} ${app.type} ${app.id}`
+          `${app.service} ${app.type} ${app.id} ${app.journey?.applicantName ?? ""}`
             .toLowerCase()
             .includes(query.trim().toLowerCase())
       ),
@@ -216,6 +216,11 @@ export default function MyApplications() {
                       <p className={`mt-1 text-sm ${muted}`}>
                         {app.service} · Preparation only
                       </p>
+                      {app.journey?.applicantName && (
+                        <p className={`mt-1 text-sm ${muted}`}>
+                          Applicant: {app.journey.applicantName}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -260,7 +265,9 @@ export default function MyApplications() {
                     onClick={() => setSelectedId(app.id)}
                     className={`inline-flex shrink-0 items-center gap-2 text-sm font-semibold hover:underline ${accent}`}
                   >
-                    Continue preparation
+                    {app.status === "completed"
+                      ? "View preparation summary"
+                      : "Continue preparation"}
                     <ArrowRight size={16} />
                   </button>
                 </div>
@@ -353,7 +360,9 @@ export default function MyApplications() {
                 onClick={() => setSelectedId(null)}
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#147d83] px-4 py-3 text-sm font-semibold text-white hover:bg-[#126a70]"
               >
-                Continue passport journey
+                {selected.status === "completed"
+                  ? "View saved questionnaire"
+                  : "Continue passport journey"}
                 <ArrowRight size={16} />
               </Link>
 

@@ -7,6 +7,7 @@ import ReasoningWorkspace from "../components/ReasoningWorkspace";
 import { Link } from "react-router-dom";
 import { useDocuments } from "../context/DocumentContext";
 import { documentPayload, preparePassport, type PassportPlanResponse } from "../services/citizenIntelligence";
+import { useWorkspace } from '../context/WorkspaceContext';
 
 type AdvancedReasoning = {
   identityEvolution?: {
@@ -58,16 +59,22 @@ export default function ResolutionPlanner() {
   const [error, setError] = useState("");
   const [advanced, setAdvanced] = useState<AdvancedReasoning | null>(null);
   const [advancedError, setAdvancedError] = useState("");
-  const [targetDate, setTargetDate] = useState("");
+  const {plannerTargetDate:targetDate,setPlannerTargetDate:setTargetDate,recordPlannerAnalysis}=useWorkspace();
 
   useEffect(() => {
     let active = true;
     setAssessment(null);
     setError('');
     preparePassport(documents)
-      .then((result) => { if (active) { setAssessment(result); setError(""); } })
+      .then((result) => { if (active) { setAssessment(result); setError("");
+        const tasks=result.assessment?.tasks;
+        const findings=result.assessment?.findings;
+        if(Array.isArray(tasks))recordPlannerAnalysis(tasks.map(t=>t.id),Array.isArray(findings)?findings.length:0,result.assessment.sourceUrl,documents.map(d=>d.id));
+      } })
       .catch(() => { if (active) { setAssessment(null); setError("Cannot reach the intelligence API. Start the backend and retry."); } });
     return () => { active = false; };
+  // Existing API outcome is derived from Vault metadata; do not persist raw documents.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [documents]);
 
   useEffect(() => {
@@ -109,6 +116,36 @@ export default function ResolutionPlanner() {
     orderedTaskIds: Array.isArray(plan.orderedTaskIds) ? plan.orderedTaskIds : [],
   } : null;
   const taskNames = new Map((Array.isArray(citizen?.tasks) ? citizen.tasks : []).map(t => [t.id, t.title]));
+
+  const deadlineActions:string[]=[];
+
+  if(!targetDate)
+    deadlineActions.push('Set a personal target date to analyze urgency.');
+
+  if(advanced?.deadlineRescue?.actions?.length)
+    deadlineActions.push(...advanced.deadlineRescue.actions);
+
+  for(const conflict of advanced?.deadlineRescue?.documentExpiryConflicts??[])
+    deadlineActions.push(conflict.action);
+
+  const unreviewed=documents.filter(d=>d.status!=='reviewed').length;
+  if(unreviewed>0)
+    deadlineActions.push(`Review ${unreviewed} unreviewed Vault document(s).`);
+
+  for(const blocker of safePlan?.preparationBlockers??[])
+    deadlineActions.push(`Investigate preparation blocker: ${blocker}`);
+
+  for(const task of safeCitizen?.tasks??[])
+    deadlineActions.push(task.title);
+
+  if((safeCitizen?.findings.length??0)>0)
+    deadlineActions.push('Investigate document discrepancies using issuing-authority records.');
+
+  deadlineActions.push('Verify document acceptance and appointments on the official Passport Seva portal.');
+
+  const uniqueDeadlineActions=[...new Set(
+    deadlineActions.filter(action=>typeof action==='string'&&action.trim())
+  )].slice(0,15);
 
   return <div className="mx-auto max-w-5xl space-y-6 pb-24 text-[#173f68] dark:text-[#EAF4F7]">
     <PageHero eyebrow="Preparation workspace" title="Resolution Planner" description="Review potential document differences, understand dependencies and plan your next preparation steps. This is not an official eligibility decision." />
@@ -155,11 +192,9 @@ export default function ResolutionPlanner() {
         <input id="planning-date" type="date" value={targetDate} onChange={e => setTargetDate(e.target.value)} className="mt-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900" />
         {targetDate && <p className="mt-3 text-sm">{Math.ceil((new Date(`${targetDate}T23:59:59`).getTime()-Date.now())/86400000)} day(s) until your personal target. This does not predict official processing time.</p>}
         <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm">
-          <li>Review the {documents.filter(d => d.status !== 'reviewed').length} unreviewed uploaded document(s) in Vault.</li>
-          <li>Fill missing name, DOB and address metadata where it appears on each document.</li>
-          <li>Compare the records; investigate differences using original documents and issuing authorities.</li>
-          <li>Confirm accepted proofs and appointment requirements on the official Passport Seva website.</li>
-          <li>Re-run this planner after reviewing evidence; unresolved blockers remain visible below.</li>
+          {uniqueDeadlineActions.map((action,index)=>
+            <li key={`${index}-${action}`}>{action}</li>
+          )}
         </ol>
       </section>
       <section className="space-y-4" aria-label="Advanced preparation intelligence">

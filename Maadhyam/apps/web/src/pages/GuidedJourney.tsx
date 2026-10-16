@@ -1,4 +1,5 @@
 import { useWorkspace } from '../context/WorkspaceContext';
+import { useHousehold } from '../context/HouseholdContext';
 import { newJourney, validDate } from '../context/preparationStorage';
 import { useEffect, useRef, useState } from "react";
 import { assessPassport, type PassportAssessment } from "../services/passportAssessment";
@@ -417,30 +418,49 @@ function QuestionField({
 export default function GuidedJourney() {
   const [searchParams] = useSearchParams();
   const navigate=useNavigate();
-  const {applications,createDraft,cloudRestoring,cloudRestoreFailed}=useWorkspace();
+  const {applications,createDraft,cloudRestoring,restorePreparationFromCloud}=useWorkspace();
   const requestedType=searchParams.get('type');
   const requestedId=searchParams.get('preparation');
   const record=applications.find(a=>a.id===requestedId&&a.journey);
   const assistanceType=passportAssistanceOptions.find(o=>o.id===requestedType)?.id??record?.journey?.assistanceType??'fresh';
   const creating=useRef('');
-  const [recovery,setRecovery]=useState(false);
+  const requestedRestore=useRef<string | null>(null);
+  const [restoreState,setRestoreState]=useState<'waiting' | 'missing'>('waiting');
   useEffect(()=>{
-    if(record || cloudRestoring || (cloudRestoreFailed && requestedId))return;
-    const key=requestedId??'new';
-    if(creating.current===key)return;
-    creating.current=key;
-    if(requestedId)setRecovery(true);
+    if(record || cloudRestoring)return;
+    if(requestedId){
+      if(requestedRestore.current===requestedId)return;
+      requestedRestore.current=requestedId;
+      setRestoreState('waiting');
+      void restorePreparationFromCloud(requestedId).then(restored=>{
+        if(!restored)setRestoreState('missing');
+      });
+      return;
+    }
+    if(creating.current==='new')return;
+    creating.current='new';
     const id=createDraft(assistanceType);
     navigate(`/services/passport/journey?type=${assistanceType}&preparation=${encodeURIComponent(id)}`,{replace:true});
-  },[record,requestedId,assistanceType,createDraft,navigate,cloudRestoring,cloudRestoreFailed]);
-  if(!record && cloudRestoreFailed && requestedId)return <p role="alert">Cloud preparation could not be restored. Your saved record has not been replaced; check your connection and refresh to retry.</p>;
+  },[record,requestedId,assistanceType,createDraft,navigate,cloudRestoring,restorePreparationFromCloud]);
+  if(!record && requestedId){
+    return restoreState==='missing'
+      ? <p role="alert">This preparation could not be restored under the current anonymous account. Your existing cloud record was not replaced. Use the same browser profile and address used when saving, or retry after checking your connection.</p>
+      : <p role="status">Retrieving your saved preparation from Maadhyam cloud…</p>;
+  }
   if(!record)return <p role="status">Opening your preparation…</p>;
-  return <>{recovery&&<p role="status" className="mb-4 rounded-xl bg-amber-50 p-4 text-amber-900">The previous preparation is unavailable in this session. A new independent preparation has been opened. Enable preparation saving in My Preparations to keep future records after reload.</p>}<PassportWizard key={record.id+assistanceType} preparationId={record.id} assistanceType={assistanceType}/></>;
+  return <PassportWizard key={record.id+assistanceType} preparationId={record.id} assistanceType={assistanceType}/>;
 }
 function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportAssistanceType;preparationId:string}) {
   const { documents: vaultDocuments } = useDocuments();
-  const {applications,updatePreparation,savePreparationToCloud,preparationSaving}=useWorkspace();
-  const saved=applications.find(a=>a.id===preparationId)?.journey??newJourney(assistanceType);
+  const { members } = useHousehold();
+  const {applications,updatePreparation,savePreparationToCloud,preparationSaving,activateSavedPreparation,cloudRestoring}=useWorkspace();
+  useEffect(()=>{
+    if(!cloudRestoring) void activateSavedPreparation(preparationId);
+  // Activation is based on the ID/initial cloud-load transition, not transient context rerenders.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[preparationId,cloudRestoring]);
+  const selectedApplication=applications.find(a=>a.id===preparationId);
+  const saved=selectedApplication?.journey??newJourney(assistanceType);
   const [stepIndex, setStepIndex] = useState(saved.stepIndex);
   const [answers, setAnswers] = useState<PassportJourneyAnswers>({...saved.answers,assistanceType});
   const [showValidation, setShowValidation] = useState(false);
@@ -448,14 +468,68 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
   const [assessmentError, setAssessmentError] = useState('');
   const [applicantDob, setApplicantDob] = useState(saved.applicantDob);
   const [applicantName,setApplicantName]=useState(saved.applicantName);
+
+  const availableApplicants = members.filter(m =>
+    m.label.trim() &&
+    (m.id !== "applicant" ||
+     m.label !== "Applicant (this workspace)")
+  );
+
+  const [applicantChoice,setApplicantChoice] = useState(() => {
+    const matching = members.find(
+      m => m.label.trim() === saved.applicantName.trim() &&
+      saved.applicantName.trim() !== ""
+    );
+    return matching?.id ?? "__other__";
+  });
+
+  useEffect(() => {
+    if (applicantChoice === "__other__") return;
+
+    const selected = members.find(m => m.id === applicantChoice);
+    if (selected && selected.label !== applicantName) {
+      setApplicantName(selected.label);
+    }
+  }, [applicantChoice, members, applicantName]);
   const today=new Date().toISOString().slice(0,10);
   const dobValid=applicantDob===''||(validDate(applicantDob)&&applicantDob<=today);
   const [saveNotice,setSaveNotice]=useState('');
   const [documentIds,setDocumentIds]=useState(saved.documentIds);
+  const cloudHydrationApplied=useRef(false);
+  const skipHydrationWrite=useRef(false);
+
+  useEffect(()=>{
+    if (
+      cloudHydrationApplied.current ||
+      selectedApplication?.updated !== 'Cloud-saved preparation' ||
+      !selectedApplication.journey
+    ) return;
+
+    const restored=selectedApplication.journey;
+    cloudHydrationApplied.current=true;
+    skipHydrationWrite.current=true;
+
+    setStepIndex(restored.stepIndex);
+    setAnswers({...restored.answers,assistanceType:restored.assistanceType});
+    setApplicantName(restored.applicantName);
+    const restoredMember = members.find(
+      m => restored.applicantName.trim() &&
+      m.label.trim() === restored.applicantName.trim()
+    );
+    setApplicantChoice(restoredMember?.id ?? "__other__");
+    setApplicantDob(restored.applicantDob);
+    setDocumentIds([...restored.documentIds]);
+  },[selectedApplication]);
+
   const documents=vaultDocuments.filter(d=>documentIds.includes(d.id));
   const missingDocumentIds=documentIds.filter(id=>!vaultDocuments.some(d=>d.id===id));
   useEffect(()=>{
-    if(dobValid)updatePreparation(preparationId,{answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds});
+    if (skipHydrationWrite.current) {
+      skipHydrationWrite.current=false;
+      return;
+    }
+    if(!cloudRestoring && dobValid)
+      updatePreparation(preparationId,{answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds});
   },[preparationId,answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds]);
   useEffect(() => {
     const controller = new AbortController();
@@ -583,7 +657,49 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
       <section aria-label="Preparation save controls" className="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
         <p>Preparation record: <strong>{preparationId}</strong></p>
         <p role="status">{preparationSaving?'Saved to this browser with your consent.':'Saved in this workspace session. Reload clears it unless you enable preparation saving.'}</p>
-        <label className="mt-3 block">Applicant name (optional, fictional while testing)<input aria-label="Applicant name" maxLength={200} value={applicantName} onChange={e=>setApplicantName(e.target.value)} className="mt-1 w-full rounded-lg border p-2"/></label>
+        <label className="mt-3 block">
+          Choose applicant from Household Intelligence
+          <select
+            aria-label="Select household applicant"
+            className="mt-1 w-full rounded-lg border p-2"
+            value={applicantChoice}
+            onChange={event => {
+              const choice = event.target.value;
+              setApplicantChoice(choice);
+
+              if (choice === "__other__") {
+                if (applicantChoice !== "__other__") {
+                  setApplicantName("");
+                }
+                return;
+              }
+
+              const member = members.find(m => m.id === choice);
+              if (member) setApplicantName(member.label);
+            }}
+          >
+            {availableApplicants.map(member => (
+              <option key={member.id} value={member.id}>
+                {member.label} — {member.relationship}
+              </option>
+            ))}
+            <option value="__other__">
+              Other — Enter another name
+            </option>
+          </select>
+        </label>
+
+        <label className="mt-3 block">
+          Applicant name (optional, fictional while testing)
+          <input
+            aria-label="Applicant name"
+            maxLength={200}
+            value={applicantName}
+            readOnly={applicantChoice !== "__other__"}
+            onChange={event => setApplicantName(event.target.value)}
+            className="mt-1 w-full rounded-lg border p-2"
+          />
+        </label>
         <button type="button" disabled={!dobValid} onClick={async()=>{setSaveNotice('Saving preparation…');setSaveNotice(await savePreparationToCloud(preparationId,{answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds}));}} className="mt-3 rounded-lg bg-teal-700 px-4 py-2 text-white">Save preparation</button>
         <Link to="/applications" className="ml-3 text-teal-700 underline">My Preparations and saving options</Link>
         {saveNotice&&<p role="status" className="mt-2">{saveNotice}</p>}

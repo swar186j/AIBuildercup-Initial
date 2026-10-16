@@ -1,5 +1,6 @@
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import PageHero from "../components/PageHero";
+import { useHousehold } from "../context/HouseholdContext";
 import { useEffect, useRef, useState, type ChangeEvent, type DragEvent } from "react";
 import { extractDocument } from "../services/documentExtraction";
 import {
@@ -72,6 +73,14 @@ function holderLabel(holder: DocumentHolder) {
   return holders.find((item) => item.value === holder)?.label ?? "Other";
 }
 
+function holderForRelation(relation: string): DocumentHolder {
+  if (relation === "self") return "self";
+  if (relation === "parent" || relation === "guardian")
+    return "parent-guardian";
+  if (relation === "spouse") return "spouse";
+  return "other";
+}
+
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 const ACCEPTED_TYPES = ["application/pdf", "image/jpeg", "image/png"];
 const filters: { id: DocumentFilter; label: string }[] = [
@@ -94,6 +103,17 @@ function isSupportedFile(file: File): boolean {
 
 export default function DocumentVault() {
   const { documents, addDocuments, removeDocument: removeStoredDocument, toggleReviewed, updateMetadata, persistenceEnabled, persistenceReady, persistenceError, setLocalPersistence, clearAllDocuments } = useDocuments();
+  const { members, unassign } = useHousehold();
+
+  function ownerLabel(metadata: DocumentMetadata): string {
+    const member = members.find(
+      m => m.id === metadata.householdMemberId
+    );
+    return member
+      ? `${member.label} (${member.relationship})`
+      : holderLabel(metadata.holder);
+  }
+
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<DocumentFilter>("all");
   const [dragging, setDragging] = useState(false);
@@ -257,14 +277,70 @@ export default function DocumentVault() {
 
   function saveMetadata() {
     if (!editId) return;
+
+    const existing = documents.find(d => d.id === editId);
+    if (!existing) return;
+
+    const selectedId = draftMetadata.householdMemberId;
+    const selectedMember = selectedId
+      ? members.find(m => m.id === selectedId)
+      : undefined;
+
+    if (selectedId && !selectedMember) {
+      setMessage(
+        "The selected household member is unavailable. " +
+        "Choose a valid member before saving."
+      );
+      return;
+    }
+
+    const changingOwner =
+      existing.metadata.householdMemberId !== selectedId;
+
+    if (
+      selectedMember &&
+      selectedMember.id !== "applicant" &&
+      (changingOwner ||
+       existing.metadata.associationConsent !== true)
+    ) {
+      const confirmed = window.confirm(
+        `Confirm that you have permission to associate ` +
+        `"${existing.file.name}" with ${selectedMember.label} ` +
+        `(${selectedMember.relationship}) in this workspace. ` +
+        `This does not verify identity, legal relationship, ` +
+        `or government document acceptance. Continue?`
+      );
+
+      if (!confirmed) return;
+    }
+
+    // Remove old member dependency/evidence references
+    // when ownership is transferred or unassigned.
+    if (
+      existing.metadata.householdMemberId &&
+      changingOwner
+    ) {
+      unassign(editId);
+    }
+
     updateMetadata(editId, {
       ...draftMetadata,
+      holder: selectedMember
+        ? holderForRelation(selectedMember.relationship)
+        : draftMetadata.holder,
+      householdMemberId: selectedMember?.id,
+      associationConsent: selectedMember ? true : undefined,
       categories: getDocumentCategories(draftMetadata),
       printedName: draftMetadata.printedName?.trim() ?? "",
-      residentialAddress: draftMetadata.residentialAddress?.trim() ?? "",
+      residentialAddress:
+        draftMetadata.residentialAddress?.trim() ?? "",
     });
+
     setEditId(null);
-    setMessage("Document details updated in this browser session.");
+    setMessage(
+      "Document details and holder association updated " +
+      "in this browser workspace."
+    );
   }
 
   // Analysis results are derived from the current metadata, so edits and removals
@@ -276,7 +352,7 @@ export default function DocumentVault() {
   const filtered = documents.filter((document) => {
     const matchesStatus = filter === "all" || document.status === filter;
     const matchesCategory = categoryFilter === "all" || getDocumentCategories(document.metadata).includes(categoryFilter);
-    const searchText = [document.file.name, getDocumentCategories(document.metadata).map(categoryLabel).join(" "), document.metadata.documentType, holderLabel(document.metadata.holder)].join(" ").toLowerCase();
+    const searchText = [document.file.name, getDocumentCategories(document.metadata).map(categoryLabel).join(" "), document.metadata.documentType, ownerLabel(document.metadata)].join(" ").toLowerCase();
     const matchesQuery = searchText.includes(query.trim().toLowerCase());
     return matchesStatus && matchesCategory && matchesQuery;
   });
@@ -454,7 +530,7 @@ export default function DocumentVault() {
                           </span>
                         ))}
                         <span className="text-xs text-slate-500">
-                          {document.metadata.documentType} · {holderLabel(document.metadata.holder)}
+                          {document.metadata.documentType} · {ownerLabel(document.metadata)}
                           {(document.metadata.printedName?.trim() || document.metadata.dateOfBirth || document.metadata.residentialAddress?.trim()) && (
                             <span className="ml-2 text-[#147d83]">· Structured details added</span>
                           )}
@@ -724,9 +800,81 @@ export default function DocumentVault() {
                 </div>
               </fieldset>
               <div>
-                <label htmlFor="metadata-holder" className="mb-2 block text-sm font-semibold text-[#173f68]">Document holder</label>{draftMetadata.householdMemberId&&<p className="mb-2 text-xs text-teal-700">Ownership is assigned in Household Intelligence. Change it there with explicit confirmation.</p>}
-                <select id="metadata-holder" disabled={!!draftMetadata.householdMemberId} value={draftMetadata.holder} onChange={(event) => setDraftMetadata((previous) => ({ ...previous, holder: event.target.value as DocumentHolder }))} className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#147d83]">
-                  {holders.map((holder) => <option key={holder.value} value={holder.value}>{holder.label}</option>)}
+                <label
+                  htmlFor="metadata-holder"
+                  className="mb-2 block text-sm font-semibold text-[#173f68]"
+                >
+                  Document holder
+                </label>
+                <select
+                  id="metadata-holder"
+                  value={
+                    draftMetadata.householdMemberId
+                      ? `member:${draftMetadata.householdMemberId}`
+                      : `category:${draftMetadata.holder}`
+                  }
+                  onChange={event => {
+                    const value = event.target.value;
+
+                    if (value.startsWith("member:")) {
+                      const id = value.slice("member:".length);
+                      const member = members.find(m => m.id === id);
+                      if (!member) return;
+
+                      setDraftMetadata(previous => ({
+                        ...previous,
+                        holder: holderForRelation(member.relationship),
+                        householdMemberId: member.id,
+                        associationConsent: false,
+                      }));
+                    } else if (value.startsWith("category:")) {
+                      const holder = value.slice(
+                        "category:".length
+                      ) as DocumentHolder;
+
+                      setDraftMetadata(previous => ({
+                        ...previous,
+                        holder,
+                        householdMemberId: undefined,
+                        associationConsent: undefined,
+                      }));
+                    }
+                  }}
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#147d83]"
+                >
+                  {draftMetadata.householdMemberId &&
+                    !members.some(
+                      m => m.id === draftMetadata.householdMemberId
+                    ) && (
+                      <option
+                        value={`member:${draftMetadata.householdMemberId}`}
+                        disabled
+                      >
+                        Previously linked member unavailable
+                      </option>
+                    )}
+
+                  <optgroup label="Household Intelligence members">
+                    {members.map(member => (
+                      <option
+                        key={member.id}
+                        value={`member:${member.id}`}
+                      >
+                        {member.label} — {member.relationship}
+                      </option>
+                    ))}
+                  </optgroup>
+
+                  <optgroup label="Unassigned holder categories">
+                    {holders.map(holder => (
+                      <option
+                        key={holder.value}
+                        value={`category:${holder.value}`}
+                      >
+                        {holder.label} (unassigned)
+                      </option>
+                    ))}
+                  </optgroup>
                 </select>
               </div>
               <fieldset className="space-y-4 border-t border-slate-100 pt-5">

@@ -46,8 +46,8 @@ export default function AppLayout() {
 
   return (
     <DocumentProvider>
-      <WorkspaceProvider>
       <HouseholdProvider>
+      <WorkspaceProvider>
       <div className="min-h-screen bg-[#f5f7fa]">
         {mobileOpen && (
           <button
@@ -210,8 +210,8 @@ export default function AppLayout() {
         </div>
         <AIAssistant />
       </div>
-          </HouseholdProvider>
-      </WorkspaceProvider>
+          </WorkspaceProvider>
+      </HouseholdProvider>
     </DocumentProvider>
   );
 }

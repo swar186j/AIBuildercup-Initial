@@ -57,8 +57,9 @@ class FirestoreStore:
             "revision": 1,
             "created_at": now,
             "updated_at": now,
-            "planner_state": {},
-            "assessment_history": [],
+            "planner_state": fields.get("planner_state", {}),
+            "household_state": fields.get("household_state", {}),
+            "assessment_history": fields.get("assessment_history", []),
         }
 
         try:

@@ -2,9 +2,10 @@
 """Cloud application lifecycle; existing citizen journeys stay unchanged."""
 
 import json
+from datetime import date
 from typing import Any, Literal
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Path, Query
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from maadhyam_api.services.firebase_auth import require_uid
@@ -21,6 +22,41 @@ def validate_record_fields(data: dict):
     encoded = json.dumps(data, ensure_ascii=False)
     if len(encoded.encode("utf-8")) > 100_000:
         raise ValueError("Application payload exceeds 100 KB")
+
+
+class PlannerState(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    manual_task_ids: list[str] = Field(default_factory=list, max_length=100)
+    target_date: date | None = None
+    generated_plan: dict[str, Any] = Field(default_factory=dict)
+
+
+class HouseholdMemberState(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    id: str = Field(min_length=1, max_length=128)
+    label: str = Field(min_length=1, max_length=200)
+    relationship: Literal["self", "parent", "guardian", "spouse", "child", "sibling", "other"]
+    dependsOnMemberIds: list[str] = Field(default_factory=list, max_length=30)
+    dependsOnDocumentIds: list[str] = Field(default_factory=list, max_length=60)
+    relationshipEvidenceDocumentIds: list[str] = Field(default_factory=list, max_length=60)
+
+
+class HouseholdState(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    members: list[HouseholdMemberState] = Field(default_factory=list, max_length=30)
+
+
+class AssessmentHistoryEntry(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    captured_at: str = Field(max_length=50)
+    task_count: int = Field(ge=0, le=1000)
+    finding_count: int = Field(ge=0, le=1000)
+    task_ids: list[str] = Field(default_factory=list, max_length=100)
+    assessment_id: str = Field(default="", max_length=100)
+    input_document_ids: list[str] = Field(default_factory=list, max_length=60)
+    source_url: str = Field(default="", max_length=1000)
+    rule_pack_version: str = Field(default="unverified", max_length=100)
+    status: Literal["prepared", "needs-review", "failed"] = "prepared"
 
 
 class ApplicationCreate(BaseModel):
@@ -41,10 +77,13 @@ class ApplicationCreate(BaseModel):
         max_length=100,
     )
     rule_pack_version: str = Field(default="unverified", max_length=100)
+    planner_state: PlannerState = Field(default_factory=PlannerState)
+    household_state: HouseholdState = Field(default_factory=HouseholdState)
+    assessment_history: list[AssessmentHistoryEntry] = Field(default_factory=list, max_length=10)
 
     @model_validator(mode="after")
     def check_size(self):
-        validate_record_fields(self.model_dump())
+        validate_record_fields(self.model_dump(mode="json"))
         return self
 
 
@@ -62,6 +101,9 @@ class ApplicationPatch(BaseModel):
         max_length=100,
     )
     rule_pack_version: str | None = Field(default=None, max_length=100)
+    planner_state: PlannerState | None = None
+    household_state: HouseholdState | None = None
+    assessment_history: list[AssessmentHistoryEntry] | None = Field(default=None, max_length=10)
 
     @model_validator(mode="after")
     def check_update(self):
@@ -76,7 +118,7 @@ class ApplicationPatch(BaseModel):
         if any(value is None for value in fields.values()):
             raise ValueError("Update fields cannot be null")
 
-        validate_record_fields(fields)
+        validate_record_fields(self.model_dump(exclude_unset=True, exclude={"revision"}, mode="json"))
         return self
 
 
@@ -86,7 +128,7 @@ def create_application(
     uid: str = Depends(require_uid),
     store=Depends(get_store),
 ):
-    fields = payload.model_dump(exclude={"client_id"})
+    fields = payload.model_dump(exclude={"client_id"}, mode="json")
     return store.create(uid, fields, payload.client_id)
 
 
@@ -100,7 +142,7 @@ def list_applications(
 
 @router.get("/{application_id}")
 def get_application(
-    application_id: str,
+    application_id: str = Path(min_length=8, max_length=110, pattern=r"^(?:LOCAL-[A-Za-z0-9-]{8,100}|[a-f0-9]{32})$"),
     uid: str = Depends(require_uid),
     store=Depends(get_store),
 ):
@@ -109,21 +151,22 @@ def get_application(
 
 @router.patch("/{application_id}")
 def update_application(
-    application_id: str,
     payload: ApplicationPatch,
+    application_id: str = Path(min_length=8, max_length=110, pattern=r"^(?:LOCAL-[A-Za-z0-9-]{8,100}|[a-f0-9]{32})$"),
     uid: str = Depends(require_uid),
     store=Depends(get_store),
 ):
     fields = payload.model_dump(
         exclude_unset=True,
         exclude={"revision"},
+        mode="json",
     )
     return store.update(uid, application_id, payload.revision, fields)
 
 
 @router.delete("/{application_id}", status_code=204)
 def delete_application(
-    application_id: str,
+    application_id: str = Path(min_length=8, max_length=110, pattern=r"^(?:LOCAL-[A-Za-z0-9-]{8,100}|[a-f0-9]{32})$"),
     revision: int = Query(ge=1),
     uid: str = Depends(require_uid),
     store=Depends(get_store),

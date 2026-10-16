@@ -9,6 +9,32 @@ const API_BASE =
   configuredBase ||
   (import.meta.env.DEV ? "http://127.0.0.1:8000" : "");
 
+export type PlannerCloudState = {
+  manual_task_ids: string[];
+  target_date: string | null;
+  generated_plan: Record<string, unknown>;
+};
+export type HouseholdCloudMember = {
+  id: string;
+  label: string;
+  relationship: 'self' | 'parent' | 'guardian' | 'spouse' | 'child' | 'sibling' | 'other';
+  dependsOnMemberIds: string[];
+  dependsOnDocumentIds: string[];
+  relationshipEvidenceDocumentIds: string[];
+};
+export type HouseholdCloudState = { members: HouseholdCloudMember[] };
+export type AssessmentCloudEntry = {
+  captured_at: string;
+  task_count: number;
+  finding_count: number;
+  task_ids: string[];
+  assessment_id: string;
+  input_document_ids: string[];
+  source_url: string;
+  rule_pack_version: string;
+  status: 'prepared' | 'needs-review' | 'failed';
+};
+
 export type CloudApplication = {
   id: string;
   service_type: string;
@@ -19,6 +45,9 @@ export type CloudApplication = {
   current_step: number;
   selected_document_ids: string[];
   rule_pack_version: string;
+  planner_state?: PlannerCloudState;
+  household_state?: HouseholdCloudState;
+  assessment_history?: AssessmentCloudEntry[];
   revision: number;
   created_at: string;
   updated_at: string;
@@ -34,6 +63,9 @@ export type CreateCloudApplication = {
   current_step?: number;
   selected_document_ids?: string[];
   rule_pack_version?: string;
+  planner_state?: PlannerCloudState;
+  household_state?: HouseholdCloudState;
+  assessment_history?: AssessmentCloudEntry[];
 };
 
 export type UpdateCloudApplication = Partial<
