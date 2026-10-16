@@ -1,0 +1,43 @@
+{
+  "initialLocalHead": "e9906c5301521dd3cb093ae29af288dfffe5922d",
+  "initialRemoteHead": "e9906c5301521dd3cb093ae29af288dfffe5922d",
+  "defaultBranch": "main",
+  "defaultBranchHead": "b1c0cdcdc055b285933b63ec91eddf7adaa9e425",
+  "defaultBranchFiles": [
+    "test"
+  ],
+  "releaseBranch": "release/m10-m12-recovery",
+  "initialDirtyFiles": [
+    ".demo/tunnel.err.log"
+  ],
+  "cloudRunRevision": "maadhyam-api-00002-grr",
+  "runtimeAccount": "maadhyam-api@maadhyam-1610.iam.gserviceaccount.com",
+  "image": "asia-south1-docker.pkg.dev/maadhyam-1610/maadhyam-api/maadhyam-api@sha256:22997ae55fff8471d0a518b9e598d61d563487dfbd580ffbd6c9fe2342a06aac",
+  "backendSourceUnchanged": true,
+  "serviceMin": 0,
+  "serviceMax": 2,
+  "revisionMin": 0,
+  "revisionMax": 2,
+  "concurrency": 4,
+  "timeoutSeconds": 55,
+  "memory": "512Mi",
+  "billingEnabled": true,
+  "billingAccount": "016C3C-CA523C-27545A",
+  "budgetRead": "PERMISSION_DENIED",
+  "credits": "Not independently verified",
+  "registryImageCount": 2,
+  "registryImageBytes": [
+    126873360,
+    126865068
+  ],
+  "newBackendBuilds": 0,
+  "newCloudRunDeployments": 0,
+  "newAiCalls": 0,
+  "cloudRunSpecUnchangedAfterHostingDeploy": true,
+  "recentCloudRunErrorLogs": 0,
+  "hostedPassed": 26,
+  "hostedProviderMockCases": 2,
+  "localPassed": 195,
+  "backendPassed": 409,
+  "productionAssetsServerSecretPatternScan": "PASS"
+}

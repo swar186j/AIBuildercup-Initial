@@ -1,0 +1,14 @@
+{
+  "sourceCommit": "5b87bfe05d63da4f0b29085613d1f10a0d4f3ad9",
+  "hostingRelease": "sites/maadhyam-1610/releases/1792177518101000",
+  "hostingVersion": "sites/maadhyam-1610/versions/cf7df81ce2fc24a9",
+  "releaseTime": "2026-10-16T19:05:18.101Z",
+  "message": "M11 stabilization 5b87bfe05d63da4f0b29085613d1f10a0d4f3ad9 frontend only",
+  "deployedFilesMatchBuild": {
+    "favicon.svg": true,
+    "icons.svg": true,
+    "index.html": true,
+    "assets/index-C-svQtsI.js": true,
+    "assets/index-k-lB4O_s.css": true
+  }
+}

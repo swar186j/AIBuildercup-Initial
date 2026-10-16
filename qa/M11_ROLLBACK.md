@@ -1,3 +1,5 @@
+> **17 October remediation:** Current status is **COMPLETE**; lint is 0/0 and fresh tests are 409 backend, 195 local and 26 hosted (two mocked AI UI cases). See [final remediation report](M11_FINAL_REMEDIATION_REPORT.md). The initial deployment/results below are historical; billing visibility remains permission-blocked with [owner instructions](M11_BILLING_OWNER_ACTIONS.md).
+
 # M11 rollback
 
 No rollback was performed. Preserve Firestore records, Firebase anonymous users and browser-local Vault data throughout rollback.
@@ -27,3 +29,7 @@ M11 implementation checkpoint: `2c1672536318abf03f4930608c377b3d39cb1709`. Provi
 For source rollback, first review the working tree and preserve unrelated local work. Use reviewed `git revert` commits on `release/m10-m12-recovery`; revert dependent commits in reverse order. Never use hard reset, clean, force push or a destructive branch switch. A source revert does not alter the deployed image or restore Hosting by itself; build, test and deploy a deliberate rollback release only if needed.
 
 No schema migration was introduced. Existing application IDs, UID-scoped paths and optimistic revisions remain intact. Do not reset Firestore, delete anonymous users, upload Vault bytes or clear browser storage as part of rollback.
+
+## Frontend stabilization rollback target
+
+Current Hosting version is `cf7df81ce2fc24a9` (release `1792177518101000`). The previous tested version `e354c084966d0cdd` (release `1792172321125000`) is now available in Firebase Console → Hosting → Release history → Roll back. No rollback was performed. Verify nested routes, API rewrite and fictional save/resume after any owner-authorized rollback. Do not delete records or identities.

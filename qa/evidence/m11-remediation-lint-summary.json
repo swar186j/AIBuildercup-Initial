@@ -1,0 +1,234 @@
+{
+  "beforeErrors": 27,
+  "beforeWarnings": 5,
+  "afterErrors": 0,
+  "afterWarnings": 0,
+  "command": "npm run lint -- --max-warnings 0",
+  "configurationChanged": false,
+  "findings": [
+    {
+      "file": "Maadhyam/apps/web/src/components/AIAssistant.tsx",
+      "line": 46,
+      "rule": "react-hooks/set-state-in-effect",
+      "severity": 2,
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/components/ReasoningWorkspace.tsx",
+      "line": 51,
+      "rule": "react-hooks/set-state-in-effect",
+      "severity": 2,
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/DocumentContext.tsx",
+      "line": 73,
+      "rule": "@typescript-eslint/no-unused-vars",
+      "severity": 2,
+      "message": "'_url' is defined but never used."
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/DocumentContext.tsx",
+      "line": 120,
+      "rule": "react-hooks/refs",
+      "severity": 2,
+      "message": "Error: Cannot access refs during render"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/DocumentContext.tsx",
+      "line": 267,
+      "rule": "react-refresh/only-export-components",
+      "severity": 2,
+      "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/DocumentContext.tsx",
+      "line": 276,
+      "rule": "react-refresh/only-export-components",
+      "severity": 2,
+      "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/HouseholdContext.tsx",
+      "line": 71,
+      "rule": "react-refresh/only-export-components",
+      "severity": 2,
+      "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/WorkspaceContext.tsx",
+      "line": 41,
+      "rule": "react-refresh/only-export-components",
+      "severity": 2,
+      "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/WorkspaceContext.tsx",
+      "line": 112,
+      "rule": "react-hooks/refs",
+      "severity": 2,
+      "message": "Error: Cannot access refs during render"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/WorkspaceContext.tsx",
+      "line": 113,
+      "rule": "react-hooks/refs",
+      "severity": 2,
+      "message": "Error: Cannot access refs during render"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/WorkspaceContext.tsx",
+      "line": 114,
+      "rule": "react-hooks/refs",
+      "severity": 2,
+      "message": "Error: Cannot access refs during render"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/WorkspaceContext.tsx",
+      "line": 115,
+      "rule": "react-hooks/refs",
+      "severity": 2,
+      "message": "Error: Cannot access refs during render"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/WorkspaceContext.tsx",
+      "line": 116,
+      "rule": "react-hooks/refs",
+      "severity": 2,
+      "message": "Error: Cannot access refs during render"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/WorkspaceContext.tsx",
+      "line": 118,
+      "rule": "react-hooks/refs",
+      "severity": 2,
+      "message": "Error: Cannot access refs during render"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/WorkspaceContext.tsx",
+      "line": 123,
+      "rule": "react-hooks/refs",
+      "severity": 2,
+      "message": "Error: Cannot access refs during render"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/WorkspaceContext.tsx",
+      "line": 213,
+      "rule": "react-hooks/exhaustive-deps",
+      "severity": 1,
+      "message": "React Hook useEffect has a missing dependency: 'hydrateWorkspace'. Either include it or remove the dependency array."
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/WorkspaceContext.tsx",
+      "line": 217,
+      "rule": "react-hooks/set-state-in-effect",
+      "severity": 2,
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/WorkspaceContext.tsx",
+      "line": 428,
+      "rule": null,
+      "severity": 1,
+      "message": "Unused eslint-disable directive (no problems were reported from 'react-hooks/exhaustive-deps')."
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/WorkspaceContext.tsx",
+      "line": 485,
+      "rule": "react-hooks/refs",
+      "severity": 2,
+      "message": "Error: Cannot access refs during render"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/WorkspaceContext.tsx",
+      "line": 485,
+      "rule": "react-hooks/refs",
+      "severity": 2,
+      "message": "Error: Cannot access refs during render"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/context/WorkspaceContext.tsx",
+      "line": 487,
+      "rule": "react-refresh/only-export-components",
+      "severity": 2,
+      "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+    },
+    {
+      "file": "Maadhyam/apps/web/src/hooks/useDialogFocus.ts",
+      "line": 6,
+      "rule": "react-hooks/refs",
+      "severity": 2,
+      "message": "Error: Cannot access refs during render"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/pages/GuidedJourney.tsx",
+      "line": 491,
+      "rule": "react-hooks/set-state-in-effect",
+      "severity": 2,
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/pages/GuidedJourney.tsx",
+      "line": 522,
+      "rule": "react-hooks/exhaustive-deps",
+      "severity": 1,
+      "message": "React Hook useEffect has a missing dependency: 'members'. Either include it or remove the dependency array."
+    },
+    {
+      "file": "Maadhyam/apps/web/src/pages/GuidedJourney.tsx",
+      "line": 533,
+      "rule": "react-hooks/exhaustive-deps",
+      "severity": 1,
+      "message": "React Hook useEffect has missing dependencies: 'cloudRestoring', 'dobValid', and 'updatePreparation'. Either include them or remove the dependency array."
+    },
+    {
+      "file": "Maadhyam/apps/web/src/pages/GuidedJourney.tsx",
+      "line": 536,
+      "rule": "react-hooks/set-state-in-effect",
+      "severity": 2,
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/pages/GuidedJourney.tsx",
+      "line": 543,
+      "rule": "react-hooks/exhaustive-deps",
+      "severity": 1,
+      "message": "React Hook useEffect has a missing dependency: 'documents'. Either include it or remove the dependency array."
+    },
+    {
+      "file": "Maadhyam/apps/web/src/pages/HouseholdIntelligence.tsx",
+      "line": 19,
+      "rule": "react-hooks/set-state-in-effect",
+      "severity": 2,
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/pages/ResolutionPlanner.tsx",
+      "line": 66,
+      "rule": "react-hooks/set-state-in-effect",
+      "severity": 2,
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/pages/ResolutionPlanner.tsx",
+      "line": 82,
+      "rule": "react-hooks/set-state-in-effect",
+      "severity": 2,
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/pages/ResolutionPlanner.tsx",
+      "line": 193,
+      "rule": "react-hooks/purity",
+      "severity": 2,
+      "message": "Error: Cannot call impure function during render"
+    },
+    {
+      "file": "Maadhyam/apps/web/src/pages/Services.tsx",
+      "line": 39,
+      "rule": "react-hooks/set-state-in-effect",
+      "severity": 2,
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders"
+    }
+  ]
+}

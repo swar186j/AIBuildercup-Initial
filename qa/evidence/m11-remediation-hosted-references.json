@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "recordId": "LOCAL-eefff67e-95e2-4c80-9da0-375a93496b20",
+  "selectedIds": [
+    "987853e9-7ec7-430f-b497-a969550f028e"
+  ],
+  "assistanceTypeRestored": "reissue",
+  "optionalEmptyDobAccepted": true,
+  "anonymousUidStableOnRefresh": true,
+  "vaultFilesRestoredWithConsent": true
+}

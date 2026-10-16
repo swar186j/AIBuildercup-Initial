@@ -1,0 +1,132 @@
+[
+  {
+    "testId": "hosting-api-rewrite",
+    "status": "PASS",
+    "observed": "HTTP 200 JSON health, not SPA HTML"
+  },
+  {
+    "testId": "deep-link:/",
+    "status": "PASS",
+    "observed": "Loads and refreshes with visible heading"
+  },
+  {
+    "testId": "deep-link:/services",
+    "status": "PASS",
+    "observed": "Loads and refreshes with visible heading"
+  },
+  {
+    "testId": "deep-link:/applications",
+    "status": "PASS",
+    "observed": "Loads and refreshes with visible heading"
+  },
+  {
+    "testId": "deep-link:/documents",
+    "status": "PASS",
+    "observed": "Loads and refreshes with visible heading"
+  },
+  {
+    "testId": "deep-link:/planner",
+    "status": "PASS",
+    "observed": "Loads and refreshes with visible heading"
+  },
+  {
+    "testId": "deep-link:/household",
+    "status": "PASS",
+    "observed": "Loads and refreshes with visible heading"
+  },
+  {
+    "testId": "deep-link:/workflows",
+    "status": "PASS",
+    "observed": "Loads and refreshes with visible heading"
+  },
+  {
+    "testId": "deep-link:/services/passport/journey",
+    "status": "PASS",
+    "observed": "Loads; refreshing unsaved ID safely prevents replacement"
+  },
+  {
+    "testId": "passport-cloud-create",
+    "status": "PASS",
+    "observed": "Actual UI save returned HTTP 201 with verified owner and name"
+  },
+  {
+    "testId": "passport-refresh-resume",
+    "status": "PASS",
+    "observed": "Exact record, name, DOB, adult answer and step restored"
+  },
+  {
+    "testId": "cross-user:get",
+    "status": "PASS",
+    "observed": "Other verified anonymous identity receives HTTP 404"
+  },
+  {
+    "testId": "cross-user:patch",
+    "status": "PASS",
+    "observed": "Other verified anonymous identity receives HTTP 404"
+  },
+  {
+    "testId": "cross-user:delete",
+    "status": "PASS",
+    "observed": "Other verified anonymous identity receives HTTP 404"
+  },
+  {
+    "testId": "auth:missing",
+    "status": "PASS",
+    "observed": "HTTP 401"
+  },
+  {
+    "testId": "auth:malformed",
+    "status": "PASS",
+    "observed": "HTTP 401"
+  },
+  {
+    "testId": "firestore-direct-isolation",
+    "status": "PASS",
+    "observed": "Cross-user direct named-database REST read denied with HTTP 403"
+  },
+  {
+    "testId": "revision-conflict",
+    "status": "PASS",
+    "observed": "Stale/incorrect revision rejected with HTTP 409"
+  },
+  {
+    "testId": "passport-completed",
+    "status": "PASS",
+    "observed": "Same cloud ID completed; View preparation action visible"
+  },
+  {
+    "testId": "assistant-ui-mocked",
+    "status": "PASS",
+    "observed": "Mocked provider answer rendered; no inference"
+  },
+  {
+    "testId": "extraction-ui-mocked",
+    "status": "PASS",
+    "observed": "Mocked extraction reviewed/applied; no inference; remains unverified"
+  },
+  {
+    "testId": "household-cloud",
+    "status": "PASS",
+    "observed": "Two distinct parent identities, self-dependency disabled, consented cloud save"
+  },
+  {
+    "testId": "vault-owner-identity",
+    "status": "PASS",
+    "observed": "Exact member ID and distinct same-relationship options survive local reload"
+  },
+  {
+    "testId": "passport-household-options",
+    "status": "PASS",
+    "observed": "Both saved named household members and Other appear"
+  },
+  {
+    "testId": "planner-dynamic-persistence",
+    "status": "PASS",
+    "observed": "Target-dependent plan text changes; cloud target restores after refresh"
+  },
+  {
+    "testId": "browser-runtime",
+    "status": "PASS",
+    "observed": "No uncaught JS errors or localhost requests"
+  }
+]

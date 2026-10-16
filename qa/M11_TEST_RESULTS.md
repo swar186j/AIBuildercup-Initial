@@ -1,3 +1,5 @@
+> **17 October remediation:** Current status is **COMPLETE**; lint is 0/0 and fresh tests are 409 backend, 195 local and 26 hosted (two mocked AI UI cases). See [final remediation report](M11_FINAL_REMEDIATION_REPORT.md). The initial deployment/results below are historical; billing visibility remains permission-blocked with [owner instructions](M11_BILLING_OWNER_ACTIONS.md).
+
 # M11 test results
 
 Functional hosted acceptance passed. Overall M11 remains **PARTIAL** for lint and billing visibility; no overall completion claim is made.
