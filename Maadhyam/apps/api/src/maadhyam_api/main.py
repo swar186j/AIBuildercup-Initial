@@ -23,11 +23,17 @@ logger = logging.getLogger(__name__)
 
 def create_app() -> FastAPI:
     settings = get_settings()
+    # AI admission bounds the entire multipart body at 11 MiB in production.
+    # Keep accepted fictional uploads in memory rather than spooling bytes to disk.
+    from starlette.formparsers import MultiPartParser
+    MultiPartParser.spool_max_size = 12 * 1024 * 1024
     app = FastAPI(
         title=settings.app_name,
         description="AI-powered citizen service resolution platform",
         version=settings.app_version,
     )
+    from maadhyam_api.services.ai_guard import install_ai_guard
+    install_ai_guard(app, settings)
 
     app.add_middleware(
         CORSMiddleware,

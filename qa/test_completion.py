@@ -201,8 +201,8 @@ def test_m8_members_ownership_dependencies(page):
     expect(page.get_by_text('2 uploaded · 1 reviewed self-held',exact=False)).to_be_visible()
     spa(page,'/documents')
     row=page.locator('article').filter(has_text='fictional_pan.png');row.get_by_role('button',name='Edit details').click()
-    expect(page.locator('#metadata-holder')).to_be_disabled()
-    expect(page.locator('#metadata-holder')).to_have_value('parent-guardian')
+    expect(page.locator('#metadata-holder')).to_be_enabled()
+    expect(page.locator('#metadata-holder')).to_have_value('member:' + parent['id'])
 
 
 def test_m8_cycle_edit_delete(page):
@@ -219,7 +219,7 @@ def test_m8_cycle_edit_delete(page):
     assert data['memberCount']==1 and data['documentCount']==0 and not data['dependencyGraph']['cycleOrBlockedNodeIds']
     spa(page,'/documents');row=page.locator('article').filter(has_text='fictional_aadhaar.png')
     expect(row).to_be_visible();row.get_by_role('button',name='Edit details').click()
-    expect(page.locator('#metadata-holder')).to_have_value('other')
+    expect(page.locator('#metadata-holder')).to_have_value('category:other')
     page.get_by_role('button',name='Save details',exact=True).click()
     spa(page,'/planner');expect(page.get_by_text('1 uploaded · 0 reviewed self-held',exact=False)).to_be_visible()
 

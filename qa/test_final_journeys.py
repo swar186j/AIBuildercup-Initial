@@ -1,5 +1,6 @@
 """Cross-feature journeys and failure regressions, using fictional local evidence only."""
 import json
+import re
 import pytest
 from playwright.sync_api import expect
 from qa.test_browser import upload, spa, response_for, API, WORKFLOWS, EVIDENCE
@@ -8,8 +9,8 @@ from qa.test_completion import new_preparation, add_member, associate, household
 
 def reopen(page, record):
     spa(page, '/applications')
-    page.locator('article').filter(has_text=record).get_by_role('button', name='Continue preparation', exact=True).click()
-    page.get_by_role('link', name='Continue passport journey', exact=True).click()
+    page.locator('article').filter(has_text=record).get_by_role('button', name=re.compile(r'^(Continue preparation|View preparation summary)$')).click()
+    page.get_by_role('link', name=re.compile(r'^(Continue passport journey|View saved questionnaire)$')).click()
     expect(page.get_by_label('Preparation save controls')).to_contain_text(record)
 
 
@@ -85,9 +86,9 @@ def test_m5_invalid_deleted_id(page,invalid):
         page.locator('article').filter(has_text=record).get_by_role('button',name='Continue preparation',exact=True).click()
         page.get_by_role('button',name='Delete this preparation',exact=True).click()
     page.goto('/services/passport/journey?preparation='+('LOCAL-missing' if invalid=='missing' else record))
-    expect(page.get_by_text('The previous preparation is unavailable',exact=False)).to_be_visible()
-    expect(page.get_by_label('Preparation save controls')).not_to_contain_text(record)
-    expect(page.get_by_label('Applicant name',exact=True)).to_have_value('')
+    expect(page.get_by_role('alert')).to_contain_text('could not be restored')
+    expect(page.get_by_label('Preparation save controls')).to_have_count(0)
+    expect(page.get_by_label('Applicant name',exact=True)).to_have_count(0)
 
 
 def test_m5_repeated_create_click(page):

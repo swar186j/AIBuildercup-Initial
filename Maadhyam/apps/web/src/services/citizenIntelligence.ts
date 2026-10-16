@@ -1,3 +1,4 @@
+import { getFirebaseToken } from "./firebaseClient";
 import { validateChat, validatePassportPlan, validateReasoning } from './responseValidation';
 import type { LocalDocument } from '../context/DocumentContext';
 
@@ -20,7 +21,11 @@ export function documentPayload(documents: LocalDocument[]) {
   }));
 }
 async function post<T>(url: string, body: unknown): Promise<T> {
-  const response = await fetch(url, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body), signal: AbortSignal.timeout(15000) });
+  const headers: Record<string, string> = {'Content-Type':'application/json'};
+  if (url.endsWith('/chat') && (body as {useGemini?: boolean}).useGemini) {
+    headers.Authorization = `Bearer ${await getFirebaseToken()}`;
+  }
+  const response = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body), signal: AbortSignal.timeout(40000) });
   if (!response.ok) throw new Error(`Intelligence service returned ${response.status}`);
   const result: unknown = await response.json();
   if (url.endsWith('/passport-plan')) validatePassportPlan(result);

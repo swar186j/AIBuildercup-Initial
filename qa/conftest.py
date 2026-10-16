@@ -34,6 +34,7 @@ def page(browser, request):
     p.evaluate('window.scrollTo(0, 0)')
     p.screenshot(path=str(EVIDENCE / (name+'.png')), full_page=True, animations='disabled')
     (EVIDENCE/(name+'.json')).write_text(json.dumps({'runtimeErrors':errors,'console':console,'network':network,'apiAssertions':p.evaluate('window.__qaResponses || []')},indent=2))
+    ctx.unroute_all(behavior='wait')
     ctx.close()
     assert not errors, f'Uncaught runtime errors: {errors}'
     assert not any('Rahul' in x['text'] or 'SECRET_' in x['text'] for x in console), 'Document metadata in browser logs'

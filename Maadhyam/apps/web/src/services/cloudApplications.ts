@@ -104,6 +104,7 @@ async function apiRequest<T>(
           : {}),
       },
       cache: "no-store",
+      signal: init.signal ?? AbortSignal.timeout(20000),
     },
   );
 

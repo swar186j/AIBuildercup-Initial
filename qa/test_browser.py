@@ -27,7 +27,7 @@ def upload(page, name='fictional_aadhaar.png', printed='Rahul Kumar Sharma', hol
     d.locator('#metadata-type').select_option(label='PAN card' if 'pan' in name else 'Aadhaar card')
     d.locator('#metadata-printed-name').fill(printed)
     d.locator('#metadata-dob').fill('1998-06-15')
-    d.locator('#metadata-holder').select_option(holder)
+    d.locator('#metadata-holder').select_option('category:' + holder)
     d.locator('#metadata-address').fill(address)
     labels={'identity':'Identity proof','address':'Address proof','birth':'Date of birth','other':'Other / Unclassified'}
     for key,label in labels.items():
@@ -157,7 +157,8 @@ def test_passport_guided(page,complete):
     page.get_by_role('button',name='Back',exact=True).click()
     assert page.locator('input[type=radio]:checked').count()>0
     page.reload()
-    expect(page.get_by_text('Step 1 of 4',exact=True)).to_be_visible()
+    # An unsaved record's URL must not silently create a replacement after reload.
+    expect(page.get_by_role('alert')).to_contain_text('could not be restored')
 
 @pytest.mark.parametrize('count',[0,1,3])
 def test_planner_documents(page,count):
