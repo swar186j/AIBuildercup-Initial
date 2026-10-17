@@ -139,6 +139,14 @@ def main():
 
             page.goto("/planner")
 
+            # A hard navigation restores IndexedDB asynchronously. The planner
+            # can render a valid initial empty assessment before that completes.
+            # Wait for both restored documents AND the corresponding assessment;
+            # retain every API payload, review-status and conflict assertion below.
+            page.get_by_text(
+                "2 uploaded · 2 reviewed self-held", exact=False
+            ).wait_for(timeout=15000)
+
             page.get_by_label(
                 "Passport correction alternatives"
             ).wait_for(timeout=15000)

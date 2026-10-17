@@ -6,21 +6,23 @@
 
 ## Release and configuration inventory
 
-The final release commit is the commit containing this handoff and `M12_1_FINAL_BUGFIX_REPORT.md`. Its exact SHA and successful remote-HEAD comparison are supplied in the final delivery message. From this checkout, obtain the immutable SHA using `git log -1 --format=%H -- qa/M12_1_MANUAL_CLOUD_DEPLOYMENT_HANDOFF.md` and verify against the release branch before deploying.
+The final combined release commit is the commit containing this handoff and `M12_1_SERVICE_CATALOGUE_EXPANSION_REPORT.md`. The prior consolidated M12.1 commit is `986984198366c8ffab222eb160558217f7d016d5`. Its exact SHA and successful remote-HEAD comparison are supplied in the final delivery message. From this checkout, obtain the immutable SHA using `git log -1 --format=%H -- qa/M12_1_MANUAL_CLOUD_DEPLOYMENT_HANDOFF.md` and verify against the release branch before deploying.
 
 | Item | Changed / required |
 |---|---|
-| Frontend | YES — existing pages, shared evidence/progress/readiness helpers, save feedback |
-| Backend | YES — deterministic readiness, contextual findings, optional extraction provenance |
+| Frontend | YES — M12.1 fixes plus the final 256-tile Services catalogue, local search, 18 category filters and Load More |
+| Backend | YES for M12.1 — deterministic readiness, contextual findings, optional extraction provenance. Backend application source/config is unchanged by the catalogue expansion since `9869841`; two historical browser tests now wait for completed local hydration/upload rendering. |
 | Firestore collection paths/database | NO — existing named database `maadhyam`, existing UID-scoped paths |
 | Firestore stored document schema | YES, additive only: optional `metadata.extractionSource`: `manual`, `ocr`, `gemini`; legacy defaults to manual. No required field or migration. |
 | Application/household/planner schema | NO — existing application snapshots and revisions reused |
 | Cloud Storage paths/bucket/configuration | NO — `maadhyam-1610-private-vault`, existing private generation-protected objects |
 | Environment variables or Firebase Auth settings | NO |
 | Dockerfile/runtime dependencies/lockfiles | NO |
-| New backend image needed | YES — backend source changed |
+| New backend image needed | YES — the owner must still build/deploy the M12.1 backend image. The catalogue adds no backend change. |
 | Services owner updates | Existing Cloud Run service and Firebase Hosting only |
 | New infrastructure/data migration | NONE |
+
+The owner must deploy the complete M12.1 backend and latest combined frontend together after review. Build Firebase Hosting from the latest combined Git commit, including the catalogue; do not use the older frontend build. No new endpoints, routes, dependencies, Firestore schema, bucket or environment changes accompany the catalogue. See `M12_1_SERVICE_CATALOGUE_EXPANSION_REPORT.md` for coverage, research, screenshots and regression evidence.
 
 ## Owner-only preflight
 
@@ -79,7 +81,7 @@ Do not deploy Firestore rules, database provisioning or Storage/IAM changes: thi
 
 Use a dedicated fictional test identity and its own test records. These checks were deliberately deferred; this task did not write production acceptance data.
 
-- Discover Passport through landing search; confirm Aadhaar/EPFO are labeled advisory. Confirm the existing sidebar, mobile layout and floating assistant remain usable.
+- Discover Passport through landing search; confirm Passport says Guided preview available and Aadhaar/EPFO say Coming Soon. Check all 18 category options, RTO/ITR/PM Kisan searches, combined filters, empty-state reset and Load More. Unsupported cards must have no action. Confirm the existing sidebar, mobile layout and floating assistant remain usable.
 - Add and edit a household member; save and wait for actual success. Hard refresh in the **same browser profile/Firebase UID**. Verify UUID, name, relationship, dependencies and member timestamps. Check the selected preparation destination.
 - With a network interruption, verify visible failure, unchanged local edits and Retry. Test a second-tab revision conflict without silently replacing newer records.
 - Save Passport Step 3; hard refresh and resume the exact preparation ID, applicant/member ID, answers, selected documents, created/last-saved timestamps and wizard step. Repeat with Other/manual applicant and an optional blank DOB.

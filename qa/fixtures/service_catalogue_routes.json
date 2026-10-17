@@ -1,0 +1,11 @@
+[
+  "services",
+  "documents",
+  "applications",
+  "planner",
+  "household",
+  "workflows",
+  "services/passport/journey",
+  "services/:serviceId",
+  "*"
+]

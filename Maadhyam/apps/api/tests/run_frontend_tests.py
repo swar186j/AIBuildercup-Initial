@@ -51,6 +51,8 @@ def upload(page, base):
     # A minimal valid PNG with no personal data; no Gemini call is made.
     png = bytes.fromhex('89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000b49444154789c636000020000050001a5f645400000000049454e44ae426082')
     page.get_by_label('Choose documents to add').set_input_files({'name':'fictional_qa.png','mimeType':'image/png','buffer':png})
+    # File reading and React rendering finish asynchronously after set_input_files.
+    page.get_by_text('fictional_qa.png').wait_for(timeout=10000)
     check(page.get_by_text('fictional_qa.png').count() > 0, 'Uploaded filename not visible')
     check('needs review' in page.locator('body').inner_text().lower(), 'Unreviewed status not shown')
 

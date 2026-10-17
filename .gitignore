@@ -71,3 +71,18 @@ qa/evidence/m12-1-verification/*
 !qa/evidence/m12-1-verification/frontend-build.log
 !qa/evidence/m12-1-verification/legacy-*.json
 !qa/evidence/m12-1-verification/legacy-*.log
+
+# Catalogue release: portable receipts and intentional public UI comparisons only.
+!qa/evidence/m12-1-catalogue/
+qa/evidence/m12-1-catalogue/*
+!qa/evidence/m12-1-catalogue/backend.xml
+!qa/evidence/m12-1-catalogue/browser.xml
+!qa/evidence/m12-1-catalogue/http.xml
+!qa/evidence/m12-1-catalogue/execution.json
+!qa/evidence/m12-1-catalogue/frontend-lint.log
+!qa/evidence/m12-1-catalogue/frontend-build.log
+!qa/evidence/m12-1-catalogue/legacy-*.json
+!qa/evidence/m12-1-catalogue/legacy-*.log
+!qa/evidence/m12-1-catalogue/comparison/
+qa/evidence/m12-1-catalogue/comparison/*
+!qa/evidence/m12-1-catalogue/comparison/services-*.png
