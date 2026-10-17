@@ -30,11 +30,17 @@ export type LocalDocument = {
   status: ReviewStatus;
   addedAt: Date;
   metadata: DocumentMetadata;
+  createdAt?:string;
+  uploadedAt?:string;
+  updatedAt?:string;
+  originalLocalAddedAt?:string;
+  ownerUid?: string;
+  cloud?: {revision:number;sizeBytes:number;state:string;sha256:string};
 };
 
 export type DocumentContextValue = {
   documents: LocalDocument[];
-  addDocuments: (documents: LocalDocument[]) => void;
+  addDocuments: (documents: LocalDocument[]) => Promise<void>;
   removeDocument: (id: string) => void;
   toggleReviewed: (id: string) => void;
   updateMetadata: (id: string, metadata: DocumentMetadata) => void;
@@ -43,6 +49,14 @@ export type DocumentContextValue = {
   persistenceError: string;
   setLocalPersistence: (enabled: boolean) => Promise<void>;
   clearAllDocuments: () => Promise<void>;
+  clearCloudDocuments: () => Promise<void>;
+  cloudBusy:boolean;
+  cloudNotice:string;
+  cloudEnabled:boolean;
+  enableCloudStorage:()=>Promise<void>;
+  migrateLocalDocuments:()=>Promise<void>;
+  loadDocumentFile:(id:string)=>Promise<LocalDocument|undefined>;
+  retryCloudDocument:(id:string)=>Promise<void>;
 };
 
 export const DocumentContext = createContext<DocumentContextValue | null>(null);

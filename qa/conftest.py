@@ -24,6 +24,8 @@ def page(browser, request):
     # Preserve real HTTP backend behavior while isolating from developer credentials.
     ctx.route('**/api/**', lambda r: r.fulfill(response=r.fetch(url=API + '/api' + r.request.url.split('/api',1)[1])))
     p = ctx.new_page()
+    from qa.test_remediation import mocked_auth
+    mocked_auth(p, cloud_consent=False)
     p.set_default_timeout(6000)
     errors, console, network = [], [], []
     p.on('pageerror', lambda e: errors.append(str(e)))

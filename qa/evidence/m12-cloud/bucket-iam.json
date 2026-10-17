@@ -1,0 +1,17 @@
+{
+  "bindings": [
+    {
+      "members": [
+        "projectOwner:maadhyam-1610"
+      ],
+      "role": "roles/storage.legacyBucketOwner"
+    },
+    {
+      "members": [
+        "serviceAccount:maadhyam-api@maadhyam-1610.iam.gserviceaccount.com"
+      ],
+      "role": "roles/storage.objectUser"
+    }
+  ],
+  "etag": "CAQ="
+}

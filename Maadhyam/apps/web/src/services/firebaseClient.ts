@@ -2,6 +2,7 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import {
   getAuth,
+  onAuthStateChanged,
   signInAnonymously,
   type User,
 } from "firebase/auth";
@@ -58,4 +59,8 @@ export async function ensureDemoUser(): Promise<User> {
 export async function getFirebaseToken(): Promise<string> {
   const user = await ensureDemoUser();
   return user.getIdToken();
+}
+
+export function subscribeFirebaseUser(callback:(user:User|null)=>void){
+  return onAuthStateChanged(firebaseAuth(),callback);
 }

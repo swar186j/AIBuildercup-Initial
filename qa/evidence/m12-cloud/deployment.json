@@ -1,0 +1,14 @@
+{
+  "status": "LOCAL_GATES_PASSED",
+  "backendTests": 441,
+  "localBrowserHttpTests": 207,
+  "lintErrors": 0,
+  "lintWarnings": 0,
+  "previousRunRevision": "maadhyam-api-00002-grr",
+  "previousHostingVersion": "cf7df81ce2fc24a9",
+  "bucket": "maadhyam-1610-private-vault",
+  "region": "asia-south1",
+  "firestoreDatabase": "maadhyam",
+  "geminiCalls": 0,
+  "temporaryRecoveryIamGrantRemoved": true
+}

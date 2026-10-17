@@ -23,7 +23,7 @@ def cloud_record(record_id="LOCAL-remediation-12345678", name="Fictional Cloud A
             "assessment_history": []}
 
 
-def mocked_auth(page):
+def mocked_auth(page, cloud_consent=True):
     """Client-only fictional token; API routes below are mocked and do not verify it."""
     def encode(value):
         return base64.urlsafe_b64encode(json.dumps(value).encode()).rstrip(b"=").decode()
@@ -39,7 +39,8 @@ def mocked_auth(page):
             data = {"users": [{"localId": "fictional-remediation-uid", "providerUserInfo": []}]}
         route.fulfill(json=data, headers={"Access-Control-Allow-Origin": "*"})
     page.route("**/identitytoolkit.googleapis.com/**", auth)
-    page.add_init_script("localStorage.setItem('maadhyam-cloud-preparations-consent-v1','yes')")
+    if cloud_consent:
+        page.add_init_script("localStorage.setItem('maadhyam-cloud-preparations-consent-v1','yes')")
 
 
 def hold_cloud(page):

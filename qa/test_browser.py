@@ -89,7 +89,7 @@ def test_vault_optin_clear(page):
     page.reload()
     expect(page.get_by_text('fictional_aadhaar.png',exact=True).first).to_be_visible()
     page.once('dialog',lambda d:d.accept())
-    page.get_by_role('button',name='Clear all Vault data').click()
+    page.get_by_role('button',name='Clear local browser Vault copies').click()
     expect(page.get_by_text('No documents yet',exact=True)).to_be_visible()
     page.reload()
     expect(page.get_by_text('No documents yet',exact=True)).to_be_visible()

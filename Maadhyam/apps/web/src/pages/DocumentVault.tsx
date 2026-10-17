@@ -1,4 +1,6 @@
+import { formatDateTime } from "../utils/dateTime";
 import { useDialogFocus } from '../hooks/useDialogFocus';
+import { Link } from "react-router-dom";
 import PageHero from "../components/PageHero";
 import { useHousehold } from "../context/HouseholdContext";
 import { useEffect, useRef, useState, type ChangeEvent, type DragEvent } from "react";
@@ -102,7 +104,7 @@ function isSupportedFile(file: File): boolean {
 }
 
 export default function DocumentVault() {
-  const { documents, addDocuments, removeDocument: removeStoredDocument, toggleReviewed, updateMetadata, persistenceEnabled, persistenceReady, persistenceError, setLocalPersistence, clearAllDocuments } = useDocuments();
+  const { documents, addDocuments, removeDocument: removeStoredDocument, toggleReviewed, updateMetadata, persistenceEnabled, persistenceReady, persistenceError, setLocalPersistence, clearAllDocuments, cloudBusy,cloudNotice,cloudEnabled,enableCloudStorage,migrateLocalDocuments,loadDocumentFile,retryCloudDocument,clearCloudDocuments } = useDocuments();
   const { members, unassign } = useHousehold();
 
   function ownerLabel(metadata: DocumentMetadata): string {
@@ -165,6 +167,8 @@ export default function DocumentVault() {
     if (!extractId || !fictionalConfirmed) return;
     const target = documents.find((document) => document.id === extractId);
     if (!target) return;
+    const loaded=await loadDocumentFile(target.id);
+    if(!loaded)return;
     const controller = new AbortController();
     extractionAbort.current?.abort();
     extractionAbort.current = controller;
@@ -172,7 +176,7 @@ export default function DocumentVault() {
     setExtractionWarnings([]);
     setDemoPhase("processing");
     try {
-      const result = await extractDocument(target.file, controller.signal);
+      const result = await extractDocument(loaded.file, controller.signal);
       if (controller.signal.aborted) return;
       const proposedCategories = result.categories.filter((category) => category !== "other");
       setDemoDraft({
@@ -236,10 +240,10 @@ export default function DocumentVault() {
       }
     }
 
-    if (accepted.length) addDocuments(accepted);
+    if (accepted.length) await addDocuments(accepted);
     setMessage(
       [
-        accepted.length ? `${accepted.length} file${accepted.length === 1 ? "" : "s"} added to this browser session.` : "",
+        accepted.length ? `${accepted.length} file${accepted.length === 1 ? "" : "s"} added. ${cloudEnabled ? "See cloud save status below." : "Local-only: enable cloud storage to upload future files, or explicitly migrate existing files."}` : "",
         ...errors,
       ]
         .filter(Boolean)
@@ -366,7 +370,7 @@ export default function DocumentVault() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="font-semibold text-[#173f68]">Browser-local Vault storage</p>
-            <p className="mt-1 text-sm text-slate-600">Off by default. When enabled, files and manually reviewed identity fields remain in this browser after refresh. Not encrypted; use fictional documents for demos. Nothing is uploaded by this storage feature.</p>
+            <p className="mt-1 text-sm text-slate-600">Off by default. When enabled, files and manually reviewed identity fields remain in this browser after refresh. Not encrypted; use fictional documents for demos. This optional cache is separate from private cloud storage.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <button type="button" disabled={!persistenceReady} onClick={() => void setLocalPersistence(!persistenceEnabled)}
@@ -376,14 +380,27 @@ export default function DocumentVault() {
             <button
               type="button"
               onClick={async () => {
-                if (!window.confirm("Delete all Vault documents and saved browser copies?")) {
+                if (!window.confirm("Clear local browser Vault copies only? Cloud documents remain and will restore after refresh.")) {
                   return;
                 }
 
                 await clearAllDocuments();
               }}
-              className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Clear all Vault data</button>
+              className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700">Clear local browser Vault copies</button>
+            <span className="text-xs">Local browser copies only; cloud data remains.</span>
           </div>
+        </div>
+        <div className="mt-4 space-y-3 border-t pt-4" aria-label="Cloud Vault storage">
+          <p className="font-semibold">Private cloud document storage</p>
+          <p className="text-sm">Store file bytes and reviewed metadata under your anonymous Firebase identity in Google Cloud. Keep this browser profile to retain access. Files are never sent to Gemini by storage.</p>
+          <div className="flex flex-wrap gap-3">
+            <button type="button" disabled={cloudBusy} onClick={()=>void enableCloudStorage()} className="rounded-lg border px-4 py-2">{cloudEnabled?'Cloud storage enabled':'Enable cloud storage for new files'}</button>
+            <button type="button" disabled={cloudBusy||!persistenceReady} onClick={()=>void migrateLocalDocuments()} className="rounded-lg border px-4 py-2">Migrate existing local files to cloud</button>
+            <button type="button" disabled={cloudBusy} onClick={()=>void clearCloudDocuments()} className="rounded-lg border border-red-300 px-4 py-2 text-red-700">Delete this account’s cloud Vault and local copies</button>
+          </div>
+          <p role="status">{cloudBusy?'Saving — please wait. ':''}{cloudNotice}</p>
+          <Link className="mr-4 underline" to="/services/passport/journey">Continue Passport preparation</Link>
+          <Link className="underline" to="/applications">View My Applications</Link>
         </div>
         {persistenceError && <p role="alert" className="mt-2 text-sm text-red-700">{persistenceError}</p>}
       </section>
@@ -420,7 +437,7 @@ export default function DocumentVault() {
         </div>
         <h2 className="mt-4 text-xl font-bold text-[#173f68]">Add documents for preview</h2>
         <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-600">
-          Drag files here or select PDFs, JPGs and PNGs (up to 10 MB each). This is a local prototype, not secure cloud storage.
+          Drag files here or select PDFs, JPGs and PNGs (up to 10 MB each). Choose private cloud storage below, or keep files local-only.
         </p>
         <input
           ref={inputRef}
@@ -440,7 +457,7 @@ export default function DocumentVault() {
         </button>
         <div className="mt-5 flex items-center justify-center gap-2 text-xs text-slate-500">
           <LockKeyhole size={15} aria-hidden="true" />
-          Files are not sent to the Maadhyam backend. Refreshing the page clears this list.
+          Cloud uploads require consent. Local-only files need optional browser saving to survive refresh. AI extraction has separate consent.
         </div>
         {message && <p role="status" className="mx-auto mt-4 max-w-xl text-sm text-[#173f68]">{message}</p>}
       </section>
@@ -449,7 +466,7 @@ export default function DocumentVault() {
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="text-lg font-bold text-[#173f68]">Your documents</h2>
-            <p className="mt-1 text-sm text-slate-500">Temporary files added during this session.</p>
+            <p className="mt-1 text-sm text-slate-500">Your cloud documents and local-only files. Cloud files download when previewed.</p>
           </div>
           <div className="relative w-full lg:max-w-xs">
             <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true" />
@@ -517,8 +534,12 @@ export default function DocumentVault() {
                     <div className="min-w-0">
                       <h3 className="break-all text-sm font-semibold text-[#173f68]">{document.file.name}</h3>
                       <p className="mt-1 text-xs text-slate-500">
-                        {isPdf ? "PDF" : "Image"} · {formatSize(document.file.size)} · {document.addedAt.toLocaleString()}
+                        {document.cloud ? `Cloud: ${document.cloud.state}` : cloudEnabled?'Local-only — cloud upload not confirmed':'Local-only'} · {isPdf ? "PDF" : "Image"} · {formatSize(document.cloud?.sizeBytes??document.file.size)}
                       </p>
+                      <p className="mt-1 text-xs text-slate-500">Uploaded on: <time dateTime={document.uploadedAt}>{document.cloud?.state==='pending'?'Not recorded — upload pending':formatDateTime(document.uploadedAt)}</time></p>
+                      {document.updatedAt&&document.updatedAt!==document.uploadedAt&&<p className="text-xs text-slate-500">Last updated: <time dateTime={document.updatedAt}>{formatDateTime(document.updatedAt)}</time></p>}
+                      {document.originalLocalAddedAt&&<p className="text-xs text-slate-500">Originally added locally: {formatDateTime(document.originalLocalAddedAt)}</p>}
+                      {((cloudEnabled&&!document.cloud)||(document.cloud&&document.cloud.state!=='ready'))&&<button type="button" disabled={cloudBusy} className="mt-2 text-xs underline" onClick={()=>void retryCloudDocument(document.id)}>Retry cloud save</button>}
                       <div className="mt-2 flex flex-wrap items-center gap-2">
                         <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${document.status === "reviewed" ? "bg-emerald-50 text-emerald-800" : "bg-amber-50 text-amber-800"
                           }`}>
@@ -539,7 +560,7 @@ export default function DocumentVault() {
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2 sm:justify-end">
-                    <button type="button" onClick={() => setPreviewId(document.id)} className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-[#173f68] hover:bg-slate-50">
+                    <button type="button" onClick={() => void loadDocumentFile(document.id).then(loaded=>{if(loaded)setPreviewId(loaded.id);})} className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-[#173f68] hover:bg-slate-50">
                       <Eye size={15} /> Preview
                     </button>
                     <button type="button" onClick={() => openDemo(document)} className="inline-flex items-center gap-1.5 rounded-lg border border-[#9dcacb] bg-[#f2f8f8] px-3 py-2 text-xs font-semibold text-[#147d83] hover:bg-[#e4f3f1]">
@@ -547,15 +568,16 @@ export default function DocumentVault() {
                     </button>
                     <button
                       type="button"
+                      disabled={cloudBusy}
                       onClick={() => openEdit(document)}
                       className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-[#173f68] hover:bg-slate-50"
                     >
                       <Pencil size={15} /> Edit details
                     </button>
-                    <button type="button" onClick={() => toggleReviewed(document.id)} className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-[#173f68] hover:bg-slate-50">
+                    <button type="button" disabled={cloudBusy} onClick={() => toggleReviewed(document.id)} className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-[#173f68] hover:bg-slate-50">
                       <CheckCircle2 size={15} /> {document.status === "reviewed" ? "Mark for review" : "Mark self-reviewed"}
                     </button>
-                    <button type="button" onClick={() => removeDocument(document.id)} aria-label={`Remove ${document.file.name}`} className="inline-flex items-center gap-1.5 rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-700 hover:bg-red-50">
+                    <button type="button" disabled={cloudBusy} onClick={() => removeDocument(document.id)} aria-label={`Remove ${document.file.name}`} className="inline-flex items-center gap-1.5 rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-700 hover:bg-red-50">
                       <Trash2 size={15} /> Remove
                     </button>
                   </div>
@@ -927,7 +949,7 @@ export default function DocumentVault() {
               </fieldset>
               <div className="flex flex-wrap justify-end gap-3 border-t border-slate-100 pt-5">
                 <button type="button" onClick={() => setEditId(null)} className="rounded-xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-                <button type="submit" className="rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70]">Save details</button>
+                <button type="submit" disabled={cloudBusy} className="rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70]">Save details</button>
               </div>
             </form>
           </section>

@@ -28,7 +28,7 @@ const initialApplications: Application[] = [
 
 function applicationFor(id:string,journey:JourneyData):Application {
  const names:Record<PassportAssistanceType,string>={fresh:'New passport preparation',reissue:'Passport reissue preparation',correction:'Passport correction preparation',documents:'Passport document preparation',police:'Police verification preparation'};
- return {id,service:'Passport',type:names[journey.assistanceType],status:journey.stepIndex===3?'completed':journey.stepIndex===0?'draft':'in-progress',completedSteps:journey.stepIndex===3?4:journey.stepIndex,totalSteps:4,nextAction:journey.stepIndex===3?'Review your saved preparation summary':'Resume your guided questionnaire',updated:'Saved in this workspace',steps:['Select assistance type','Answer guided questions','Review document readiness','Prepare next steps'],journey};
+ return {id,createdAt:journey.createdAt,lastSavedAt:journey.lastSavedAt,service:'Passport',type:names[journey.assistanceType],status:journey.stepIndex===3?'completed':journey.stepIndex===0?'draft':'in-progress',completedSteps:journey.stepIndex===3?4:journey.stepIndex,totalSteps:4,nextAction:journey.stepIndex===3?'Review your saved preparation summary':'Resume your guided questionnaire',updated:'Saved in this workspace',steps:['Select assistance type','Answer guided questions','Review document readiness','Prepare next steps'],journey};
 }
 const CLOUD_CONSENT_KEY = 'maadhyam-cloud-preparations-consent-v1';
 const CLOUD_WORKSPACE_CONSENT_KEY = 'maadhyam-cloud-workspace-consent-v2';
@@ -293,6 +293,10 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
           return 'A different cloud version already exists. Cloud changes were not overwritten; reload and review it before saving.';
         }
       }
+      const confirmedJourney=cloudToPreparation(stored);
+      if(!confirmedJourney || stored.id!==id || !sameCloudPreparation(stored,payload))throw new Error('Cloud acknowledgment did not match the saved preparation');
+      // Merge only timestamps; edits made while awaiting acknowledgment remain local.
+      setApplications(previous=>previous.map(a=>a.id===id&&a.journey?applicationFor(id,{...a.journey,createdAt:confirmedJourney.createdAt,lastSavedAt:confirmedJourney.lastSavedAt}):a));
       cloudRevisions.current.set(id,stored.revision);
       activateCloudId(id);
       lastSyncPayload.current=JSON.stringify(workspacePayload());
@@ -339,6 +343,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         ...payload,
       });
       cloudRevisions.current.set(id,saved.revision);
+      setApplications(previous=>previous.map(a=>a.id===id&&a.journey?applicationFor(id,{...a.journey,lastSavedAt:saved.lastSavedAt??saved.updated_at}):a));
       lastSyncPayload.current=JSON.stringify(payload);
       cloudSyncBlocked.current=false;
       cloudConsent.current=true;
@@ -383,6 +388,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       cloudApplications.update(id,{revision,...payload})
         .then(saved=>{
           cloudRevisions.current.set(id,saved.revision);
+          setApplications(previous=>previous.map(a=>a.id===id&&a.journey?applicationFor(id,{...a.journey,lastSavedAt:saved.lastSavedAt??saved.updated_at}):a));
           lastSyncPayload.current=JSON.stringify(payload);
           setHistory(payload.assessment_history);
         })
@@ -427,7 +433,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   function createDraft(type:PassportAssistanceType='fresh') {
     const id = `LOCAL-${crypto.randomUUID()}`;
     localEditGeneration.current += 1;
-    setApplications(previous=>[applicationFor(id,{...newJourney(type),documentIds:documents.map(d=>d.id)}),...previous]);
+    setApplications(previous=>[applicationFor(id,{...newJourney(type),createdAt:new Date().toISOString(),documentIds:documents.map(d=>d.id)}),...previous]);
     return id;
   }
   function togglePlannerTask(id: string) {

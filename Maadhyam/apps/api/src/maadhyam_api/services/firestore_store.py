@@ -49,14 +49,14 @@ class FirestoreStore:
         record_id = client_id or uuid4().hex
         ref = self.collection(uid).document(record_id)
 
-        now = utc_now()
         record = {
             **fields,
             "id": record_id,
             "owner_uid": uid,
             "revision": 1,
-            "created_at": now,
-            "updated_at": now,
+            "created_at": firestore.SERVER_TIMESTAMP,
+            "updated_at": firestore.SERVER_TIMESTAMP,
+            "lastSavedAt": firestore.SERVER_TIMESTAMP,
             "planner_state": fields.get("planner_state", {}),
             "household_state": fields.get("household_state", {}),
             "assessment_history": fields.get("assessment_history", []),
@@ -82,7 +82,7 @@ class FirestoreStore:
 
             return existing
 
-        return record
+        return self.get(uid, record_id)
 
     def list(self, uid: str):
         items = [
@@ -91,7 +91,7 @@ class FirestoreStore:
         ]
         return sorted(
             items,
-            key=lambda item: item.get("updated_at", ""),
+            key=lambda item: item["updated_at"].isoformat() if isinstance(item.get("updated_at"), datetime) else str(item.get("updated_at", "")),
             reverse=True,
         )
 
@@ -131,13 +131,15 @@ class FirestoreStore:
             changes = {
                 **fields,
                 "revision": expected_revision + 1,
-                "updated_at": utc_now(),
+                "updated_at": firestore.SERVER_TIMESTAMP,
+                "lastSavedAt": firestore.SERVER_TIMESTAMP,
             }
 
             tx.update(ref, changes)
             return {**previous, **changes}
 
-        return commit(transaction)
+        commit(transaction)
+        return self.get(uid, record_id)
 
     def delete(
         self,

@@ -15,7 +15,7 @@ export function HouseholdProvider({children}:{children:ReactNode}){
   // whose file bytes were never available on this device.
   if(deleted.length){const removed=new Set(deleted);setMembers(old=>old.map(m=>({...m,dependsOnDocumentIds:m.dependsOnDocumentIds.filter(id=>!removed.has(id)),relationshipEvidenceDocumentIds:m.relationshipEvidenceDocumentIds.filter(id=>!removed.has(id))})));}
  },[documents]);
- function addMember(label:string,relationship:Relation){if(!label.trim()||relationship==='self'||members.length>=30)return;markMemberEdit();setMembers(old=>[...old,{id:crypto.randomUUID(),label:label.trim(),relationship,dependsOnMemberIds:[],dependsOnDocumentIds:[],relationshipEvidenceDocumentIds:[]}]);}
+ function addMember(label:string,relationship:Relation){if(!label.trim()||relationship==='self'||members.length>=30)return;const timestamp=new Date().toISOString();markMemberEdit();setMembers(old=>[...old,{id:crypto.randomUUID(),createdAt:timestamp,updatedAt:timestamp,label:label.trim(),relationship,dependsOnMemberIds:[],dependsOnDocumentIds:[],relationshipEvidenceDocumentIds:[]}]);}
  function editMember(id:string,patch:Partial<HouseholdMember>){
   const member=members.find(m=>m.id===id);if(!member)return;
   const relationship=id==='applicant'?'self':patch.relationship??member.relationship;
@@ -24,7 +24,7 @@ export function HouseholdProvider({children}:{children:ReactNode}){
   const safePatch=patch.dependsOnMemberIds
     ? {...patch,dependsOnMemberIds:patch.dependsOnMemberIds.filter(dep=>dep!==id)}
     : patch;
-  setMembers(old=>old.map(m=>m.id===id?{...m,...safePatch,id,relationship}:m));
+  setMembers(old=>old.map(m=>m.id===id?{...m,...safePatch,id,relationship,createdAt:m.createdAt,updatedAt:new Date().toISOString()}:m));
   if(patch.relationship)documents.filter(d=>d.metadata.householdMemberId===id).forEach(d=>updateMetadata(d.id,{...d.metadata,holder:holder(relationship)}));
  }
  const restoreMembers = useCallback((items:HouseholdMember[]) => {

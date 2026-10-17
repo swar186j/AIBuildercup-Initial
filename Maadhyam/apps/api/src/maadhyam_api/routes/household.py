@@ -2,6 +2,7 @@
 not authentication, legal relationships, identity verification, or permission grants.
 """
 from typing import Literal
+from datetime import datetime
 from fastapi import APIRouter
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -10,6 +11,8 @@ class Member(BaseModel):
     model_config=ConfigDict(extra='forbid',str_strip_whitespace=True)
     id:str=Field(min_length=1,max_length=128)
     label:str=Field(min_length=1,max_length=200)
+    createdAt:datetime|None=None
+    updatedAt:datetime|None=None
     relationship:Literal['self','parent','guardian','spouse','child','sibling','other']
     dependsOnMemberIds:list[str]=Field(default_factory=list,max_length=30)
     dependsOnDocumentIds:list[str]=Field(default_factory=list,max_length=60)

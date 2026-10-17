@@ -19,6 +19,7 @@ export function preparationToCloud(id: string, journey: JourneyData): CreateClou
     applicant_details: {
       name: journey.applicantName,
       date_of_birth: journey.applicantDob,
+      ...(journey.applicantHouseholdMemberId ? {household_member_id:journey.applicantHouseholdMemberId} : {}),
     },
     questionnaire_answers: { ...journey.answers },
     current_step: journey.stepIndex,
@@ -41,7 +42,10 @@ export function cloudToPreparation(record: CloudApplication): JourneyData | null
   return readJourney({
     ...newJourney(type),
     assistanceType: type,
+    createdAt:record.created_at,
+    lastSavedAt:record.lastSavedAt??record.updated_at,
     applicantName: details.name,
+    applicantHouseholdMemberId: details.household_member_id,
     applicantDob: details.date_of_birth,
     answers: { ...answers, assistanceType: type },
     stepIndex: record.current_step,

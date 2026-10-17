@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     production: bool = False
     google_cloud_project: str = ""
     firestore_database_id: str = "maadhyam"
+    document_bucket: str = ""
 
 
 @lru_cache

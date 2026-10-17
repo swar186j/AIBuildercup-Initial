@@ -15,7 +15,36 @@ DISCLAIMER = 'Advisory scenario only. Confirm requirements, timelines, availabil
 class Strict(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
-class Rejection(Strict):
+class ReviewedContext(Strict):
+    category: Literal['identity','address','birth','education','employment','other']
+    documentType: Literal['Utility bill','Bank statement','Other address document','Other document'] = 'Other document'
+    holderRelationship: Literal['self','parent-guardian','spouse','other'] = 'self'
+    addressPresent: bool = False
+    datePresent: bool = False
+    reviewed: bool = False
+
+class ContextConsent(Strict):
+    consentToShareReviewedMetadata: bool = False
+    documentContext: list[ReviewedContext] = Field(default_factory=list,max_length=3)
+
+def reviewed_guidance(req):
+    if not req.consentToShareReviewedMetadata:
+        return []
+    contexts=[d for d in req.documentContext if d.reviewed and d.category=='address']
+    if not contexts:
+        return ['No relevant reviewed address proof was selected. Check the written reason and review the proof first.']
+    result=[]
+    for doc in contexts:
+        result.append(f'For the selected {doc.documentType.lower()}, compare the printed address with the application and ask the authority which proof types it accepts for your case.')
+        if not doc.addressPresent:
+            result.append('No address was recorded in reviewed metadata. Check the original document; this does not establish that the original lacks an address.')
+        if not doc.datePresent:
+            result.append('No document date was recorded. Check the original and any officially stated date requirements; no expiry window is assumed.')
+        if doc.holderRelationship!='self':
+            result.append('The selected proof is associated with another holder. Verify consent and whether relationship evidence is needed for your circumstances with the authority.')
+    return list(dict.fromkeys(result))
+
+class Rejection(ContextConsent):
     reason: str = Field(min_length=1, max_length=1000)
     authority: str = Field(min_length=1, max_length=120)
     applicationStage: str = Field(default='', max_length=120)
@@ -32,7 +61,7 @@ def rejection_diagnosis(req: Rejection):
         ('process_or_payment', ('fee', 'payment', 'appointment', 'signature'), 'Check the receipt, application instructions and official support channel.'),
     ]
     matches = [{'category': code, 'explanation': action} for code, terms, action in patterns if any(term in text for term in terms)]
-    return {'possibleCauses': matches or [{'category': 'unclassified', 'explanation': 'Request the written rejection reason and consult the issuing authority.'}], 'authority': req.authority, 'applicationStage': req.applicationStage, 'referencedDocumentIds': req.evidenceDocumentIds, 'officialRootCauseConfirmed': False, 'disclaimer': DISCLAIMER}
+    return {'possibleCauses': matches or [{'category': 'unclassified', 'explanation': 'Request the written rejection reason and consult the issuing authority.'}], 'authority': req.authority, 'applicationStage': req.applicationStage, 'referencedDocumentIds': req.evidenceDocumentIds, 'officialRootCauseConfirmed': False, 'reviewedMetadataGuidance': reviewed_guidance(req), 'disclaimer': DISCLAIMER}
 
 class Legacy(Strict):
     documentType: str = Field(min_length=1, max_length=120)
@@ -82,7 +111,7 @@ def multi_department_rules(req: MultiRules):
     selected = [r.model_dump() for r in req.rulePacks if (not depts or r.department.casefold() in depts) and (not req.service or r.service.casefold() == req.service.casefold())]
     return {'matchingRulePacks': selected, 'count': len(selected), 'sourceProvenanceRequired': True, 'officialRuleValidityVerified': False, 'disclaimer': DISCLAIMER}
 
-class HumanSupport(Strict):
+class HumanSupport(ContextConsent):
     service: str = Field(min_length=1, max_length=120)
     blocker: str = Field(min_length=1, max_length=1000)
     preferredLanguage: str = Field(default='en', max_length=30)
@@ -90,7 +119,7 @@ class HumanSupport(Strict):
 
 @router.post('/human-support')
 def human_support(req: HumanSupport):
-    return {'service': req.service, 'supportChecklist': ['Write down the exact blocker and reference number (avoid sensitive numbers in public messages).', 'Collect current official instructions and your reviewed document checklist.', 'Contact the authority’s official helpdesk or a trusted authorized assistance centre.', 'Ask for a written acknowledgment and next steps.'], 'preferredLanguage': req.preferredLanguage, 'documentSharingAuthorized': req.sharePersonalDocuments, 'caseAssignedToHuman': False, 'officialAgentConnected': False, 'disclaimer': DISCLAIMER}
+    return {'service': req.service, 'supportChecklist': ['Write down the exact blocker and reference number (avoid sensitive numbers in public messages).', 'Collect current official instructions and your reviewed document checklist.', 'Contact the authority’s official helpdesk or a trusted authorized assistance centre.', 'Ask for a written acknowledgment and next steps.'] + reviewed_guidance(req), 'preferredLanguage': req.preferredLanguage, 'documentSharingAuthorized': req.sharePersonalDocuments, 'caseAssignedToHuman': False, 'officialAgentConnected': False, 'disclaimer': DISCLAIMER}
 
 class Step(Strict):
     id: str = Field(min_length=1, max_length=80)

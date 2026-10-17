@@ -44,3 +44,18 @@ qa/evidence/m11-remediation-lint-progress.json
 qa/evidence/m11-remediation-cloud-run-before.json
 qa/evidence/m11-remediation-cloud-run-after.json
 qa/evidence/m11-remediation-registry.json
+
+# M12 raw browser profiles/screenshots and intermediate diagnostics remain local.
+qa/evidence/m12-*/
+!qa/evidence/m12-final/
+qa/evidence/m12-final/*
+!qa/evidence/m12-final/tests.xml
+!qa/evidence/m12-hosted/
+qa/evidence/m12-hosted/*
+!qa/evidence/m12-hosted/results.json
+!qa/evidence/m12-cloud/
+qa/evidence/m12-cloud/*
+!qa/evidence/m12-cloud/bucket.json
+!qa/evidence/m12-cloud/bucket-iam.json
+!qa/evidence/m12-cloud/iam-recovery.json
+!qa/evidence/m12-cloud/deployment.json

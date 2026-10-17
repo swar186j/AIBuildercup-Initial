@@ -1,0 +1,17 @@
+{
+  "creation_time": "2026-10-17T09:13:50+0000",
+  "default_storage_class": "STANDARD",
+  "generation": 1792228429968555159,
+  "location": "ASIA-SOUTH1",
+  "location_type": "region",
+  "metageneration": 4,
+  "name": "maadhyam-1610-private-vault",
+  "public_access_prevention": "enforced",
+  "satisfies_pzs": true,
+  "soft_delete_policy": {
+    "retentionDurationSeconds": "0"
+  },
+  "storage_url": "gs://maadhyam-1610-private-vault/",
+  "uniform_bucket_level_access": true,
+  "update_time": "2026-10-17T09:15:00+0000"
+}

@@ -9,7 +9,7 @@ export default defineConfig({
     strictPort: true,
     proxy: {
       "/api": {
-        target: "http://127.0.0.1:8000",
+        target: process.env.MAADHYAM_TEST_API || "http://127.0.0.1:8000",
         changeOrigin: true,
       },
     },

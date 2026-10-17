@@ -1,3 +1,4 @@
+import { formatDateTime } from "../utils/dateTime";
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import PreparationStorageControls from '../components/PreparationStorageControls';
 import PageHero from "../components/PageHero";
@@ -216,6 +217,9 @@ export default function MyApplications() {
                       <p className={`mt-1 text-sm ${muted}`}>
                         {app.service} · Preparation only
                       </p>
+                      <p className={`mt-1 text-xs ${muted}`}>Created on: <time dateTime={app.createdAt}>{formatDateTime(app.createdAt)}</time></p>
+                      <p className={`text-xs ${muted}`}>Last saved: <time dateTime={app.lastSavedAt}>{formatDateTime(app.lastSavedAt)}</time></p>
+                      <p className={`text-xs ${muted}`}>Current step: {app.journey?`Step ${app.journey.stepIndex+1} of ${app.totalSteps}`:'Not recorded'}</p>
                       {app.journey?.applicantName && (
                         <p className={`mt-1 text-sm ${muted}`}>
                           Applicant: {app.journey.applicantName}
@@ -354,6 +358,7 @@ export default function MyApplications() {
             </ol>
 
             {selected.journey&&<button type="button" onClick={()=>{deletePreparation(selected.id);setSelectedId(null);}} className="mt-4 text-sm text-red-700 underline">Delete this preparation</button>}
+            <p className="mt-3 text-xs">Created on: {formatDateTime(selected.createdAt)} · Last saved: {formatDateTime(selected.lastSavedAt)}</p>
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <Link
                 to={selected.journey?`/services/passport/journey?type=${selected.journey.assistanceType}&preparation=${encodeURIComponent(selected.id)}`:"/services/passport/journey"}

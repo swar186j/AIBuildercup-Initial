@@ -1,3 +1,4 @@
+import { formatDateTime } from "../utils/dateTime";
 import { useAsyncResource, requestDelay } from "../hooks/useAsyncResource";
 import { useWorkspace } from '../context/WorkspaceContext';
 import { useHousehold } from '../context/HouseholdContext';
@@ -462,6 +463,7 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
   const saved=selectedApplication?.journey??newJourney(assistanceType);
   const [stepIndex, setStepIndex] = useState(saved.stepIndex);
   const [answers, setAnswers] = useState<PassportJourneyAnswers>({...saved.answers,assistanceType});
+  const [locallyEdited,setLocallyEdited]=useState(false);
   const [showValidation, setShowValidation] = useState(false);
   const [applicantDob, setApplicantDob] = useState(saved.applicantDob);
   const [enteredApplicantName,setApplicantName]=useState(saved.applicantName);
@@ -473,11 +475,9 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
   );
 
   const [applicantChoice,setApplicantChoice] = useState(() => {
-    const matching = members.find(
-      m => m.label.trim() === saved.applicantName.trim() &&
-      saved.applicantName.trim() !== ""
-    );
-    return matching?.id ?? "__other__";
+    if(saved.applicantHouseholdMemberId)return saved.applicantHouseholdMemberId;
+    const matching = members.filter(m => saved.applicantName.trim() && m.label.trim() === saved.applicantName.trim());
+    return matching.length === 1 ? matching[0].id : "__other__";
   });
 
   const selectedMember = members.find(member => member.id === applicantChoice);
@@ -485,26 +485,38 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
   const today=new Date().toISOString().slice(0,10);
   const dobValid=applicantDob===''||(validDate(applicantDob)&&applicantDob<=today);
   const [saveNotice,setSaveNotice]=useState('');
+  const [saving,setSaving]=useState(false);
+  const [confirmedSnapshot,setConfirmedSnapshot]=useState<string|null>(null);
+
   const [documentIds,setDocumentIds]=useState(saved.documentIds);
+  const currentSnapshot=JSON.stringify({answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds,applicantHouseholdMemberId:applicantChoice==='__other__'?undefined:applicantChoice});
   const [cloudHydrated,setCloudHydrated] = useState(selectedApplication?.updated === 'Cloud-saved preparation');
   // Adjust once when an existing browser record receives its cloud version. React
   // retries this render before committing, so no effect can write the old blanks.
   if (!cloudHydrated && selectedApplication?.updated === 'Cloud-saved preparation' && selectedApplication.journey) {
     const restored = selectedApplication.journey;
     setCloudHydrated(true);
+    if(!locallyEdited){
     setStepIndex(restored.stepIndex);
     setAnswers({...restored.answers,assistanceType:restored.assistanceType});
     setApplicantName(restored.applicantName);
-    setApplicantChoice(members.find(member => restored.applicantName.trim() && member.label.trim() === restored.applicantName.trim())?.id ?? '__other__');
+    setApplicantChoice(restored.applicantHouseholdMemberId ?? '__other__');
     setApplicantDob(restored.applicantDob);
     setDocumentIds([...restored.documentIds]);
+    }
   }
   const documents=useMemo(() => vaultDocuments.filter(d=>documentIds.includes(d.id)), [vaultDocuments, documentIds]);
   const missingDocumentIds=documentIds.filter(id=>!vaultDocuments.some(d=>d.id===id));
   useEffect(()=>{
     if(!cloudRestoring && dobValid)
-      updatePreparation(preparationId,{answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds});
-  },[preparationId,answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds,cloudRestoring,dobValid,updatePreparation]);
+      updatePreparation(preparationId,{answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds,applicantHouseholdMemberId:applicantChoice==='__other__'?undefined:applicantChoice});
+  },[preparationId,answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds,cloudRestoring,dobValid,updatePreparation,applicantChoice]);
+  useEffect(()=>{
+    if(confirmedSnapshot===null || confirmedSnapshot===currentSnapshot)return;
+    const warn=(event:BeforeUnloadEvent)=>{event.preventDefault();};
+    window.addEventListener('beforeunload',warn);
+    return()=>window.removeEventListener('beforeunload',warn);
+  },[confirmedSnapshot,currentSnapshot]);
   const loadAssessment = useCallback(async (signal: AbortSignal) => {
     await requestDelay(300, signal);
     return assessPassport(answers as unknown as Record<string, unknown>, documents, applicantDob, signal);
@@ -526,6 +538,7 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
     (question) => !answers[question.key],
   );
   function updateAnswer(key: AnswerKey, value: string) {
+    setLocallyEdited(true);
     setAnswers((previous) => ({
       ...previous,
       [key]: value,
@@ -533,6 +546,7 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
     setShowValidation(false);
   }
   function goNext() {
+    setLocallyEdited(true);
     if (unanswered.length > 0) {
       setShowValidation(true);
       return;
@@ -543,6 +557,7 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
     );
   }
   function goBack() {
+    setLocallyEdited(true);
     setShowValidation(false);
     setStepIndex((previous) => Math.max(previous - 1, 0));
   }
@@ -626,7 +641,9 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
       </section>
       <section aria-label="Preparation save controls" className="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
         <p>Preparation record: <strong>{preparationId}</strong></p>
-        <p role="status">{activeCloudPreparationId===preparationId || selectedApplication?.updated==='Cloud-saved preparation' ? 'Cloud preparation available under this anonymous identity. Use Save preparation to save current answers. Document files stay browser-local.' : preparationSaving?'Saved to this browser with your consent.':'Saved in this workspace session. Reload clears it unless you enable preparation saving.'}</p>
+        <p className="mt-1 text-xs">Created on: <time dateTime={selectedApplication?.createdAt}>{formatDateTime(selectedApplication?.createdAt)}</time></p>
+        <p className="text-xs">Saved on: <time dateTime={selectedApplication?.lastSavedAt}>{formatDateTime(selectedApplication?.lastSavedAt)}</time></p>
+        <p role="status">{activeCloudPreparationId===preparationId || selectedApplication?.updated==='Cloud-saved preparation' ? 'Cloud preparation available under this anonymous identity. Use Save preparation to save current answers. Document Vault has separate cloud-storage consent.' : preparationSaving?'Saved to this browser with your consent.':'Saved in this workspace session. Reload clears it unless you enable preparation saving.'}</p>
         <label className="mt-3 block">
           Choose applicant from Household Intelligence
           <select
@@ -634,6 +651,7 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
             className="mt-1 w-full rounded-lg border p-2"
             value={applicantChoice}
             onChange={event => {
+              setLocallyEdited(true);
               const choice = event.target.value;
               setApplicantChoice(choice);
 
@@ -666,13 +684,23 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
             maxLength={200}
             value={applicantName}
             readOnly={applicantChoice !== "__other__"}
-            onChange={event => setApplicantName(event.target.value)}
+            onChange={event => {setLocallyEdited(true);setApplicantName(event.target.value);}}
             className="mt-1 w-full rounded-lg border p-2"
           />
         </label>
-        <button type="button" disabled={!dobValid} onClick={async()=>{setSaveNotice('Saving preparation…');setSaveNotice(await savePreparationToCloud(preparationId,{answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds}));}} className="mt-3 rounded-lg bg-teal-700 px-4 py-2 text-white">Save preparation</button>
+        <button type="button" disabled={!dobValid||saving||cloudRestoring} onClick={async()=>{
+          if(saving)return;
+          setSaving(true);setSaveNotice('Saving preparation…');
+          try{
+            const result=await savePreparationToCloud(preparationId,{answers,assistanceType,stepIndex,applicantDob,applicantName,documentIds,applicantHouseholdMemberId:applicantChoice==='__other__'?undefined:applicantChoice});
+            setSaveNotice(result);
+            if(result.startsWith('Saved to Maadhyam cloud'))setConfirmedSnapshot(currentSnapshot);
+          }finally{setSaving(false);}
+        }} className="mt-3 rounded-lg bg-teal-700 px-4 py-2 text-white">Save preparation</button>
         <Link to="/applications" className="ml-3 text-teal-700 underline">My Preparations and saving options</Link>
         {saveNotice&&<p role="status" className="mt-2">{saveNotice}</p>}
+        {confirmedSnapshot!==null&&confirmedSnapshot!==currentSnapshot&&<p role="status">Unsaved changes — Save preparation to update the cloud copy.</p>}
+        {applicantChoice!=='__other__'&&!selectedMember&&<p role="alert">The saved household member is unavailable. The saved applicant name is retained; choose Other or select the correct member.</p>}
       </section>
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
         <div className="mb-4 flex items-center justify-between gap-4">
@@ -1047,7 +1075,7 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
       <section aria-label="Preparation document references" className="space-y-3 rounded-xl border border-slate-200 bg-white p-5 text-sm text-slate-800">
         <h2 className="text-xl font-bold">Documents for this preparation</h2>
         <p>Select the Vault records belonging to this applicant. These references are saved with this preparation; files use separate Vault saving consent. Review status and ownership still apply.</p>
-        {vaultDocuments.map(d=><label key={d.id} className="flex items-start gap-2"><input type="checkbox" checked={documentIds.includes(d.id)} onChange={e=>setDocumentIds(old=>e.target.checked?[...old,d.id]:old.filter(id=>id!==d.id))}/>{d.file.name}</label>)}
+        {vaultDocuments.map(d=><label key={d.id} className="flex items-start gap-2"><input type="checkbox" checked={documentIds.includes(d.id)} onChange={e=>{setLocallyEdited(true);setDocumentIds(old=>e.target.checked?[...old,d.id]:old.filter(id=>id!==d.id));}}/>{d.file.name}</label>)}
         {!vaultDocuments.length&&<p>No Vault evidence available. Add documents in Document Vault, then return here to select them.</p>}
         {missingDocumentIds.length>0&&<p role="status">{missingDocumentIds.length} saved document reference(s) are unavailable. Restore the files with Vault consent or remove the unavailable references.</p>}
         {missingDocumentIds.length>0&&<button type="button" className="underline" onClick={()=>setDocumentIds(ids=>ids.filter(id=>vaultDocuments.some(d=>d.id===id)))}>Remove unavailable references</button>}
@@ -1064,7 +1092,7 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
         <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-[#101A30]">
           <label className="block text-sm font-semibold" htmlFor="applicant-dob">Applicant date of birth (for document guidance)</label>
           <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">Enter the date to select the applicable date-of-birth evidence guidance. This does not establish eligibility.</p>
-          <input id="applicant-dob" type="date" max={today} value={applicantDob} onChange={event => setApplicantDob(event.target.value)} className="mt-3 w-full max-w-xs rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-900 dark:border-slate-600 dark:bg-[#18243B] dark:text-white" />
+          <input id="applicant-dob" type="date" max={today} value={applicantDob} onChange={event => {setLocallyEdited(true);setApplicantDob(event.target.value);}} className="mt-3 w-full max-w-xs rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-900 dark:border-slate-600 dark:bg-[#18243B] dark:text-white" />
         </div>
         {!dobValid&&<p role="alert" className="mt-3 text-red-700">Enter a valid birth date that is not in the future before saving.</p>}
         {assessmentError && <p role="alert" className="mt-4 rounded-lg bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-500/10 dark:text-amber-200">Unable to load the checklist: {assessmentError}. Check that the API is running.</p>}

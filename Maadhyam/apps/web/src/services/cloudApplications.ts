@@ -15,6 +15,8 @@ export type PlannerCloudState = {
   generated_plan: Record<string, unknown>;
 };
 export type HouseholdCloudMember = {
+  createdAt?:string;
+  updatedAt?:string;
   id: string;
   label: string;
   relationship: 'self' | 'parent' | 'guardian' | 'spouse' | 'child' | 'sibling' | 'other';
@@ -49,6 +51,7 @@ export type CloudApplication = {
   household_state?: HouseholdCloudState;
   assessment_history?: AssessmentCloudEntry[];
   revision: number;
+  lastSavedAt?: string;
   created_at: string;
   updated_at: string;
 };

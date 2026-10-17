@@ -3,6 +3,8 @@ import type { PassportAssistanceType } from "../data/journeyData";
 import type { JourneyData } from "./preparationStorage";
 export type Status = "draft" | "in-progress" | "completed";
 export type Application = {
+  createdAt?:string;
+  lastSavedAt?:string;
   id: string;
   service: string;
   type: string;

@@ -404,7 +404,7 @@ def test_session_clear_when_indexeddb_denied(page):
     page.add_init_script("IDBFactory.prototype.open=()=>{throw new DOMException('Denied','SecurityError')}")
     page.goto('/documents');upload(page)
     page.once('dialog',lambda d:d.accept())
-    page.get_by_role('button',name='Clear all Vault data',exact=True).click()
+    page.get_by_role('button',name='Clear local browser Vault copies',exact=True).click()
     expect(page.get_by_text('No documents yet',exact=True)).to_be_visible()
     expect(page.get_by_role('alert')).to_contain_text('browser-local deletion failed')
 

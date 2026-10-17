@@ -2,7 +2,7 @@
 """Cloud application lifecycle; existing citizen journeys stay unchanged."""
 
 import json
-from datetime import date
+from datetime import date, datetime
 from typing import Any, Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Path, Query
@@ -39,6 +39,10 @@ class HouseholdMemberState(BaseModel):
     dependsOnMemberIds: list[str] = Field(default_factory=list, max_length=30)
     dependsOnDocumentIds: list[str] = Field(default_factory=list, max_length=60)
     relationshipEvidenceDocumentIds: list[str] = Field(default_factory=list, max_length=60)
+    # Nested member times are client recorded, not authoritative server clocks.
+    createdAt: datetime | None = None
+    updatedAt: datetime | None = None
+
 
 
 class HouseholdState(BaseModel):

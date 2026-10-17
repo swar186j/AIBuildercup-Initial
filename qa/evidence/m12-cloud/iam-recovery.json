@@ -1,0 +1,6 @@
+{
+  "managementGrantRestored": "projectOwner:maadhyam-1610 roles/storage.legacyBucketOwner",
+  "temporaryCondition": "resource.name == projects/_/buckets/maadhyam-1610-private-vault",
+  "temporaryGrantRemoved": true,
+  "legacyViewerEditorObjectGrantsRemoved": true
+}
