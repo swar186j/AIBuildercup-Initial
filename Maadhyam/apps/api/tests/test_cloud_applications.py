@@ -20,6 +20,11 @@ class MemoryStore:
         key = client_id or uuid4().hex
         record = {
             **deepcopy(fields),
+
+
+
+
+            
             "id": key,
             "revision": 1,
             "owner_uid": uid,

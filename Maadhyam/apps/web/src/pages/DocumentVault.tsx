@@ -269,7 +269,7 @@ export default function DocumentVault() {
     if (editId === id) setEditId(null);
     if (extractId === id) closeDemo();
     removeStoredDocument(id);
-    setMessage(`${document.file.name} removed from this browser session.`);
+    setMessage(document.cloud?'Cloud deletion requires confirmation; see cloud operation status.':`${document.file.name} removed from this browser session.`);
   }
 
   function openEdit(document: LocalDocument) {
@@ -324,7 +324,7 @@ export default function DocumentVault() {
       existing.metadata.householdMemberId &&
       changingOwner
     ) {
-      unassign(editId);
+      unassign(editId,false);
     }
 
     updateMetadata(editId, {
@@ -364,7 +364,7 @@ export default function DocumentVault() {
 
   return (
     <div className="mx-auto w-full max-w-[1560px] space-y-7 pb-24">
-      <PageHero eyebrow="Document workspace" title="Document Vault" description="Organize and preview documents for government-service preparation. Files stay in this browser session unless you explicitly enable browser-local saving." />
+      <PageHero eyebrow="Document workspace" title="Document Vault" description="Organize and preview documents for government-service preparation. Choose consented private cloud storage or local-only files with an optional browser cache." />
 
       <section aria-label="Local Vault storage controls" className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -903,7 +903,7 @@ export default function DocumentVault() {
                 <legend className="text-sm font-bold text-[#173f68]">Information printed on document (optional)</legend>
                 <p className="text-xs leading-5 text-slate-500">
                   Enter only information that appears on this document. Leave fields blank if absent.
-                  This information stays in browser memory for this session and is not verified.
+                  For cloud documents, reviewed details are saved to your private cloud workspace. Local-only details remain in this browser. They are not government verified.
                   Use fictional data while testing.
                 </p>
                 <div>

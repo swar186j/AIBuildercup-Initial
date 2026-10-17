@@ -19,7 +19,7 @@ export const cloudDocuments={
   return (await request('',{method:'POST',body},uid)).json();
  },
  async file(id:string,uid?:string):Promise<Blob>{return (await request(`/${encodeURIComponent(id)}/file`,{},uid)).blob();},
- async patch(id:string,revision:number,metadata:DocumentMetadata,status:ReviewStatus,uid?:string):Promise<CloudDocument>{return (await request(`/${encodeURIComponent(id)}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({revision,metadata,status})},uid)).json();},
+ async patch(id:string,revision:number,metadata:DocumentMetadata,status:ReviewStatus,uid?:string):Promise<CloudDocument>{return (await request(`/${encodeURIComponent(id)}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({revision,metadata:{...metadata,householdMemberId:metadata.householdMemberId??null,associationConsent:metadata.associationConsent??false},status})},uid)).json();},
  async remove(id:string,revision:number,uid?:string){await request(`/${encodeURIComponent(id)}?revision=${revision}`,{method:'DELETE'},uid);},
  async clear(uid?:string):Promise<{deleted:string[];failed:string[]}>{return (await request('',{method:'DELETE'},uid)).json();},
 };

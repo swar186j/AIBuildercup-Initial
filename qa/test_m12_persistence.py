@@ -268,3 +268,23 @@ def test_restoration_map_key_order_does_not_write_or_advance_saved_time(page):
     page.wait_for_timeout(1600)
     assert not writes,'Restoring equivalent unordered maps must not write or change saved dates'
     assert page.locator('time').nth(1).get_attribute('datetime')==record['lastSavedAt']
+
+
+def test_cloud_unassign_uses_explicit_null_and_one_write(page):
+    from uuid import uuid4
+    document_id=str(uuid4())
+    record={'id':document_id,'filename':'fictional-owner.pdf','contentType':'application/pdf','sizeBytes':20,
+        'metadata':{'category':'address','categories':['address'],'documentType':'Utility bill','holder':'parent-guardian',
+                    'householdMemberId':'fictional-removed-parent','associationConsent':True,'printedName':'Fictional Original Name'},
+        'status':'reviewed','revision':2,'storageStatus':'ready','createdAt':'2026-10-17T10:00:00Z','uploadedAt':'2026-10-17T10:00:01Z','updatedAt':'2026-10-17T10:00:01Z','sha256':'fictional'}
+    records,_,requests=mock_vault(page,initial={document_id:record})
+    page.goto('/documents')
+    expect(page.get_by_text('fictional-owner.pdf',exact=True)).to_be_visible()
+    page.get_by_role('button',name='Edit details',exact=True).click()
+    page.locator('#metadata-holder').select_option('category:other')
+    page.get_by_role('button',name='Save details',exact=True).click()
+    expect(page.get_by_text('Reviewed metadata saved to cloud.',exact=False)).to_be_visible()
+    assert records[document_id]['metadata']['householdMemberId'] is None
+    assert records[document_id]['metadata']['associationConsent'] is False
+    assert records[document_id]['metadata']['printedName']=='Fictional Original Name'
+    assert sum(method=='PATCH' for method,_ in requests)==1

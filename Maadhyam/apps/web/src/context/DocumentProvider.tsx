@@ -374,7 +374,7 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
     const document=documentsRef.current.find(d=>d.id===id);
     if(document?.cloud){
       if(!window.confirm('Delete this cloud document and its local copy?'))return;
-      void enqueue(async()=>{await cloudDocuments.remove(id,document.cloud!.revision,document.ownerUid);if(document.ownerUid===account.current){deletedIds.current.add(id);removeLocalDocument(id);}});
+      void enqueue(async()=>{await cloudDocuments.remove(id,document.cloud!.revision,document.ownerUid);if(document.ownerUid===account.current){deletedIds.current.add(id);removeLocalDocument(id);setCloudNotice('Cloud document deleted.');}});
     }else removeLocalDocument(id);
   }
   function saveCloudEdit(id:string,metadata:DocumentMetadata,status:LocalDocument['status']){

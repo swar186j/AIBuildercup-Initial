@@ -309,3 +309,15 @@ def test_status_only_patch_preserves_reviewed_metadata(vault):
     further=client.patch('/api/documents/'+record['id'],headers=headers,json={'revision':changed['revision'],'metadata':{'residentialAddress':'Fictional New Address'}}).json()
     assert further['metadata']['printedName']=='Fictional Preserved Name'
     assert further['metadata']['category']=='address'
+
+
+def test_explicit_unassignment_clears_owner_without_erasing_metadata(vault):
+    import json
+    client,_=vault;headers={'Authorization':'Bearer fictional-user-a'}
+    record=upload(client,fields=json.dumps({'metadata':{'category':'address','householdMemberId':'fictional-parent','associationConsent':True,'printedName':'Fictional Retained Name'}})).json()
+    changed=client.patch('/api/documents/'+record['id'],headers=headers,json={
+        'revision':record['revision'],'metadata':{'householdMemberId':None,'associationConsent':False,'holder':'other'},
+    }).json()
+    assert changed['metadata']['householdMemberId'] is None
+    assert changed['metadata']['associationConsent'] is False
+    assert changed['metadata']['printedName']=='Fictional Retained Name'

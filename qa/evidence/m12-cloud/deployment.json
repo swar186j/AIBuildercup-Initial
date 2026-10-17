@@ -1,7 +1,7 @@
 {
   "status": "LOCAL_GATES_PASSED",
-  "backendTests": 442,
-  "localBrowserHttpTests": 208,
+  "backendTests": 443,
+  "localBrowserHttpTests": 209,
   "lintErrors": 0,
   "lintWarnings": 0,
   "previousRunRevision": "maadhyam-api-00002-grr",
@@ -12,5 +12,8 @@
   "geminiCalls": 0,
   "temporaryRecoveryIamGrantRemoved": true,
   "firstBuildId": "7a0ba752-16ff-43b8-b582-f30e2a56df03",
-  "firstImageHeldUndeployed": true
+  "firstImageHeldUndeployed": true,
+  "backendSourceCommit": "721e362c5e587d69c043bee21a1099ba1138624e",
+  "buildId": "cd94f86f-cf08-4aa1-a237-09f0c0ba4b1a",
+  "imageDigest": "sha256:f389841ef899354e944858fe38d3a3a9e7d108889e9e0314adea723392d840bf"
 }
