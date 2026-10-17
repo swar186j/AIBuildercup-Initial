@@ -1,0 +1,16 @@
+{
+  "branch": "release/m10-m12-recovery",
+  "sourceCommit": "3a3e7fb858777a7542418914acc4cafa33757d70",
+  "pushedRemoteConfirmed": true,
+  "releaseBundleMatchesValidatedBundle": true,
+  "cloudRunRevision": "maadhyam-api-00004-xay",
+  "cloudRunTrafficPercent": 100,
+  "backendRebuilt": false,
+  "deploymentStatus": "verified",
+  "hostingRelease": "sites/maadhyam-1610/releases/1792263366634000",
+  "hostingVersion": "sites/maadhyam-1610/versions/91190d38b5e68edd",
+  "hostingReleaseTime": "2026-10-17T18:56:06.634Z",
+  "liveSmokeChecks": 23,
+  "liveSmokeStatus": "PASS",
+  "rollbackHostingVersion": "sites/maadhyam-1610/versions/07aec11b7a59fa53"
+}

@@ -45,7 +45,9 @@ def main():
         for route,prompt in prompts.items():
             page.goto(route);page.get_by_role('button',name='Open Maadhyam AI',exact=True).click();panel=page.get_by_role('dialog',name='Maadhyam AI assistant')
             panel.get_by_role('button',name=prompt,exact=True).click()
-            expect(panel.get_by_text(prompt,exact=True)).to_be_visible()
+            expect(panel.locator('.assistant-scroll').get_by_text(prompt,exact=True)).to_be_visible()
+            answer_prefix={'/services':'Open Services to browse','/household':'In Household Intelligence, add','/workflows':'Open Citizen Workflow Assistant and choose'}[route]
+            expect(panel.locator('.assistant-scroll').get_by_text(answer_prefix,exact=False)).to_be_visible()
             panel.get_by_role('button',name='Hide suggestions',exact=False).click();expect(panel.locator('#assistant-suggestions')).to_be_hidden()
             panel.get_by_role('button',name='Show suggestions',exact=False).click();expect(panel.locator('#assistant-suggestions')).to_be_visible()
             page.screenshot(path=str(OUT/(route[1:]+'-assistant.png')))

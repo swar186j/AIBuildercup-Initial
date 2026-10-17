@@ -1,0 +1,162 @@
+[
+  {
+    "test": "hosting-api-health-and-auth",
+    "status": "PASS",
+    "details": "Health 200; unauthenticated protected endpoint 401"
+  },
+  {
+    "test": "dashboard-hero-navigation-quick-links",
+    "status": "PASS",
+    "details": "One CTA and two semantic heading lines"
+  },
+  {
+    "test": "hierarchy-expand",
+    "status": "PASS",
+    "details": "Aadhaar children expand inside Services; Coming Soon children have no journey CTA"
+  },
+  {
+    "test": "search-Aadhaar",
+    "status": "PASS",
+    "details": {
+      "parent": "Aadhaar Services",
+      "child": "Aadhaar Enrolment"
+    }
+  },
+  {
+    "test": "search-PVC",
+    "status": "PASS",
+    "details": {
+      "parent": "Aadhaar Services",
+      "child": "Aadhaar PVC Card"
+    }
+  },
+  {
+    "test": "search-birth certificate",
+    "status": "PASS",
+    "details": {
+      "parent": "Birth Registration",
+      "child": "Birth Certificate"
+    }
+  },
+  {
+    "test": "search-driving licence",
+    "status": "PASS",
+    "details": {
+      "parent": "Transport / RTO Services",
+      "child": "Permanent Driving Licence"
+    }
+  },
+  {
+    "test": "search-PAN",
+    "status": "PASS",
+    "details": {
+      "parent": "Income Tax Services",
+      "child": "PAN Card Application"
+    }
+  },
+  {
+    "test": "search-Passport",
+    "status": "PASS",
+    "details": {
+      "parent": "Passport Seva",
+      "child": null
+    }
+  },
+  {
+    "test": "passport-navigation",
+    "status": "PASS",
+    "details": "Existing Passport guided preview reachable"
+  },
+  {
+    "test": "context-and-collapse-/services",
+    "status": "PASS",
+    "details": "Contextual prompt produces local guidance; suggestions collapse and restore"
+  },
+  {
+    "test": "context-and-collapse-/household",
+    "status": "PASS",
+    "details": "Contextual prompt produces local guidance; suggestions collapse and restore"
+  },
+  {
+    "test": "context-and-collapse-/workflows",
+    "status": "PASS",
+    "details": "Contextual prompt produces local guidance; suggestions collapse and restore"
+  },
+  {
+    "test": "local-passport-guidance",
+    "status": "PASS",
+    "details": "Useful preparation instructions and existing Passport navigation"
+  },
+  {
+    "test": "shared-width-375",
+    "status": "PASS",
+    "details": {
+      "left": 20,
+      "width": 335,
+      "overflow": false
+    }
+  },
+  {
+    "test": "shared-width-768",
+    "status": "PASS",
+    "details": {
+      "left": 36,
+      "width": 696,
+      "overflow": false
+    }
+  },
+  {
+    "test": "shared-width-1024",
+    "status": "PASS",
+    "details": {
+      "left": 292,
+      "width": 696,
+      "overflow": false
+    }
+  },
+  {
+    "test": "shared-width-1280",
+    "status": "PASS",
+    "details": {
+      "left": 304,
+      "width": 928,
+      "overflow": false
+    }
+  },
+  {
+    "test": "shared-width-1440",
+    "status": "PASS",
+    "details": {
+      "left": 304,
+      "width": 1088,
+      "overflow": false
+    }
+  },
+  {
+    "test": "shared-width-1920",
+    "status": "PASS",
+    "details": {
+      "left": 304,
+      "width": 1568,
+      "overflow": false
+    }
+  },
+  {
+    "test": "vault-read-and-session-upload",
+    "status": "PASS",
+    "details": "Authenticated private list returns 200; fictional session upload renders without cloud consent"
+  },
+  {
+    "test": "household-session-form",
+    "status": "PASS",
+    "details": "Fresh session member can be added; no cloud saving requested"
+  },
+  {
+    "test": "runtime-and-ui-api-errors",
+    "status": "PASS",
+    "details": {
+      "runtimeErrors": [],
+      "failedUiApiCalls": []
+    }
+  }
+]

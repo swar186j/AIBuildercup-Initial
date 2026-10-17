@@ -29,7 +29,7 @@ All local automated acceptance checks for **UX-01, UX-02, UX-03, UX-04, UX-05 an
 
 Security audit: `npm audit --omit=dev` reports **4 high**, 0 critical, 0 moderate. The affected chain is firebase → @firebase/firestore / @firebase/firestore-compat → @grpc/grpc-js, advisories GHSA-m9gg-hp2v-232j and GHSA-f596-whhp-79r4. npm proposes Firebase 9.14.0, a major downgrade; it was not applied. Locked Firebase 13 and all dependency versions are preserved. Full machine-readable findings: [npm-audit.json](evidence/ui-ux-corrections/npm-audit.json).
 
-Limitations: Chromium viewport resizing checks small-height behavior but does not constitute a physical-device keyboard test. Local cloud regressions use fictional isolated providers; production smoke uses a fresh browser account and does not mutate production Firestore/Storage records. No paid Gemini calls are used. Production cloud-write round trips and other browser engines are outside this run.
+Limitations: Chromium viewport resizing checks small-height behavior but does not constitute a physical-device keyboard test. Local cloud regressions use fictional isolated providers; production smoke uses a fresh browser account and does not mutate production Firestore/Storage records. No paid Gemini calls are used. **BLOCKED:** physical-device keyboard interaction and production cloud-write round trips are unexecuted for the reasons recorded in the deployment report. Other browser engines are outside this run.
 
 ## Exact modified source and QA files
 
@@ -69,3 +69,7 @@ No package manifest/lock, Firebase configuration, backend application source, Do
 | `git diff --check` | PASS before staging; staged validation also required before commit. |
 
 The first exploratory run identified focus restoration, a stale toggle test locator and Vault’s 1920px cap. Those were repaired; a household-copy mismatch occurred while its final wording was being updated. A historical API-failure test used the now-offline Passport question; it now uses a metadata question to preserve real transport-failure coverage. Exploratory logs remain local. Final suite receipts are under `qa/evidence/ui-ux-corrections/final/`; `polish-tests.xml` is the final 59-case focused run. Curated final screenshots are committed under `qa/evidence/ui-ux-corrections/comparison/`.
+
+## Hosted verification
+
+Hosting version `91190d38b5e68edd` was deployed from pushed implementation commit `3a3e7fb858777a7542418914acc4cafa33757d70`; its rebuilt files matched the validated bundle hashes. All 23 fresh-profile hosted smoke checks passed. Cloud Run remains `maadhyam-api-00004-xay` at 100%. See [deployment and smoke report](FINAL_DEPLOYMENT_AND_SMOKE_TEST_REPORT.md) for exact release, rollback references, source SHA and explicit limits.

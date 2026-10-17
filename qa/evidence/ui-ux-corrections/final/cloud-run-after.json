@@ -1,0 +1,13 @@
+{
+  "status": {
+    "latestReadyRevisionName": "maadhyam-api-00004-xay",
+    "traffic": [
+      {
+        "percent": 100,
+        "revisionName": "maadhyam-api-00004-xay",
+        "tag": "m12-1-review",
+        "url": "https://m12-1-review---maadhyam-api-surry465hq-el.a.run.app"
+      }
+    ]
+  }
+}
