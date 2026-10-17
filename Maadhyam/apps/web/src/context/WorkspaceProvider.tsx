@@ -1,3 +1,4 @@
+import {applicantEvidence} from '../utils/applicantEvidence';
 import { subscribePersistence, persistenceFailure, clearPersistenceFailure, persistPreparations } from "./preparationPersistence";
 import { WorkspaceContext, plannerTasks, type Application } from "./WorkspaceContext";
 import { newJourney, readJourney, PREPARATION_KEY, PREPARATION_CONSENT, type JourneyData } from './preparationStorage';
@@ -8,12 +9,7 @@ import { cloudApplications, type CloudApplication, type PlannerCloudState, type 
 import { useHousehold } from './HouseholdContext';
 import { cloudToPreparation, preparationToCloud, sameCloudPreparation } from '../services/cloudPreparation';
 
-// Firestore map-key order is not stable. Compare semantic payloads to avoid
-// writing an unchanged restored snapshot and advancing its saved timestamp.
-function serializeWorkspace(value:unknown):string {
-  return JSON.stringify(value,(_key,item:unknown)=>item&&typeof item==='object'&&!Array.isArray(item)
-    ? Object.fromEntries(Object.entries(item).sort(([a],[b])=>a.localeCompare(b))) : item);
-}
+import {serializeWorkspace} from '../utils/workspaceSnapshot';
 
 const initialApplications: Application[] = [
   {
@@ -37,6 +33,7 @@ function applicationFor(id:string,journey:JourneyData):Application {
  const names:Record<PassportAssistanceType,string>={fresh:'New passport preparation',reissue:'Passport reissue preparation',correction:'Passport correction preparation',documents:'Passport document preparation',police:'Police verification preparation'};
  return {id,createdAt:journey.createdAt,lastSavedAt:journey.lastSavedAt,service:'Passport',type:names[journey.assistanceType],status:journey.stepIndex===3?'completed':journey.stepIndex===0?'draft':'in-progress',completedSteps:journey.stepIndex===3?4:journey.stepIndex,totalSteps:4,nextAction:journey.stepIndex===3?'Review your saved preparation summary':'Resume your guided questionnaire',updated:'Saved in this workspace',steps:['Select assistance type','Answer guided questions','Review document readiness','Prepare next steps'],journey};
 }
+const ACTIVE_WORKSPACE_KEY = 'maadhyam-active-cloud-preparation-v1';
 const CLOUD_CONSENT_KEY = 'maadhyam-cloud-preparations-consent-v1';
 const CLOUD_WORKSPACE_CONSENT_KEY = 'maadhyam-cloud-workspace-consent-v2';
 function previousCloudConsent():boolean {
@@ -68,10 +65,12 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const [plannerTargetDate,setPlannerTargetDate] = useState('');
   const [plannerSnapshot,setPlannerSnapshot] = useState<AssessmentCloudEntry | null>(null);
   const [history,setHistory] = useState<AssessmentCloudEntry[]>([]);
+  const pendingHouseholdId=useRef<string|null>(null);
   const activeCloudId = useRef<string | null>(null);
   const [activeCloudPreparationId,setActiveCloudPreparationId] = useState<string | null>(null);
   const activateCloudId = useCallback((id:string | null) => {
     activeCloudId.current=id; setActiveCloudPreparationId(id);
+    try {if(id)localStorage.setItem(ACTIVE_WORKSPACE_KEY,id);else localStorage.removeItem(ACTIVE_WORKSPACE_KEY);}catch { /* Session destination remains available. */ }
   }, []);
   const cloudSyncBlocked = useRef(false);
   const lastSyncPayload = useRef('');
@@ -98,6 +97,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const cloudRevisions = useRef(new Map<string,number>());
   const activeCloudSaves = useRef(new Set<string>());
   const localEditGeneration = useRef(0);
+  const [saveEpoch,setSaveEpoch]=useState(0);
   const [cloudRestoring, setCloudRestoring] = useState(initialCloudConsent);
   const [cloudRestoreFailed,setCloudRestoreFailed] = useState(false);
   const [savingRequested,setSaving]=useState(loaded.enabled);
@@ -170,8 +170,9 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         }
         return [...localById.values()];
       });
-      if (restored.length>0 && !workspaceTouched.current) {
-        const latest=records.find(item=>restored.some(a=>a.id===item.id));
+      if (restored.length>0) {
+        let preferred:string|null=null;try{preferred=localStorage.getItem(ACTIVE_WORKSPACE_KEY);}catch { /* Use the latest compatible record. */ }
+        const latest=records.find(item=>item.id===preferred&&restored.some(a=>a.id===item.id))??records.find(item=>restored.some(a=>a.id===item.id));
         if(latest){activateCloudId(latest.id);hydrateWorkspace(latest);lastSyncPayload.current=serializeWorkspace({planner_state:latest.planner_state??{},household_state:latest.household_state??{},assessment_history:latest.assessment_history??[]});}
       }
       if (invalidRecords > 0) {
@@ -244,8 +245,10 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     // Only trusted IDs already listed for this Firebase UID can be activated.
     if(activeCloudId.current===id || !cloudRevisions.current.has(id))return;
     if(activeCloudSaves.current.size>0)return;
+    const beforeLoad=serializeWorkspace(workspacePayload());
     try{
       const item=await cloudApplications.get(id);
+      if(beforeLoad!==serializeWorkspace(workspacePayload())){setStorageNotice('Preparation changed while loading. Local edits were kept; retry switching after saving.');return;}
       if(item.id!==id || !cloudToPreparation(item))return;
       activateCloudId(id);
       cloudRevisions.current.set(id,item.revision);
@@ -253,7 +256,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       hydrateWorkspace(item);
       lastSyncPayload.current=serializeWorkspace({planner_state:item.planner_state??{},household_state:item.household_state??{},assessment_history:item.assessment_history??[]});
     }catch{setStorageNotice('Unable to load planner/household progress for this preparation. Existing local edits are intact.');}
-  }, [activateCloudId, hydrateWorkspace]);
+  }, [activateCloudId, hydrateWorkspace,workspacePayload]);
   function deletePreparation(id:string){
     const revision = cloudRevisions.current.get(id);
     const deleteLocal = () => {
@@ -306,7 +309,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       setApplications(previous=>previous.map(a=>a.id===id&&a.journey?applicationFor(id,{...a.journey,createdAt:confirmedJourney.createdAt,lastSavedAt:confirmedJourney.lastSavedAt}):a));
       cloudRevisions.current.set(id,stored.revision);
       activateCloudId(id);
-      lastSyncPayload.current=serializeWorkspace(workspacePayload());
+      lastSyncPayload.current=serializeWorkspace({planner_state:payload.planner_state,household_state:payload.household_state,assessment_history:payload.assessment_history});
       cloudSyncBlocked.current=false;
       cloudConsent.current = true;
       try {localStorage.setItem(CLOUD_CONSENT_KEY,'yes');localStorage.setItem(CLOUD_WORKSPACE_CONSENT_KEY,'yes');}
@@ -314,18 +317,46 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       setStorageNotice('Cloud preparation saved successfully. Actual document files are still browser-local.');
       return 'Saved to Maadhyam cloud (Firestore). Reopen through My Preparations after a refresh.';
     } catch (error) {
+      cloudSyncBlocked.current=true;
       const conflict = error instanceof Error && 'status' in error && error.status === 409;
       const message = conflict
         ? 'Cloud revision conflict; reload the saved preparation before retrying. Local state was preserved.'
         : 'Cloud save failed. Your browser/session preparation remains available; retry when connected.';
       setStorageNotice(message);
       return message;
-    } finally { activeCloudSaves.current.delete(id); }
+    } finally { activeCloudSaves.current.delete(id); setSaveEpoch(n=>n+1); }
   }
   async function saveHouseholdToCloud():Promise<string> {
+    if(cloudRestoring)return 'Cloud restoration is still running. Retry household saving in a moment.';
     const id=activeCloudId.current;
-    if(!id)
-      return 'Open an existing cloud-saved Passport preparation first. Household changes remain local.';
+    if(!id) {
+      // Reuse the existing application snapshot contract; no new collection or schema.
+      const approved=window.confirm('Save household labels and dependencies to a new Maadhyam cloud preparation under your anonymous Firebase account? This stores no document files and submits nothing to government. Continue?');
+      if(!approved)return 'Household cloud save declined. Local state remains unchanged.';
+      const newId=pendingHouseholdId.current??`LOCAL-${crypto.randomUUID()}`;
+      pendingHouseholdId.current=newId;
+      const journey={...newJourney('documents'),createdAt:new Date().toISOString()};
+      const payload={...preparationToCloud(newId,journey),...workspacePayload()};
+      try {
+        const stored=await cloudApplications.create(payload);
+        if(stored.id!==newId || !cloudToPreparation(stored))throw new Error('Invalid cloud acknowledgment');
+        if(!sameCloudPreparation(stored,payload)){cloudRevisions.current.set(newId,stored.revision);activateCloudId(newId);cloudSyncBlocked.current=true;throw new Error('A prior save exists. Explicit retry required.');}
+        pendingHouseholdId.current=null;
+        cloudRevisions.current.set(newId,stored.revision);
+        setApplications(old=>[applicationFor(newId,cloudToPreparation(stored)!),...old]);
+        activateCloudId(newId);
+        lastSyncPayload.current=serializeWorkspace({planner_state:payload.planner_state,household_state:payload.household_state,assessment_history:payload.assessment_history});
+        cloudConsent.current=true;cloudSyncBlocked.current=false;
+        try{localStorage.setItem(CLOUD_CONSENT_KEY,'yes');localStorage.setItem(CLOUD_WORKSPACE_CONSENT_KEY,'yes');}catch{setStorageNotice('Household saved; browser storage blocked automatic restoration. Keep the preparation ID.');}
+        return `Household saved to cloud under ${newId}.`;
+      }catch{
+        cloudSyncBlocked.current=true;
+        // A lost response may hide an already-created idempotent record. Retain
+        // its ID/revision for an explicit retry without hydrating over local edits.
+        try{const existing=await cloudApplications.get(newId);if(existing.id===newId&&cloudToPreparation(existing)){cloudRevisions.current.set(newId,existing.revision);activateCloudId(newId);}}catch { /* No confirmed record; retry uses the same client ID. */ }
+        return 'Household cloud save failed. Changes remain in this browser session. Retry saving.';
+      }
+    }
 
     const revision=cloudRevisions.current.get(id);
     if(revision===undefined)
@@ -335,7 +366,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       return 'Cloud synchronization is in progress. Please retry.';
 
     const approved=window.confirm(
-      `Save household member labels and dependency references to Google Cloud `+
+      `Save household member labels, dependency references and planner progress to Google Cloud `+
       `under preparation ${id}? This does not upload document files, verify `+
       `relationships or submit anything to the government. Use fictional data. Continue?`
     );
@@ -349,6 +380,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         revision,
         ...payload,
       });
+      if(saved.id!==id || !Number.isInteger(saved.revision) || saved.revision<=revision || serializeWorkspace(saved.household_state)!==serializeWorkspace(payload.household_state))throw new Error('Household acknowledgment mismatch');
       cloudRevisions.current.set(id,saved.revision);
       setApplications(previous=>previous.map(a=>a.id===id&&a.journey?applicationFor(id,{...a.journey,lastSavedAt:saved.lastSavedAt??saved.updated_at}):a));
       lastSyncPayload.current=serializeWorkspace(payload);
@@ -362,13 +394,18 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         setStorageNotice('Cloud save succeeded; browser storage is unavailable.');
       }
 
-      return `Household snapshot saved to Firestore under ${id}.`;
+      return `Household saved to cloud. Snapshot saved to Firestore under ${id}.`;
     } catch(error) {
-      if(error instanceof Error && 'status' in error && error.status===409)
-        return 'Cloud revision conflict. Reopen the preparation and retry. No cloud data was overwritten.';
+      cloudSyncBlocked.current=true;
+      if(error instanceof Error && 'status' in error && error.status===409) {
+        cloudSyncBlocked.current=true;
+        // Refresh only the revision. Never hydrate over the user's unsaved edits.
+        try{const current=await cloudApplications.get(id);if(current.id===id)cloudRevisions.current.set(id,current.revision);}catch { /* Keep old revision; retry remains safe. */ }
+        return 'Cloud revision conflict. Local edits are intact. Retry to save this household snapshot after reviewing the destination.';
+      }
       return 'Household cloud save failed. Changes remain in this browser session.';
     } finally {
-      activeCloudSaves.current.delete(id);
+      activeCloudSaves.current.delete(id);setSaveEpoch(n=>n+1);
     }
   }
 
@@ -394,6 +431,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       const payload=workspacePayload();
       cloudApplications.update(id,{revision,...payload})
         .then(saved=>{
+          if(saved.id!==id || !Number.isInteger(saved.revision) || saved.revision<=revision || serializeWorkspace(saved.household_state)!==serializeWorkspace(payload.household_state) || serializeWorkspace(saved.planner_state)!==serializeWorkspace(payload.planner_state))throw new Error('Workspace acknowledgment mismatch');
           cloudRevisions.current.set(id,saved.revision);
           setApplications(previous=>previous.map(a=>a.id===id&&a.journey?applicationFor(id,{...a.journey,lastSavedAt:saved.lastSavedAt??saved.updated_at}):a));
           lastSyncPayload.current=serializeWorkspace(payload);
@@ -404,24 +442,30 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
             cloudSyncBlocked.current=true;
             setStorageNotice('Planner/household cloud revision changed. Reload the preparation to review before resaving.');
           }else{
+            cloudSyncBlocked.current=true;
             setStorageNotice('Planner/household cloud sync failed; changes remain in this session. Retry after checking the connection.');
           }
         })
-        .finally(()=>activeCloudSaves.current.delete(id));
+        .finally(()=>{activeCloudSaves.current.delete(id);setSaveEpoch(n=>n+1);});
     },1200);
     return()=>clearTimeout(handle);
-  },[workspacePayloadJSON,cloudRestoring,workspacePayload,activeCloudPreparationId]);
+  },[workspacePayloadJSON,cloudRestoring,workspacePayload,activeCloudPreparationId,saveEpoch]);
   const { documents } = useDocuments();
   // Only objective Vault actions are inferred; reviewing a discrepancy or official
   // requirement must be explicitly acknowledged by the citizen.
   const plannerCompleted = useMemo(() => {
-    const done = new Set(manuallyCompleted);
-    if (documents.length > 0 && done.has("journey")) done.add("vault");
-    if (done.has("vault") && documents.some(d => d.status === "reviewed" && d.metadata.holder === "self")) {
-      done.add("details");
+    const selected=applications.find(a=>a.id===activeCloudPreparationId)?.journey;
+    const available=selected?documents.filter(d=>selected.documentIds.includes(d.id)):documents;
+    const eligible=applicantEvidence(available,selected?.applicantHouseholdMemberId,new Set(members.map(m=>m.id)));
+    const requested=new Set(manuallyCompleted);
+    const done=new Set<string>();
+    for(const task of plannerTasks){
+      if(!task.dependsOn.every(id=>done.has(id)))continue;
+      const inferred=task.id==='vault'?available.length>0:task.id==='details'?eligible.some(d=>d.status==='reviewed'):false;
+      if(requested.has(task.id)||inferred)done.add(task.id);
     }
-    return plannerTasks.filter(t => done.has(t.id)).map(t => t.id);
-  }, [documents, manuallyCompleted]);
+    return plannerTasks.filter(t=>done.has(t.id)).map(t=>t.id);
+  }, [documents,manuallyCompleted,applications,activeCloudPreparationId,members]);
   const liveSteps = plannerTasks.map(t => t.title);
   const liveDone = plannerCompleted.length;
   const liveNext = plannerTasks.find(t => !plannerCompleted.includes(t.id));

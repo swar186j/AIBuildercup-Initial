@@ -206,7 +206,7 @@ def analyze(req: Request) -> dict:
             findings.append(finding)
             task(f'resolve-{attr}',f'Review {label} discrepancy','Check originals and applicable official correction guidance; do not assume which value is correct.', ['verify-self'] if not self_docs else (),1)
         elif len(values)==0 and self_docs:
-            findings.append({'id':f'{attr}-missing','type':'missing','field':attr,'severity':'information','message':f'No reviewed self-held document includes a {label}.','evidence':[]})
+            findings.append({'id':f'{attr}-missing','type':'missing','field':attr,'severity':'information','message':(f'{label.capitalize()} is present in applicant documents awaiting review. Review extracted details before comparing.' if any(d.holder == 'self' and not d.reviewed and getattr(d,attr).strip() for d in docs) else f"We couldn't find a reviewed {label} in the selected applicant's eligible documents. Review extracted details, enter missing information and confirm document holders."),'evidence':[{'value':'needs review','documentIds':[d.id for d in docs if d.holder=='self']}]})
     for category in ('identity','address','birth'):
         if not any(category in d.categories for d in self_docs):
             task(f'check-{category}',f'Check {category} evidence','No reviewed self-held document has this organizational category. This does not determine official acceptance.', ['verify-self'] if not self_docs else ())
@@ -320,7 +320,7 @@ def build_passport_plan(req: Request, assessment: dict) -> dict:
         blockers.append('Unresolved evidence discrepancies or extraction quality')
     if req.applicantAgeGroup == '':
         blockers.append('Applicant age group not specified')
-    if any(d.holder != 'self' for d in req.documents):
+    if any(d.holder != 'self' and any(c in d.categories for c in ('identity','address','birth')) for d in req.documents):
         blockers.append('Family relationship and evidence acceptance not verified')
     return {
         'scenario':req.assistanceType, 'scenarioTitle':title,

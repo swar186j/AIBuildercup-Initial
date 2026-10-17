@@ -14,7 +14,7 @@ import urllib.request
 ROOT=Path(__file__).resolve().parents[1]
 API_DIR=ROOT/'Maadhyam/apps/api'
 WEB_DIR=ROOT/'Maadhyam/apps/web'
-OUT=ROOT/'qa/evidence/final'
+OUT=ROOT/os.environ.get('MAADHYAM_FINAL_QA_OUTPUT','qa/evidence/final')
 OUT.mkdir(parents=True,exist_ok=True)
 PYTHON=str(API_DIR/'.venv/bin/python')
 
@@ -35,7 +35,7 @@ def ready(url,proc):
     raise RuntimeError(f'Owned server did not become ready: {url}')
 
 def main():
-    env={**os.environ,'MAADHYAM_GEMINI_API_KEY':'','GEMINI_API_KEY':'','GOOGLE_API_KEY':'','PYTHONUNBUFFERED':'1'}
+    env={**os.environ,'MAADHYAM_GEMINI_API_KEY':'','GEMINI_API_KEY':'','GOOGLE_API_KEY':'','MAADHYAM_GEMINI_VERTEXAI':'false','MAADHYAM_GOOGLE_CLOUD_PROJECT':'','MAADHYAM_DOCUMENT_BUCKET':'','MAADHYAM_PRODUCTION':'false','PYTHONUNBUFFERED':'1'}
     results={}
     def run(name,args,cwd=ROOT):
         print(f'Running {name}',flush=True)
@@ -44,6 +44,7 @@ def main():
         results[name]=p.returncode
         print(f'{name}: exit {p.returncode}',flush=True)
     run('backend',[PYTHON,'-m','pytest','-q','--tb=short',f'--junitxml={OUT}/backend.xml'],API_DIR)
+    run('frontend-lint',['npm','run','lint','--','--max-warnings','0'],WEB_DIR)
     run('frontend-build',['npm','run','build'],WEB_DIR)
     api_port,web_port=free_port(),free_port()
     env['MAADHYAM_TEST_API']=f'http://127.0.0.1:{api_port}'
@@ -61,7 +62,7 @@ def main():
         ready(env['MAADHYAM_TEST_API']+'/openapi.json',processes[0][0])
         ready(env['MAADHYAM_TEST_WEB'],processes[1][0])
         run('collection',[PYTHON,'-m','pytest','qa','--collect-only','-q'])
-        run('browser',[PYTHON,'-m','pytest','qa/test_browser.py','qa/test_completion.py','qa/test_final_journeys.py','-q','--tb=short',f'--junitxml={OUT}/browser.xml'])
+        run('browser',[PYTHON,'-m','pytest','qa','--ignore=qa/test_http.py','-q','--tb=short',f'--junitxml={OUT}/browser.xml'])
         run('http',[PYTHON,'-m','pytest','qa/test_http.py','-q','--tb=short',f'--junitxml={OUT}/http.xml'])
         web=env['MAADHYAM_TEST_WEB']
         for name,script,args in [

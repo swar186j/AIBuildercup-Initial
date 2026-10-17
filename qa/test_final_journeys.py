@@ -4,7 +4,7 @@ import re
 import pytest
 from playwright.sync_api import expect
 from qa.test_browser import upload, spa, response_for, API, WORKFLOWS, EVIDENCE
-from qa.test_completion import new_preparation, add_member, associate, household_result
+from qa.test_completion import new_preparation, add_member, associate, household_result, fill_optimizer
 
 
 def reopen(page, record):
@@ -129,13 +129,13 @@ def test_journey_b_identity_whatif(page):
     expect(page.get_by_label('Document-by-document field comparison')).to_contain_text('DIFFERENCE')
     spa(page,'/planner')
     expect(page.get_by_label('Identity name variations')).to_contain_text('Different name values')
-    expect(page.get_by_label('Passport correction alternatives')).to_contain_text('printedName')
+    expect(page.get_by_label('Passport correction alternatives')).to_contain_text('Name on Document')
     page.get_by_label('What-if document').select_option(label='fictional_pan.png')
     page.get_by_label('Hypothetical value').fill('Rahul Kumar Sharma')
     _,data=response_for(page,'/api/intelligence/reasoning',lambda:page.get_by_role('button',name='See the impact').click(),lambda p:bool(p.get('simulations')))
     assert data['simulations'][0]['resolvedFindingIds']==['printedName-conflict']
     assert not data['simulations'][0]['officialAcceptanceVerified']
-    expect(page.get_by_text('Potentially resolved: printedName-conflict',exact=True)).to_be_visible()
+    expect(page.get_by_text('Potentially resolved: Printed Name conflict',exact=True)).to_be_visible()
 
 
 def test_journey_c_address_continuity(page):
@@ -145,7 +145,7 @@ def test_journey_c_address_continuity(page):
     new_preparation(page)
     payload,data=response_for(page,'/api/passport/assess',lambda:page.get_by_label('Applicant date of birth (for document guidance)').fill('1998-06-15'),lambda p:p.get('applicantDateOfBirth')=='1998-06-15')
     assert len(payload['documents'])==2 and any('address' in c['id'] for c in data['checks'])
-    spa(page,'/planner');expect(page.get_by_label('Passport correction alternatives')).to_contain_text('residentialAddress')
+    spa(page,'/planner');expect(page.get_by_label('Passport correction alternatives')).to_contain_text('Residential Address')
 
 
 def test_journey_d_deadline_dependencies_expiry(page):
@@ -159,6 +159,7 @@ def test_journey_d_deadline_dependencies_expiry(page):
     assert deadline['documentExpiryConflicts'] and deadline['resolutionOptions'][0]['prerequisiteTaskIds']
     expect(page.get_by_label('Document expiry conflicts')).to_contain_text('expires before target')
     area=page.get_by_label('Weighted correction optimizer')
+    fill_optimizer(area)
     _,data=response_for(page,'/api/intelligence/advanced-plan',lambda:area.get_by_role('button',name='Find recommended path',exact=True).click())
     assert data['alternatives'] and not data['officialAcceptanceVerified']
     expect(page.get_by_label('Correction optimization results')).to_contain_text('Alternative paths')
@@ -369,11 +370,12 @@ def test_m8_owned_payloads_passport_planner_family(page):
     _,graph=household_result(page)
     assert len(graph['missingRelationshipEvidenceMemberIds'])==1
     payload,data=response_for(page,'/api/intelligence/passport-plan',lambda:spa(page,'/planner'))
-    parent=next(d for d in payload['documents'] if d['printedName']=='Private Fictional Parent')
-    assert parent['holder']=='parent-guardian' and parent['associationConsent'] and data['assessment']['reviewedSelfDocuments']==1
+    assert all(d['printedName']!='Private Fictional Parent' for d in payload['documents'])
+    assert data['assessment']['reviewedSelfDocuments']==1
     reopen(page,record)
     payload,data=response_for(page,'/api/passport/assess',lambda:page.get_by_label('Applicant date of birth (for document guidance)').fill('1998-06-15'),lambda p:p.get('applicantDateOfBirth')=='1998-06-15')
-    assert next(d for d in payload['documents'] if d['id']==parent['id'])['holder']=='parent-guardian'
+    parent=next(d for d in payload['documents'] if d['printedName']=='Private Fictional Parent')
+    assert parent['holder']=='parent-guardian' and parent['associationConsent']
     assert all(parent['id'] not in c['matching_document_ids'] for c in data['checks'] if c['id'] in ['identity','dob-old'])
     address=next(c for c in data['checks'] if c['id']=='address')
     if parent['id'] in address['matching_document_ids']:assert 'not applicant identity evidence' in address['reason']
@@ -395,6 +397,7 @@ def test_m7_expiry_on_after_target(page,target,expected):
 def test_nested_invalid_results_recover(page,endpoint,body,action):
     page.route('**'+endpoint,lambda r:r.fulfill(json=body))
     page.goto('/household' if 'household' in endpoint else '/planner')
+    if 'advanced-plan' in endpoint:fill_optimizer(page.get_by_label('Weighted correction optimizer'))
     page.get_by_role('button',name=action,exact=True).click()
     expect(page.get_by_role('alert').filter(has_text='Unexpected').first).to_be_visible()
     expect(page.get_by_role('button',name=action,exact=True)).to_be_enabled()

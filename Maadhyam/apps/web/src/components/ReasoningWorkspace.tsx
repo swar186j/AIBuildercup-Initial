@@ -1,8 +1,12 @@
+import {useWorkspace} from '../context/WorkspaceContext';
+import {applicantEvidence,asApplicantEvidence} from '../utils/applicantEvidence';
+import {friendlyLabel} from '../utils/friendlyLabel';
+import {useHousehold} from '../context/HouseholdContext';
 import { useAsyncResource } from "../hooks/useAsyncResource";
 import { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDocuments } from '../context/DocumentContext';
-import { compareDocuments } from '../utils/documentComparison';
+import { compareDocuments, comparisonOwner,comparisonSummary } from '../utils/documentComparison';
 import { reasonCitizen, type FamilyEvidenceLink, type ReasoningResponse, type ReasoningSimulation } from '../services/citizenIntelligence';
 
 type EditableField = 'printedName' | 'dateOfBirth' | 'residentialAddress';
@@ -17,6 +21,10 @@ const muted = 'text-sm text-slate-600 dark:text-[#A7BBC8]';
 
 export default function ReasoningWorkspace() {
   const { documents } = useDocuments();
+  const {members}=useHousehold();
+  const {applications,activeCloudPreparationId}=useWorkspace();
+  const preparation=applications.find(a=>a.id===activeCloudPreparationId)?.journey;
+  const ownerIds=useMemo(()=>new Set(members.map(m=>m.id)),[members]);
   const [journey, setJourney] = useState<Journey>('correction');
   const [target, setTarget] = useState('');
   const [field, setField] = useState<EditableField>('printedName');
@@ -33,26 +41,38 @@ export default function ReasoningWorkspace() {
     ...l, relationshipEvidenceDocumentIds: l.relationshipEvidenceDocumentIds.filter(id => ids.has(id)),
   })), [links, ids]);
   const validSimulations = useMemo(() => simulations.filter(s => Object.keys(s.replaceFields || {}).every(id => ids.has(id))), [simulations, ids]);
-  const reviewedDocs = documents.filter(d => d.status === 'reviewed' && d.metadata.holder === 'self');
+  const selectedIds=preparation?.documentIds;
+  const selectedMemberId=preparation?.applicantHouseholdMemberId;
+  const ownDocs=useMemo(()=>applicantEvidence(selectedIds?documents.filter(d=>selectedIds.includes(d.id)):documents,selectedMemberId,ownerIds),[documents,selectedIds,selectedMemberId,ownerIds]);
+  const reviewedDocs = ownDocs.filter(d => d.status === 'reviewed');
   const familyDocs = documents.filter(d => d.metadata.holder !== 'self');
-  const selectedDoc = documents.find(d => d.id === target);
+  const selectedDoc = ownDocs.find(d => d.id === target);
   const currentValue = selectedDoc ? String(selectedDoc.metadata[field] || '') : '';
-  const loadReasoning = useCallback(() => reasonCitizen(documents, validLinks, validSimulations), [documents, validLinks, validSimulations]);
+  const ageGroup=preparation?.answers.applicantAgeGroup??'';
+  const assistanceType=preparation?.assistanceType??'fresh';
+  const loadReasoning = useCallback(() => {
+    const ownIds=new Set(ownDocs.map(d=>d.id));
+    const scoped=[...asApplicantEvidence(ownDocs),...(journey==='family'?documents.filter(d=>!ownIds.has(d.id)).map(d=>({...d,metadata:{...d.metadata,holder:'other' as const}})):[])];
+    return reasonCitizen(scoped,journey==='family'?validLinks:[],validSimulations.filter(sim=>Object.keys(sim.replaceFields??{}).every(id=>ownIds.has(id))),assistanceType,ageGroup);
+  }, [documents,ownDocs,journey,validLinks,validSimulations,assistanceType,ageGroup]);
   const { data: result, error: loadError, loading: busy } = useAsyncResource<ReasoningResponse>(loadReasoning);
   const error = loadError ? 'Could not analyze your documents. Please check the backend and try again.' : '';
 
   const sim = result?.simulations.find(s => s.id === 'citizen-what-if');
-  const beforeComparison = useMemo(() => compareDocuments(documents), [documents]);
-  const afterComparison = useMemo(() => compareDocuments(documents.map(d => d.id === target && simulations.length ? { ...d, metadata: { ...d.metadata, [field]: replacement.trim() } } : d)), [documents, target, field, replacement, simulations]);
+  const beforeComparison = useMemo(() => compareDocuments(ownDocs.filter(d=>selectedDoc&&comparisonOwner(d,ownerIds)===comparisonOwner(selectedDoc,ownerIds)),ownerIds), [ownDocs,selectedDoc,ownerIds]);
+  const afterComparison = useMemo(() => compareDocuments(ownDocs.filter(d=>selectedDoc&&comparisonOwner(d,ownerIds)===comparisonOwner(selectedDoc,ownerIds)).map(d => { const patch=validSimulations[0]?.replaceFields?.[d.id]; return patch ? {...d,metadata:{...d.metadata,...patch}} : d; }),ownerIds), [ownDocs, validSimulations,selectedDoc,ownerIds]);
+  const beforeMetrics=comparisonSummary(beforeComparison,ownDocs,ownerIds);
+  const hypotheticalDocs=ownDocs.map(d=>({...d,metadata:{...d.metadata,...validSimulations[0]?.replaceFields?.[d.id]}}));
+  const afterMetrics=comparisonSummary(afterComparison,hypotheticalDocs,ownerIds);
   const relatedPairs = afterComparison.comparisons.filter(c => (c.firstId === target || c.secondId === target) && c.field === (field === 'printedName' ? 'name' : field === 'residentialAddress' ? 'address' : 'dateOfBirth'));
 
   const selectedFamilyDoc = documents.find(d => d.id === familyDoc);
 
   function runSimulation() {
-    if (!target || !replacement.trim()) return;
+    if (!selectedDoc || !replacement.trim()) return;
     setSimulations([{
       id: 'citizen-what-if',
-      label: `What if ${fieldLabels[field].toLowerCase()} were corrected?`,
+      label: `What if ${fieldLabels[field].toLowerCase()} were ${currentValue ? 'replaced' : 'filled in'}?`,
       replaceFields: { [target]: { [field]: replacement.trim() } },
     }]);
   }
@@ -88,7 +108,7 @@ export default function ReasoningWorkspace() {
 
     {journey === 'correction' ? <div className={card} aria-label="Try a document correction">
       <div className="mb-5 flex items-start gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-teal-100 font-bold text-teal-800 dark:bg-[#245253] dark:text-[#2FE9C2]">1</span>
-        <div><h3 className="text-lg font-bold">Try a correction before taking action</h3><p className={muted}>This is a safe preview. Your original Vault document stays unchanged.</p></div></div>
+        <div><h3 className="text-lg font-bold">Try filling or replacing a detail before taking action</h3><p className={muted}>This is a safe preview. Your original Vault document stays unchanged.</p></div></div>
       {reviewedDocs.length === 0 ? <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 dark:border-amber-500/30 dark:bg-[#342B24]">
         <p className="font-semibold">First, review a document in your Vault</p><p className={`mt-1 ${muted}`}>A reviewed applicant-held document is needed for a meaningful comparison.</p>
         <Link to="/documents" className="mt-3 inline-block font-semibold text-teal-700 underline dark:text-[#2FE9C2]">Go to Document Vault →</Link>
@@ -97,35 +117,38 @@ export default function ReasoningWorkspace() {
           <select aria-label="What-if document" className={input} value={target} onChange={e => { setTarget(e.target.value); setSimulations([]); }}>
             <option value="">Select your document</option>{reviewedDocs.map(d => <option key={d.id} value={d.id}>{d.file.name}</option>)}
           </select></label>
-        <label className="block text-sm font-medium">What detail needs correction?
+        <label className="block text-sm font-medium">Which detail would you like to explore?
           <select aria-label="What-if field" className={input} value={field} onChange={e => { setField(e.target.value as EditableField); setReplacement(''); setSimulations([]); }}>
             {Object.entries(fieldLabels).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
           </select></label>
         {selectedDoc && <div className="rounded-xl bg-slate-100 p-4 dark:bg-[#203440]"><p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Current Vault value</p><p className="mt-1 break-words font-medium">{currentValue || 'Not provided in this document'}</p></div>}
-        <label className="block text-sm font-medium">What should the corrected value be?
-          <input aria-label="Hypothetical value" className={input} value={replacement} onChange={e => setReplacement(e.target.value)} placeholder={field === 'dateOfBirth' ? 'DD/MM/YYYY or YYYY-MM-DD' : 'Enter a hypothetical corrected value'} />
+        <label className="block text-sm font-medium">{currentValue ? 'Replace an existing field (hypothetical)' : 'Fill a missing field (hypothetical)'}
+          <input aria-label="Hypothetical value" className={input} value={replacement} onChange={e => {setReplacement(e.target.value);setSimulations([]);}} placeholder={field === 'dateOfBirth' ? 'DD/MM/YYYY or YYYY-MM-DD' : 'Enter a hypothetical corrected value'} />
         </label>
         <div className="flex flex-wrap gap-3">
-          <button type="button" disabled={!target || !replacement.trim() || busy} onClick={runSimulation} className="rounded-xl bg-[#167E75] px-5 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40">{busy ? 'Analyzing…' : 'See the impact →'}</button>
+          <button type="button" disabled={!selectedDoc || !replacement.trim() || busy} onClick={runSimulation} className="rounded-xl bg-[#167E75] px-5 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40">{busy ? 'Analyzing…' : 'See the impact →'}</button>
           <button type="button" onClick={() => { setSimulations([]); setReplacement(''); }} className="rounded-xl border border-slate-300 px-4 py-3 font-semibold dark:border-[#496474]">Start over</button>
         </div>
       </div>}
       {sim && <div className="mt-6 space-y-4 border-t border-slate-200 pt-5 dark:border-[#385065]" aria-live="polite">
-        <h4 className="text-lg font-bold">Here's what your correction could change</h4>
+        <h4 className="text-lg font-bold">Here's what your hypothetical detail could change</h4>
         <div className="grid gap-3 sm:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#385065] dark:bg-[#203440]"><p className="text-xs font-bold uppercase text-slate-500 dark:text-slate-400">Before</p><p className="mt-2 text-2xl font-bold">{sim.before.reviewFindings.length}</p><p className={muted}>issues needing review</p><p className="mt-2 text-xs">{sim.before.blockers.length} preparation blockers</p></div>
-          <div className="rounded-xl border border-teal-300 bg-teal-50 p-4 dark:border-teal-700 dark:bg-[#173B40]"><p className="text-xs font-bold uppercase text-teal-700 dark:text-[#2FE9C2]">After (hypothetical)</p><p className="mt-2 text-2xl font-bold">{sim.after.reviewFindings.length}</p><p className={muted}>issues needing review</p><p className="mt-2 text-xs">{sim.after.blockers.length} preparation blockers</p></div>
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-[#385065] dark:bg-[#203440]"><p className="text-xs font-bold uppercase text-slate-500 dark:text-slate-400">Before</p><p className="mt-2 text-2xl font-bold">{beforeComparison.comparisons.filter(c=>c.status==='difference'&&!c.needsReview).length}</p><p className={muted}>confirmed differences in reviewed evidence</p><p className="mt-2 text-xs">{sim.before.blockers.length} preparation blockers</p></div>
+          <div className="rounded-xl border border-teal-300 bg-teal-50 p-4 dark:border-teal-700 dark:bg-[#173B40]"><p className="text-xs font-bold uppercase text-teal-700 dark:text-[#2FE9C2]">After (hypothetical)</p><p className="mt-2 text-2xl font-bold">{afterComparison.comparisons.filter(c=>c.status==='difference'&&!c.needsReview).length}</p><p className={muted}>confirmed differences in reviewed evidence</p><p className="mt-2 text-xs">{sim.after.blockers.length} preparation blockers (reviewed applicant evidence)</p></div>
         </div>
         {simulations.length > 0 && <div className="rounded-xl border border-teal-300 bg-white p-4 text-slate-900 dark:border-teal-600 dark:bg-[#203440] dark:text-white">
           <h5 className="font-bold">Field-level impact across your uploaded documents</h5>
-          <p className="mt-1 text-sm">Before: {beforeComparison.findings.length} differing field pairs · After: {afterComparison.findings.length} differing field pairs. {afterComparison.skippedFieldPairs} comparisons cannot be assessed because data is missing.</p>
+          <p className="mt-1 text-sm">{currentValue ? 'Existing value replaced for this preview.' : 'This field was missing; completing it is not an official correction.'} Missing values never count as a match or difference.</p>
+          <p className="mt-1 text-sm">Missing fields: {beforeMetrics.missingFields} before → {afterMetrics.missingFields} after. Comparisons unavailable: {beforeMetrics.unavailableComparisons} before → {afterMetrics.unavailableComparisons} after.</p>
+          <p className="mt-1 text-sm">Before: {beforeComparison.findings.length} differing field pairs · After: {afterComparison.findings.length} differing field pairs. {beforeComparison.comparisons.filter(c=>c.status==='difference'&&c.needsReview).length} provisional differences before; {afterComparison.comparisons.filter(c=>c.status==='difference'&&c.needsReview).length} after. {afterComparison.skippedFieldPairs} comparisons cannot be assessed because data is missing.</p>
           <p className="mt-2 text-sm">{selectedDoc?.file.name}: <strong>{currentValue || 'Missing'}</strong> → <strong>{replacement}</strong></p>
-          {relatedPairs.length ? relatedPairs.map((c,i) => <p key={i} className="mt-2 rounded-lg border border-slate-300 p-2 text-sm dark:border-slate-500">{c.firstName} ↔ {c.secondName}: <strong>{c.status === 'match' ? 'Match' : c.status === 'difference' ? 'Mismatch' : 'Missing data'}</strong> · {c.firstValue || 'Missing'} / {c.secondValue || 'Missing'}{c.needsReview ? ' (unreviewed metadata)' : ''}</p>) : <p className="mt-2 text-sm">No other document for this holder has comparable metadata. Upload/review another document to measure cross-document impact.</p>}
-          <p className="mt-2 text-xs">The backend counters above use reviewed applicant evidence only; this expanded preview includes provisional unreviewed metadata and does not verify authenticity.</p>
+          {relatedPairs.length ? relatedPairs.map((c,i) => <p key={i} className="mt-2 rounded-lg border border-slate-300 p-2 text-sm dark:border-slate-500">{c.firstName} ↔ {c.secondName}: <strong>{c.status === 'match' ? 'Match' : c.status === 'difference' ? (c.needsReview?'Provisional difference':'Difference in reviewed evidence') : 'Missing data'}</strong> · {c.firstValue || 'Missing'} / {c.secondValue || 'Missing'}{c.needsReview ? ' (unreviewed metadata)' : ''}</p>) : <p className="mt-2 text-sm">No other document for this holder has comparable metadata. Comparison is unavailable. Upload/review another document to measure cross-document impact.</p>}
+          <p className="mt-2 text-xs">Before and After use the same identity and review criteria. Provisional differences are separate. Completing a field can make a new comparison possible; it does not establish identity or authenticity.</p>
         </div>}
-        {sim.resolvedFindingIds.length > 0 && <p className="rounded-xl bg-teal-50 p-3 text-sm text-teal-900 dark:bg-[#173B40] dark:text-[#2FE9C2]">Potentially resolved: {sim.resolvedFindingIds.join(', ')}</p>}
-        {sim.newFindingIds.length > 0 && <p className="rounded-xl bg-amber-50 p-3 text-sm text-amber-900 dark:bg-[#342B24] dark:text-amber-200">New issues to check: {sim.newFindingIds.join(', ')}</p>}
-        {sim.resolvedFindingIds.length === 0 && sim.newFindingIds.length === 0 && <p className={muted}>No change in detected review issues. That can happen when the field was not conflicting with other reviewed documents.</p>}
+        {sim.after.blockers.filter(b=>!sim.before.blockers.includes(b)).map(b=><p key={b} className="text-sm">Added preparation blocker: {b}. A newly populated value may now require review against other eligible evidence.</p>)}
+        {sim.resolvedFindingIds.length > 0 && <p className="rounded-xl bg-teal-50 p-3 text-sm text-teal-900 dark:bg-[#173B40] dark:text-[#2FE9C2]">Potentially resolved: {sim.resolvedFindingIds.map(friendlyLabel).join(', ')}</p>}
+        {sim.newFindingIds.length > 0 && <p className="rounded-xl bg-amber-50 p-3 text-sm text-amber-900 dark:bg-[#342B24] dark:text-amber-200">New issues to check: {sim.newFindingIds.map(friendlyLabel).join(', ')}</p>}
+        {sim.resolvedFindingIds.length === 0 && sim.newFindingIds.length === 0 && <p className={muted}>No change in review issues. Missing values on another document leave the comparison unavailable; this is not evidence of agreement. Review missing fields and confirm ownership, then re-run analysis.</p>}
         <p className={muted}>Next: compare the original records and confirm the correct value with the issuing authority before requesting a correction.</p>
         <p className="text-xs text-slate-500 dark:text-slate-400">{sim.caution}</p>
       </div>}

@@ -44,7 +44,7 @@ def edit(page,name,printed_name,holder=None):
     dialog=page.get_by_role('dialog',name='Edit document details')
     dialog.wait_for()
     dialog.locator('#metadata-printed-name').fill(printed_name)
-    if holder: dialog.locator('#metadata-holder').select_option(holder)
+    if holder: dialog.locator('#metadata-holder').select_option('category:'+holder)
     dialog.get_by_role('button',name='Save details').click()
     dialog.wait_for(state='hidden')
 
@@ -71,7 +71,7 @@ def reissue(page):
     result=wait_plan(page,out)
     require(result['request']['assistanceType']=='reissue','Reissue request not sent')
     item=next(i for i in result['response']['checks'] if i['id']=='old-passport')
-    require(page.get_by_label('Passport document requirements').get_by_text(item['title'],exact=True).count()==1,'Existing passport requirement not rendered')
+    require(page.get_by_label('Passport document requirements').locator('article').get_by_text(item['title'],exact=True).count()==1,'Existing passport requirement not rendered')
 
 @case('FF03 Correction journey sends correction scenario')
 def correction(page):
@@ -111,7 +111,7 @@ def no_false_claims(page):
     plan=out[-1]['response']['passportPlan']
     require(plan['officialEligibilityDetermined'] is False and plan['officialAcceptanceDetermined'] is False,'Unsafe official determination')
     require(all(not x['officialAcceptanceVerified'] for x in plan['checklist']),'Unsafe acceptance flag')
-    require('does not establish official acceptance' in page.locator('body').inner_text().lower(),'Missing user-facing official disclaimer')
+    require('does not confirm official acceptance' in page.locator('body').inner_text().lower() or 'does not establish official acceptance' in page.locator('body').inner_text().lower(),'Missing user-facing official disclaimer')
 
 @case('FF07 Unreviewed fictional upload cannot become accepted applicant evidence')
 def unreviewed(page):
@@ -148,7 +148,7 @@ def alternatives(page):
         for alt in option['alternatives']:
             require(section.get_by_text(alt['label'],exact=True).count()>0,f"Missing correction alternative {alt['id']}")
     if not data['resolutionOptions']:
-        require(section.get_by_text('No conflicting fields detected',exact=False).count()>0,'Missing empty-conflict explanation')
+        require(section.get_by_text('No correction alternatives identified',exact=False).count()>0,'Missing empty-conflict explanation')
 
 
 # Batch 2: additional real-browser tests. Each test gets a fresh browser context.
@@ -183,7 +183,7 @@ def set_metadata(page, name, category='identity', document_type='Aadhaar card', 
     type_select.select_option(label=document_type, timeout=5000)
     holder_select = dialog.locator('#metadata-holder')
     require(holder_select.count() == 1, 'Document holder selector missing from editor')
-    holder_select.select_option(holder, timeout=5000)
+    holder_select.select_option('category:'+holder, timeout=5000)
     dialog.get_by_role('button',name='Save details').click()
     dialog.wait_for(state='hidden')
 

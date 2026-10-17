@@ -1,3 +1,4 @@
+import {trackCloudSave} from '../services/saveNotifications';
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { ensureDemoUser, subscribeFirebaseUser } from '../services/firebaseClient';
 import { cloudDocuments, type CloudDocument } from '../services/cloudDocuments';
@@ -78,6 +79,7 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
   const hydrated = useRef(false);
   const account=useRef<string|null>(null);
   const epoch=useRef(0);
+  const acknowledgedRevisions=useRef(new Map<string,number>());
   const operationQueue=useRef<Promise<void>>(Promise.resolve());
   const pendingOperations=useRef(0);
   const deletedIds=useRef(new Set<string>());
@@ -171,7 +173,7 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
     const uid=account.current;
     if(!uid){setCloudNotice('Wait for authentication before migration.');return;}
     const originals=documentsRef.current.filter(d=>!d.cloud&&(!d.ownerUid||d.ownerUid===uid));
-    await enqueue(async()=>{
+    await enqueue(async()=>{await trackCloudSave('migration','Documents migrated',async()=>{
       let succeeded=0,failed=0;
       for(const doc of originals){
         try{
@@ -184,7 +186,8 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
         }catch{failed++;}
       }
       setCloudNotice(`Migration verified: ${succeeded} succeeded; ${failed} failed. Local originals retained. Retry failed files individually.`);
-    });
+      return {failed};
+    },result=>result.failed>0);});
   }
   async function retryCloudDocument(id:string){
     const document=documentsRef.current.find(d=>d.id===id);
@@ -323,7 +326,7 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
   }
 
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     documentsRef.current = documents;
   }, [documents]);
 
@@ -381,14 +384,19 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
     void enqueue(async()=>{
       const document=documentsRef.current.find(d=>d.id===id);
       if(!document?.cloud||document.ownerUid!==account.current)return;
-      replaceDocument({...document,metadata,status,cloud:{...document.cloud,state:'saving'}});
+      const revisionKey=`${document.ownerUid}:${id}`;
+      const revision=acknowledgedRevisions.current.get(revisionKey)??document.cloud.revision;
+      setDocuments(old=>old.map(d=>d.id===id&&d.cloud?{...d,cloud:{...d.cloud,state:'saving'}}:d));
       try{
-        const record=await cloudDocuments.patch(id,document.cloud.revision,metadata,status,document.ownerUid);
+        const record=await cloudDocuments.patch(id,revision,metadata,status,document.ownerUid);
         if(document.ownerUid!==account.current)return;
-        replaceDocument({...document,metadata,status,updatedAt:record.updatedAt,cloud:{...document.cloud,revision:record.revision,state:'ready'}});
+        acknowledgedRevisions.current.set(revisionKey,record.revision);
+        // Apply server revision/timestamps only. An older acknowledgment must
+        // never replace fields or review status changed during the request.
+        setDocuments(old=>old.map(d=>d.id===id&&d.cloud?{...d,updatedAt:record.updatedAt,cloud:{...d.cloud,revision:record.revision,state:d.metadata===metadata&&d.status===status?'ready':'save-failed'}}:d));
         setCloudNotice('Reviewed metadata saved to cloud. Compare documents or continue Passport.');
       }catch(error){
-        replaceDocument({...document,metadata,status,cloud:{...document.cloud,state:'save-failed'}});
+        setDocuments(old=>old.map(d=>d.id===id&&d.cloud?{...d,cloud:{...d.cloud,state:'save-failed'}}:d));
         throw error;
       }
     });

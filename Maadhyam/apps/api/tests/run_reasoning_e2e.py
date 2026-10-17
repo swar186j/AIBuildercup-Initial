@@ -18,7 +18,7 @@ def upload(page, name, printed_name, holder='self'):
     button.click()
     dialog=page.get_by_role('dialog',name='Edit document details')
     dialog.locator('#metadata-printed-name').fill(printed_name)
-    dialog.locator('#metadata-holder').select_option(holder)
+    dialog.locator('#metadata-holder').select_option('category:'+holder)
     dialog.get_by_role('button',name='Save details').click()
     dialog.wait_for(state='hidden')
     row=page.locator('article').filter(has_text=name)
@@ -55,7 +55,7 @@ def main():
         page.get_by_label('Minimum prerequisite review path').wait_for(timeout=20000)
         def baseline():
             require(captured and captured[-1]['status']==200,'No successful real reasoning API response')
-            require(len(captured[-1]['request']['documents'])==3,'Vault metadata missing in reasoning request')
+            require(len(captured[-1]['request']['documents'])==2 and all(d['holder']=='self' for d in captured[-1]['request']['documents']),'Applicant reasoning scope must exclude unrelated family evidence')
             require('printedName-conflict' in captured[-1]['response']['baseline']['reviewFindings'],'Name mismatch not detected')
         check('RE01 Real API receives reviewed Vault metadata and detects conflict',baseline)
         def graph():
@@ -69,13 +69,13 @@ def main():
             page.get_by_label('Hypothetical value').fill('Rahul Kumar Sharma')
             before=len(captured)
             page.get_by_role('button',name='See the impact').click()
-            page.get_by_text("Here's what your correction could change",exact=True).wait_for(timeout=20000)
+            page.get_by_text("Here's what your hypothetical detail could change",exact=True).wait_for(timeout=20000)
             require(len(captured)>before,'Simulation did not call real API')
             data=captured[-1]
             require(data['status']==200,'Simulation failed')
             require(data['request']['simulations'][0]['replaceFields'],'Replacement missing from API request')
             require('printedName-conflict' in data['response']['simulations'][0]['resolvedFindingIds'],'Conflict not resolved in simulation')
-            require(page.get_by_text('Potentially resolved: printedName-conflict',exact=True).is_visible(),'Resolved finding not rendered')
+            require(page.get_by_text('Potentially resolved: Printed Name conflict',exact=True).is_visible(),'Resolved finding not rendered')
             require(data['response']['simulations'][0]['officialAcceptanceVerified'] is False,'Incorrect official acceptance claim')
         check('RE03 What-if recomputes and displays resolved name conflict',simulate)
         def family():
@@ -105,10 +105,12 @@ def main():
         check('RE04 Family claim reaches real API, remains unverified',family)
         def reset():
             page.get_by_role('button',name='I need to correct a detail').click()
-            page.get_by_role('button',name='Start over',exact=True).click()
-            page.get_by_text("Here's what your correction could change",exact=True).wait_for(state='hidden',timeout=20000)
+            with page.expect_response(lambda r:'/api/intelligence/reasoning' in r.url and r.request.method=='POST' and not r.request.post_data_json.get('simulations'),timeout=20000):
+                page.get_by_role('button',name='Start over',exact=True).click()
+            page.get_by_text("Here's what your hypothetical detail could change",exact=True).wait_for(state='hidden',timeout=20000)
             require(not captured[-1]['request']['simulations'],'Simulation not cleared in request')
         check('RE05 Clearing what-if removes hypothetical changes',reset)
+        context.close()
         browser.close()
     passed=sum(s=='PASS' for _,s,_ in results)
     print(f'\n{passed} passed, {len(results)-passed} failed',flush=True)

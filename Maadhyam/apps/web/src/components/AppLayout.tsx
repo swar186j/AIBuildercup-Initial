@@ -1,3 +1,4 @@
+import SaveNotifications from './SaveNotifications';
 import { HouseholdProvider } from '../context/HouseholdProvider';
 import { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
@@ -48,6 +49,7 @@ export default function AppLayout() {
     <DocumentProvider>
       <HouseholdProvider>
       <WorkspaceProvider>
+      <SaveNotifications/>
       <div className="min-h-screen bg-[#f5f7fa]">
         {mobileOpen && (
           <button

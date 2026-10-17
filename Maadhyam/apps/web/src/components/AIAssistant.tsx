@@ -28,6 +28,7 @@ export default function AIAssistant() {
   const page = getPage(location.pathname);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  useEffect(()=>{const show=()=>setOpen(true);window.addEventListener('maadhyam-open-assistant',show);return()=>window.removeEventListener('maadhyam-open-assistant',show);},[]);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([greeting]);
   const [thinkingFor, setThinkingFor] = useState<typeof documents | null>(null);

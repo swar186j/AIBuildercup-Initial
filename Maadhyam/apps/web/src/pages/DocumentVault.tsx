@@ -1,3 +1,4 @@
+import PreparationJourneyProgress from '../components/PreparationJourneyProgress';
 import { formatDateTime } from "../utils/dateTime";
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { Link } from "react-router-dom";
@@ -181,6 +182,7 @@ export default function DocumentVault() {
       const proposedCategories = result.categories.filter((category) => category !== "other");
       setDemoDraft({
         ...target.metadata,
+        extractionSource:'gemini',
         documentType: result.documentType || target.metadata.documentType,
         printedName: result.printedName ?? "",
         dateOfBirth: result.dateOfBirth ?? "",
@@ -206,7 +208,7 @@ export default function DocumentVault() {
       residentialAddress: demoDraft.residentialAddress?.trim() ?? "",
     });
     closeDemo();
-    setMessage("AI-extracted details saved after your review. Verify them against the original document.");
+    setMessage("AI-extracted details applied to this workspace after your review. Cloud save status confirms persistence separately. Verify them against the original document.");
   }
 
   async function addFiles(fileList: FileList | File[]) {
@@ -349,7 +351,7 @@ export default function DocumentVault() {
 
   // Analysis results are derived from the current metadata, so edits and removals
   // cannot leave stale findings visible.
-  const currentAnalysis = analysis === null ? null : compareDocuments(documents);
+  const currentAnalysis = analysis === null ? null : compareDocuments(documents,new Set(members.map(m=>m.id)));
 
   const needsReview = documents.filter((document) => document.status === "needs-review").length;
   const reviewed = documents.filter((document) => document.status === "reviewed").length;
@@ -543,7 +545,7 @@ export default function DocumentVault() {
                       <div className="mt-2 flex flex-wrap items-center gap-2">
                         <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${document.status === "reviewed" ? "bg-emerald-50 text-emerald-800" : "bg-amber-50 text-amber-800"
                           }`}>
-                          {document.status === "reviewed" ? "Self-reviewed" : "Needs review"}
+                          {document.status === "reviewed" ? "Self-reviewed" : "Needs review"} · {document.metadata.extractionSource==='gemini'?'AI-extracted':'Entered details'}
                         </span>
                         {getDocumentCategories(document.metadata).map((category) => (
                           <span key={category} className="rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-700">
@@ -588,6 +590,8 @@ export default function DocumentVault() {
         )}
       </section>
 
+      <PreparationJourneyProgress/>
+      <div aria-label="Vault next actions" className="rounded-xl border border-teal-200 bg-white p-4 text-sm text-[#173f68]"><p>Next: review extracted details, confirm document ownership, then analyze the current evidence. Uploaded files are not government verified.</p><div className="mt-3 flex flex-wrap gap-4 font-semibold text-teal-700"><Link to="/household" className="underline">Confirm holders</Link><Link to="/planner" className="underline">Plan corrections</Link><Link to="/services/passport/journey" className="underline">Check Passport readiness</Link></div></div>
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" aria-labelledby="comparison-heading">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -596,13 +600,13 @@ export default function DocumentVault() {
               <h2 id="comparison-heading" className="text-lg font-bold text-[#173f68]">Document discrepancy analysis</h2>
             </div>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-              Compare name, date of birth and address across all uploaded documents assigned to the same household member. Unassigned documents use their holder category; confirm that they belong to the same person. Each pair shows matches, differences and missing details. Unreviewed metadata is provisional; this does not verify file contents.
+              Compare name, date of birth and address across all uploaded documents assigned to the same household member. Unassigned family documents are excluded until you confirm a household owner. Legacy self-held documents refer to this workspace applicant. Each pair shows matches, differences and missing details. Unreviewed metadata is provisional; this does not verify file contents.
             </p>
           </div>
           <button
             type="button"
             disabled={documents.length < 2}
-            onClick={() => setAnalysis(compareDocuments(documents))}
+            onClick={() => setAnalysis(compareDocuments(documents,new Set(members.map(m=>m.id))))}
             className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#147d83] px-5 py-3 text-sm font-semibold text-white hover:bg-[#126a70] disabled:cursor-not-allowed disabled:opacity-50"
           >
             <GitCompareArrows size={18} /> Analyze documents
@@ -619,8 +623,9 @@ export default function DocumentVault() {
           <div className="mt-6 space-y-4" aria-live="polite">
             <div className="grid gap-3 sm:grid-cols-3">
               {[
-                { label: "Possible differences", value: currentAnalysis.findings.length },
-                { label: "Matching field pairs", value: currentAnalysis.matchedFieldPairs },
+                { label: "Confirmed differences in reviewed evidence", value: currentAnalysis.comparisons.filter(c=>c.status==='difference'&&!c.needsReview).length },
+                { label: "Provisional differences", value: currentAnalysis.comparisons.filter(c=>c.status==='difference'&&c.needsReview).length },
+                { label: "Matching field pairs", value: currentAnalysis.comparisons.filter(c=>c.status==='match'&&!c.needsReview).length },
                 { label: "Fields skipped (missing data)", value: currentAnalysis.skippedFieldPairs },
               ].map((stat) => (
                 <div key={stat.label} className="rounded-xl bg-[#f2f8f8] p-4">
@@ -632,18 +637,21 @@ export default function DocumentVault() {
 
             <div className="rounded-xl border border-slate-200 bg-white p-4 text-slate-900" aria-label="Document-by-document field comparison">
               <h3 className="font-bold text-slate-900">Exactly what matches and what needs checking</h3>
-              <p className="mt-1 text-sm text-slate-700">{documents.length} uploaded documents · {currentAnalysis.comparedPairs} same-holder document pairs · {currentAnalysis.comparableFieldPairs} populated field comparisons. Every field pair is listed below.</p>
+              <p className="mt-1 text-sm text-slate-700">{documents.filter(d=>d.status==='reviewed').length} documents with reviewed information · {documents.length-currentAnalysis.excludedDocumentIds.length} ownership-eligible documents · {currentAnalysis.excludedDocumentIds.length} excluded due to ownership uncertainty · {documents.length} uploaded documents · {currentAnalysis.comparedPairs} same-person document pairs · {currentAnalysis.comparableFieldPairs} populated field comparisons. Every field pair is listed below.</p>
               <div className="mt-3 space-y-2">{currentAnalysis.comparisons.map((c, index) => (
                 <article key={`${c.firstId}-${c.secondId}-${c.field}-${index}`} className={`rounded-lg border p-3 text-sm ${c.status === "difference" ? "border-amber-400 bg-amber-50" : c.status === "match" ? "border-teal-300 bg-teal-50" : "border-slate-300 bg-slate-50"}`}>
                   <div className="flex flex-wrap items-center justify-between gap-2"><strong className="capitalize text-slate-950">{c.field === "dateOfBirth" ? "Date of birth" : c.field}</strong><span className={`font-semibold ${c.status === "difference" ? "text-amber-900" : "text-slate-900"}`}>{c.status === "match" ? "MATCH" : c.status === "difference" ? "DIFFERENCE — REVIEW" : "MISSING DATA"}{c.needsReview ? " · unreviewed document" : ""}</span></div>
                   <div className="mt-2 grid gap-2 sm:grid-cols-2"><p className="break-words text-slate-900"><strong>{c.firstName}</strong><span className="block">{c.firstValue || "Not provided"}</span></p><p className="break-words text-slate-900"><strong>{c.secondName}</strong><span className="block">{c.secondValue || "Not provided"}</span></p></div>
                 </article>
               ))}</div>
+              {currentAnalysis.comparisons.filter(c=>c.status!=='missing'&&!c.needsReview).length === 0 && <p className="mt-3 font-semibold">Comparison incomplete — review the missing fields and confirm document ownership.</p>}
+              {documents.map(d=><p key={d.id} className="mt-2 text-sm">{d.file.name}: {currentAnalysis.excludedDocumentIds.includes(d.id)?'Confirm document holder in Household Intelligence. ':''}{(['printedName','dateOfBirth','residentialAddress'] as const).filter(f=>!d.metadata[f]?.trim()).map(f=>f==='printedName'?'Name on Document':f==='dateOfBirth'?'Date of Birth':'Residential Address').join(', ')}{d.status!=='reviewed'?' — Review extracted details.':''}</p>)}
+              <a href="/household" className="text-teal-700 underline">Assign document ownership</a>
               {currentAnalysis.comparisons.length === 0 && <p className="mt-3 text-sm text-slate-700">No comparable holder pairs. Assign documents to the correct holder and review each file.</p>}
             </div>
             {currentAnalysis.comparedPairs === 0 ? (
               <p className="rounded-xl border border-slate-200 p-4 text-sm text-slate-600">
-                No documents share a holder category. Set matching holders in Edit details before comparing.
+                No eligible same-person pairs. Confirm ownership in Household Intelligence and review document details before comparing.
               </p>
             ) : currentAnalysis.comparableFieldPairs === 0 ? (
               <p className="rounded-xl border border-slate-200 p-4 text-sm text-slate-600">

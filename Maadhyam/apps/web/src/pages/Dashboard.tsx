@@ -1,3 +1,5 @@
+import PreparationJourneyProgress from '../components/PreparationJourneyProgress';
+import {useHousehold} from '../context/HouseholdContext';
 
 import { Link } from "react-router-dom";
 import {
@@ -15,6 +17,7 @@ const muted = "text-slate-600 dark:text-slate-400";
 const accent = "text-[#147d83] dark:text-[#2FE9C2]";
 
 export default function Dashboard() {
+  const {members}=useHousehold();
   const { documents } = useDocuments();
   const { applications, plannerCompleted } = useWorkspace();
 
@@ -29,8 +32,10 @@ export default function Dashboard() {
       !doc.metadata.residentialAddress?.trim()
   ).length;
 
-  const findings = compareDocuments(documents).findings;
-  const active = applications.filter(app => app.status !== "completed").length;
+  const comparison=compareDocuments(documents,new Set(members.map(m=>m.id)));
+  const findings=comparison.comparisons.filter(c=>c.status==='difference'&&!c.needsReview);
+  const resume=applications.find(a=>a.journey&&a.status!=='completed')??applications.find(a=>a.journey);
+  const active = applications.filter(app => app.journey && app.status !== "completed").length;
 
   const completedIds = new Set(plannerCompleted);
   const completedCount = plannerTasks.filter(task => completedIds.has(task.id)).length;
@@ -60,7 +65,7 @@ export default function Dashboard() {
     {
       label: "Active preparations",
       value: active,
-      note: "Local preparation records",
+      note: "Your session, local and cloud preparations",
       icon: ClipboardList,
       href: "/applications"
     },
@@ -74,7 +79,7 @@ export default function Dashboard() {
     {
       label: "Possible differences",
       value: findings.length,
-      note: "Based on entered metadata",
+      note: "Reviewed same-person field pairs",
       icon: FileSearch,
       href: "/planner"
     }
@@ -102,10 +107,10 @@ export default function Dashboard() {
 
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              to="/services/passport/journey"
+              to={resume?`/services/passport/journey?preparation=${encodeURIComponent(resume.id)}`:"/services/passport/journey"}
               className="inline-flex items-center gap-2 rounded-xl bg-[#2FE9C2] px-5 py-3 text-sm font-bold text-[#123044] transition hover:bg-[#7CF5DC]"
             >
-              Continue passport preparation
+              {resume?'Resume your preparation':'Start passport preparation'}
               <ArrowRight size={17} />
             </Link>
 
@@ -121,6 +126,8 @@ export default function Dashboard() {
         <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full border-[42px] border-white/5" />
       </section>
 
+      <section className={card} aria-label="Discover supported services"><h2 className={`font-bold ${heading}`}>Find your service</h2><form action="/services" method="get" className="mt-3 flex flex-wrap gap-3"><input type="search" name="q" aria-label="Search services from landing" placeholder="Passport, Aadhaar, EPFO…" className="min-w-0 flex-1 rounded-xl border border-slate-300 bg-white p-3 text-slate-900"/><button className="rounded-xl bg-[#147d83] px-4 py-3 font-semibold text-white">Find services</button></form><p className={`mt-3 text-sm ${muted}`}>Passport: guided preparation · Aadhaar and EPFO: advisory service information.</p><div className={`mt-3 flex flex-wrap gap-4 text-sm ${accent}`}><Link to="/services/passport" className="underline">Passport assistance</Link><Link to="/services?q=Aadhaar" className="underline">Aadhaar guidance</Link><Link to="/services?q=EPFO" className="underline">EPFO guidance</Link></div></section>
+      <PreparationJourneyProgress/>
       <section
         aria-label="Workspace overview"
         className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
@@ -354,8 +361,7 @@ export default function Dashboard() {
         />
         <p>
           Maadhyam is an independent assistance platform.
-          Preparation records and checklist progress are local demo
-          features. No government application is submitted,
+          Preparation records use session, optional local saving or acknowledged cloud saving. No government application is submitted,
           and no document is officially verified.
         </p>
       </div>

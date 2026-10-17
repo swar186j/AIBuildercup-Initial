@@ -59,3 +59,15 @@ qa/evidence/m12-cloud/*
 !qa/evidence/m12-cloud/bucket-iam.json
 !qa/evidence/m12-cloud/iam-recovery.json
 !qa/evidence/m12-cloud/deployment.json
+
+# M12.1 portable release receipts; browser profiles/screenshots remain local.
+!qa/evidence/m12-1-verification/
+qa/evidence/m12-1-verification/*
+!qa/evidence/m12-1-verification/backend.xml
+!qa/evidence/m12-1-verification/browser.xml
+!qa/evidence/m12-1-verification/http.xml
+!qa/evidence/m12-1-verification/execution.json
+!qa/evidence/m12-1-verification/frontend-lint.log
+!qa/evidence/m12-1-verification/frontend-build.log
+!qa/evidence/m12-1-verification/legacy-*.json
+!qa/evidence/m12-1-verification/legacy-*.log

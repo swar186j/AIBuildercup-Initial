@@ -16,7 +16,7 @@ import {
 } from "../services/api";
 
 export default function Services() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(()=>new URLSearchParams(window.location.search).get('q')??'');
   const [reload, setReload] = useState(0);
   const { data, error: loadError, loading } = useAsyncResource<GovernmentService[]>(fetchServices, reload);
   const services = data ?? [];
@@ -108,9 +108,10 @@ export default function Services() {
                     <>
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-[#eaf3f5] px-3 py-1 text-xs font-semibold text-[#126a70]">
                         <Sparkles size={13} />
-                        Guided preview available
+                        Guided preparation available
                       </span>
 
+<p className="mt-3 text-xs text-slate-600">New passport · Reissue · Correction · Document preparation · Police verification guidance</p>
                       <Link
                         to="/services/passport"
                         className="mt-5 flex items-center justify-between rounded-xl bg-[#147d83] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#126a70] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#147d83]"
@@ -120,11 +121,11 @@ export default function Services() {
                       </Link>
                     </>
                   ) : (
-                    <span className="inline-flex rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
+                    <div><p className="mb-3 text-xs text-slate-600">Advisory information only. No application submission or live government tracking.</p><Link to="/workflows" className="mb-3 block text-sm font-semibold text-teal-700 underline">Explore document preparation advice</Link><span className="inline-flex rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
                       {service.status === "planned"
-                        ? "Coming soon"
+                        ? "Full guided journey coming soon"
                         : service.status}
-                    </span>
+                    </span></div>
                   )}
                 </div>
               </article>

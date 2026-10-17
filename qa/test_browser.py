@@ -209,7 +209,7 @@ def test_reasoning_whatif_family(page):
     page.get_by_label('Hypothetical value').fill('Rahul Kumar Sharma')
     payload,data=response_for(page,'/api/intelligence/reasoning',lambda:page.get_by_role('button',name='See the impact').click(),lambda p:bool(p.get('simulations')))
     assert 'printedName-conflict' in data['simulations'][0]['resolvedFindingIds']
-    expect(page.get_by_text('Potentially resolved: printedName-conflict',exact=True)).to_be_visible()
+    expect(page.get_by_text('Potentially resolved: Printed Name conflict',exact=True)).to_be_visible()
     assert data['simulations'][0]['officialAcceptanceVerified'] is False
     page.get_by_role('button',name="I have a family member's document").click()
     page.get_by_label('Family document',exact=True).select_option(label='fictional_parent.png')

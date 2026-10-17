@@ -22,3 +22,14 @@ Use a dedicated no-credentials API, never a developer API with live provider cre
 Shared fixtures live in `qa/conftest.py`; test modules import only helper functions. `qa/run_legacy.py` resolves scripts and working directories from its own file and forwards all API calls to `MAADHYAM_TEST_API`. The reasoning runner supports `--report`, avoiding working-directory-dependent output. Backend regression must run with the API directory as cwd; the final runner does this automatically.
 
 To run the demo manually, start the API on port 8000 and Vite on 5173. See `IMPLEMENTATION_HANDOVER.md` for commands and data behavior.
+
+## M12.1 consolidated release verification
+
+```sh
+MAADHYAM_FINAL_QA_OUTPUT=qa/evidence/m12-1-verification \
+  Maadhyam/apps/api/.venv/bin/python qa/run_final.py
+```
+
+The current runner also executes zero-warning frontend lint and every `qa` browser module, including M12 persistence, remediation and the M12.1/wireframe regressions. It clears provider settings for local servers; browser authentication is fictional and intercepted, including in the five historical runners. The real-FastAPI household round-trip test overrides persistence with a local memory store while retaining actual request validation/serialization. No production cloud write or paid Gemini call is needed.
+
+`qa/evidence/m12-1-verification/` contains portable final XML/execution/lint/build/legacy receipts. Screenshots, network logs and intermediate failure receipts stay local. See `M12_1_FINAL_BUGFIX_REPORT.md` and `M12_1_MANUAL_CLOUD_DEPLOYMENT_HANDOFF.md` for the release and owner-only deployment checklist.

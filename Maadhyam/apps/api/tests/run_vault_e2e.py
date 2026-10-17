@@ -215,7 +215,7 @@ def main():
             )
 
             page.get_by_role(
-                "button", name="Clear all Vault data"
+                "button", name="Clear local browser Vault copies"
             ).click()
 
             # First verify React UI cleared.
@@ -283,7 +283,7 @@ def main():
             page.reload()
 
             page.get_by_role(
-                "button", name="Clear all Vault data"
+                "button", name="Clear local browser Vault copies"
             ).wait_for(timeout=10000)
 
             # Allow hydration and any pending autosave to settle.

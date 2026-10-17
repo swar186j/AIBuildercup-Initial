@@ -1,3 +1,5 @@
+import PreparationJourneyProgress from '../components/PreparationJourneyProgress';
+import PassportReadiness from '../components/PassportReadiness';
 import { formatDateTime } from "../utils/dateTime";
 import { useAsyncResource, requestDelay } from "../hooks/useAsyncResource";
 import { useWorkspace } from '../context/WorkspaceContext';
@@ -519,8 +521,8 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
   },[confirmedSnapshot,currentSnapshot]);
   const loadAssessment = useCallback(async (signal: AbortSignal) => {
     await requestDelay(300, signal);
-    return assessPassport(answers as unknown as Record<string, unknown>, documents, applicantDob, signal);
-  }, [answers, documents, applicantDob]);
+    return assessPassport(answers as unknown as Record<string, unknown>, documents, applicantDob, signal,applicantName,applicantChoice==='__other__'?undefined:applicantChoice);
+  }, [answers, documents, applicantDob,applicantName,applicantChoice]);
   const { data: assessment, error: loadAssessmentError } = useAsyncResource<PassportAssessment>(loadAssessment);
   const assessmentError = loadAssessmentError ? (loadAssessmentError instanceof Error ? loadAssessmentError.message : 'Assessment unavailable') : '';
   const option = passportAssistanceOptions.find(
@@ -639,6 +641,7 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
           This is not an official eligibility assessment.
         </p>
       </section>
+      <PreparationJourneyProgress readinessComplete={assessment?.readiness?.percentage===100}/>
       <section aria-label="Preparation save controls" className="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
         <p>Preparation record: <strong>{preparationId}</strong></p>
         <p className="mt-1 text-xs">Created on: <time dateTime={selectedApplication?.createdAt}>{formatDateTime(selectedApplication?.createdAt)}</time></p>
@@ -989,6 +992,8 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
           )}
 
           <div className="rounded-xl border border-slate-200 p-5">
+              <p className="text-sm">Questionnaire complete. Readiness and remaining evidence checks appear below; completion is not official submission.</p>
+              <div className="mt-3 flex flex-wrap gap-3 text-sm text-teal-800"><Link to="/planner" className="underline">Open Resolution Planner</Link><Link to="/applications" className="underline">View saved preparation summary</Link><button type="button" className="underline" onClick={()=>window.dispatchEvent(new Event('maadhyam-open-assistant'))}>Ask Maadhyam AI</button></div>
               <h3 className="font-bold text-[#173f68]">
                 Suggested next steps
               </h3>
@@ -1098,6 +1103,7 @@ function PassportWizard({assistanceType,preparationId}:{assistanceType:PassportA
         {assessmentError && <p role="alert" className="mt-4 rounded-lg bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-500/10 dark:text-amber-200">Unable to load the checklist: {assessmentError}. Check that the API is running.</p>}
         {!assessment && !assessmentError && <p className="mt-4 text-sm text-slate-600 dark:text-slate-400">Updating your checklist…</p>}
         {assessment && <>
+          <PassportReadiness assessment={assessment} filenames={new Map(vaultDocuments.map(d=>[d.id,d.file.name]))}/>
           <div className="mt-5 flex flex-wrap gap-2 text-xs">
             <span className="rounded-full bg-slate-100 px-3 py-1.5 text-slate-700 dark:bg-slate-700/70 dark:text-slate-100">{assessment.checks.length} requirements to review</span>
             <span className="rounded-full bg-teal-50 px-3 py-1.5 text-teal-800 dark:bg-teal-500/10 dark:text-[#96B1FF]">{assessment.checks.filter(c => c.status === 'available-for-review').length} possible proofs found</span>

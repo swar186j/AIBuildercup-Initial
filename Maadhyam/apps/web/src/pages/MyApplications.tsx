@@ -1,3 +1,4 @@
+import PreparationJourneyProgress from '../components/PreparationJourneyProgress';
 import { formatDateTime } from "../utils/dateTime";
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import PreparationStorageControls from '../components/PreparationStorageControls';
@@ -74,7 +75,7 @@ export default function MyApplications() {
       <PageHero eyebrow="Your preparation workspace" title="My Preparations" description="Keep track of your preparation records, review pending steps and continue where you left off." />
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="min-w-0 flex-1 rounded-xl border border-[#cde5e3] bg-[#f2f8f8] px-4 py-3 text-sm leading-6 text-[#173f68] dark:border-[#293956] dark:bg-[#18243B] dark:text-slate-200">
-          <strong>Preparation only:</strong> These are fictional local preparation records, not government applications or official status updates. Session-only changes disappear when you refresh unless you explicitly enable preparation saving below.
+          <strong>Preparation only:</strong> These are Maadhyam preparation records, not government applications or official status updates. Session-only changes disappear when you refresh unless you explicitly enable preparation saving below.
         </div>
         <button
           type="button"
@@ -87,6 +88,8 @@ export default function MyApplications() {
         </button>
       </div>
 
+      <PreparationJourneyProgress/>
+      <p className="text-sm text-slate-600 dark:text-slate-300">Questionnaire completion is separate from evidence readiness. Resume a saved preparation to see its current applicable document checklist and outstanding review tasks. Maadhyam does not track official government application status.</p>
       <PreparationStorageControls />
       {notice && (
         <p role="status" className={`text-sm ${accent}`}>
@@ -359,6 +362,9 @@ export default function MyApplications() {
 
             {selected.journey&&<button type="button" onClick={()=>{deletePreparation(selected.id);setSelectedId(null);}} className="mt-4 text-sm text-red-700 underline">Delete this preparation</button>}
             <p className="mt-3 text-xs">Created on: {formatDateTime(selected.createdAt)} · Last saved: {formatDateTime(selected.lastSavedAt)}</p>
+            <p className="mt-3 text-sm">Remaining questionnaire steps: {Math.max(0,selected.totalSteps-selected.completedSteps)}. Evidence readiness may still need review after the questionnaire is complete.</p>
+            <a href="https://www.passportindia.gov.in/" target="_blank" rel="noreferrer" className="mt-3 inline-block text-sm text-teal-700 underline">Verify next steps on the official Passport Seva portal</a>
+            <button type="button" className="ml-3 text-sm text-teal-700 underline" onClick={()=>{setSelectedId(null);window.dispatchEvent(new Event('maadhyam-open-assistant'));}}>Ask Maadhyam AI</button>
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <Link
                 to={selected.journey?`/services/passport/journey?type=${selected.journey.assistanceType}&preparation=${encodeURIComponent(selected.id)}`:"/services/passport/journey"}

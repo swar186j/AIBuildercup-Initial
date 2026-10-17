@@ -14,7 +14,7 @@ export function documentPayload(documents: LocalDocument[]) {
   return documents.map(d => ({
     id: d.id, documentType: d.metadata.documentType || '', holder: d.metadata.householdMemberId && d.metadata.householdMemberId !== 'applicant' && d.metadata.holder === 'self' ? 'other' : d.metadata.holder,
     householdMemberId: d.metadata.householdMemberId, associationConsent: d.metadata.associationConsent===true,
-    reviewed: d.status === 'reviewed',
+    reviewed: d.status === 'reviewed', extractionSource:d.metadata.extractionSource??'manual',
     categories: d.metadata.categories?.length ? d.metadata.categories : [d.metadata.category],
     printedName: d.metadata.printedName || '', dateOfBirth: d.metadata.dateOfBirth || '',
     residentialAddress: d.metadata.residentialAddress || '', expiryDate: d.metadata.expiryDate || '',
@@ -60,10 +60,10 @@ export type PassportPlan = {
 };
 export type PassportPlanResponse = {assessment: IntelligenceAssessment; passportPlan: PassportPlan};
 export function preparePassport(
-  documents: LocalDocument[], assistanceType = 'fresh', applicantAgeGroup = '',
+  documents: LocalDocument[], assistanceType = 'fresh', applicantAgeGroup = '', scopedPayload?: ReturnType<typeof documentPayload>,
 ): Promise<PassportPlanResponse> {
   return post<PassportPlanResponse>('/api/intelligence/passport-plan', {
-    documents: documentPayload(documents), assistanceType, applicantAgeGroup,
+    documents: scopedPayload??documentPayload(documents), assistanceType, applicantAgeGroup,
   });
 }
 
@@ -84,8 +84,8 @@ export type ReasoningResponse = {
   simulations: {id:string;label:string;before:{reviewFindings:string[];blockers:string[]};after:{reviewFindings:string[];blockers:string[]};resolvedFindingIds:string[];newFindingIds:string[];remainingTaskIds:string[];officialAcceptanceVerified:boolean;caution:string}[];
   officialEligibilityDetermined:boolean;disclaimer:string;
 };
-export function reasonCitizen(documents: LocalDocument[], familyLinks: FamilyEvidenceLink[], simulations: ReasoningSimulation[], assistanceType = 'fresh'): Promise<ReasoningResponse> {
+export function reasonCitizen(documents: LocalDocument[], familyLinks: FamilyEvidenceLink[], simulations: ReasoningSimulation[], assistanceType = 'fresh', applicantAgeGroup = ''): Promise<ReasoningResponse> {
   return post<ReasoningResponse>('/api/intelligence/reasoning', {
-    documents: documentPayload(documents), familyLinks, simulations, assistanceType,
+    documents: documentPayload(documents), familyLinks, simulations, assistanceType, applicantAgeGroup,
   });
 }

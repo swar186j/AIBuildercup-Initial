@@ -23,7 +23,8 @@ def port():
 def main():
     api_port, web_port = port(), port()
     env = {**os.environ, "MAADHYAM_GEMINI_API_KEY": "", "MAADHYAM_GEMINI_VERTEXAI": "false",
-           "MAADHYAM_PRODUCTION": "false", "PYTHONUNBUFFERED": "1",
+           "MAADHYAM_PRODUCTION": "false", "GEMINI_API_KEY":"", "GOOGLE_API_KEY":"",
+           "MAADHYAM_GOOGLE_CLOUD_PROJECT":"", "MAADHYAM_DOCUMENT_BUCKET":"", "PYTHONUNBUFFERED": "1",
            "MAADHYAM_TEST_API": f"http://127.0.0.1:{api_port}",
            "MAADHYAM_TEST_WEB": f"http://127.0.0.1:{web_port}",
            "MAADHYAM_QA_EVIDENCE": str(OUT / "screenshots")}

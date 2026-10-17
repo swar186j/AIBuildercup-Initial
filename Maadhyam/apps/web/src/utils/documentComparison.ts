@@ -21,6 +21,7 @@ export type ComparisonResult = {
   comparableFieldPairs: number;
   skippedFieldPairs: number;
   matchedFieldPairs: number;
+  excludedDocumentIds: string[];
   comparisons: { field: ComparedField; firstId: string; secondId: string; firstName: string; secondName: string; firstValue: string; secondValue: string; status: "match" | "difference" | "missing"; needsReview: boolean }[];
 };
 
@@ -85,7 +86,13 @@ const FIELDS: ComparedField[] = ["name", "dateOfBirth", "address"];
  * must be confirmed by the user before treating records as belonging to
  * the same person (particularly parent-guardian / other categories).
  */
-export function compareDocuments(documents: LocalDocument[]): ComparisonResult {
+export function comparisonOwner(d: LocalDocument, verifiedMemberIds?: ReadonlySet<string>): string | null {
+  if (d.metadata.householdMemberId) return d.metadata.associationConsent === true && (!verifiedMemberIds || verifiedMemberIds.has(d.metadata.householdMemberId)) ? `member:${d.metadata.householdMemberId}` : null;
+  // Legacy self means the single applicant in this workspace. Generic categories
+  // never identify a person. An explicitly assigned different ID cannot fall back.
+  return d.metadata.holder === 'self' ? 'member:applicant' : null;
+}
+export function compareDocuments(documents: LocalDocument[], verifiedMemberIds?: ReadonlySet<string>): ComparisonResult {
   const findings: ComparisonFinding[] = [];
   let comparedPairs = 0;
   let comparableFieldPairs = 0;
@@ -98,8 +105,8 @@ export function compareDocuments(documents: LocalDocument[]): ComparisonResult {
       const first = documents[i];
       const second = documents[j];
 
-      const ownerKey = (d:LocalDocument) => d.metadata.householdMemberId ? `member:${d.metadata.householdMemberId}` : d.metadata.holder==='self' ? 'member:applicant' : `unassigned:${d.metadata.holder}`;
-      if (ownerKey(first) !== ownerKey(second)) continue;
+      const owner = comparisonOwner(first,verifiedMemberIds);
+      if (!owner || owner !== comparisonOwner(second,verifiedMemberIds)) continue;
       comparedPairs += 1;
 
       for (const field of FIELDS) {
@@ -127,10 +134,10 @@ export function compareDocuments(documents: LocalDocument[]): ComparisonResult {
           title: `Possible ${FIELD_LABELS[field].toLowerCase()} difference`,
           explanation:
             field === "dateOfBirth"
-              ? "The manually entered dates differ. Check both documents and confirm the correct date."
+              ? "The reviewed or entered dates differ. Check both documents and confirm the correct date."
               : field === "name"
-                ? "The manually entered names differ after basic formatting normalization. Check spelling, initials, and name order."
-                : "The manually entered addresses differ after basic formatting normalization. This could reflect an abbreviation, a move, or a genuine discrepancy.",
+                ? "The reviewed or entered names differ after basic formatting normalization. Check spelling, initials, and name order."
+                : "The reviewed or entered addresses differ after basic formatting normalization. This could reflect an abbreviation, a move, or a genuine discrepancy.",
           documents: [
             { id: first.id, filename: first.file.name, value: firstValue },
             { id: second.id, filename: second.file.name, value: secondValue },
@@ -140,5 +147,15 @@ export function compareDocuments(documents: LocalDocument[]): ComparisonResult {
     }
   }
 
-  return { findings, comparedPairs, comparableFieldPairs, skippedFieldPairs, matchedFieldPairs, comparisons };
+  return { findings, comparedPairs, comparableFieldPairs, skippedFieldPairs, matchedFieldPairs, comparisons, excludedDocumentIds: documents.filter(d => !comparisonOwner(d,verifiedMemberIds)).map(d => d.id) };
+}
+
+export function comparisonSummary(result:ComparisonResult,documents:LocalDocument[],knownIds?:ReadonlySet<string>){
+ return {
+  confirmedDifferences:result.comparisons.filter(c=>c.status==='difference'&&!c.needsReview).length,
+  provisionalDifferences:result.comparisons.filter(c=>c.status==='difference'&&c.needsReview).length,
+  confirmedMatches:result.comparisons.filter(c=>c.status==='match'&&!c.needsReview).length,
+  missingFields:documents.filter(d=>comparisonOwner(d,knownIds)).reduce((count,d)=>count+FIELDS.filter(field=>!getField(d,field)).length,0),
+  unavailableComparisons:result.skippedFieldPairs,
+ };
 }

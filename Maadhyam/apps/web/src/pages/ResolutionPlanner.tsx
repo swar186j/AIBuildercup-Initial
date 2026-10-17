@@ -1,3 +1,7 @@
+import PreparationJourneyProgress from '../components/PreparationJourneyProgress';
+import {useHousehold} from '../context/HouseholdContext';
+import {applicantEvidence,asApplicantEvidence} from '../utils/applicantEvidence';
+import {friendlyLabel} from '../utils/friendlyLabel';
 import { useAsyncResource } from "../hooks/useAsyncResource";
 import WeightedOptimizer from '../components/WeightedOptimizer';
 import RuleImpactAnalyzer from '../components/RuleImpactAnalyzer';
@@ -8,6 +12,7 @@ import ReasoningWorkspace from "../components/ReasoningWorkspace";
 import { Link } from "react-router-dom";
 import { useDocuments } from "../context/DocumentContext";
 import { documentPayload, preparePassport, type PassportPlanResponse } from "../services/citizenIntelligence";
+import {plannerTasks} from '../context/WorkspaceContext';
 import { useWorkspace } from '../context/WorkspaceContext';
 
 type AdvancedReasoning = {
@@ -56,29 +61,38 @@ const muted = "text-sm text-slate-600 dark:text-[#A7BBC8]";
 
 export default function ResolutionPlanner() {
   const { documents } = useDocuments();
-  const {plannerTargetDate:targetDate,setPlannerTargetDate:setTargetDate,recordPlannerAnalysis}=useWorkspace();
+  const {members}=useHousehold();
+  const {applications,activeCloudPreparationId,storageNotice,saveHouseholdToCloud,plannerCompleted,togglePlannerTask,plannerTargetDate:targetDate,setPlannerTargetDate:setTargetDate,recordPlannerAnalysis}=useWorkspace();
+  const journey=applications.find(a=>a.id===activeCloudPreparationId)?.journey;
+  const ageGroup=journey?.answers.applicantAgeGroup??'';
+  const assistanceType=journey?.assistanceType??'fresh';
+  const selectedDocuments=journey?documents.filter(d=>journey.documentIds.includes(d.id)):documents;
+  const applicantDocuments=asApplicantEvidence(applicantEvidence(selectedDocuments,journey?.applicantHouseholdMemberId,new Set(members.map(m=>m.id))));
+  const applicantJSON=JSON.stringify(documentPayload(applicantDocuments));
+  const [retryingCloud,setRetryingCloud]=useState(false);
+  const [retryNotice,setRetryNotice]=useState('');
   const [now] = useState(() => Date.now());
   const committedDocuments = useRef(documents);
   useLayoutEffect(() => { committedDocuments.current=documents; }, [documents]);
   const loadAssessment = useCallback(async (signal: AbortSignal) => {
-    const result = await preparePassport(documents);
+    const result = await preparePassport([], assistanceType,ageGroup,JSON.parse(applicantJSON));
     const tasks = result.assessment?.tasks;
     const findings = result.assessment?.findings;
     if (!signal.aborted && committedDocuments.current === documents && Array.isArray(tasks)) recordPlannerAnalysis(tasks.map(t=>t.id),Array.isArray(findings)?findings.length:0,result.assessment.sourceUrl,documents.map(d=>d.id));
     return result;
-  }, [documents, recordPlannerAnalysis]);
+  }, [documents, recordPlannerAnalysis,applicantJSON,assistanceType,ageGroup]);
   const { data: assessment, error: assessmentError } = useAsyncResource<PassportPlanResponse>(loadAssessment);
   const error = assessmentError ? "Cannot reach the intelligence API. Start the backend and retry." : "";
   const loadAdvanced = useCallback(async (signal: AbortSignal) => {
     const response = await fetch("/api/intelligence/reasoning", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ documents: documentPayload(documents), targetDate: targetDate || null }), signal,
+      body: JSON.stringify({ documents: JSON.parse(applicantJSON), applicantAgeGroup:ageGroup??'', assistanceType:assistanceType??'fresh', targetDate: targetDate || null }), signal,
     });
     if (!response.ok) throw new Error(`Reasoning API returned ${response.status}`);
     const result: unknown = await response.json();
     validateReasoning(result);
     return result as AdvancedReasoning;
-  }, [documents, targetDate]);
+  }, [applicantJSON, targetDate,ageGroup,assistanceType]);
   const { data: advanced, error: advancedLoadError } = useAsyncResource(loadAdvanced);
   const advancedError = advancedLoadError ? "Advanced reasoning could not be loaded. Check the backend and retry." : "";
 
@@ -132,28 +146,32 @@ export default function ResolutionPlanner() {
 
   return <div className="mx-auto max-w-5xl space-y-6 pb-24 text-[#173f68] dark:text-[#EAF4F7]">
     <PageHero eyebrow="Preparation workspace" title="Resolution Planner" description="Review potential document differences, understand dependencies and plan your next preparation steps. This is not an official eligibility decision." />
+    <PreparationJourneyProgress/>
+    <section aria-label="Saved preparation checklist" className="rounded-xl border border-slate-200 bg-white p-5 text-sm dark:border-[#293956] dark:bg-[#162430]"><h2 className="text-lg font-bold">Your preparation checklist</h2><p className="mt-2">Record your own preparation actions. Prerequisites must be complete first; removing one also reopens dependent tasks. This does not confirm official acceptance.</p><ol className="mt-3 space-y-3">{plannerTasks.map((task,index)=><li key={task.id}><label className="flex items-start gap-3"><input type="checkbox" className="mt-1" aria-label={`Complete: ${task.title}`} checked={plannerCompleted.includes(task.id)} disabled={!task.dependsOn.every(id=>plannerCompleted.includes(id))||(['vault','details'].includes(task.id)&&plannerCompleted.includes(task.id))} onChange={()=>togglePlannerTask(task.id)}/><span><strong>{index+1}. {task.title}</strong><span className="block">{task.description}</span>{['vault','details'].includes(task.id)&&plannerCompleted.includes(task.id)&&<span className="block text-xs text-teal-700">Counted from current Vault evidence; change the files or their review status to update this check.</span>}{task.dependsOn.length>0&&<span className="block text-xs text-slate-500">First: {task.dependsOn.map(id=>plannerTasks.find(t=>t.id===id)?.title).join(', ')}</span>}</span></label></li>)}</ol></section>
+    <p className="text-sm text-slate-600 dark:text-slate-300">Target date and checklist progress sync to the selected cloud preparation after storage consent and server acknowledgment. What-If values, optimizer routes and rule proposals are temporary previews.</p>
     <div className="flex flex-wrap gap-3">
       <Link to="/documents" className="rounded-lg bg-[#167E75] px-4 py-2 font-semibold text-white">Review Vault documents</Link>
       <Link to="/services/passport" className="rounded-lg border border-slate-200 px-4 py-2 font-semibold text-[#087f79] dark:border-[#253947] dark:text-[#2FE9C2]">Passport services</Link>
     </div>
+    {/cloud.*(failed|conflict|changed)|sync failed/i.test(storageNotice)&&<div role="alert" className="rounded-xl border border-amber-300 p-4 text-sm"><p>{storageNotice}</p><button type="button" disabled={retryingCloud} className="text-teal-700 underline" onClick={async()=>{setRetryingCloud(true);try{setRetryNotice(await saveHouseholdToCloud());}finally{setRetryingCloud(false);}}}>{retryingCloud?'Saving planner progress…':'Retry planner cloud save'}</button>{retryNotice&&<p role="status">{retryNotice}</p>}</div>}
     {error && <p role="alert" className="rounded-lg border border-amber-500/40 p-4 text-amber-800 dark:text-amber-200">{error}</p>}
     {!assessment && !error && <p role="status">Building your plan…</p>}
     {safeCitizen && safePlan && <>
       <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-[#253947] dark:bg-[#162430]">
         <h2 className="text-xl font-bold text-[#087f79] dark:text-[#2FE9C2]">Your document situation</h2>
-        <p className="mt-3">{safeCitizen.documentCount} uploaded · {safeCitizen.reviewedSelfDocuments} reviewed self-held · {safeCitizen.findings.length} potential discrepancies</p>
+        <p className="mt-3">{documents.length} uploaded · {safeCitizen.reviewedSelfDocuments} reviewed self-held · {safeCitizen.findings.filter(f=>f.severity==='review').length} items needing review · {safeCitizen.findings.filter(f=>f.severity==='information').length} missing-information findings</p>
         <p className={`mt-2 ${muted}`}>{safeCitizen.readinessNote}</p>
         {(safeCitizen.familyHolders ?? []).length > 0 && <p className={`mt-2 ${muted}`}>Other document holders: {(safeCitizen.familyHolders ?? []).join(", ")}. Their documents are not treated as the applicant's identity.</p>}
       </section>
       {safeCitizen.findings.length > 0 && <section className="space-y-3">
         <h2 className="text-lg font-bold">Items to investigate</h2>
-        {safeCitizen.findings.map(f => <article key={f.id} className="rounded-xl border border-amber-500/30 bg-[#edf5f4] p-4 dark:bg-[#203440]"><strong className="text-amber-800 dark:text-amber-200">{f.field}</strong><p className="mt-1 text-sm">{f.message}</p></article>)}
+        {safeCitizen.findings.map(f => <article key={f.id} className="rounded-xl border border-amber-500/30 bg-[#edf5f4] p-4 dark:bg-[#203440]"><strong className="text-amber-800 dark:text-amber-200">{friendlyLabel(f.field)} — {f.severity==='information'?'Missing information':f.id.endsWith('-conflict')?'Difference in reviewed evidence':'Needs review'}</strong><p className="mt-1 text-sm">{f.message}</p><p className="mt-2 text-xs">{f.evidence.flatMap(e=>e.documentIds).map(id=>documents.find(d=>d.id===id)?.file.name??id).join(', ')}</p><Link to="/documents" className="text-sm text-teal-700 underline">Review extracted details and missing fields</Link></article>)}
       </section>}
       <section className="space-y-3" aria-label="Passport correction alternatives">
         <h2 className="text-lg font-bold text-[#087f79] dark:text-[#2FE9C2]">Passport correction alternatives</h2>
-        {safePlan.resolutionOptions.length === 0 && <p className={muted}>No conflicting fields detected in reviewed applicant metadata. This does not establish official acceptance.</p>}
+        {safePlan.resolutionOptions.length === 0 && <p className={muted}>No correction alternatives identified from the available reviewed evidence. Missing or unreviewed fields can leave comparison incomplete. Review document details and confirm ownership before judging readiness.</p>}
         {safePlan.resolutionOptions.map(option => <article key={option.findingId} className={panel}>
-          <h3 className="font-semibold">{option.field} — verify before correcting</h3>
+          <h3 className="font-semibold">{friendlyLabel(option.field)} — verify before correcting</h3>
           <p className={`mt-2 ${muted}`}>{option.reason}</p>
           <ul className="mt-3 list-disc space-y-1 pl-5 text-sm">{option.alternatives.map(alt => <li key={alt.id}>{alt.label}</li>)}</ul>
         </article>)}
@@ -165,7 +183,7 @@ export default function ResolutionPlanner() {
         {([...safeCitizen.tasks].sort((a, b) => { const ai = safePlan.orderedTaskIds.indexOf(a.id); const bi = safePlan.orderedTaskIds.indexOf(b.id); return (ai < 0 ? 999 : ai) - (bi < 0 ? 999 : bi); })).map((task, index) => { const blocked = task.dependsOn.some(id => !completed.has(id)); return <article key={task.id} className={panel}>
           <div className="flex gap-3"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#edf5f4] text-[#087f79] dark:bg-[#203440] dark:text-[#2FE9C2]">{index + 1}</span>
             <div><h3 className="font-bold">{task.title}</h3><p className={`mt-1 ${muted}`}>{task.reason}</p>
-              {task.dependsOn.length > 0 && <p className="mt-2 text-xs text-[#087f79] dark:text-[#2FE9C2]">Prerequisites: {task.dependsOn.join(", ")}</p>}
+              {task.dependsOn.length > 0 && <p className="mt-2 text-xs text-[#087f79] dark:text-[#2FE9C2]">Why this order? First: {task.dependsOn.map(id=>taskNames.get(id)??friendlyLabel(id)).join(", ")}</p>}
               <p className="mt-1 text-xs text-slate-600 dark:text-[#A7BBC8]">{blocked ? "Requires prerequisite review" : "Suggested preparation step"} · Completion is not automatically verified.</p>
             </div></div></article>; })}
       </section>

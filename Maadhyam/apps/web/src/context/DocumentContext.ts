@@ -11,6 +11,7 @@ export type DocumentCategory =
 export type DocumentHolder = "self" | "parent-guardian" | "spouse" | "other";
 
 export type DocumentMetadata = {
+  extractionSource?:'manual'|'ocr'|'gemini';
   category: DocumentCategory;
   categories?: DocumentCategory[]; // Additional manually assigned purposes; legacy category stays primary
   documentType: string;

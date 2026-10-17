@@ -16,6 +16,9 @@ export default function HouseholdIntelligence(){
  const [name,setName]=useState('');const [relation,setRelation]=useState<Relation>('spouse');const [selectedMember,setSelectedMember]=useState('');const [selectedDocument,setSelectedDocument]=useState('');const [consent,setConsent]=useState(false);const [error,setError]=useState('');const [noticeValue,setNotice]=useState('');const [busy,setBusy]=useState(false);const [resultValue,setResult]=useState<Analysis|null>(null);const [familyCountValue,setFamilyCount]=useState<number|null>(null);
  const {saveHouseholdToCloud,activeCloudPreparationId}=useWorkspace();
  const [cloudSaveNotice,setCloudSaveNotice]=useState('');
+ const [cloudSaving,setCloudSaving]=useState(false);
+ const savingLock=useRef(false);
+ async function saveHousehold(){if(savingLock.current)return;savingLock.current=true;setCloudSaving(true);setCloudSaveNotice('Saving household…');try{setCloudSaveNotice(await saveHouseholdToCloud());}finally{savingLock.current=false;setCloudSaving(false);}}
  const [analyzedInputs,setAnalyzedInputs]=useState<{members:typeof members;documents:typeof documents}|null>(null);
  const currentAnalysis=analyzedInputs?.members===members && analyzedInputs.documents===documents;
  const result=currentAnalysis?resultValue:null;
@@ -45,8 +48,9 @@ export default function HouseholdIntelligence(){
  {m.relationship!=='self'&&<fieldset><legend className="font-semibold">Evidence supporting this relationship (optional)</legend>{owned.map(d=><label key={d.id} className="mt-1 flex gap-2 text-sm"><input type="checkbox" aria-label={`${m.label} relationship evidence ${d.file.name}`} checked={m.relationshipEvidenceDocumentIds.includes(d.id)} onChange={e=>change(m.id,{relationshipEvidenceDocumentIds:e.target.checked?[...m.relationshipEvidenceDocumentIds,d.id]:m.relationshipEvidenceDocumentIds.filter(id=>id!==d.id)})}/>{d.file.name} {d.status!=='reviewed'?'(not reviewed)':''}</label>)}</fieldset>}
  {m.id!=='applicant'&&<button type="button" aria-label={`Remove member ${m.label}`} onClick={()=>{removeMember(m.id);setNotice('Member removed. Their files remain in Vault as other evidence and are not applicant identity. Dependent member links were removed.');}} className="text-sm text-red-700 underline">Remove member</button>}</article>)}</section>
  <div className="space-y-2">
- <p className="text-sm">Cloud destination: {activeCloudPreparationId??'No cloud preparation selected. Open a saved Passport journey first.'}</p>
- <button type="button" className="rounded-lg border border-teal-700 px-4 py-2 font-semibold text-teal-700" onClick={async()=>setCloudSaveNotice(await saveHouseholdToCloud())}>Save household to cloud</button>
+ <p className="text-sm">Cloud destination: {activeCloudPreparationId??'A new cloud preparation will be created after consent.'}</p>
+ <button type="button" className="rounded-lg border border-teal-700 px-4 py-2 font-semibold text-teal-700" disabled={cloudSaving} onClick={saveHousehold}>{cloudSaving?'Saving household…':'Save household to cloud'}</button>
+ {cloudSaveNotice&&/failed|conflict|retry|running/i.test(cloudSaveNotice)&&<button type="button" disabled={cloudSaving} onClick={saveHousehold} className="ml-3 text-teal-700 underline">Retry household save</button>}
  {cloudSaveNotice&&<p role="status" className="text-sm">{cloudSaveNotice}</p>}
  </div>
  <button type="button" disabled={busy} onClick={analyze} className="rounded-xl bg-teal-700 px-5 py-3 font-semibold text-white disabled:opacity-40">{busy?'Analyzing household…':'Analyze household dependencies'}</button>{error&&<p role="alert" className="rounded-lg border border-red-300 p-3 text-red-700">{error}</p>}{notice&&<p role="status" className="text-sm">{notice}</p>}

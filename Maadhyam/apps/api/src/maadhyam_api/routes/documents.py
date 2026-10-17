@@ -18,6 +18,7 @@ Category = Literal['identity', 'address', 'birth', 'education', 'employment', 'o
 
 class Metadata(BaseModel):
     model_config = ConfigDict(extra='forbid')
+    extractionSource: Literal['manual','ocr','gemini'] = 'manual'
     category: Category = 'other'
     categories: list[Category] = Field(default_factory=list, max_length=6)
     documentType: str = Field(default='Unclassified', max_length=120)

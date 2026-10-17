@@ -59,6 +59,7 @@ def journey(page, base):
     page.goto(base + '/services/passport/journey', wait_until='domcontentloaded')
     check(page.locator('body').inner_text().strip() != '', 'Journey empty')
     check(not page.get_by_text('Page not found', exact=True).is_visible(), 'Journey route missing')
+    page.locator('h1').wait_for(timeout=15000)
     check('passport' in page.locator('body').inner_text().lower(), 'Passport content absent')
 
 @case('FE05 Planner displays API-generated steps')

@@ -105,8 +105,8 @@ def test_m7_rule_comparison(page,changed):
     page.goto('/planner')
     area=page.get_by_label('Government rule change impact analyzer')
     expect(area.get_by_label('Stored baseline version')).to_be_visible()
+    area.get_by_role('button',name='Create hypothetical comparison version').click()
     if changed:
-        area.get_by_role('button',name='Create hypothetical comparison version').click()
         requirement=area.get_by_label('Proposed requirement address',exact=True)
         requirement.get_by_role('button',name='Remove Aadhaar card from address',exact=True).click()
         requirement.get_by_label('Requirement description').fill('Hypothetical changed address requirement')
@@ -127,16 +127,28 @@ def test_m7_rule_errors(page,mode):
     if mode=='malformed-result':page.route('**/api/passport/rules/compare',lambda r:r.fulfill(json={}))
     if mode=='invalid-version':page.route('**/api/passport/rules/compare',lambda r:r.fulfill(status=422,json={'error':{'message':'Unavailable version'}}))
     page.goto('/planner');area=page.get_by_label('Government rule change impact analyzer')
-    if mode!='missing-baseline':area.get_by_role('button',name='Compare preparation impact',exact=True).click()
+    if mode!='missing-baseline':
+        area.get_by_role('button',name='Create hypothetical comparison version').click()
+        area.get_by_role('button',name='Compare preparation impact',exact=True).click()
     expect(area.get_by_role('alert')).to_contain_text({'missing-baseline':'No complete comparison baseline','malformed-result':'Unexpected rule comparison','invalid-version':'version or comparison baseline'}[mode])
+
+def fill_optimizer(area):
+    expect(area.locator('[aria-label^="Issue 1 option"]')).to_have_count(2)
+    for option, cost, days, visits in zip(area.locator('[aria-label^="Issue 1 option"]').all(), [100,1000],[10,2],[1,2]):
+        option.get_by_label('Estimated cost (INR)',exact=True).fill(str(cost))
+        option.get_by_label('Estimated days',exact=True).fill(str(days))
+        option.get_by_label('Estimated visits',exact=True).fill(str(visits))
+
 
 @pytest.mark.parametrize('priority',['cost','days'])
 def test_m7_weighted_paths(page,priority):
     page.goto('/planner');area=page.get_by_label('Weighted correction optimizer')
+    fill_optimizer(area)
+    area.get_by_role('checkbox',name='Advanced mode',exact=True).check()
     for key in ['cost','days','visits']:area.get_by_label('Priority for '+key,exact=True).fill('100' if key==priority else '0')
     payload,data=response_for(page,'/api/intelligence/advanced-plan',lambda:area.get_by_role('button',name='Find recommended path',exact=True).click())
     assert data['status']=='planned' and len(data['alternatives'])==1
-    assert data['selectedOptions'][0]['label']==('Lower-cost evidence review' if priority=='cost' else 'Quicker review estimate')
+    assert data['selectedOptions'][0]['label']==('Compare originals and review details' if priority=='cost' else 'Ask the issuing authority about a correction')
     assert not data['officialAcceptanceVerified'] and payload['weights'][priority]==100
     expect(page.get_by_label('Correction optimization results')).to_contain_text(data['selectedOptions'][0]['label'])
     expect(page.get_by_label('Correction optimization results')).to_contain_text('Alternative paths and trade-offs')
@@ -146,10 +158,18 @@ def test_m7_optimizer_cycle_invalid(page):
     page.goto('/planner');area=page.get_by_label('Weighted correction optimizer')
     expect(area).to_be_visible()
     expect(area.locator('[aria-label^="Issue 1 option"]')).to_have_count(2)
-    for option in area.locator('[aria-label^="Issue 1 option"]').all(): option.get_by_role('checkbox',name='Review identity details (self-dependency creates a cycle)',exact=True).check()
-    payload,data=response_for(page,'/api/intelligence/advanced-plan',lambda:area.get_by_role('button',name='Find recommended path',exact=True).click())
-    assert data['status']=='deadlock'
-    expect(page.get_by_label('Correction optimization results')).to_contain_text('No feasible correction path')
+    fill_optimizer(area)
+    area.get_by_role('checkbox',name='Advanced mode',exact=True).check()
+    expect(area.get_by_role('checkbox',name='Review identity details',exact=True)).to_have_count(0)
+    area.get_by_role('button',name='Add correction issue',exact=True).click()
+    for control in area.get_by_label('Estimated cost (INR)',exact=True).all(): control.fill('0')
+    for control in area.get_by_label('Estimated days',exact=True).all(): control.fill('0')
+    for control in area.get_by_label('Estimated visits',exact=True).all(): control.fill('0')
+    for option in area.locator('[aria-label^="Issue 1 option"]').all():option.get_by_role('checkbox',name='Correction issue 2',exact=True).check()
+    expect(area.locator('[aria-label="Issue 2 option 1"]').get_by_role('checkbox',name='Review identity details',exact=True)).to_be_disabled()
+    expect(area.get_by_text('A dependency that would create a circle is disabled.',exact=False).first).to_be_visible()
+    area.get_by_role('button',name='Find recommended path',exact=True).click()
+    expect(area.get_by_label('Correction optimization results')).to_contain_text('Recommended path')
     area.get_by_label('Priority for cost',exact=True).fill('-1')
     area.get_by_role('button',name='Find recommended path',exact=True).click()
     assert area.get_by_label('Priority for cost',exact=True).evaluate('e=>!e.checkValidity()')
@@ -275,6 +295,8 @@ def test_completion_mobile(page,path):
 def test_completion_unexpected_results(page,endpoint,action,region):
     page.route('**'+endpoint,lambda r:r.fulfill(json={'unexpected':True}))
     page.goto('/household' if '/household/' in endpoint else '/planner')
+    if 'advanced-plan' in endpoint:fill_optimizer(page.get_by_label(region))
+    if 'rules/compare' in endpoint:page.get_by_role('button',name='Create hypothetical comparison version').click()
     page.get_by_role('button',name=action,exact=True).click()
     expect(page.get_by_role('alert').filter(has_text='Unexpected').first).to_be_visible()
     expect(page.get_by_role('button',name=action,exact=True)).to_be_enabled()
@@ -285,7 +307,7 @@ def test_m8_distinct_parents_do_not_compare_as_one_person(page):
     spa(page,'/household');add_member(page,'First Parent');add_member(page,'Second Parent')
     associate(page,'fictional_parent_one.png','First Parent');associate(page,'fictional_parent_two.png','Second Parent')
     spa(page,'/documents');page.get_by_role('button',name='Analyze documents',exact=True).click()
-    expect(page.get_by_label('Document-by-document field comparison')).to_contain_text('0 same-holder document pairs')
+    expect(page.get_by_label('Document-by-document field comparison')).to_contain_text('0 same-person document pairs')
 
 
 def test_m8_remove_owned_dependency_safely(page):

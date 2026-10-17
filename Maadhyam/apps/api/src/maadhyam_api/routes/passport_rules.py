@@ -39,6 +39,8 @@ class VaultDocument(BaseModel):
 class PassportAssessmentRequest(BaseModel):
     assistanceType: Literal['fresh','reissue','correction','documents','police'] = 'fresh'
     applicantAgeGroup: Literal['adult','minor',''] = ''
+    applicantName: str = Field(default='', max_length=200)
+    applicantHouseholdMemberId: str | None = Field(default=None,max_length=128)
     applicantDateOfBirth: str = ''
     currentAddressMatches: Literal['yes','no','unsure',''] = ''
     hasIdentityDocument: Literal['yes','no','unsure',''] = ''
@@ -75,12 +77,29 @@ class Check(BaseModel):
     source_url: str = ''
     source_id: str = ''
 
+class ReadinessItem(BaseModel):
+    id: str
+    title: str
+    state: Literal['complete','missing','needs-review','difference','official-check']
+    reason: str
+    next_action: str
+    document_ids: list[str] = Field(default_factory=list)
+
+class PreparationReadiness(BaseModel):
+    percentage: int
+    completed_checks: int
+    total_checks: int
+    items: list[ReadinessItem]
+    official_acceptance_verified: bool = False
+    formula: str = 'round(100 × completed preparation checks / applicable preparation checks); each check has equal weight.'
+
 class AssessmentResponse(BaseModel):
     service: str = 'passport'
     ruleset_version: str
     official_requirements_verified: bool
     source_health: str
     checks: list[Check]
+    readiness: PreparationReadiness | None = None
     sources: list[dict]
     disclaimer: str = 'Official sources are referenced, but this is a preparation aid, not government acceptance or approval. Confirm your case in the Passport Seva Document Advisor and jurisdictional Passport Office.'
 
@@ -128,8 +147,63 @@ def make_check(rule, docs, answer='', allowed=None):
                  next_action=rule['action'], matching_document_ids=[d.id for d in matches],
                  alternatives=allowed, source_url=rule['source_url'], source_id=rule['source_id'])
 
+def preparation_readiness(request: PassportAssessmentRequest, checks: list[Check]) -> PreparationReadiness:
+    """Equal-weight preparation checks. Review is never official acceptance.
+
+    Applicable checks come from the actual pack/answers above. Missing values,
+    unrelated people and unreviewed OCR cannot complete an evidence requirement.
+    Official checks without an implemented confirmation remain pending.
+    """
+    from .intelligence import canonical_field, canonical_dob
+    items = [ReadinessItem(id='applicant-name',title='Applicant name',
+        state='complete' if request.applicantName.strip() else 'missing',
+        reason='Applicant name entered for this preparation.' if request.applicantName.strip() else 'Enter the name of the applicant for this preparation.',
+        next_action='Review the applicant name against the original records.')]
+    if request.assistanceType != 'police':
+        items.append(ReadinessItem(id='applicant-age',title='Applicant age group',
+            state='complete' if request.applicantAgeGroup else 'missing',
+            reason='Saved applicant age group supplied.' if request.applicantAgeGroup else 'The applicable adult/minor instructions cannot be selected yet.',
+            next_action='Answer the applicant age-group question.'))
+    by_id = {d.id:d for d in request.documents}
+    eligible = [d for d in request.documents if d.holder=='self' and (not d.householdMemberId or d.householdMemberId=='applicant')]
+    labels={'printedName':'Name on Document','dateOfBirth':'Date of Birth','residentialAddress':'Residential Address'}
+    for check in checks:
+        required_fields = (['printedName','residentialAddress'] if check.id=='address' else
+                           ['printedName','dateOfBirth'] if check.id in ('dob-old','dob-new') else
+                           ['printedName'] if check.id=='old-passport' else [])
+        candidates=[by_id[i] for i in check.matching_document_ids if i in by_id]
+        owned=[d for d in candidates if d in eligible]
+        reviewed=[d for d in owned if d.reviewed]
+        state='official-check';reason=check.reason;action=check.next_action
+        if required_fields:
+            differences=[f for f in required_fields if len({canonical_field(f,getattr(d,f)) for d in eligible if d.reviewed and getattr(d,f).strip() and (f!='dateOfBirth' or canonical_dob(getattr(d,f)))})>1]
+            complete=[d for d in reviewed if all(getattr(d,f).strip() and (f!='dateOfBirth' or canonical_dob(getattr(d,f))) for f in required_fields)]
+            if differences:
+                state='difference';reason='Reviewed applicant evidence differs: '+', '.join(labels[f] for f in differences)+'.';action='Compare originals, confirm ownership and investigate before considering a correction.'
+            elif check.status=='needs-attention':
+                state='missing';reason=check.reason;action='Reconcile the applicant answer with selected evidence, then re-run the checklist.'
+            elif complete:
+                state='complete';reason='Selected applicant-owned evidence has citizen-reviewed fields for this requirement. Official acceptance is still unverified.'
+            elif reviewed:
+                state='missing';reason='No reviewed candidate contains all required fields. Check '+ '; '.join(d.id+': '+', '.join(labels[f] for f in required_fields if not getattr(d,f).strip() or (f=='dateOfBirth' and not canonical_dob(getattr(d,f)))) for d in reviewed)+'.';action='Review extracted details against originals and enter the missing fields.'
+            elif owned:
+                state='needs-review';reason='Selected applicant evidence is present but has not been reviewed.';action='Review extracted details in Document Vault before counting this requirement complete.'
+            elif candidates:
+                reason='Only family-held or uncertain-owner evidence is available. It cannot complete this applicant requirement without checking official applicability.';action='Confirm document ownership and verify whether family evidence is accepted for this scenario.'
+            else:
+                state='missing';reason='No selected applicant evidence matches the applicable stored rule proof types.';action='Select relevant evidence, confirm ownership and review its details in Document Vault.'
+        items.append(ReadinessItem(id=check.id,title=check.title,state=state,reason=reason,next_action=action,document_ids=[d.id for d in candidates]))
+    completed=sum(item.state=='complete' for item in items)
+    return PreparationReadiness(percentage=int(100*completed/len(items)+0.5) if items else 0,completed_checks=completed,total_checks=len(items),items=items)
+
+
 @router.post('/assess', response_model=AssessmentResponse)
 def assess_passport(request: PassportAssessmentRequest):
+    if request.applicantHouseholdMemberId and request.applicantHouseholdMemberId != 'applicant':
+        # Scope the selected household applicant without changing saved Vault ownership.
+        selected=[d.model_copy(update={'holder':'self','householdMemberId':None}) for d in request.documents
+                  if d.householdMemberId==request.applicantHouseholdMemberId and d.associationConsent]
+        request=request.model_copy(update={'documents':selected})
     p = pack()
     rules = {r['id']: r for r in p['rules']}
     checks = []
@@ -178,7 +252,7 @@ def assess_passport(request: PassportAssessmentRequest):
             source_url='https://www.passportindia.gov.in/',source_id='passport-portal'))
     health = source_health()
     return AssessmentResponse(ruleset_version=p['version'],official_requirements_verified=False,
-        source_health=health,checks=checks,sources=p['sources'])
+        source_health=health,checks=checks,readiness=preparation_readiness(request,checks),sources=p['sources'])
 
 @router.get('/rules/status')
 def rules_status():

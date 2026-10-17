@@ -1,3 +1,5 @@
+import {serializeWorkspace} from '../utils/workspaceSnapshot';
+import {trackCloudSave} from './saveNotifications';
 
 import { getFirebaseToken } from "./firebaseClient";
 
@@ -90,7 +92,7 @@ export class CloudApplicationError extends Error {
   }
 }
 
-async function apiRequest<T>(
+async function performRequest<T>(
   path: string,
   init: RequestInit = {},
 ): Promise<T> {
@@ -128,6 +130,22 @@ async function apiRequest<T>(
   }
 
   return body as T;
+}
+
+async function apiRequest<T>(path:string,init:RequestInit={}):Promise<T>{
+ if(!init.method||init.method==='GET')return performRequest<T>(path,init);
+ const label=init.method==='DELETE'?'Application deleted':init.method==='POST'?'Preparation saved':init.body?.toString().includes('questionnaire_answers')?'Preparation saved':init.body?.toString().includes('household_state')?'Planner progress and household saved to cloud':'Application updated';
+ return trackCloudSave(`application:${path}`,label,async()=>{
+   const result=await performRequest<T>(path,init);
+   if(init.method!=='DELETE'){
+     const record=result as CloudApplication;
+     if(!record||typeof record.id!=='string'||!Number.isInteger(record.revision)||typeof record.updated_at!=='string')throw new Error('Invalid cloud save acknowledgment. Changes remain local.');
+     const payload=JSON.parse(String(init.body)) as CreateCloudApplication & {revision?:number};
+     if((payload.client_id&&record.id!==payload.client_id)||(path&&record.id!==decodeURIComponent(path.slice(1)))||(payload.revision!==undefined&&record.revision<=payload.revision))throw new Error('Cloud acknowledgment has the wrong preparation or revision.');
+     for(const key of ['household_state','planner_state','questionnaire_answers'] as const){if(payload[key]&&serializeWorkspace(payload[key])!==serializeWorkspace(record[key]))throw new Error('Cloud acknowledgment differs from the submitted snapshot. Retry after reviewing the saved preparation.');}
+   }
+   return result;
+ });
 }
 
 export const cloudApplications = {
