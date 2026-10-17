@@ -365,7 +365,7 @@ export default function DocumentVault() {
   const preview = documents.find((document) => document.id === previewId);
 
   return (
-    <div className="mx-auto w-full max-w-[1560px] space-y-7 pb-24">
+    <div className="w-full space-y-7 pb-24">
       <PageHero eyebrow="Document workspace" title="Document Vault" description="Organize and preview documents for government-service preparation. Choose consented private cloud storage or local-only files with an optional browser cache." />
 
       <section aria-label="Local Vault storage controls" className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">

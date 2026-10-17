@@ -81,3 +81,15 @@ html.dark [aria-label="Maadhyam AI assistant"] [class~="bg-white"] { background:
 html.dark [aria-label="Maadhyam AI assistant"] [class~="bg-[#f2f8f8]"] { background:#203f40!important; }
 html.dark [aria-label="Maadhyam AI assistant"] [class~="bg-amber-50"] { background:#382d21!important; }
 html.dark [class~="rounded-full"][class~="bg-slate-200"] { background:#1b615d!important; color:#eafffa!important; }
+
+/* AppLayout owns page width and padding. Scale the dashboard title within its hero. */
+.dashboard-headline { font-size: clamp(1.5rem, 2.55vw, 2.25rem); line-height: 1.2; }
+.assistant-panel { height: min(660px, calc(100dvh - 32px)); }
+.assistant-panel > * { flex-shrink: 0; }
+.assistant-panel .assistant-scroll { flex: 1 1 auto; min-height: 0; overscroll-behavior: contain; overflow-wrap: anywhere; }
+@media (max-height: 600px) {
+  .assistant-panel { height: calc(100dvh - 24px); }
+  .assistant-panel .assistant-header { padding-block: 8px; }
+  .assistant-panel #assistant-suggestions { max-height: 15dvh; }
+  .assistant-panel .assistant-notice { padding-block: 4px; font-size: 10px; line-height: 1.4; }
+}

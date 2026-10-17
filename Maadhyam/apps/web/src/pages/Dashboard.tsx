@@ -34,7 +34,6 @@ export default function Dashboard() {
 
   const comparison=compareDocuments(documents,new Set(members.map(m=>m.id)));
   const findings=comparison.comparisons.filter(c=>c.status==='difference'&&!c.needsReview);
-  const resume=applications.find(a=>a.journey&&a.status!=='completed')??applications.find(a=>a.journey);
   const active = applications.filter(app => app.journey && app.status !== "completed").length;
 
   const completedIds = new Set(plannerCompleted);
@@ -94,9 +93,9 @@ export default function Dashboard() {
             Your citizen workspace
           </span>
 
-          <h1 className="mt-5 text-3xl font-bold tracking-tight sm:text-4xl">
-            Your documents. Your next step.{" "}
-            <span className="text-[#91e0db]">Made clearer.</span>
+          <h1 className="dashboard-headline mt-5 font-bold tracking-tight">
+            <span className="block">Your documents. Your next step.</span>
+            <span className="block text-[#91e0db]">Made clearer.</span>
           </h1>
 
           <p className="mt-4 max-w-xl text-sm leading-7 text-blue-100">
@@ -106,14 +105,6 @@ export default function Dashboard() {
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              to={resume?`/services/passport/journey?preparation=${encodeURIComponent(resume.id)}`:"/services/passport/journey"}
-              className="inline-flex items-center gap-2 rounded-xl bg-[#2FE9C2] px-5 py-3 text-sm font-bold text-[#123044] transition hover:bg-[#7CF5DC]"
-            >
-              {resume?'Resume your preparation':'Start passport preparation'}
-              <ArrowRight size={17} />
-            </Link>
-
             <Link
               to="/services"
               className="inline-flex items-center gap-2 rounded-xl border border-white/30 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
@@ -126,7 +117,7 @@ export default function Dashboard() {
         <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full border-[42px] border-white/5" />
       </section>
 
-      <section className={card} aria-label="Discover supported services"><h2 className={`font-bold ${heading}`}>Find your service</h2><form action="/services" method="get" className="mt-3 flex flex-wrap gap-3"><input type="search" name="q" aria-label="Search services from landing" placeholder="Passport, Aadhaar, EPFO…" className="min-w-0 flex-1 rounded-xl border border-slate-300 bg-white p-3 text-slate-900"/><button className="rounded-xl bg-[#147d83] px-4 py-3 font-semibold text-white">Find services</button></form><p className={`mt-3 text-sm ${muted}`}>Passport: guided preparation · Aadhaar and EPFO: advisory service information.</p><div className={`mt-3 flex flex-wrap gap-4 text-sm ${accent}`}><Link to="/services/passport" className="underline">Passport assistance</Link><Link to="/services?q=Aadhaar" className="underline">Aadhaar guidance</Link><Link to="/services?q=EPFO" className="underline">EPFO guidance</Link></div></section>
+      <section className={card} aria-label="Discover supported services"><h2 className={`font-bold ${heading}`}>Find your service</h2><form action="/services" method="get" className="mt-3 flex flex-wrap gap-3"><input type="search" name="q" aria-label="Search services from landing" placeholder="Passport, Aadhaar, EPFO…" className="min-w-0 flex-1 rounded-xl border border-slate-300 bg-white p-3 text-slate-900"/><button className="rounded-xl bg-[#147d83] px-4 py-3 font-semibold text-white">Find services</button></form><h3 className={`mt-4 text-sm font-semibold ${heading}`}>Quick links</h3><div className={`mt-3 flex flex-wrap gap-4 text-sm ${accent}`}><Link to="/services/passport" className="underline">Passport assistance</Link><Link to="/services?q=Aadhaar" className="underline">Aadhaar guidance</Link><Link to="/services?q=EPFO" className="underline">EPFO guidance</Link></div></section>
       <PreparationJourneyProgress/>
       <section
         aria-label="Workspace overview"

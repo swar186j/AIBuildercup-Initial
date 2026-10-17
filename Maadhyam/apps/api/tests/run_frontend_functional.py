@@ -283,7 +283,8 @@ def assistant_error(page):
     page.goto('/documents')
     page.get_by_role('button',name='Open Maadhyam AI').click()
     dialog=page.get_by_role('dialog',name='Maadhyam AI assistant')
-    dialog.get_by_label('Message to Maadhyam AI').fill('Help with passport preparation')
+    # Product guidance is intentionally offline; use an evidence question to test API failure.
+    dialog.get_by_label('Message to Maadhyam AI').fill('How many reviewed documents do I have?')
     dialog.get_by_role('button',name='Send message').click()
     dialog.get_by_text('Assistant unavailable.',exact=False).wait_for(timeout=12000)
     require('Check backend connection' in dialog.inner_text(),'Assistant failure explanation missing')

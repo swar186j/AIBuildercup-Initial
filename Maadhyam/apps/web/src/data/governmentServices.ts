@@ -386,3 +386,56 @@ export function filterGovernmentServices(query: string, category: ServiceCategor
     return tokens.every(token => token.length <= 3 ? words.includes(token) : haystack.includes(token));
   });
 }
+
+/** Discovery projection only: the flat catalogue remains the compatibility contract.
+ * Each source ID belongs to exactly one family. Existing umbrella records become
+ * parent summaries; all other records keep their IDs as children. See QA mapping.
+ */
+export type ServiceFamily = {
+  id: string; title: string; description: string; category: ServiceCategory;
+  status: 'guided-preview' | 'coming-soon'; supportedRoute?: '/services/passport';
+  sourceIds: string[]; children: CatalogueService[];
+};
+const familyDefinitions: {id: string; title: string; category: ServiceCategory; umbrella?: string; matches: (s: CatalogueService) => boolean}[] = [
+  {id:'passport',title:'Passport Seva',category:'identity',umbrella:'passport',matches:s=>s.id==='passport'},
+  {id:'aadhaar',title:'Aadhaar Services',category:'identity',umbrella:'aadhaar',matches:s=>s.id==='aadhaar'||s.id.startsWith('aadhaar-')},
+  {id:'epfo',title:'EPFO Services',category:'welfare',umbrella:'epfo',matches:s=>s.id==='epfo'||/^(epfo-|epf-|eps-)/.test(s.id)},
+  {id:'birth-registration',title:'Birth Registration',category:'family',umbrella:'birth-registration',matches:s=>s.id.startsWith('birth-')},
+  {id:'death-registration',title:'Death Registration',category:'family',umbrella:'death-registration',matches:s=>s.id.startsWith('death-')},
+  {id:'marriage-registration',title:'Marriage Registration',category:'family',umbrella:'marriage-registration',matches:s=>s.id.startsWith('marriage-')},
+  {id:'voter-services',title:'Voter Services',category:'governance',matches:s=>/voter|electoral|epic/.test(s.id)},
+  {id:'transport-rto',title:'Transport / RTO Services',category:'transport',matches:s=>s.category==='transport'},
+  {id:'income-tax',title:'Income Tax Services',category:'tax',matches:s=>/^(pan-|tan-|income-tax-|form-26as|annual-information|advance-tax)/.test(s.id)},
+  {id:'gst-services',title:'GST Services',category:'tax',matches:s=>s.id.startsWith('gst-')},
+  {id:'esic-services',title:'ESIC Services',category:'welfare',matches:s=>s.id.startsWith('esic-')},
+  {id:'ration-food',title:'Ration Card & Food Subsidy',category:'welfare',matches:s=>/^(ration-|food-subsidy)/.test(s.id)},
+  {id:'pm-kisan',title:'PM-KISAN Services',category:'agriculture',matches:s=>s.id.startsWith('pm-kisan-')},
+  ...serviceCategories.map(category=>({id:`category-${category.id}`,title:category.label,category:category.id,matches:(s: CatalogueService)=>s.category===category.id})),
+];
+const grouped = new Map<string, CatalogueService[]>();
+for (const service of governmentServices) {
+  const definition = familyDefinitions.find(family=>family.matches(service))!;
+  grouped.set(definition.id, [...(grouped.get(definition.id) ?? []), service]);
+}
+export const serviceFamilies: ServiceFamily[] = familyDefinitions.flatMap(definition=>{
+  const entries = grouped.get(definition.id);
+  if (!entries) return [];
+  const umbrella = entries.find(s=>s.id===definition.umbrella);
+  return [{id:definition.id, title:definition.title, category:definition.category,
+    description:umbrella?.description ?? `Explore related services in ${definition.title}. Guided preparation is Coming Soon.`,
+    status:umbrella?.status ?? 'coming-soon', supportedRoute:umbrella?.supportedRoute,
+    sourceIds:entries.map(s=>s.id), children:entries.filter(s=>s.id!==definition.umbrella)}];
+});
+
+export function filterServiceFamilies(query: string, category: ServiceCategory | 'all' = 'all') {
+  const matchingIds = new Set(filterGovernmentServices(query, category).map(s=>s.id));
+  const tokens = normalizeServiceSearch(query).split(' ').filter(Boolean);
+  return serviceFamilies.flatMap(family=>{
+    const inCategory = (s: CatalogueService)=>category==='all'||(s.categories??[s.category]).includes(category);
+    const familyMatches = tokens.every(token=>normalizeServiceSearch(family.title).split(' ').some(word=>token.length<=3?word===token:word.includes(token))) &&
+      (category==='all'||family.category===category||governmentServices.some(s=>family.sourceIds.includes(s.id)&&inCategory(s)));
+    const matchingChildren = family.children.filter(s=>matchingIds.has(s.id));
+    if (!familyMatches && !family.sourceIds.some(id=>matchingIds.has(id))) return [];
+    return [{...family, matchingChildren, displayedChildren:familyMatches?family.children.filter(inCategory):matchingChildren}];
+  });
+}

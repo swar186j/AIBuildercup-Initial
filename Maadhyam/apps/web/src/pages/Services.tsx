@@ -6,7 +6,7 @@ import {
   BriefcaseBusiness, Sprout, House, Plug, Scale, Shield, Globe, Monitor,
   Users, BadgeIndianRupee, Building2, Trophy,
 } from "lucide-react";
-import { filterGovernmentServices, governmentServices, serviceCategories, type ServiceCategory } from "../data/governmentServices";
+import { filterServiceFamilies, governmentServices, serviceCategories, type ServiceCategory } from "../data/governmentServices";
 
 const PAGE_SIZE = 12;
 const categoryIcons = {
@@ -22,7 +22,7 @@ export default function Services() {
   const [query, setQuery] = useState(() => new URLSearchParams(window.location.search).get('q') ?? '');
   const [category, setCategory] = useState<ServiceCategory | 'all'>('all');
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
-  const filtered = filterGovernmentServices(query, category);
+  const filtered = filterServiceFamilies(query, category);
   const visible = filtered.slice(0, visibleCount);
   function resetFilters() {
     setQuery('');
@@ -31,7 +31,7 @@ export default function Services() {
   }
 
   return (
-    <div>
+    <div className="pb-24">
       <PageHero eyebrow="Service Navigator" title="Find a government service" description="Explore guided preparation journeys for government services. Passport Seva has an interactive preview; additional services are being developed." />
 
       <div className="relative mt-8 max-w-xl">
@@ -54,13 +54,13 @@ export default function Services() {
           className="rounded-xl px-4 py-3 text-sm font-semibold text-teal-700 underline focus-visible:outline-2 focus-visible:outline-offset-2">Reset Filters</button>}
       </div>
       <p role="status" aria-live="polite" aria-atomic="true" className="mt-4 text-sm text-slate-600">
-        Showing {visible.length} of {filtered.length} services{filtered.length !== governmentServices.length ? ` (${governmentServices.length} in the catalogue)` : ''}
+        Showing {visible.length} of {filtered.length} service families · {governmentServices.length} catalogue records
       </p>
       <p className="mt-2 text-xs leading-6 text-slate-500">A curated catalogue, not a complete government directory. State-specific services depend on your state or local authority; other availability varies by scheme, provider or jurisdiction. Coming Soon services are not available through Maadhyam.</p>
 
       <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3" aria-label="Government service catalogue">
         {visible.map(service => {
-          const isPassport = service.status === 'guided-preview';
+          const isPassport = service.status === 'guided-preview' && service.supportedRoute === '/services/passport';
           const Icon = categoryIcons[service.category];
           return (
             <article key={service.id} data-service-id={service.id}
@@ -69,15 +69,25 @@ export default function Services() {
                 <Icon size={23} aria-hidden="true" />
               </div>
               <h2 className="text-xl font-bold text-[#173f68]">{service.title}</h2>
-              <p className="mt-3 min-h-16 flex-1 text-sm leading-6 text-slate-600">{service.description}</p>
-              {!isPassport && <p className="mt-3 text-xs leading-5 text-slate-500">{serviceCategories.find(item => item.id === service.category)?.label} · {scopeLabels[service.scope]}</p>}
+              <p className="mt-3 flex-1 text-sm leading-6 text-slate-600">{service.description}</p>
+              <details key={`${service.id}-${query}-${category}`} open={query.trim() ? true : undefined} className="mt-4 text-sm">
+                <summary className="cursor-pointer rounded-lg py-2 font-semibold text-[#126a70] focus-visible:outline-2">{service.displayedChildren.length ? `View related services (${service.displayedChildren.length})` : 'Preparation information'}</summary>
+                <ul className="mt-2 space-y-3">
+                  {service.displayedChildren.map(child=><li key={child.id} data-child-id={child.id} className={`rounded-xl border p-3 ${query.trim() && service.matchingChildren.some(s=>s.id===child.id) ? 'border-teal-600 bg-teal-50' : 'border-slate-200 bg-slate-50'}`}>
+                    <h3 className="font-semibold text-[#173f68]">{child.title}</h3>
+                    <p className="mt-1 leading-6 text-slate-600">{child.description}</p>
+                    <p className="mt-2 text-xs text-slate-500">{scopeLabels[child.scope]} · Guided preparation Coming Soon</p>
+                  </li>)}
+                </ul>
+                {isPassport && <p className="mt-2 leading-6 text-slate-600">New passport, reissue and correction preparation, document review and police verification guidance are available through the Passport preview below. Official applications are completed on the official portal.</p>}
+              </details>
               <div className="mt-6 border-t border-slate-100 pt-5">
                 {isPassport ? <>
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-[#eaf3f5] px-3 py-1 text-xs font-semibold text-[#126a70]">
                     <Sparkles size={13} aria-hidden="true" />Guided preview available
                   </span>
                   <p className="mt-3 text-xs text-slate-600">New passport · Reissue · Correction · Document preparation · Police verification guidance</p>
-                  <Link to={service.supportedRoute} className="mt-5 flex items-center justify-between rounded-xl bg-[#147d83] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#126a70] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#147d83]">
+                  <Link to="/services/passport" className="mt-5 flex items-center justify-between rounded-xl bg-[#147d83] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#126a70] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#147d83]">
                     Explore Passport Seva<ArrowRight size={18} aria-hidden="true" />
                   </Link>
                 </> : <span className="inline-flex rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">Coming Soon</span>}

@@ -1,0 +1,9 @@
+PASS FE01 Dashboard renders
+PASS FE02 Document Vault route and upload control
+PASS FE03 Fictional document upload stays local and needs review
+PASS FE04 Passport Guided Journey renders
+PASS FE05 Planner displays API-generated steps
+PASS FE06 Assistant opens and accepts local prompt
+PASS FE07 No uncaught browser page errors across core routes
+
+7 passed, 0 failed. Report: /Users/swar/Documents/Edu/AIBuilderCup/Draft1/AIBuildercup-Initial/qa/evidence/ui-ux-corrections/final/legacy-smoke.json

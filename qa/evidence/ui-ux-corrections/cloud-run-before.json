@@ -1,0 +1,11 @@
+{
+  "metadata": {
+    "name": "maadhyam-api-00004-xay"
+  },
+  "spec": {
+    "serviceAccountName": "maadhyam-api@maadhyam-1610.iam.gserviceaccount.com"
+  },
+  "status": {
+    "imageDigest": "asia-south1-docker.pkg.dev/maadhyam-1610/maadhyam-api/maadhyam-api@sha256:792a773d6ad164e24f26d3a4f6d02b8d2f8572397f0e363e70bb4bef1fa0dd73"
+  }
+}

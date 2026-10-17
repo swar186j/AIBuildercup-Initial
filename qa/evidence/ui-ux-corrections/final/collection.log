@@ -1,0 +1,304 @@
+qa/test_browser.py::test_navigation[1440-/-]
+qa/test_browser.py::test_navigation[1440-/services-Find a government service]
+qa/test_browser.py::test_navigation[1440-/documents-Document Vault]
+qa/test_browser.py::test_navigation[1440-/applications-My Preparations]
+qa/test_browser.py::test_navigation[1440-/planner-Resolution Planner]
+qa/test_browser.py::test_navigation[1440-/workflows-Citizen workflow assistant]
+qa/test_browser.py::test_navigation[1440-/services/passport-]
+qa/test_browser.py::test_navigation[1440-/services/passport/journey?type=fresh-]
+qa/test_browser.py::test_navigation[390-/-]
+qa/test_browser.py::test_navigation[390-/services-Find a government service]
+qa/test_browser.py::test_navigation[390-/documents-Document Vault]
+qa/test_browser.py::test_navigation[390-/applications-My Preparations]
+qa/test_browser.py::test_navigation[390-/planner-Resolution Planner]
+qa/test_browser.py::test_navigation[390-/workflows-Citizen workflow assistant]
+qa/test_browser.py::test_navigation[390-/services/passport-]
+qa/test_browser.py::test_navigation[390-/services/passport/journey?type=fresh-]
+qa/test_browser.py::test_hero[/services-Service Navigator-Find a government service]
+qa/test_browser.py::test_hero[/documents-Document workspace-Document Vault]
+qa/test_browser.py::test_hero[/applications-Your preparation workspace-My Preparations]
+qa/test_browser.py::test_hero[/workflows-Maadhyam \xb7 Guided preparation-Citizen workflow assistant]
+qa/test_browser.py::test_vault_review_session
+qa/test_browser.py::test_vault_optin_clear
+qa/test_browser.py::test_vault_invalid[empty]
+qa/test_browser.py::test_vault_invalid[unsupported]
+qa/test_browser.py::test_vault_invalid[oversized]
+qa/test_browser.py::test_vault_invalid[malformed]
+qa/test_browser.py::test_ocr[missing]
+qa/test_browser.py::test_ocr[success]
+qa/test_browser.py::test_ocr[malformed]
+qa/test_browser.py::test_passport_guided[True]
+qa/test_browser.py::test_passport_guided[False]
+qa/test_browser.py::test_planner_documents[0]
+qa/test_browser.py::test_planner_documents[1]
+qa/test_browser.py::test_planner_documents[3]
+qa/test_browser.py::test_planner_unexpected[/api/intelligence/passport-plan-body0]
+qa/test_browser.py::test_planner_unexpected[/api/intelligence/reasoning-body1]
+qa/test_browser.py::test_planner_unexpected[/api/intelligence/reasoning-body2]
+qa/test_browser.py::test_planner_unexpected[/api/intelligence/passport-plan-body3]
+qa/test_browser.py::test_planner_api_failure[/api/intelligence/passport-plan]
+qa/test_browser.py::test_planner_api_failure[/api/intelligence/reasoning]
+qa/test_browser.py::test_reasoning_whatif_family
+qa/test_browser.py::test_citizen_workflow[False-human-support-Human assistance]
+qa/test_browser.py::test_citizen_workflow[False-life-event-discovery-Life-event discovery]
+qa/test_browser.py::test_citizen_workflow[False-multi-department-rules-Multi-department guidance]
+qa/test_browser.py::test_citizen_workflow[False-rejection-diagnosis-Rejection diagnosis]
+qa/test_browser.py::test_citizen_workflow[False-legacy-reconstruction-Legacy record recovery]
+qa/test_browser.py::test_citizen_workflow[False-authority-bottlenecks-Authority bottlenecks]
+qa/test_browser.py::test_citizen_workflow[False-deadline-rescue-Deadline rescue]
+qa/test_browser.py::test_citizen_workflow[False-visit-eliminator-Visit reduction planner]
+qa/test_browser.py::test_citizen_workflow[True-human-support-Human assistance]
+qa/test_browser.py::test_citizen_workflow[True-life-event-discovery-Life-event discovery]
+qa/test_browser.py::test_citizen_workflow[True-multi-department-rules-Multi-department guidance]
+qa/test_browser.py::test_citizen_workflow[True-rejection-diagnosis-Rejection diagnosis]
+qa/test_browser.py::test_citizen_workflow[True-legacy-reconstruction-Legacy record recovery]
+qa/test_browser.py::test_citizen_workflow[True-authority-bottlenecks-Authority bottlenecks]
+qa/test_browser.py::test_citizen_workflow[True-deadline-rescue-Deadline rescue]
+qa/test_browser.py::test_citizen_workflow[True-visit-eliminator-Visit reduction planner]
+qa/test_browser.py::test_assistant[local]
+qa/test_browser.py::test_assistant[missing]
+qa/test_browser.py::test_assistant[429]
+qa/test_browser.py::test_assistant[timeout]
+qa/test_browser.py::test_assistant[malformed]
+qa/test_browser.py::test_preparations_session_and_layout
+qa/test_browser.py::test_workflow_required_inputs[human-support-Human assistance-What problem are you facing?-Please describe the problem]
+qa/test_browser.py::test_workflow_required_inputs[rejection-diagnosis-Rejection diagnosis-What reason was given for rejection?-Please describe the rejection]
+qa/test_browser.py::test_workflow_required_inputs[legacy-reconstruction-Legacy record recovery-Which old document do you need?-Please enter the document type]
+qa/test_browser.py::test_workflow_required_inputs[deadline-rescue-Deadline rescue-What is your target date?-Choose a target date]
+qa/test_browser.py::test_supported_fictional_documents[pdf-aadhaar]
+qa/test_browser.py::test_supported_fictional_documents[pdf-pan]
+qa/test_browser.py::test_supported_fictional_documents[pdf-address]
+qa/test_browser.py::test_supported_fictional_documents[png-aadhaar]
+qa/test_browser.py::test_supported_fictional_documents[png-pan]
+qa/test_browser.py::test_supported_fictional_documents[png-address]
+qa/test_browser.py::test_supported_fictional_documents[jpg-aadhaar]
+qa/test_browser.py::test_supported_fictional_documents[jpg-pan]
+qa/test_browser.py::test_supported_fictional_documents[jpg-address]
+qa/test_browser.py::test_assistant_reviewed_context
+qa/test_browser.py::test_planner_malformed_advanced_fields[minimumCorrectionPath]
+qa/test_browser.py::test_planner_malformed_advanced_fields[identityEvolution]
+qa/test_browser.py::test_planner_malformed_advanced_fields[proofSubstitution]
+qa/test_browser.py::test_planner_malformed_advanced_fields[deadlockAnalysis]
+qa/test_browser.py::test_planner_malformed_advanced_fields[deadlineRescue]
+qa/test_completion.py::test_m5_resume_edit_multiple
+qa/test_completion.py::test_m5_reload_consent[False]
+qa/test_completion.py::test_m5_reload_consent[True]
+qa/test_completion.py::test_m5_malformed_saved[not-json]
+qa/test_completion.py::test_m5_malformed_saved[{"schemaVersion":0,"records":[]}]
+qa/test_completion.py::test_m5_malformed_saved[{"schemaVersion":1,"records":[{"id":"LOCAL-broken","journey":{}}]}]
+qa/test_completion.py::test_m7_expiry_ui[2000-01-01-2099-02-01-already expired]
+qa/test_completion.py::test_m7_expiry_ui[2099-01-01-2099-02-01-expires before target]
+qa/test_completion.py::test_m7_expiry_ui[-2099-02-01-No expiry conflicts detected]
+qa/test_completion.py::test_m7_rule_comparison[False]
+qa/test_completion.py::test_m7_rule_comparison[True]
+qa/test_completion.py::test_m7_rule_errors[missing-baseline]
+qa/test_completion.py::test_m7_rule_errors[malformed-result]
+qa/test_completion.py::test_m7_rule_errors[invalid-version]
+qa/test_completion.py::test_m7_weighted_paths[cost]
+qa/test_completion.py::test_m7_weighted_paths[days]
+qa/test_completion.py::test_m7_optimizer_cycle_invalid
+qa/test_completion.py::test_m8_members_ownership_dependencies
+qa/test_completion.py::test_m8_cycle_edit_delete
+qa/test_completion.py::test_m8_session_isolation
+qa/test_completion.py::test_cross_milestone_household_assistant
+qa/test_completion.py::test_m5_selected_type_and_delete
+qa/test_completion.py::test_completion_mobile[/planner]
+qa/test_completion.py::test_completion_mobile[/household]
+qa/test_completion.py::test_completion_mobile[/applications]
+qa/test_completion.py::test_completion_unexpected_results[/api/intelligence/advanced-plan-Find recommended path-Weighted correction optimizer]
+qa/test_completion.py::test_completion_unexpected_results[/api/passport/rules/compare-Compare preparation impact-Government rule change impact analyzer]
+qa/test_completion.py::test_completion_unexpected_results[/api/household/assess-Analyze household dependencies-Household members]
+qa/test_completion.py::test_m8_distinct_parents_do_not_compare_as_one_person
+qa/test_completion.py::test_m8_remove_owned_dependency_safely
+qa/test_final_journeys.py::test_journey_a_passport_full
+qa/test_final_journeys.py::test_m5_document_references_isolated_and_missing
+qa/test_final_journeys.py::test_m5_invalid_deleted_id[missing]
+qa/test_final_journeys.py::test_m5_invalid_deleted_id[deleted]
+qa/test_final_journeys.py::test_m5_repeated_create_click
+qa/test_final_journeys.py::test_storage_failure_usable_workspace[read-denied]
+qa/test_final_journeys.py::test_storage_failure_usable_workspace[write-denied]
+qa/test_final_journeys.py::test_storage_failure_usable_workspace[indexeddb]
+qa/test_final_journeys.py::test_passport_malformed_response[body0]
+qa/test_final_journeys.py::test_passport_malformed_response[body1]
+qa/test_final_journeys.py::test_passport_malformed_response[body2]
+qa/test_final_journeys.py::test_journey_b_identity_whatif
+qa/test_final_journeys.py::test_journey_c_address_continuity
+qa/test_final_journeys.py::test_journey_d_deadline_dependencies_expiry
+qa/test_final_journeys.py::test_journey_e_household_consent_withdrawal
+qa/test_final_journeys.py::test_journey_f_rule_saved_preparation
+qa/test_final_journeys.py::test_journey_g_assistant_grounding_provider_failure
+qa/test_final_journeys.py::test_journey_h_all_workflows_mobile
+qa/test_final_journeys.py::test_workflow_contract_error_retry[malformed-human-support-Human assistance]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[malformed-life-event-discovery-Life-event discovery]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[malformed-multi-department-rules-Multi-department guidance]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[malformed-rejection-diagnosis-Rejection diagnosis]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[malformed-legacy-reconstruction-Legacy record recovery]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[malformed-authority-bottlenecks-Authority bottlenecks]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[malformed-deadline-rescue-Deadline rescue]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[malformed-visit-eliminator-Visit reduction planner]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[invalid-input-human-support-Human assistance]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[invalid-input-life-event-discovery-Life-event discovery]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[invalid-input-multi-department-rules-Multi-department guidance]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[invalid-input-rejection-diagnosis-Rejection diagnosis]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[invalid-input-legacy-reconstruction-Legacy record recovery]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[invalid-input-authority-bottlenecks-Authority bottlenecks]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[invalid-input-deadline-rescue-Deadline rescue]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[invalid-input-visit-eliminator-Visit reduction planner]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[loading-retry-human-support-Human assistance]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[loading-retry-life-event-discovery-Life-event discovery]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[loading-retry-multi-department-rules-Multi-department guidance]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[loading-retry-rejection-diagnosis-Rejection diagnosis]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[loading-retry-legacy-reconstruction-Legacy record recovery]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[loading-retry-authority-bottlenecks-Authority bottlenecks]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[loading-retry-deadline-rescue-Deadline rescue]
+qa/test_final_journeys.py::test_workflow_contract_error_retry[loading-retry-visit-eliminator-Visit reduction planner]
+qa/test_final_journeys.py::test_household_stale_response_after_edit
+qa/test_final_journeys.py::test_workflow_stale_response_after_switch
+qa/test_final_journeys.py::test_m7_malformed_expiry_conflict
+qa/test_final_journeys.py::test_keyboard_modal_focus_escape[preparations]
+qa/test_final_journeys.py::test_keyboard_modal_focus_escape[vault-edit]
+qa/test_final_journeys.py::test_keyboard_modal_focus_escape[vault-preview]
+qa/test_final_journeys.py::test_keyboard_modal_focus_escape[vault-ocr]
+qa/test_final_journeys.py::test_assistant_focus_escape_and_stale_reset
+qa/test_final_journeys.py::test_m5_both_persistence_consents_and_delete_reload
+qa/test_final_journeys.py::test_m8_owned_payloads_passport_planner_family
+qa/test_final_journeys.py::test_m7_expiry_on_after_target[2099-01-01-expires on target]
+qa/test_final_journeys.py::test_m7_expiry_on_after_target[2098-01-01-No expiry conflicts detected]
+qa/test_final_journeys.py::test_nested_invalid_results_recover[/api/intelligence/advanced-plan-body0-Find recommended path]
+qa/test_final_journeys.py::test_nested_invalid_results_recover[/api/household/assess-body1-Analyze household dependencies]
+qa/test_final_journeys.py::test_session_clear_when_indexeddb_denied
+qa/test_final_journeys.py::test_m5_saved_service_not_overwritten_by_missing_url_type
+qa/test_final_journeys.py::test_m6_old_plan_hidden_while_evidence_changes
+qa/test_final_journeys.py::test_m5_future_birth_date_not_saved
+qa/test_http.py::test_rule_change_impact[payload0-200]
+qa/test_http.py::test_rule_change_impact[payload1-422]
+qa/test_http.py::test_optimizer[False]
+qa/test_http.py::test_optimizer[True]
+qa/test_http.py::test_circular_workflow[authority-bottlenecks]
+qa/test_http.py::test_circular_workflow[deadline-rescue]
+qa/test_http.py::test_circular_workflow[visit-eliminator]
+qa/test_http.py::test_chat_validation[payload0-422]
+qa/test_http.py::test_chat_validation[payload1-403]
+qa/test_http.py::test_chat_validation[payload2-503]
+qa/test_http.py::test_expiry[2000-01-01-already-expired]
+qa/test_http.py::test_expiry[wrong-invalid-expiry-date]
+qa/test_http.py::test_completion_available_versions_and_baseline_validation
+qa/test_http.py::test_completion_household_http_validation[consent]
+qa/test_http.py::test_completion_household_http_validation[owner]
+qa/test_http.py::test_completion_household_http_validation[member-reference]
+qa/test_http.py::test_completion_household_http_validation[evidence-reference]
+qa/test_http.py::test_completion_household_http_owner_isolation
+qa/test_m12_1_regressions.py::test_household_first_save_reload_exact_identity_and_timestamps
+qa/test_m12_1_regressions.py::test_household_failed_save_preserves_edits_and_retry[401]
+qa/test_m12_1_regressions.py::test_household_failed_save_preserves_edits_and_retry[404]
+qa/test_m12_1_regressions.py::test_household_failed_save_preserves_edits_and_retry[409]
+qa/test_m12_1_regressions.py::test_household_failed_save_preserves_edits_and_retry[503]
+qa/test_m12_1_regressions.py::test_household_missing_ack_slow_response_and_newer_edits
+qa/test_m12_1_regressions.py::test_household_malformed_ack_is_failure
+qa/test_m12_1_regressions.py::test_simple_optimizer_priority_and_unknown_estimates[balanced]
+qa/test_m12_1_regressions.py::test_simple_optimizer_priority_and_unknown_estimates[cost]
+qa/test_m12_1_regressions.py::test_simple_optimizer_priority_and_unknown_estimates[days]
+qa/test_m12_1_regressions.py::test_simple_optimizer_priority_and_unknown_estimates[visits]
+qa/test_m12_1_regressions.py::test_same_rule_version_disabled_hypothetical_is_explicit
+qa/test_m12_1_regressions.py::test_missing_field_what_if_no_false_conflict_and_reset[printedName-Fictional Filled Name]
+qa/test_m12_1_regressions.py::test_missing_field_what_if_no_false_conflict_and_reset[dateOfBirth-2020-11-10]
+qa/test_m12_1_regressions.py::test_findings_friendly_missing_fields_and_no_unrelated_family_blocker[True]
+qa/test_m12_1_regressions.py::test_findings_friendly_missing_fields_and_no_unrelated_family_blocker[False]
+qa/test_m12_1_regressions.py::test_comparison_engine_identity_review_missing_and_pure_simulation
+qa/test_m12_1_regressions.py::test_what_if_same_owner_separates_confirmed_provisional_and_missing[True-False]
+qa/test_m12_1_regressions.py::test_what_if_same_owner_separates_confirmed_provisional_and_missing[False-False]
+qa/test_m12_1_regressions.py::test_what_if_same_owner_separates_confirmed_provisional_and_missing[False-True]
+qa/test_m12_1_regressions.py::test_distinct_stored_versions_and_same_selection
+qa/test_m12_1_regressions.py::test_existing_household_revision_conflict_retry_does_not_hydrate_away_edits
+qa/test_m12_1_regressions.py::test_delayed_authentication_household_save_waits_for_real_request
+qa/test_m12_1_regressions.py::test_selected_saved_applicant_age_is_used_in_planner
+qa/test_m12_1_regressions.py::test_malformed_cloud_document_response_preserves_usable_vault[body0]
+qa/test_m12_1_regressions.py::test_malformed_cloud_document_response_preserves_usable_vault[body1]
+qa/test_m12_1_regressions.py::test_malformed_cloud_document_response_preserves_usable_vault[body2]
+qa/test_m12_1_regressions.py::test_orphaned_owner_id_requires_assignment_before_comparison
+qa/test_m12_1_regressions.py::test_wireframe_discovery_search_service_selection_and_assistant
+qa/test_m12_1_regressions.py::test_wireframe_dynamic_readiness_requires_review_and_correct_owner
+qa/test_m12_1_regressions.py::test_wireframe_pages_add_no_new_route_or_fake_progress
+qa/test_m12_1_regressions.py::test_notifications_repeated_save_has_one_current_operation_notice
+qa/test_m12_1_regressions.py::test_household_real_fastapi_contract_save_reload_and_server_defaults
+qa/test_m12_1_regressions.py::test_planner_saved_checklist_target_and_dependency_cascade
+qa/test_m12_1_regressions.py::test_document_slow_metadata_ack_keeps_newer_edits
+qa/test_m12_persistence.py::test_confirmed_save_hard_refresh_exact_step[0]
+qa/test_m12_persistence.py::test_confirmed_save_hard_refresh_exact_step[1]
+qa/test_m12_persistence.py::test_confirmed_save_hard_refresh_exact_step[2]
+qa/test_m12_persistence.py::test_confirmed_save_hard_refresh_exact_step[3]
+qa/test_m12_persistence.py::test_cloud_vault_upload_refresh_on_demand_preview_and_delete
+qa/test_m12_persistence.py::test_explicit_local_migration_preserves_originals[False]
+qa/test_m12_persistence.py::test_explicit_local_migration_preserves_originals[True]
+qa/test_m12_persistence.py::test_passport_slow_ack_duplicate_save_disabled
+qa/test_m12_persistence.py::test_household_creation_edit_timestamps_and_legacy
+qa/test_m12_persistence.py::test_shared_date_formatter_utc_local_legacy
+qa/test_m12_persistence.py::test_stable_household_applicant_duplicate_names_and_refresh
+qa/test_m12_persistence.py::test_conflicting_passport_save_keeps_confirmed_timestamp
+qa/test_m12_persistence.py::test_restoration_map_key_order_does_not_write_or_advance_saved_time
+qa/test_m12_persistence.py::test_cloud_unassign_uses_explicit_null_and_one_write
+qa/test_remediation.py::test_cloud_hydration_replaces_stale_browser_name_without_writing_blanks
+qa/test_remediation.py::test_delayed_cloud_restore_preserves_local_household_edit
+qa/test_remediation.py::test_delayed_cloud_restore_preserves_entered_passport_name
+qa/test_remediation.py::test_planner_does_not_refetch_assessment_on_context_updates
+qa/test_remediation.py::test_failed_preparation_storage_retry_does_not_claim_saving_is_enabled
+qa/test_service_catalogue.py::test_all_requested_seed_concepts_and_unique_identities
+qa/test_service_catalogue.py::test_search_fields_and_all_category_mappings
+qa/test_service_catalogue.py::test_existing_routes_unchanged
+qa/test_service_catalogue.py::test_hierarchy_coverage_identity_and_search
+qa/test_service_catalogue.py::test_catalogue_prominence_status_semantics_and_passport
+qa/test_service_catalogue.py::test_browser_search_full_catalogue_and_synonyms[Aadhaar-Aadhaar Services-Aadhaar Enrolment]
+qa/test_service_catalogue.py::test_browser_search_full_catalogue_and_synonyms[PVC-Aadhaar Services-Aadhaar PVC Card]
+qa/test_service_catalogue.py::test_browser_search_full_catalogue_and_synonyms[birth certificate-Birth Registration-Birth Certificate]
+qa/test_service_catalogue.py::test_browser_search_full_catalogue_and_synonyms[driving licence-Transport / RTO Services-Permanent Driving Licence]
+qa/test_service_catalogue.py::test_browser_search_full_catalogue_and_synonyms[PAN-Income Tax Services-PAN Card Application]
+qa/test_service_catalogue.py::test_browser_search_full_catalogue_and_synonyms[passport-Passport Seva-None]
+qa/test_service_catalogue.py::test_browser_search_full_catalogue_and_synonyms[PM Kisan-PM-KISAN Services-PM-KISAN Farmer Registration]
+qa/test_service_catalogue.py::test_browser_category_filter[identity]
+qa/test_service_catalogue.py::test_browser_category_filter[family]
+qa/test_service_catalogue.py::test_browser_category_filter[transport]
+qa/test_service_catalogue.py::test_browser_category_filter[tax]
+qa/test_service_catalogue.py::test_browser_category_filter[housing]
+qa/test_service_catalogue.py::test_browser_category_filter[utilities]
+qa/test_service_catalogue.py::test_browser_category_filter[health]
+qa/test_service_catalogue.py::test_browser_category_filter[jobs]
+qa/test_service_catalogue.py::test_browser_category_filter[welfare]
+qa/test_service_catalogue.py::test_browser_category_filter[education]
+qa/test_service_catalogue.py::test_browser_category_filter[agriculture]
+qa/test_service_catalogue.py::test_browser_category_filter[business]
+qa/test_service_catalogue.py::test_browser_category_filter[justice]
+qa/test_service_catalogue.py::test_browser_category_filter[tourism]
+qa/test_service_catalogue.py::test_browser_category_filter[culture]
+qa/test_service_catalogue.py::test_browser_category_filter[digital]
+qa/test_service_catalogue.py::test_browser_category_filter[defence]
+qa/test_service_catalogue.py::test_browser_category_filter[governance]
+qa/test_service_catalogue.py::test_combination_empty_reset_and_pagination
+qa/test_service_catalogue.py::test_catalogue_responsive_keyboard_and_existing_style[375-1]
+qa/test_service_catalogue.py::test_catalogue_responsive_keyboard_and_existing_style[768-2]
+qa/test_service_catalogue.py::test_catalogue_responsive_keyboard_and_existing_style[1440-3]
+qa/test_service_catalogue.py::test_static_catalogue_no_service_api_or_interaction_requests
+qa/test_ui_ux_corrections.py::test_dashboard_hero_quick_links[375]
+qa/test_ui_ux_corrections.py::test_dashboard_hero_quick_links[768]
+qa/test_ui_ux_corrections.py::test_dashboard_hero_quick_links[1024]
+qa/test_ui_ux_corrections.py::test_dashboard_hero_quick_links[1440]
+qa/test_ui_ux_corrections.py::test_contextual_prompts_and_local_answers[dashboard]
+qa/test_ui_ux_corrections.py::test_contextual_prompts_and_local_answers[services]
+qa/test_ui_ux_corrections.py::test_contextual_prompts_and_local_answers[household]
+qa/test_ui_ux_corrections.py::test_contextual_prompts_and_local_answers[workflows]
+qa/test_ui_ux_corrections.py::test_contextual_prompts_and_local_answers[documents]
+qa/test_ui_ux_corrections.py::test_contextual_prompts_and_local_answers[applications]
+qa/test_ui_ux_corrections.py::test_contextual_prompts_and_local_answers[planner]
+qa/test_ui_ux_corrections.py::test_contextual_prompts_and_local_answers[passport]
+qa/test_ui_ux_corrections.py::test_assistant_collapse_composer_focus_and_history[375-667]
+qa/test_ui_ux_corrections.py::test_assistant_collapse_composer_focus_and_history[768-600]
+qa/test_ui_ux_corrections.py::test_assistant_collapse_composer_focus_and_history[1024-900]
+qa/test_ui_ux_corrections.py::test_assistant_collapse_composer_focus_and_history[1440-1000]
+qa/test_ui_ux_corrections.py::test_assistant_collapse_composer_focus_and_history[375-400]
+qa/test_ui_ux_corrections.py::test_shared_content_boundaries[375]
+qa/test_ui_ux_corrections.py::test_shared_content_boundaries[768]
+qa/test_ui_ux_corrections.py::test_shared_content_boundaries[1024]
+qa/test_ui_ux_corrections.py::test_shared_content_boundaries[1280]
+qa/test_ui_ux_corrections.py::test_shared_content_boundaries[1440]
+qa/test_ui_ux_corrections.py::test_shared_content_boundaries[1920]
+
+302 tests collected in 0.28s

@@ -86,3 +86,23 @@ qa/evidence/m12-1-catalogue/*
 !qa/evidence/m12-1-catalogue/comparison/
 qa/evidence/m12-1-catalogue/comparison/*
 !qa/evidence/m12-1-catalogue/comparison/services-*.png
+
+# Consolidated UI release: retain portable receipts and curated public comparisons.
+qa/evidence/ui-ux-corrections/*
+!qa/evidence/ui-ux-corrections/npm-audit.json
+!qa/evidence/ui-ux-corrections/catalogue-mapping.json
+!qa/evidence/ui-ux-corrections/hosting-before.json
+!qa/evidence/ui-ux-corrections/cloud-run-before.json
+!qa/evidence/ui-ux-corrections/backend-deployed-build.json
+!qa/evidence/ui-ux-corrections/final/
+qa/evidence/ui-ux-corrections/final/*
+!qa/evidence/ui-ux-corrections/final/*.xml
+!qa/evidence/ui-ux-corrections/final/*.json
+!qa/evidence/ui-ux-corrections/final/*.log
+!qa/evidence/ui-ux-corrections/comparison/
+!qa/evidence/ui-ux-corrections/hosted/
+qa/evidence/ui-ux-corrections/hosted/*
+!qa/evidence/ui-ux-corrections/hosted/results.json
+!qa/evidence/ui-ux-corrections/hosted/*.png
+!qa/evidence/ui-ux-corrections/hosting-after.json
+!qa/evidence/ui-ux-corrections/release.json

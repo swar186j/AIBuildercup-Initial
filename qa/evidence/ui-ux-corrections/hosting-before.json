@@ -1,0 +1,16 @@
+[
+  {
+    "name": "sites/maadhyam-1610/releases/1792245340672000",
+    "type": "DEPLOY",
+    "releaseTime": "2026-10-17T13:55:40.672Z",
+    "message": null,
+    "version": "sites/maadhyam-1610/versions/07aec11b7a59fa53"
+  },
+  {
+    "name": "sites/maadhyam-1610/releases/1792232663865000",
+    "type": "DEPLOY",
+    "releaseTime": "2026-10-17T10:24:23.865Z",
+    "message": null,
+    "version": "sites/maadhyam-1610/versions/79f48cf08071a52c"
+  }
+]

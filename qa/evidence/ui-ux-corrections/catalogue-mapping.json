@@ -1,0 +1,412 @@
+{
+  "parents": 30,
+  "children": 250,
+  "mapping": [
+    {
+      "id": "passport",
+      "sourceIds": [
+        "passport"
+      ]
+    },
+    {
+      "id": "aadhaar",
+      "sourceIds": [
+        "aadhaar",
+        "aadhaar-enrolment",
+        "aadhaar-update-and-correction",
+        "aadhaar-download-e-aadhaar",
+        "aadhaar-pvc-card",
+        "aadhaar-address-update",
+        "aadhaar-status"
+      ]
+    },
+    {
+      "id": "epfo",
+      "sourceIds": [
+        "epfo",
+        "epfo-uan-activation",
+        "epf-passbook",
+        "epf-withdrawal-online-claim",
+        "epf-transfer",
+        "epf-kyc-update",
+        "epf-nomination",
+        "eps-pension-services",
+        "epf-claim-status"
+      ]
+    },
+    {
+      "id": "birth-registration",
+      "sourceIds": [
+        "birth-registration",
+        "birth-certificate",
+        "birth-certificate-correction"
+      ]
+    },
+    {
+      "id": "death-registration",
+      "sourceIds": [
+        "death-registration",
+        "death-certificate"
+      ]
+    },
+    {
+      "id": "marriage-registration",
+      "sourceIds": [
+        "marriage-registration",
+        "marriage-certificate"
+      ]
+    },
+    {
+      "id": "voter-services",
+      "sourceIds": [
+        "new-voter-registration",
+        "voter-details-correction",
+        "voter-address-shifting",
+        "voter-id-epic-replacement",
+        "e-epic-download",
+        "electoral-roll-search",
+        "voter-registration-status",
+        "overseas-voter",
+        "voter-deletion"
+      ]
+    },
+    {
+      "id": "transport-rto",
+      "sourceIds": [
+        "learner-s-driving-licence",
+        "permanent-driving-licence",
+        "driving-licence-renewal",
+        "duplicate-driving-licence",
+        "driving-licence-address-change",
+        "international-driving-permit",
+        "vehicle-registration-certificate-rc",
+        "transfer-of-vehicle-ownership",
+        "duplicate-vehicle-rc",
+        "vehicle-fitness-certificate",
+        "vehicle-permit-services",
+        "vehicle-road-tax",
+        "vehicle-registration-address-change",
+        "vehicle-hypothecation-addition-termination",
+        "vehicle-noc",
+        "fancy-registration-number",
+        "traffic-challan-services",
+        "vehicle-registration-status"
+      ]
+    },
+    {
+      "id": "income-tax",
+      "sourceIds": [
+        "pan-card-application",
+        "pan-card-correction",
+        "pan-aadhaar-linking",
+        "income-tax-return-filing",
+        "income-tax-e-verification",
+        "income-tax-refund-status",
+        "income-tax-rectification-request",
+        "income-tax-refund-reissue",
+        "form-26as-tax-credit-statement",
+        "annual-information-statement-ais",
+        "income-tax-demand-response",
+        "advance-tax-self-assessment-tax-payment",
+        "pan-verification",
+        "tan-application-and-correction"
+      ]
+    },
+    {
+      "id": "gst-services",
+      "sourceIds": [
+        "gst-registration",
+        "gst-return-filing",
+        "gst-payment",
+        "gst-registration-amendment",
+        "gst-refund-services",
+        "gst-registration-cancellation"
+      ]
+    },
+    {
+      "id": "esic-services",
+      "sourceIds": [
+        "esic-insured-person-services",
+        "esic-sickness-benefit-services",
+        "esic-medical-benefit-services",
+        "esic-claim-and-benefit-guidance"
+      ]
+    },
+    {
+      "id": "ration-food",
+      "sourceIds": [
+        "ration-card-application",
+        "ration-card-correction",
+        "ration-card-member-addition-removal",
+        "ration-card-portability-one-nation-one-ration-card",
+        "ration-card-status",
+        "food-subsidy-grievance"
+      ]
+    },
+    {
+      "id": "pm-kisan",
+      "sourceIds": [
+        "pm-kisan-farmer-registration",
+        "pm-kisan-beneficiary-status",
+        "pm-kisan-ekyc"
+      ]
+    },
+    {
+      "id": "category-identity",
+      "sourceIds": [
+        "overseas-citizen-of-india-oci-services",
+        "indian-citizenship-application-registration",
+        "visa-extension-and-registration-services",
+        "frro-fro-services"
+      ]
+    },
+    {
+      "id": "category-family",
+      "sourceIds": [
+        "caste-certificate",
+        "income-certificate",
+        "domicile-residence-certificate",
+        "economically-weaker-section-ews-certificate",
+        "non-creamy-layer-certificate",
+        "legal-heir-surviving-family-member-certificate",
+        "name-change-gazette-publication",
+        "anganwadi-services",
+        "maternity-benefit-scheme-application",
+        "child-welfare-scheme-assistance",
+        "women-welfare-scheme-assistance",
+        "senior-citizen-welfare-scheme-assistance",
+        "social-assistance-scheme-application"
+      ]
+    },
+    {
+      "id": "category-tax",
+      "sourceIds": [
+        "professional-tax-registration-payment-state-specific",
+        "property-tax-payment"
+      ]
+    },
+    {
+      "id": "category-housing",
+      "sourceIds": [
+        "land-record-record-of-rights-extract",
+        "7-12-extract-maharashtra",
+        "8a-extract-maharashtra",
+        "property-registration",
+        "sale-deed-registration",
+        "encumbrance-certificate",
+        "property-mutation",
+        "land-survey-records",
+        "land-measurement-demarcation",
+        "property-ownership-records",
+        "building-plan-approval",
+        "construction-permit",
+        "occupancy-certificate",
+        "housing-scheme-application",
+        "pmay-housing-assistance",
+        "property-tax-assessment"
+      ]
+    },
+    {
+      "id": "category-utilities",
+      "sourceIds": [
+        "new-electricity-connection",
+        "electricity-bill-payment",
+        "electricity-meter-name-change",
+        "electricity-billing-complaint",
+        "new-water-connection",
+        "water-bill-payment",
+        "sewerage-connection",
+        "municipal-trade-licence",
+        "shop-and-establishment-registration",
+        "waste-collection-complaint",
+        "streetlight-complaint",
+        "municipal-grievance-services",
+        "fire-safety-noc",
+        "public-utility-connection-transfer",
+        "lpg",
+        "solar"
+      ]
+    },
+    {
+      "id": "category-health",
+      "sourceIds": [
+        "ayushman-bharat-pm-jay-eligibility-card-services",
+        "abha-health-account",
+        "government-hospital-appointment",
+        "esanjeevani-telemedicine",
+        "immunisation-record-services",
+        "disability-certificate-udid",
+        "medical-board-certificate",
+        "organ-donation-registration",
+        "health-facility-registration",
+        "health-scheme-beneficiary-services",
+        "government-health-insurance-assistance"
+      ]
+    },
+    {
+      "id": "category-jobs",
+      "sourceIds": [
+        "employment-exchange-registration",
+        "employment-exchange-renewal",
+        "national-career-service-registration",
+        "e-shram-registration",
+        "e-shram-profile-update",
+        "labour-welfare-scheme-application",
+        "construction-worker-registration",
+        "building-and-other-construction-workers-benefits",
+        "apprenticeship-registration",
+        "skill-development-programme-registration",
+        "government-job-application-services",
+        "employment-certificate-services",
+        "worker-grievance-services"
+      ]
+    },
+    {
+      "id": "category-welfare",
+      "sourceIds": [
+        "jeevan-pramaan-digital-life-certificate",
+        "atal-pension-yojana-services",
+        "national-pension-system-services",
+        "old-age-pension-application",
+        "widow-pension-application",
+        "disability-pension-application",
+        "government-pension-grievances",
+        "government-employee-pension-assistance"
+      ]
+    },
+    {
+      "id": "category-education",
+      "sourceIds": [
+        "national-scholarship-portal",
+        "state-scholarship-applications",
+        "scholarship-renewal",
+        "school-admission-services",
+        "higher-education-admission-services",
+        "student-certificate-verification",
+        "academic-transcript-requests",
+        "migration-certificate",
+        "transfer-certificate",
+        "examination-result-services",
+        "apprenticeship-opportunities",
+        "student-loan-assistance",
+        "skill-certification-services",
+        "national-academic-depository-academic-records"
+      ]
+    },
+    {
+      "id": "category-agriculture",
+      "sourceIds": [
+        "farmer-registration-farmer-id-services",
+        "soil-health-card",
+        "crop-insurance-pmfby",
+        "agriculture-subsidy-application",
+        "agricultural-equipment-subsidy",
+        "irrigation-assistance",
+        "agricultural-market-information-services",
+        "farmer-producer-organisation-services",
+        "rural-employment-guarantee-mgnrega-services",
+        "rural-housing-assistance",
+        "fisheries-and-livestock-scheme-assistance",
+        "environmental-clearance-services"
+      ]
+    },
+    {
+      "id": "category-business",
+      "sourceIds": [
+        "udyam-msme-registration",
+        "msme-certificate-registration-update",
+        "startup-india-recognition",
+        "company-incorporation",
+        "llp-incorporation",
+        "director-identification-number-services",
+        "mca-annual-filing",
+        "fssai-food-business-registration-licence",
+        "importer-exporter-code",
+        "business-tax-registration",
+        "factory-licence",
+        "labour-establishment-registration",
+        "business-compliance-filing",
+        "government-e-marketplace-seller-registration",
+        "trademark-registration",
+        "patent-filing-services"
+      ]
+    },
+    {
+      "id": "category-justice",
+      "sourceIds": [
+        "character-certificate",
+        "police-clearance-certificate",
+        "cpgrams-public-grievance-submission",
+        "rti-application",
+        "rti-first-appeal",
+        "police-complaint-services",
+        "cybercrime-complaint",
+        "lost-document-report",
+        "ecourts-case-status",
+        "court-order-and-judgment-search",
+        "legal-aid-application",
+        "consumer-grievance-consumer-helpline",
+        "consumer-commission-filing",
+        "lok-adalat-information-services",
+        "police-verification-services",
+        "citizen-service-request-status",
+        "event-public-gathering-permission",
+        "government-department-grievance-redressal"
+      ]
+    },
+    {
+      "id": "category-tourism",
+      "sourceIds": [
+        "tourism-registration-permit-services",
+        "tourist-guide-registration",
+        "pilgrimage-registration-where-applicable",
+        "hotel-tourism-establishment-registration"
+      ]
+    },
+    {
+      "id": "category-culture",
+      "sourceIds": [
+        "heritage-site-permission-services",
+        "sports-scholarship-services",
+        "sports-facility-registration",
+        "cultural-grant-applications"
+      ]
+    },
+    {
+      "id": "category-digital",
+      "sourceIds": [
+        "digilocker-document-services",
+        "digital-signature-certificate-services",
+        "telecommunications-complaint-services",
+        "telecom-consumer-grievance-services",
+        "digital-service-centre-csc-services",
+        "government-digital-certificate-verification",
+        "broadband-digital-connectivity-scheme-assistance",
+        "umang"
+      ]
+    },
+    {
+      "id": "category-defence",
+      "sourceIds": [
+        "emigration-clearance-services",
+        "overseas-indian-consular-services",
+        "attestation-apostille-services",
+        "ex-servicemen-welfare-services",
+        "defence-pension-services",
+        "csd-entitlement-canteen-services",
+        "ex-servicemen-identity-benefit-services"
+      ]
+    },
+    {
+      "id": "category-governance",
+      "sourceIds": [
+        "government-employee-service-certificate",
+        "public-information-and-citizen-charter-services",
+        "state-government-citizen-service-portals",
+        "disaster-relief-assistance",
+        "disaster-damage-compensation-scheme",
+        "government-scheme-eligibility-information"
+      ]
+    }
+  ]
+}

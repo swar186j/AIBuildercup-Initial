@@ -71,7 +71,7 @@ export default function MyApplications() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl space-y-7 pb-24">
+    <div className="w-full space-y-7 pb-24">
       <PageHero eyebrow="Your preparation workspace" title="My Preparations" description="Keep track of your preparation records, review pending steps and continue where you left off." />
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="min-w-0 flex-1 rounded-xl border border-[#cde5e3] bg-[#f2f8f8] px-4 py-3 text-sm leading-6 text-[#173f68] dark:border-[#293956] dark:bg-[#18243B] dark:text-slate-200">

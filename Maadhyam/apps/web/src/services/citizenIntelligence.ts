@@ -1,3 +1,4 @@
+import { getProductGuidance } from "../data/assistantGuidance";
 import { getFirebaseToken } from "./firebaseClient";
 import { validateChat, validatePassportPlan, validateReasoning } from './responseValidation';
 import type { LocalDocument } from '../context/DocumentContext';
@@ -37,7 +38,9 @@ export function analyzeCitizen(documents: LocalDocument[], assistanceType = 'fre
   return post<IntelligenceAssessment>('/api/intelligence/analyze', {documents:documentPayload(documents), assistanceType});
 }
 export function askCitizen(documents: LocalDocument[], question: string, useGemini = false, fictionalDataConfirmed = false) {
-  return post<{answer:string;mode:string;sourceUrl:string}>('/api/intelligence/chat', {
+  const guidance = !useGemini ? getProductGuidance(question) : undefined;
+  if (guidance) return Promise.resolve(guidance);
+  return post<{answer:string;mode:string;sourceUrl:string;link?:{path:string;label:string}}>('/api/intelligence/chat', {
     documents:documentPayload(documents),question,useGemini,fictionalDataConfirmed,
   });
 }

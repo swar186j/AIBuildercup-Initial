@@ -1,0 +1,43 @@
+{
+  "npmCi": {
+    "exitCode": 0,
+    "lockedVersionsPreserved": true,
+    "firebaseVersion": "13.0.0"
+  },
+  "npmAuditOmitDev": {
+    "exitCode": 1,
+    "high": 4,
+    "critical": 0,
+    "dependencyChanges": false
+  },
+  "fullRegression": {
+    "exitCodes": {
+      "backend": 0,
+      "frontend-lint": 0,
+      "frontend-build": 0,
+      "collection": 0,
+      "browser": 0,
+      "http": 0,
+      "legacy-functional": 0,
+      "legacy-reasoning": 0,
+      "legacy-m9": 0,
+      "legacy-vault": 0,
+      "legacy-smoke": 0
+    },
+    "serversOwnedAndStopped": true,
+    "liveProviders": false
+  },
+  "finalFocusedRegression": {
+    "passed": 59,
+    "failed": 0,
+    "lintExitCode": 0,
+    "buildExitCode": 0
+  },
+  "bundle": {
+    "index.html": "bfd7e701b44937fcb236bad0113e260872cf662aa00bac07e32d0ce180fc20f1",
+    "icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
+    "favicon.svg": "61bc9a161de58248288e6905425d7180f0624c2865007b97d763fdac12043a66",
+    "assets/index-DQQuGkdi.js": "99e83ce0365b488594ac08b727787746d33219309ff1b3db55063ef8b696e5f5",
+    "assets/index-BY_b7uD8.css": "773617d604b40eb28ba3d156fa2e8ebdcd62e1bc47b36d753311f54e7f3d60d6"
+  }
+}
