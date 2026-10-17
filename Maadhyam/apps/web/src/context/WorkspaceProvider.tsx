@@ -8,6 +8,13 @@ import { cloudApplications, type CloudApplication, type PlannerCloudState, type 
 import { useHousehold } from './HouseholdContext';
 import { cloudToPreparation, preparationToCloud, sameCloudPreparation } from '../services/cloudPreparation';
 
+// Firestore map-key order is not stable. Compare semantic payloads to avoid
+// writing an unchanged restored snapshot and advancing its saved timestamp.
+function serializeWorkspace(value:unknown):string {
+  return JSON.stringify(value,(_key,item:unknown)=>item&&typeof item==='object'&&!Array.isArray(item)
+    ? Object.fromEntries(Object.entries(item).sort(([a],[b])=>a.localeCompare(b))) : item);
+}
+
 const initialApplications: Application[] = [
   {
     id: "DEMO-001", service: "Passport", type: "Fresh passport preparation", status: "in-progress",
@@ -165,7 +172,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       });
       if (restored.length>0 && !workspaceTouched.current) {
         const latest=records.find(item=>restored.some(a=>a.id===item.id));
-        if(latest){activateCloudId(latest.id);hydrateWorkspace(latest);lastSyncPayload.current=JSON.stringify({planner_state:latest.planner_state??{},household_state:latest.household_state??{},assessment_history:latest.assessment_history??[]});}
+        if(latest){activateCloudId(latest.id);hydrateWorkspace(latest);lastSyncPayload.current=serializeWorkspace({planner_state:latest.planner_state??{},household_state:latest.household_state??{},assessment_history:latest.assessment_history??[]});}
       }
       if (invalidRecords > 0) {
         setCloudRestoreFailed(true);
@@ -215,7 +222,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       cloudRevisions.current.set(id,item.revision);
       activateCloudId(id);
       hydrateWorkspace(item);
-      lastSyncPayload.current=JSON.stringify({planner_state:item.planner_state??{},household_state:item.household_state??{},assessment_history:item.assessment_history??[]});
+      lastSyncPayload.current=serializeWorkspace({planner_state:item.planner_state??{},household_state:item.household_state??{},assessment_history:item.assessment_history??[]});
       setApplications(previous => {
         // Never overwrite a preparation already edited in this session.
         if (previous.some(a => a.id === id && a.journey)) return previous;
@@ -244,7 +251,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       cloudRevisions.current.set(id,item.revision);
       workspaceTouched.current=false;
       hydrateWorkspace(item);
-      lastSyncPayload.current=JSON.stringify({planner_state:item.planner_state??{},household_state:item.household_state??{},assessment_history:item.assessment_history??[]});
+      lastSyncPayload.current=serializeWorkspace({planner_state:item.planner_state??{},household_state:item.household_state??{},assessment_history:item.assessment_history??[]});
     }catch{setStorageNotice('Unable to load planner/household progress for this preparation. Existing local edits are intact.');}
   }, [activateCloudId, hydrateWorkspace]);
   function deletePreparation(id:string){
@@ -299,7 +306,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       setApplications(previous=>previous.map(a=>a.id===id&&a.journey?applicationFor(id,{...a.journey,createdAt:confirmedJourney.createdAt,lastSavedAt:confirmedJourney.lastSavedAt}):a));
       cloudRevisions.current.set(id,stored.revision);
       activateCloudId(id);
-      lastSyncPayload.current=JSON.stringify(workspacePayload());
+      lastSyncPayload.current=serializeWorkspace(workspacePayload());
       cloudSyncBlocked.current=false;
       cloudConsent.current = true;
       try {localStorage.setItem(CLOUD_CONSENT_KEY,'yes');localStorage.setItem(CLOUD_WORKSPACE_CONSENT_KEY,'yes');}
@@ -344,7 +351,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       });
       cloudRevisions.current.set(id,saved.revision);
       setApplications(previous=>previous.map(a=>a.id===id&&a.journey?applicationFor(id,{...a.journey,lastSavedAt:saved.lastSavedAt??saved.updated_at}):a));
-      lastSyncPayload.current=JSON.stringify(payload);
+      lastSyncPayload.current=serializeWorkspace(payload);
       cloudSyncBlocked.current=false;
       cloudConsent.current=true;
 
@@ -377,7 +384,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     const id=activeCloudId.current;
     if(!id || cloudSyncBlocked.current || !cloudConsent.current || cloudRestoring)return;
     try{if(localStorage.getItem(CLOUD_WORKSPACE_CONSENT_KEY)!=='yes')return;}catch{return;}
-    const values=JSON.stringify(workspacePayload());
+    const values=serializeWorkspace(workspacePayload());
     if(values===lastSyncPayload.current)return;
     const handle=setTimeout(()=>{
       if(activeCloudSaves.current.has(id))return;
@@ -389,7 +396,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         .then(saved=>{
           cloudRevisions.current.set(id,saved.revision);
           setApplications(previous=>previous.map(a=>a.id===id&&a.journey?applicationFor(id,{...a.journey,lastSavedAt:saved.lastSavedAt??saved.updated_at}):a));
-          lastSyncPayload.current=JSON.stringify(payload);
+          lastSyncPayload.current=serializeWorkspace(payload);
           setHistory(payload.assessment_history);
         })
         .catch(error=>{

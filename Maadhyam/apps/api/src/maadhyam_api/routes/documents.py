@@ -5,7 +5,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Path, Query, UploadFile
 from fastapi.responses import Response
-from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator, model_validator
 from starlette.concurrency import run_in_threadpool
 
 from maadhyam_api.services.firebase_auth import require_uid
@@ -56,8 +56,18 @@ class UploadMetadata(BaseModel):
         return parsed.astimezone(timezone.utc).isoformat()
 
 
-class DocumentPatch(UploadMetadata):
+class DocumentPatch(BaseModel):
+    model_config = ConfigDict(extra='forbid')
     revision: int = Field(ge=1)
+    metadata: Metadata | None = None
+    status: Literal['needs-review','reviewed'] | None = None
+
+    @model_validator(mode='after')
+    def validate_changes(self):
+        changes=self.model_dump(exclude={'revision'},exclude_unset=True)
+        if not changes or any(value is None for value in changes.values()):
+            raise ValueError('Provide non-null metadata or review status')
+        return self
 
 
 DocumentId = Path(pattern=r'^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$')
@@ -126,7 +136,7 @@ def download_document(document_id: str = DocumentId, uid: str = Depends(require_
 @router.patch('/{document_id}')
 def patch_document(payload: DocumentPatch, document_id: str = DocumentId,
                    uid: str = Depends(require_uid), store=Depends(get_document_store)):
-    return store.patch(uid, document_id, payload.revision, payload.model_dump(exclude={'revision','originalLocalAddedAt'}, mode='json'))
+    return store.patch(uid, document_id, payload.revision, payload.model_dump(exclude={'revision'}, exclude_unset=True, mode='json'))
 
 
 @router.delete('/{document_id}', status_code=204)

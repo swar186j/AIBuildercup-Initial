@@ -245,3 +245,26 @@ def test_conflicting_passport_save_keeps_confirmed_timestamp(page):
     expect(page.get_by_text('Cloud revision conflict;',exact=False)).to_be_visible()
     assert page.locator('time').nth(1).get_attribute('datetime')==before
     expect(page.get_by_label('Applicant name',exact=True)).to_have_value('Fictional Unsaved Conflict')
+
+
+def test_restoration_map_key_order_does_not_write_or_advance_saved_time(page):
+    mocked_auth(page)
+    record=cloud_record()
+    # Firestore maps may return fields in any order.
+    record['planner_state']={key:record['planner_state'][key] for key in reversed(record['planner_state'])}
+    record['household_state']['members'][0]['createdAt']=None
+    record['household_state']['members'][0]['updatedAt']=None
+    record['lastSavedAt']='2026-10-17T07:00:00Z'
+    writes=[]
+    page.add_init_script("localStorage.setItem('maadhyam-cloud-workspace-consent-v2','yes')")
+    def api(route):
+        if route.request.method=='GET':route.fulfill(json=[record])
+        else:
+            writes.append(route.request.post_data_json)
+            route.fulfill(status=409,json={'error':{'message':'Unexpected hydration write'}})
+    page.route('**/api/applications**',api)
+    page.goto('/services/passport/journey?preparation='+record['id'])
+    expect(page.get_by_text('Step 2 of 4',exact=True)).to_be_visible()
+    page.wait_for_timeout(1600)
+    assert not writes,'Restoring equivalent unordered maps must not write or change saved dates'
+    assert page.locator('time').nth(1).get_attribute('datetime')==record['lastSavedAt']

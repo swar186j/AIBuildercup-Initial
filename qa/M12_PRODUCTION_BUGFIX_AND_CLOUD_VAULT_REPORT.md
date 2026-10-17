@@ -22,6 +22,7 @@ CONFIRMED means source-established or reproduced. A reported symptom is not auto
 | V02 / P1 requirement | Existing IndexedDB files migrate | New requirement, not an existing cloud defect. | Explicit informed migration; retain UUID, reviewed fields/associations and original local time; verify downloaded SHA-256; keep originals. | Success/failure browser migration cases; immutable retry/backend tests. |
 | V03 / P1 | Clear All confirmation | Existing `window.confirm` CONFIRMED in source, so missing confirmation was not reproduced. | Preserve native accessible confirmation; distinguish local cache clearing from permanent own-account cloud deletion. | Existing cancel/clear/reload cases plus cloud cancel/confirmed deletion and backend partial-failure retry. |
 | V04 / P1 | Upload or delete interrupted between databases | New architecture consistency risk established by source review/failure injection. | Pending reservation, create-only object generation, immutable retry, ready acknowledgment, deleting tombstone, generation-matched cleanup. | Storage failure, final metadata failure, retry, partial clear and upload/delete race unit tests. |
+| V07 / P0 | PATCH only a review status | CONFIRMED by failing regression: omitted metadata received schema defaults and erased saved fields. Caught before deployment. | Partial PATCH preserves omitted fields and merges supplied metadata inside the revision transaction; no creation/upload timestamp updates. | `test_status_only_patch_preserves_reviewed_metadata`; 442 backend tests pass. First built image was held undeployed; corrective backend rebuild required. |
 | V05 / P1 | Delayed preview/upload replaces newer metadata | CONFIRMED during implementation source review. | Merge file response into current document, protect account identity, preserve newer unsaved metadata, block duplicate mutations while busy. | Full final browser regression and lifecycle tests. |
 | V06 / P1 | Account change/caching | CONFIRMED implementation risk caught before release: snapshot cache replacement could remove hidden accounts' originals; offline cloud error could prevent bound cache restore. | Cache uses explicit deletes, owner binding, independent offline hydration; cloud requests check expected UID; late responses guarded. | Existing cache restoration and new migration/refresh; cross-user APIs tested separately. |
 | R01 / P1 suspected | User hard-refreshes between pages | A refresh alone did not establish a production Context bug. | Keep Context; merge delayed hydration, stable identity references, live acknowledgment timestamps; no forced reload workaround. | Existing household/planner/navigation regression retained. |
@@ -29,6 +30,7 @@ CONFIRMED means source-established or reproduced. A reported symptom is not auto
 | U02 / P2 | Next action after upload/save | UX requirement rather than confirmed routing failure. | Inline cloud saving/result guidance and existing Passport/My Applications links; retain multi-upload Vault. | Existing route/navigation tests; hosted check pending. |
 | W01 / P2 | Generic address-proof blocker | CONFIRMED source: human-support used generic checklist; rejection only accepted optional record IDs. | Explicit selection/consent for a minimal reviewed proof subset; deterministic possible checks, no new Gemini call. | Consent/decline/unreviewed/other-holder/injection backend tests. |
 | T01 / P1 requirement | Missing dates on three pages | CONFIRMED source: no authoritative Vault dates; household lacked creation/edit times; preparations showed generic status strings. | Shared local-time formatter; server Vault/application acknowledgment timestamps; clearly client-recorded nested member times; absent legacy values remain Not recorded. | Document pending/edit/UTC tests, household creation/edit/restore, preparation acknowledgment/conflict/refresh tests. |
+| T02 / P1 | Refresh equivalent Firestore workspace with reordered map fields | CONFIRMED source: raw JSON string comparison depended on map-key order and could advance timestamps through an unchanged write. | Canonical recursive map serialization for workspace comparison; backend image unchanged. | `test_restoration_map_key_order_does_not_write_or_advance_saved_time`; final suite. |
 | Q01 / test infrastructure | Held Playwright `route.fetch()` requests | Reproduced 8 workflow retry failures: preview proxy forwarded to port 8000 instead of runner's temporary API. | Configurable QA API proxy; local fictional auth avoids external Firebase writes/provider delays. | All eight workflows retained and rerun; no tests removed. |
 
 ## 3. Frontend changes
@@ -79,7 +81,7 @@ Evidence: `evidence/m12-cloud/bucket.json`, `bucket-iam.json`, `iam-recovery.jso
 
 ## 7. API documentation
 
-All `/api/documents` operations require `Authorization: Bearer <Firebase ID token>`; `uid` is never accepted as authorization. IDs are canonical UUID strings; filenames cannot contain path separators/control characters. Metadata fields use bounded strings/categories/holder enums and valid ISO dates. Files: PDF, PNG, JPEG; matching extension/MIME/signature; nonempty; actual file size ≤10 MiB, request ≤11 MiB. Multipart truncation/missing required fields is rejected. No sensitive bytes are logged or sent to AI.
+All `/api/documents` operations require `Authorization: Bearer <Firebase ID token>`; `uid` is never accepted as authorization. IDs are canonical UUID strings; filenames cannot contain path separators/control characters. PATCH preserves omitted status/metadata fields and merges supplied metadata atomically. Metadata fields use bounded strings/categories/holder enums and valid ISO dates. Files: PDF, PNG, JPEG; matching extension/MIME/signature; nonempty; actual file size ≤10 MiB, request ≤11 MiB. Multipart truncation/missing required fields is rejected. No sensitive bytes are logged or sent to AI.
 
 | Method / URL | Request | Success | Failures / source |
 |---|---|---|---|
@@ -113,14 +115,14 @@ Human-support response retains `supportChecklist` and adds possible checks to th
 
 | Check | Current actual result |
 |---|---|
-| Backend | **441 passed**; one existing Starlette/httpx deprecation warning; `evidence/m12-backend.xml` |
+| Backend | **442 passed**; one existing Starlette/httpx deprecation warning; `evidence/m12-backend.xml` |
 | Frontend lint | **0 errors, 0 warnings** |
 | Frontend build | PASS; existing >500 kB bundle-size advisory remains |
-| Full local browser/HTTP | **207 passed** on the final in-flight-response-guard build; `evidence/m12-final/tests.xml` |
+| Full local browser/HTTP | **208 passed**, including unordered-map timestamp regression; `evidence/m12-final/tests.xml` |
 | New focused cases | 12 passed in latest focused run; overlap the full total, do not add |
 | Initial four-step reproduction | 4 passed against M11 baseline; not a production-hosted result |
 | Production hosted | Pending deployment |
-| Security/Storage/Firestore | 32 new backend cases included in 441; local browser transport mocked, real cloud verification pending |
+| Security/Storage/Firestore | 33 new backend cases included in 442; local browser transport mocked, real cloud verification pending |
 | Actual Gemini calls in M12 | **0** so far |
 
 No existing tests removed/disabled. Intermediate full runs found proxy/auth test isolation, timestamp model and offline cache problems; fixes were verified, not counted as success before rerunning. Screenshots/logs stay local; small JUnit/result receipts are portable. The user's pre-existing whitespace change causes working-tree `git diff --check` to report that unrelated file; intended staged changes must pass separately.
@@ -135,7 +137,7 @@ Executed so far, in order:
 4. Removed automatic legacy viewer/editor object grants. First replacement also removed owner bucket-management convenience grant. Actual 403 exposed that mistake; recovered using existing project-owner IAM authority and a temporary Storage Admin binding conditioned **only** to the new bucket. Restored projectOwner legacyBucketOwner management and runtime Object User. Removed temporary project binding and verified it absent. Final bucket/config readback succeeded. No runtime administrative grant or unrelated policy change remains.
 5. Budget read now succeeds: existing INR 500 monthly project budget, 50%/90%/100% current-spend thresholds, credits included. Alert recipient delivery, actual spend and credit balance/expiry remain unverified. No billing budget change performed.
 
-Cloud Build ID/image/digest/Run revision/Hosting release: pending release commit/deployment. No build/deploy or paid Gemini invocation has yet occurred in this milestone at this report checkpoint. Bucket storage and operation charges, build/registry charges and named Firestore operations are billable. Small fictional test objects will be removed explicitly; no active-file lifecycle job or always-on service created. Min/max Run instances remain 0/2.
+Cloud Build `7a0ba752-16ff-43b8-b582-f30e2a56df03` succeeded for backend source `d191ee8714e9479c9909d252ce2bfb51bd8a931c`. Image tag `m12-d191ee8714e9`, digest `sha256:9e7927073ebd39f0b27f5e28c1691a3557b1fef6899ea5591375c99cbd7f1521`. First build passed container checks but remains undeployed after the partial-PATCH review found a data-integrity defect. Corrective source will receive a second immutable build. Run/Hosting deployment pending. No paid Gemini invocation. Bucket storage and operation charges, build/registry charges and named Firestore operations are billable. Small fictional test objects will be removed explicitly; no active-file lifecycle job or always-on service created. Min/max Run instances remain 0/2.
 
 Every procedure, including the IAM recovery and quota-project REST read, is in the manual guide. Local evidence captures final IAM/config and rollback references; no credentials/tokens were committed.
 
@@ -145,7 +147,7 @@ Predeployment Run: `maadhyam-api-00002-grr`, image digest `sha256:22997ae55fff84
 
 ## 11. GitHub
 
-Source: [reviewed release branch](https://github.com/swar186j/AIBuildercup-Initial/tree/release/m10-m12-recovery). Commit hash and remote HEAD equality are recorded after staging/review/push. No main merge/default-branch change/force-push authorized or performed.
+Source: [reviewed release branch](https://github.com/swar186j/AIBuildercup-Initial/tree/release/m10-m12-recovery). Initial source `d191ee8714e9479c9909d252ce2bfb51bd8a931c` was pushed with remote equality verified; final corrective source and final remote HEAD are recorded in the deployment receipt. No main merge/default-branch change/force-push authorized or performed.
 
 ## 12. Remaining issues / honest evidence limits
 

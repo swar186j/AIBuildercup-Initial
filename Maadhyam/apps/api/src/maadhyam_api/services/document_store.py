@@ -113,7 +113,10 @@ class DocumentStore:
                 raise HTTPException(404, 'Document not found')
             if previous['revision'] != revision or previous['storageStatus'] != 'ready':
                 raise HTTPException(409, 'Revision conflict or document is not ready; refresh before saving')
-            return {**previous, **fields, 'revision': revision + 1, 'updatedAt': firestore.SERVER_TIMESTAMP}
+            changes={**fields}
+            if 'metadata' in changes:
+                changes['metadata']={**previous['metadata'],**changes['metadata']}
+            return {**previous, **changes, 'revision': revision + 1, 'updatedAt': firestore.SERVER_TIMESTAMP}
         return self.mutate(uid, document_id, change)
 
     def download(self, uid, document_id):

@@ -121,6 +121,11 @@ def main():
         assert ctx.request.get(BASE+'/api/documents/'+document_id,headers=headers).status==200
         assert ctx.request.get(BASE+'/api/documents').status==401
         assert other.request.get(BASE+'/api/applications/'+application_id,headers=other_headers).status==404
+        foreign_firestore='https://firestore.googleapis.com/v1/projects/maadhyam-1610/databases/maadhyam/documents/users/'+application['owner_uid']+'/documents/'+document_id
+        assert other.request.get(foreign_firestore,headers=other_headers).status in (403,404)
+        private_file='https://storage.googleapis.com/maadhyam-1610-private-vault/'+document['storagePath']
+        assert ctx.request.get(private_file).status in (401,403)
+
         record('real-two-user-document-and-preparation-isolation','Other user list empty; GET/file/PATCH denied; foreign DELETE no-op preserves original; missing token 401')
         other.close()
         # Backend guidance uses only explicit minimized reviewed context; no AI request.

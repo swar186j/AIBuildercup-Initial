@@ -297,3 +297,15 @@ def test_application_server_timestamps_preserve_creation(vault,monkeypatch):
         store.update('fictional-user-a',record['id'],1,{'current_step':0})
     assert conflict.value.status_code==409
     assert store.get('fictional-user-a',record['id'])['lastSavedAt']==changed['lastSavedAt']
+
+
+def test_status_only_patch_preserves_reviewed_metadata(vault):
+    import json
+    client,_=vault;headers={'Authorization':'Bearer fictional-user-a'}
+    record=upload(client,fields=json.dumps({'metadata':{'category':'address','documentType':'Utility bill','printedName':'Fictional Preserved Name'}})).json()
+    changed=client.patch('/api/documents/'+record['id'],headers=headers,json={'revision':record['revision'],'status':'reviewed'}).json()
+    assert changed['metadata']==record['metadata']
+    assert changed['status']=='reviewed'
+    further=client.patch('/api/documents/'+record['id'],headers=headers,json={'revision':changed['revision'],'metadata':{'residentialAddress':'Fictional New Address'}}).json()
+    assert further['metadata']['printedName']=='Fictional Preserved Name'
+    assert further['metadata']['category']=='address'

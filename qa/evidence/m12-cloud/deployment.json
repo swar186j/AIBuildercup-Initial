@@ -1,7 +1,7 @@
 {
   "status": "LOCAL_GATES_PASSED",
-  "backendTests": 441,
-  "localBrowserHttpTests": 207,
+  "backendTests": 442,
+  "localBrowserHttpTests": 208,
   "lintErrors": 0,
   "lintWarnings": 0,
   "previousRunRevision": "maadhyam-api-00002-grr",
@@ -10,5 +10,7 @@
   "region": "asia-south1",
   "firestoreDatabase": "maadhyam",
   "geminiCalls": 0,
-  "temporaryRecoveryIamGrantRemoved": true
+  "temporaryRecoveryIamGrantRemoved": true,
+  "firstBuildId": "7a0ba752-16ff-43b8-b582-f30e2a56df03",
+  "firstImageHeldUndeployed": true
 }
