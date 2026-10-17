@@ -86,3 +86,17 @@ qa/evidence/m12-1-catalogue/*
 !qa/evidence/m12-1-catalogue/comparison/
 qa/evidence/m12-1-catalogue/comparison/*
 !qa/evidence/m12-1-catalogue/comparison/services-*.png
+
+# Local demo sessions, downloaded tooling, and repair snapshots
+.demo/
+.tools/
+.m10-repair-backup/
+.maadhyam-m10-backup-*/
+.DS_Store
+Thumbs.db
+*.tsbuildinfo
+/reasoning-e2e-results.json
+
+# Empty root artifacts; application lockfiles remain tracked
+/package-lock.json
+/test

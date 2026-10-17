@@ -2,7 +2,7 @@
 
 **A connected preparation workspace for Indian citizens navigating documents and government services.**
 
-[Open the live demo](https://maadhyam-1610.web.app) · [Current release branch](https://github.com/swar186j/AIBuildercup-Initial/tree/release/m10-m12-recovery) · [M11 stabilization evidence](qa/M11_FINAL_REMEDIATION_REPORT.md)
+[Open the live demo](https://maadhyam-1610.web.app) · [Submission branch](https://github.com/swar186j/AIBuildercup-Initial/tree/main) · [M11 stabilization evidence](qa/M11_FINAL_REMEDIATION_REPORT.md)
 
 Indian citizens often need to reconcile spelling variations, dates, addresses, missing supporting evidence and prerequisites across departments before they can apply for a service. Maadhyam helps organize that preparation: review documents, understand potential discrepancies, identify dependencies and save a practical next-step plan.
 
@@ -12,7 +12,7 @@ This is more than a general chat interface. Deterministic rules and evidence com
 
 **https://maadhyam-1610.web.app** — no local server is needed. Use fictional information and the sample files in [`qa/fixtures`](qa/fixtures). Gemini is optional; most preparation and planning functions use deterministic logic.
 
-> The repository currently defaults to `main`, which contains a placeholder. The application and this README are on [`release/m10-m12-recovery`](https://github.com/swar186j/AIBuildercup-Initial/tree/release/m10-m12-recovery). Use that branch link when sharing with judges. Changing the default branch or integrating into `main` requires the owner's approval; neither is performed automatically.
+> The hackathon application is available on `main`. Share the repository link above with judges.
 
 ## Implemented capabilities
 
@@ -52,7 +52,7 @@ Cloud Run has minimum instances **0**, maximum instances **2**, one CPU, 512 MiB
 The application lives inside `Maadhyam/`. Verified tooling: Python 3.13, `uv` 0.13 and Node.js 24. Install Git, `uv`, Node.js and npm first.
 
 ```powershell
-git clone --branch release/m10-m12-recovery https://github.com/swar186j/AIBuildercup-Initial.git
+git clone --branch main https://github.com/swar186j/AIBuildercup-Initial.git
 cd AIBuildercup-Initial/Maadhyam/apps/api
 uv sync --extra dev
 Copy-Item .env.example .env
@@ -135,4 +135,4 @@ The existing empty-workspace screenshot below was inspected for personal data an
 
 ![Maadhyam dashboard with an empty fictional workspace](qa/evidence/final/screenshots/test_navigation_1440-_-_.png)
 
-Fresh submission screenshots, the final demo recording and hackathon submission assets are M12 tasks. Reports: [current remediation](qa/M11_FINAL_REMEDIATION_REPORT.md), [initial deployment](qa/M11_DEPLOYMENT_REPORT.md), [test history](qa/M11_TEST_RESULTS.md), [rollback](qa/M11_ROLLBACK.md), [known limitations](qa/M11_KNOWN_LIMITATIONS.md).
+For a short judging walkthrough and submission pointers, see [the hackathon guide](HACKATHON.md). Reports: [current remediation](qa/M11_FINAL_REMEDIATION_REPORT.md), [initial deployment](qa/M11_DEPLOYMENT_REPORT.md), [test history](qa/M11_TEST_RESULTS.md), [rollback](qa/M11_ROLLBACK.md), [known limitations](qa/M11_KNOWN_LIMITATIONS.md).
